@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { GoogleTagManagerScript, PageViewTracker } from '@/components/Analytics';
+import ScrollToTop from '@/components/ScrollToTop';
 
 export const metadata: Metadata = {
   title: 'IA para Filmmakers | Automatiza tu workflow con OpenClaw',
@@ -53,6 +54,7 @@ export default function RootLayout({
           />
         </noscript>
         <PageViewTracker />
+        <ScrollToTop />
         {children}
       </body>
     </html>

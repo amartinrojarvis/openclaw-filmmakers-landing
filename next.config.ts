@@ -3,6 +3,9 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   allowedDevOrigins: ['100.109.96.73', 'localhost'],
+  experimental: {
+    scrollRestoration: false,
+  },
   images: {
     remotePatterns: [
       {
