@@ -412,11 +412,14 @@ function Pricing() {
   
   const handleCheckout = (offer: typeof offers[0]) => {
     if (!loading) {
+      // Parse numeric price from string (e.g., "€29" -> 29)
+      const numericPrice = parseInt(offer.price.replace(/[^0-9]/g, ''), 10) || 0;
+      
       // Track begin checkout
       AnalyticsEvents.beginCheckout([{
         id: offer.priceId,
         name: offer.name,
-        price: offer.price,
+        price: numericPrice,
       }]);
       
       setActiveButton(offer.priceId);
