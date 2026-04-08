@@ -4,23 +4,29 @@ import { useEffect } from 'react';
 
 export default function ScrollToTop() {
   useEffect(() => {
-    // Force scroll to top on page load/reload
-    if (typeof window !== 'undefined') {
-      // Remove any hash from URL
-      if (window.location.hash) {
-        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    // Only run on client and after hydration
+    if (typeof window === 'undefined') return;
+    
+    // Use requestAnimationFrame to ensure we're after hydration
+    const scrollToTop = () => {
+      try {
+        // Remove hash from URL if present
+        if (window.location.hash && window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+        
+        // Scroll to top
+        window.scrollTo(0, 0);
+      } catch (e) {
+        // Silently fail if history API not available
+        console.log('Scroll reset skipped');
       }
-      
-      // Scroll to top
-      window.scrollTo(0, 0);
-      
-      // Also reset scroll behavior after a short delay to ensure hydration is complete
-      const timer = setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }, 0);
-      
-      return () => clearTimeout(timer);
-    }
+    };
+    
+    // Delay to ensure hydration is complete
+    const timer = setTimeout(scrollToTop, 100);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   return null;
