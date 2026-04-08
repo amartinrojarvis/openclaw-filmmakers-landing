@@ -28,6 +28,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { useScrollAnimation, useScrollAnimationGroup } from '@/hooks/useScrollAnimation';
+import { AnalyticsEvents } from '@/components/Analytics';
 import { useCheckout } from '@/hooks/useCheckout';
 import { PageLayout } from '@/components/PageLayout';
 import { GradientOrbs } from '@/components/AnimatedBackground';
@@ -198,6 +199,7 @@ function Hero() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="#pricing"
+            onClick={() => AnalyticsEvents.clickCTA('hero', 'Empezar ahora')}
             className="group inline-flex items-center gap-2 px-8 py-4 bg-white text-black rounded-full font-medium text-lg hover:bg-white/90 transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-white/10"
           >
             Empezar ahora
@@ -408,10 +410,17 @@ function Pricing() {
   const { checkout, loading } = useCheckout();
   const [activeButton, setActiveButton] = useState<string | null>(null);
   
-  const handleCheckout = (priceId: string) => {
+  const handleCheckout = (offer: typeof offers[0]) => {
     if (!loading) {
-      setActiveButton(priceId);
-      checkout({ priceId });
+      // Track begin checkout
+      AnalyticsEvents.beginCheckout([{
+        id: offer.priceId,
+        name: offer.name,
+        price: offer.price,
+      }]);
+      
+      setActiveButton(offer.priceId);
+      checkout({ priceId: offer.priceId });
     }
   };
   
@@ -503,7 +512,7 @@ function Pricing() {
               </ul>
               
               <button
-                onClick={() => handleCheckout(offer.priceId)}
+                onClick={() => handleCheckout(offer)}
                 disabled={loading && activeButton === offer.priceId}
                 className={`w-full py-4 rounded-full font-medium text-lg transition-all duration-300 hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
                   offer.featured
