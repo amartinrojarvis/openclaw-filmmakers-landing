@@ -180,9 +180,6 @@ function Hero() {
       {/* Dark overlay for text readability */}
       <div className="absolute inset-0 bg-black/40 pointer-events-none" />
       
-      {/* Gradient overlay at bottom - subtle transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
-      
       <div 
         ref={ref}
         className={`relative z-10 max-w-5xl mx-auto text-center transition-all duration-1000 ${
