@@ -5,6 +5,7 @@ import { CheckCircle, Download, Mail, Calendar } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import { PageLayout } from '@/components/PageLayout';
+import { AnalyticsEvents } from '@/components/Analytics';
 
 function GraciasContent() {
   const searchParams = useSearchParams();
@@ -13,6 +14,19 @@ function GraciasContent() {
   useEffect(() => {
     if (sessionId) {
       console.log('Sesión de checkout:', sessionId);
+      
+      // Track purchase conversion
+      // Note: In production, you'd fetch the actual purchase details from your backend
+      AnalyticsEvents.purchase({
+        id: sessionId,
+        value: 0, // This should come from your backend
+        currency: 'EUR',
+        items: [{
+          id: 'unknown',
+          name: 'OpenClaw Guide',
+          price: 0,
+        }],
+      });
     }
   }, [sessionId]);
 

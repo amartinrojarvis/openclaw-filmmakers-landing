@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { GoogleTagManagerScript, PageViewTracker } from '@/components/Analytics';
 
 export const metadata: Metadata = {
   title: 'IA para Filmmakers | Automatiza tu workflow con OpenClaw',
@@ -39,8 +40,19 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <GoogleTagManagerScript />
       </head>
       <body className="antialiased">
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-5N34HG2X"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+        <PageViewTracker />
         {children}
       </body>
     </html>
