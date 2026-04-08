@@ -1,39 +1,37 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { CookieBanner } from '@/components/cookie-banner';
 
 export const metadata: Metadata = {
   title: 'OpenClaw para Filmmakers | Automatiza tu workflow creativo',
-  description:
-    'Guía práctica + consultoría para filmmakers que quieren automatizar agenda, emails, clientes y análisis de vídeo con OpenClaw.',
-  keywords: [
-    'OpenClaw',
-    'filmmakers',
-    'automatización',
-    'videógrafos',
-    'creadores de contenido',
-    'consultoría IA',
-  ],
+  description: 'La guía práctica para filmmakers que quieren usar OpenClaw e IA para recuperar horas de administración y enfocarse en crear.',
+  keywords: ['OpenClaw', 'filmmakers', 'automatización', 'IA', 'workflow creativo', 'productividad'],
+  authors: [{ name: 'Alberto Martín' }],
   openGraph: {
     title: 'OpenClaw para Filmmakers',
-    description:
-      'Ahorra tiempo en operaciones y dedica más energía a rodar, editar y cerrar mejores proyectos.',
+    description: 'Automatiza tu workflow creativo con IA. La guía práctica para filmmakers.',
     type: 'website',
+    locale: 'es_ES',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'OpenClaw para Filmmakers',
-    description:
-      'Guía + consultoría para automatizar tu workflow creativo con IA.',
+    description: 'Automatiza tu workflow creativo con IA',
   },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="es">
-      <body>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body className="antialiased">
         {children}
-        <CookieBanner />
       </body>
     </html>
   );

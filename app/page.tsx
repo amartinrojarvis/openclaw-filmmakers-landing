@@ -1,29 +1,65 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import {
-  AlertTriangle,
   ArrowRight,
   Bot,
   CalendarClock,
   CheckCircle2,
   Clapperboard,
-  FileText,
-  Loader2,
   Mail,
   MessageSquareText,
   Sparkles,
   Video,
+  ChevronDown,
+  Zap,
+  Clock,
+  Star,
+  Film,
+  Camera,
+  Wand2,
+  Brain,
+  Layers,
+  Gauge,
+  Palette,
+  Workflow,
+  Loader2,
 } from 'lucide-react';
-import { SectionTitle } from '@/components/section-title';
-import { Footer } from '@/components/footer';
+import { useScrollAnimation, useScrollAnimationGroup } from '@/hooks/useScrollAnimation';
+import { useCheckout } from '@/hooks/useCheckout';
+import { AnimatedBackground, GradientOrbs, PulsingGlow } from '@/components/AnimatedBackground';
 
-// Price IDs de Stripe (públicos, se usan en el checkout)
 const PRICE_IDS = {
-  guia: 'price_1TE5n7QaHSvmpUvcw14G5MnO',
-  bundle: 'price_1TE5n7QaHSvmpUvcGx38ZLa0',
+  guia: 'price_1TJtMYHBqq0IP9Ia8lI2iME2',
+  bundle: 'price_1TJtMrHBqq0IP9IaH2MHxqtv',
 };
+
+// Componente animado genérico
+function AnimatedSection({ 
+  children, 
+  className = '', 
+  animation = 'fade-up',
+  delay = 0 
+}: { 
+  children: React.ReactNode; 
+  className?: string; 
+  animation?: 'fade-up' | 'slide-left' | 'slide-right' | 'scale-in';
+  delay?: number;
+}) {
+  const { ref, isVisible } = useScrollAnimation();
+  
+  return (
+    <div
+      ref={ref}
+      className={`animate-on-scroll ${animation} ${isVisible ? 'is-visible' : ''} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
 
 const benefits = [
   {
@@ -65,7 +101,7 @@ const faqs = [
   },
   {
     q: '¿Qué incluye la sesión de 45 minutos del Bundle?',
-    a: 'Todo lo incluido en la guía, más una sesión de 45 minutos 1:1 donde resolvemos dudas específicas y te orientamos sobre cómo aplicar OpenClaw en tu flujo de trabajo específico.',
+    a: 'Todo lo incluido en la guía, más una sesión de 45 minutos 1:1 donde resolvemos dudas específicas y te orientamos sobre cómo aplicar OpenClaw en tu flujo de trabajo.',
   },
   {
     q: '¿Esto sirve si trabajo solo o en un estudio pequeño?',
@@ -81,336 +117,595 @@ const offers = [
   {
     name: 'Guía OpenClaw',
     price: '€29',
-    badge: 'Guía completa',
+    originalPrice: '€49',
+    discount: 'Ahorras €20',
+    badge: 'Precio de lanzamiento',
     priceId: PRICE_IDS.guia,
     description: 'La forma más rápida de empezar a automatizar tu workflow creativo con OpenClaw.',
     features: [
       '8 capítulos en Notion con acceso de por vida',
+      'Guía viva: actualizaciones continuas incluidas',
       'Instalación paso a paso en Linux/Mac/WSL',
       'Integraciones: Telegram, IA local, APIs',
       'Casos de uso reales: transcripción, análisis de video',
       'Código y configuraciones listas para usar',
-      'Actualizaciones incluidas',
     ],
-    cta: 'Comprar ahora →',
+    cta: 'Comprar ahora',
     featured: false,
   },
   {
     name: 'Guía + Sesión 1:1',
     price: '€127',
-    badge: 'RECOMENDADO',
+    originalPrice: '€197',
+    discount: 'Ahorras €70',
+    badge: 'Mejor valor',
     priceId: PRICE_IDS.bundle,
-    description: 'Implementamos tu workflow personalizado juntos. Para quien quiere resultados inmediatos.',
+    description: 'La guía completa más una sesión personalizada para acelerar tu implementación.',
     features: [
-      'Todo lo incluido en la guía (€29)',
-      'Sesión 1:1 de 45 minutos',
-      'Resolución de dudas específicas',
-      'Orientación para uso en tu flujo de trabajo específico',
+      'Todo lo incluido en la Guía OpenClaw',
+      'Guía viva: siempre actualizada',
+      'Sesión de 45 minutos 1:1 con Alberto',
+      'Análisis de tu workflow específico',
+      'Recomendaciones personalizadas',
+      'Soporte prioritario por email (30 días)',
     ],
-    cta: 'Reservar sesión →',
+    cta: 'Obtener Bundle',
     featured: true,
   },
 ];
 
-export default function Home() {
-  const [loading, setLoading] = useState<string | null>(null);
+// Feature highlights with icons
+const features = [
+  { icon: Film, label: 'Análisis de video con IA' },
+  { icon: Wand2, label: 'Automatización inteligente' },
+  { icon: Brain, label: 'Workflows con IA local' },
+  { icon: Layers, label: 'Integración multiplataforma' },
+  { icon: Gauge, label: 'Ahorra 10+ horas semanales' },
+];
 
-  const handleCheckout = async (priceId: string, productName: string) => {
-    setLoading(priceId);
-    try {
-      const res = await fetch('/api/stripe/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ priceId }),
-      });
+function Hero() {
+  const { ref, isVisible } = useScrollAnimation();
+  
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
+      {/* Animated Background - Aurora Borealis */}
+      <AnimatedBackground />
       
-      if (!res.ok) {
-        throw new Error('Error en checkout');
-      }
+      {/* Pulsing glow effects */}
+      <PulsingGlow />
       
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        throw new Error('No checkout URL');
-      }
-    } catch (err) {
-      alert('Error al procesar el pago. Intenta de nuevo.');
-      console.error(err);
-    } finally {
-      setLoading(null);
+      {/* Floating gradient orbs */}
+      <GradientOrbs />
+      
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+      
+      {/* Gradient overlay at bottom - subtle transition */}
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
+      
+      <div 
+        ref={ref}
+        className={`relative z-10 max-w-5xl mx-auto text-center transition-all duration-1000 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        {/* Badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 hover:bg-white/10 transition-colors">
+          <Sparkles className="w-4 h-4 text-[#00ff88]" />
+          <span className="text-sm text-white/80">La guía que yo quería tener cuando empecé a automatizar mi workflow</span>
+        </div>
+        
+        {/* Headline */}
+        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium text-white tracking-tight leading-[0.9] mb-6">
+          Automatiza tu
+          <br />
+          <span className="text-[#00ff88]">workflow creativo</span>
+        </h1>
+        
+        {/* Subheadline */}
+        <p className="text-lg sm:text-xl text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed">
+          La guía práctica para filmmakers que quieren usar OpenClaw e IA 
+          para recuperar horas de administración y enfocarse en lo que mejor saben hacer: crear.
+        </p>
+        
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link
+            href="#pricing"
+            className="group inline-flex items-center gap-2 px-8 py-4 bg-white text-black rounded-full font-medium text-lg hover:bg-white/90 transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-white/10"
+          >
+            Empezar ahora
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </Link>
+          <Link
+            href="#beneficios"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-white/5 text-white rounded-full font-medium text-lg border border-white/10 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
+          >
+            Ver contenido
+          </Link>
+        </div>
+        
+        {/* Feature pills */}
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
+          {features.slice(0, 4).map((feature, index) => (
+            <div 
+              key={index}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/5 text-sm text-white/60"
+            >
+              <feature.icon className="w-4 h-4 text-[#00ff88]" />
+              <span>{feature.label}</span>
+            </div>
+          ))}
+        </div>
+        
+        {/* Trust indicators */}
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-white/40 text-sm">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-[#00ff88]" />
+            <span>8 capítulos prácticos</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-[#00ff88]" />
+            <span>Código listo para usar</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-[#00ff88]" />
+            <span>Acceso de por vida</span>
+          </div>
+        </div>
+      </div>
+      
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <ChevronDown className="w-6 h-6 text-white/30" />
+      </div>
+    </section>
+  );
+}
+
+function Benefits() {
+  const { containerRef, visibleItems } = useScrollAnimationGroup(benefits.length);
+  
+  return (
+    <section id="beneficios" className="py-32 px-4 sm:px-6 lg:px-8 relative">
+      <div className="max-w-6xl mx-auto">
+        <AnimatedSection className="text-center mb-20">
+          <span className="text-[#00ff88] text-sm font-medium uppercase tracking-wider">Beneficios</span>
+          <h2 className="mt-4 text-4xl sm:text-5xl md:text-6xl font-medium text-white tracking-tight">
+            Menos admin.
+            <br />
+            <span className="text-white/60">Más creación.</span>
+          </h2>
+        </AnimatedSection>
+        
+        <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {benefits.map((benefit, index) => (
+            <div
+              key={index}
+              data-animate-item
+              data-animate-index={index}
+              className={`group p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[#00ff88]/30 transition-all duration-500 hover:-translate-y-1 glow-card ${
+                visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+              style={{ transitionDelay: `${index * 100}ms` }}
+            >
+              <div className="w-12 h-12 rounded-xl bg-[#00ff88]/10 flex items-center justify-center mb-6 group-hover:bg-[#00ff88]/20 transition-colors group-hover:scale-110 transform duration-300">
+                <benefit.icon className="w-6 h-6 text-[#00ff88]" />
+              </div>
+              <h3 className="text-xl font-medium text-white mb-3">{benefit.title}</h3>
+              <p className="text-white/50 leading-relaxed">{benefit.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HowItWorks() {
+  const steps = [
+    {
+      number: '01',
+      title: 'Descarga la guía',
+      description: 'Accede inmediatamente al contenido en Notion con todos los capítulos y recursos.',
+      icon: Zap,
+    },
+    {
+      number: '02',
+      title: 'Instala OpenClaw',
+      description: 'Sigue la guía paso a paso para instalar y configurar OpenClaw en tu sistema.',
+      icon: Bot,
+    },
+    {
+      number: '03',
+      title: 'Automatiza tu workflow',
+      description: 'Implementa los flujos de trabajo específicos para tu negocio de video.',
+      icon: Clock,
+    },
+  ];
+  
+  const { containerRef, visibleItems } = useScrollAnimationGroup(steps.length);
+  
+  return (
+    <section className="py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#00ff88]/5 rounded-full blur-[150px] -translate-y-1/2" />
+      </div>
+      
+      <div className="max-w-6xl mx-auto relative">
+        <AnimatedSection className="text-center mb-20">
+          <span className="text-[#00ff88] text-sm font-medium uppercase tracking-wider">Cómo funciona</span>
+          <h2 className="mt-4 text-4xl sm:text-5xl md:text-6xl font-medium text-white tracking-tight">
+            De la teoría a la
+            <br />
+            <span className="text-white/60">acción en 3 pasos</span>
+          </h2>
+        </AnimatedSection>
+        
+        <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {steps.map((step, index) => (
+            <div
+              key={index}
+              data-animate-item
+              data-animate-index={index}
+              className={`relative group ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              style={{ transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)', transitionDelay: `${index * 150}ms` }}
+            >
+              {/* Connector line */}
+              {index < steps.length - 1 && (
+                <div className="hidden md:block absolute top-12 left-[60%] w-[80%] h-[1px] bg-gradient-to-r from-white/20 to-transparent" />
+              )}
+              
+              <div className="text-[80px] font-medium text-white/5 leading-none mb-4 group-hover:text-[#00ff88]/10 transition-colors select-none">
+                {step.number}
+              </div>
+              <div className="w-12 h-12 rounded-xl bg-[#00ff88]/10 flex items-center justify-center mb-6 group-hover:bg-[#00ff88]/20 transition-colors group-hover:scale-110 transform duration-300">
+                <step.icon className="w-6 h-6 text-[#00ff88]" />
+              </div>
+              <h3 className="text-2xl font-medium text-white mb-3">{step.title}</h3>
+              <p className="text-white/50 leading-relaxed">{step.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Testimonial() {
+  const { ref, isVisible } = useScrollAnimation();
+  
+  return (
+    <section className="py-32 px-4 sm:px-6 lg:px-8 relative">
+      <div 
+        ref={ref}
+        className={`max-w-4xl mx-auto text-center transition-all duration-1000 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        <div className="inline-flex items-center gap-1 mb-8">
+          {[...Array(5)].map((_, i) => (
+            <Star key={i} className="w-5 h-5 fill-[#00ff88] text-[#00ff88]" />
+          ))}
+        </div>
+        <blockquote className="text-3xl sm:text-4xl md:text-5xl font-medium text-white leading-tight mb-8">
+          &ldquo;Recuperé más de 10 horas semanales de tareas administrativas. Ahora puedo enfocarme en lo que realmente importa: crear mejores historias.&rdquo;
+        </blockquote>
+        <div className="flex items-center justify-center gap-4">
+          <div className="relative w-16 h-16 rounded-full overflow-hidden ring-2 ring-[#00ff88]/30 ring-offset-2 ring-offset-black bg-white/10">
+            <Image
+              src="/perfil-alberto-v2.jpg"
+              alt="Alberto Martín"
+              fill
+              className="object-cover"
+              sizes="64px"
+              priority
+            />
+          </div>
+          <div className="text-left">
+            <div className="text-white font-medium text-lg">Alberto Martín</div>
+            <div className="text-white/50 text-sm">Filmmaker & Creador de iaparafilmmakers</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function VisualFeatures() {
+  const { containerRef, visibleItems } = useScrollAnimationGroup(features.length);
+  
+  return (
+    <section className="py-20 px-4 sm:px-6 lg:px-8 relative border-y border-white/5">
+      <div className="max-w-6xl mx-auto">
+        <AnimatedSection className="text-center mb-12">
+          <span className="text-[#00ff88] text-sm font-medium uppercase tracking-wider">Todo lo que incluye</span>
+        </AnimatedSection>
+        
+        <div ref={containerRef} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              data-animate-item
+              data-animate-index={index}
+              className={`flex flex-col items-center text-center p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[#00ff88]/20 transition-all duration-300 group ${
+                visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+              style={{ transitionDelay: `${index * 80}ms` }}
+            >
+              <div className="w-14 h-14 rounded-2xl bg-[#00ff88]/10 flex items-center justify-center mb-4 group-hover:bg-[#00ff88]/20 group-hover:scale-110 transition-all duration-300">
+                <feature.icon className="w-7 h-7 text-[#00ff88]" />
+              </div>
+              <span className="text-sm text-white/70">{feature.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Pricing() {
+  const { containerRef, visibleItems } = useScrollAnimationGroup(offers.length);
+  const { checkout, loading } = useCheckout();
+  const [activeButton, setActiveButton] = useState<string | null>(null);
+  
+  const handleCheckout = (priceId: string) => {
+    if (!loading) {
+      setActiveButton(priceId);
+      checkout({ priceId });
     }
   };
-
+  
   return (
-    <>
-      <main className="min-h-screen bg-ink text-white">
-        <section className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(82,229,255,0.18),transparent_30%),radial-gradient(circle_at_top_right,rgba(139,92,246,0.18),transparent_26%),linear-gradient(to_bottom,rgba(7,17,31,0.85),rgba(7,17,31,1))]" />
-          <div className="absolute inset-0 bg-grid bg-[length:42px_42px] opacity-20" />
-          <div className="relative mx-auto max-w-7xl px-6 pb-20 pt-8 sm:px-8 sm:pb-24 lg:px-12 lg:pb-32 lg:pt-12">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-[0.28em] text-cyan/90 backdrop-blur">
-              <Sparkles className="h-4 w-4" />
-              Guía + sesión 1:1 para filmmakers
-            </div>
-
-            <div className="mt-10 grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.32em] text-slate-300">Menos tareas repetitivas. Más tiempo para crear.</p>
-                <h1 className="mt-5 max-w-4xl text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
-                  OpenClaw para <span className="text-cyan">Filmmakers</span> que quieren vender más y operar mejor.
-                </h1>
-                <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
-                  Descubre cómo automatizar agenda, clientes, emails y análisis de vídeo con IA para liberar horas cada semana y enfocarte en rodar, editar y crecer.
-                </p>
-                <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                  <button
-                    onClick={() => handleCheckout(offers[0].priceId, 'guia')}
-                    disabled={loading === offers[0].priceId}
-                    className="inline-flex items-center justify-center rounded-full bg-cyan px-6 py-3 text-base font-semibold text-slate-950 transition hover:scale-[1.02] hover:bg-white disabled:opacity-50"
-                  >
-                    {loading === offers[0].priceId ? (
-                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Procesando...</>
-                    ) : (
-                      'Comprar guía €29 →'
-                    )}
-                  </button>
-                  <Link
-                    href="#oferta"
-                    className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-base font-semibold text-white transition hover:bg-white/10"
-                  >
-                    Ver opciones
-                  </Link>
-                </div>
-                <div className="mt-8 flex flex-wrap gap-4 text-sm text-slate-300">
-                  <span className="rounded-full border border-white/10 px-4 py-2">Guía práctica</span>
-                  <span className="rounded-full border border-white/10 px-4 py-2">Sesión 1:1 disponible</span>
-                  <span className="rounded-full border border-white/10 px-4 py-2">Implementación realista</span>
-                </div>
+    <section id="pricing" className="py-32 px-4 sm:px-6 lg:px-8 relative">
+      <div className="max-w-5xl mx-auto">
+        <AnimatedSection className="text-center mb-20">
+          <span className="text-[#00ff88] text-sm font-medium uppercase tracking-wider">Precios</span>
+          <h2 className="mt-4 text-4xl sm:text-5xl md:text-6xl font-medium text-white tracking-tight">
+            Invierte en tu
+            <br />
+            <span className="text-white/60">productividad</span>
+          </h2>
+          <p className="mt-6 text-white/50 text-lg max-w-2xl mx-auto">
+            Un pago único. Acceso de por vida. Sin suscripciones.
+          </p>
+        </AnimatedSection>
+        
+        <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {offers.map((offer, index) => (
+            <div
+              key={index}
+              data-animate-item
+              data-animate-index={index}
+              className={`relative rounded-3xl p-8 transition-all duration-700 ${
+                visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              } ${
+                offer.featured
+                  ? 'bg-white text-black ring-2 ring-[#00ff88]/50'
+                  : 'bg-white/[0.02] border border-white/10 text-white hover:border-[#00ff88]/30'
+              }`}
+              style={{ transitionDelay: `${index * 150}ms` }}
+            >
+              {/* Badge de oferta/destacado */}
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                <span className={`px-4 py-1 text-sm font-medium rounded-full ${
+                  offer.featured
+                    ? 'bg-[#00ff88] text-black'
+                    : 'bg-[#aa00ff] text-white'
+                }`}>
+                  {offer.badge}
+                </span>
               </div>
-
-              <div className="relative">
-                <div className="absolute -inset-8 rounded-[2rem] bg-cyan/10 blur-3xl" />
-                <div className="relative rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-glow backdrop-blur-xl sm:p-8">
-                  <div className="rounded-[1.5rem] border border-white/10 bg-slateGlow p-6">
-                    <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                      <div>
-                        <p className="text-sm text-slate-400">OpenClaw OS</p>
-                        <p className="mt-1 text-xl font-semibold">Workflow para filmmakers</p>
-                      </div>
-                      <div className="rounded-full bg-emerald-400/15 px-3 py-1 text-sm text-emerald-300">Activo</div>
-                    </div>
-                    <div className="mt-6 space-y-4">
-                      {[
-                        'Inbox → respuestas y seguimiento automático',
-                        'Leads → clasificación y prioridad comercial',
-                        'Agenda → reuniones y recordatorios sincronizados',
-                        'Vídeo → análisis IA para acelerar decisiones',
-                      ].map((item) => (
-                        <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/8 bg-white/5 p-4">
-                          <CheckCircle2 className="mt-0.5 h-5 w-5 text-cyan" />
-                          <span className="text-sm leading-6 text-slate-200">{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-6 rounded-2xl bg-gradient-to-r from-cyan/20 to-violet/20 p-4">
-                      <p className="text-sm uppercase tracking-[0.28em] text-cyan">Resultado</p>
-                      <p className="mt-2 text-lg font-medium text-white">Menos fricción operativa. Más foco en creatividad, clientes y facturación.</p>
-                    </div>
-                  </div>
-                </div>
+              
+              {/* Badge de ahorro */}
+              <div className="absolute top-4 right-4">
+                <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
+                  offer.featured
+                    ? 'bg-green-100 text-green-800'
+                    : 'bg-[#00ff88]/20 text-[#00ff88]'
+                }`}>
+                  {offer.discount}
+                </span>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
-          <SectionTitle
-            eyebrow="Problema"
-            title="¿Cansado de perder tiempo en tareas administrativas?"
-            description="Si eres filmmaker o videógrafo, seguramente tu valor está en la creatividad, la ejecución y la visión. Pero cada semana se te van horas entre emails, coordinación, seguimiento de clientes y organización interna."
-          />
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {[
-              'Presupuestos que se retrasan por falta de sistema',
-              'Leads y clientes desperdigados en mil herramientas',
-              'Demasiado trabajo operativo para un negocio creativo ágil',
-            ].map((item) => (
-              <div key={item} className="rounded-3xl border border-white/10 bg-white/5 p-6 text-slate-200">
-                <p className="text-lg font-medium leading-7">{item}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="border-y border-white/10 bg-white/[0.03]">
-          <div className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
-            <SectionTitle
-              eyebrow="Solución"
-              title="OpenClaw automatiza el backend de tu negocio creativo"
-              description="Esta guía te enseña a convertir OpenClaw en un sistema operativo para filmmakers: desde agenda y gestión de clientes hasta emails, análisis de vídeo e inteligencia operativa para tomar mejores decisiones."
-            />
-            <div className="mt-10 grid gap-6 lg:grid-cols-4">
-              {[
-                'Centraliza conversaciones, tareas y próximos pasos',
-                'Reduce trabajo manual en ventas y seguimiento',
-                'Detecta cuellos de botella en tu workflow',
-                'Crea una operación más escalable sin perder toque creativo',
-              ].map((item, index) => (
-                <div key={item} className="rounded-3xl border border-white/10 bg-ink p-6">
-                  <p className="text-sm uppercase tracking-[0.28em] text-cyan">0{index + 1}</p>
-                  <p className="mt-4 text-lg font-medium leading-7 text-slate-100">{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
-          <SectionTitle
-            eyebrow="Beneficios"
-            title="Lo que ganas cuando automatizas con intención"
-            description="No se trata de meter IA por moda. Se trata de construir un workflow más rentable, más ligero y más profesional."
-            centered
-          />
-          <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {benefits.map(({ icon: Icon, title, text }) => (
-              <article key={title} className="rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:bg-white/10">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan/15 text-cyan">
-                  <Icon className="h-6 w-6" />
-                </div>
-                <h3 className="mt-5 text-xl font-semibold text-white">{title}</h3>
-                <p className="mt-3 text-base leading-7 text-slate-300">{text}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* Technical Requirements Notice */}
-        <section className="mx-auto max-w-7xl px-6 py-12 sm:px-8 lg:px-12">
-          <div className="rounded-2xl border border-amber-500/20 bg-amber-500/10 p-6 sm:p-8">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-              <AlertTriangle className="h-6 w-6 shrink-0 text-amber-400" />
-              <div>
-                <h3 className="text-lg font-semibold text-amber-200">Nota técnica</h3>
-                <p className="mt-2 leading-7 text-amber-100/80">
-                  El uso de modelos de IA locales requiere equipo potente (GPU recomendada). 
-                  El uso de modelos en la nube conlleva un coste de suscripción al proveedor 
-                  (OpenAI, Anthropic, etc.).
+              
+              <div className="mb-6 pt-2">
+                <h3 className={`text-2xl font-medium mb-2 ${offer.featured ? 'text-black' : 'text-white'}`}>
+                  {offer.name}
+                </h3>
+                <p className={`text-sm ${offer.featured ? 'text-black/60' : 'text-white/50'}`}>
+                  {offer.description}
                 </p>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="oferta" className="border-y border-white/10 bg-white/[0.03]">
-          <div className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
-            <SectionTitle
-              eyebrow="Oferta"
-              title="Elige la forma de implementar OpenClaw en tu workflow"
-              description="Empieza con la guía o acelera resultados con una sesión estratégica personalizada."
-              centered
-            />
-            <div className="mt-12 grid gap-6 lg:grid-cols-2">
-              {offers.map((offer) => (
-                <article
-                  key={offer.name}
-                  className={`rounded-[2rem] border p-8 ${
-                    offer.featured
-                      ? 'border-cyan bg-gradient-to-b from-cyan/15 to-white/5 shadow-glow'
-                      : 'border-white/10 bg-ink'
-                  }`}
-                >
-                  <span className={`inline-flex rounded-full px-3 py-1 text-sm font-semibold ${offer.featured ? 'bg-cyan text-slate-950' : 'bg-white/10 text-white'}`}>
-                    {offer.badge}
+              
+              {/* Precios con tachado */}
+              <div className="mb-8">
+                <div className="flex items-baseline gap-3 mb-1">
+                  <span className={`text-2xl line-through opacity-50 ${
+                    offer.featured ? 'text-black/40' : 'text-white/40'
+                  }`}>
+                    {offer.originalPrice}
                   </span>
-                  <h3 className="mt-5 text-3xl font-semibold">{offer.name}</h3>
-                  <p className="mt-3 text-slate-300">{offer.description}</p>
-                  <div className="mt-8 text-5xl font-semibold text-white">{offer.price}</div>
-                  <ul className="mt-8 space-y-4">
-                    {offer.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-3 text-slate-200">
-                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-cyan" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button
-                    onClick={() => handleCheckout(offer.priceId, offer.name)}
-                    disabled={loading === offer.priceId}
-                    className={`mt-8 inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-base font-semibold transition ${
-                      offer.featured
-                        ? 'bg-cyan text-slate-950 hover:bg-white'
-                        : 'border border-white/15 bg-white/5 text-white hover:bg-white/10'
-                    } disabled:opacity-50`}
-                  >
-                    {loading === offer.priceId ? (
-                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Procesando...</>
-                    ) : (
-                      offer.cta
-                    )}
-                  </button>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="faq" className="mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
-          <SectionTitle
-            eyebrow="FAQ"
-            title="Preguntas frecuentes"
-            description="Lo esencial para decidir rápido si esto encaja contigo y tu forma de trabajar."
-            centered
-          />
-          <div className="mx-auto mt-12 max-w-4xl space-y-4">
-            {faqs.map((faq) => (
-              <details key={faq.q} className="group rounded-3xl border border-white/10 bg-white/5 p-6">
-                <summary className="cursor-pointer list-none text-lg font-medium text-white">{faq.q}</summary>
-                <p className="mt-4 leading-7 text-slate-300">{faq.a}</p>
-              </details>
-            ))}
-          </div>
-        </section>
-
-        <section id="cta" className="pb-20">
-          <div className="mx-auto max-w-5xl px-6 sm:px-8 lg:px-12">
-            <div className="rounded-[2rem] border border-white/10 bg-gradient-to-r from-cyan/20 via-white/5 to-violet/20 p-8 text-center shadow-glow sm:p-12">
-              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan">Empieza hoy</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-5xl">
-                Convierte OpenClaw en tu ventaja operativa creativa.
-              </h2>
-              <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-200 sm:text-lg">
-                Si quieres dejar de improvisar procesos y empezar a escalar con estructura, esta guía es tu siguiente paso.
-              </p>
-              <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
-                <button
-                  onClick={() => handleCheckout(offers[0].priceId, 'guia')}
-                  disabled={loading === offers[0].priceId}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-cyan px-6 py-3 text-base font-semibold text-slate-950 transition hover:bg-white disabled:opacity-50"
-                >
-                  {loading === offers[0].priceId ? (
-                    <><Loader2 className="h-4 w-4 animate-spin" /> Procesando...</>
-                  ) : (
-                    <>
-                      Comprar guía €29
-                      <ArrowRight className="h-4 w-4" />
-                    </>
-                  )}
-                </button>
-                <Link
-                  href="#oferta"
-                  className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-base font-semibold text-white transition hover:bg-white/10"
-                >
-                  Ver opciones
-                </Link>
+                  <span className={`text-5xl font-medium ${offer.featured ? 'text-black' : 'text-white'}`}>
+                    {offer.price}
+                  </span>
+                </div>
+                <span className={offer.featured ? 'text-black/50' : 'text-white/50'}>Pago único</span>
               </div>
-              <p className="mt-6 text-sm text-emerald-300">✓ Pago seguro con Stripe • Acceso inmediato</p>
+              
+              <ul className="space-y-4 mb-8">
+                {offer.features.map((feature, fIndex) => (
+                  <li key={fIndex} className="flex items-start gap-3">
+                    <CheckCircle2 className={`w-5 h-5 flex-shrink-0 mt-0.5 ${offer.featured ? 'text-[#00ff88]' : 'text-[#00ff88]'}`} />
+                    <span className={`text-sm ${offer.featured ? 'text-black/70' : 'text-white/60'}`}>
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              
+              <button
+                onClick={() => handleCheckout(offer.priceId)}
+                disabled={loading && activeButton === offer.priceId}
+                className={`w-full py-4 rounded-full font-medium text-lg transition-all duration-300 hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
+                  offer.featured
+                    ? 'bg-black text-white hover:bg-black/80'
+                    : 'bg-white text-black hover:bg-white/90'
+                }`}
+              >
+                {loading && activeButton === offer.priceId ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Procesando...
+                  </>
+                ) : (
+                  offer.cta
+                )}
+              </button>
             </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FAQ() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const { containerRef, visibleItems } = useScrollAnimationGroup(faqs.length);
+  
+  return (
+    <section className="py-32 px-4 sm:px-6 lg:px-8 relative">
+      <div className="max-w-3xl mx-auto">
+        <AnimatedSection className="text-center mb-20">
+          <span className="text-[#00ff88] text-sm font-medium uppercase tracking-wider">FAQ</span>
+          <h2 className="mt-4 text-4xl sm:text-5xl md:text-6xl font-medium text-white tracking-tight">
+            Preguntas
+            <br />
+            <span className="text-white/60">frecuentes</span>
+          </h2>
+        </AnimatedSection>
+        
+        <div ref={containerRef} className="space-y-4">
+          {faqs.map((faq, index) => (
+            <div
+              key={index}
+              data-animate-item
+              data-animate-index={index}
+              className={`rounded-2xl bg-white/[0.02] border border-white/5 overflow-hidden transition-all duration-700 hover:border-white/10 ${
+                visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
+              style={{ transitionDelay: `${index * 100}ms` }}
+            >
+              <button
+                onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                className="w-full flex items-center justify-between p-6 text-left hover:bg-white/[0.02] transition-colors"
+              >
+                <span className="text-lg font-medium text-white pr-8">{faq.q}</span>
+                <ChevronDown
+                  className={`w-5 h-5 text-white/50 flex-shrink-0 transition-transform duration-300 ${
+                    openIndex === index ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+              <div
+                className={`overflow-hidden transition-all duration-300 ${
+                  openIndex === index ? 'max-h-96' : 'max-h-0'
+                }`}
+              >
+                <p className="px-6 pb-6 text-white/60 leading-relaxed">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t border-white/5">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col items-center gap-8">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#00ff88]/10 flex items-center justify-center">
+              <Clapperboard className="w-5 h-5 text-[#00ff88]" />
+            </div>
+            <span className="text-white font-medium">iaparafilmmakers</span>
           </div>
-        </section>
-        <Footer />
-      </main>
-    </>
+          
+          {/* Links */}
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-white/40">
+            <Link href="/condiciones" className="hover:text-white transition-colors">
+              Condiciones
+            </Link>
+            <Link href="/cookies" className="hover:text-white transition-colors">
+              Cookies
+            </Link>
+            <Link href="/contacto" className="hover:text-white transition-colors">
+              Contacto
+            </Link>
+          </div>
+          
+          {/* Copyright */}
+          <p className="text-sm text-white/30 text-center">
+            © 2026 iaparafilmmakers
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// Floating CTA Button for Mobile
+function FloatingCTA() {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show button after scrolling past hero section (approximately 100vh)
+      const heroHeight = window.innerHeight * 0.8;
+      setIsVisible(window.scrollY > heroHeight);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Check initial position
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  
+  const scrollToPricing = () => {
+    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+  };
+  
+  return (
+    <button
+      onClick={scrollToPricing}
+      className={`fixed bottom-6 right-6 z-50 lg:hidden flex items-center gap-2 px-5 py-3 bg-[#00ff88] text-black rounded-full font-medium text-sm shadow-lg shadow-[#00ff88]/30 transition-all duration-300 hover:scale-105 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+      }`}
+    >
+      <span>Ver precios</span>
+      <ArrowRight className="w-4 h-4" />
+    </button>
+  );
+}
+
+export default function Home() {
+  return (
+    <main className="relative">
+      <Hero />
+      <Benefits />
+      <HowItWorks />
+      <VisualFeatures />
+      <Testimonial />
+      <Pricing />
+      <FAQ />
+      <Footer />
+      <FloatingCTA />
+    </main>
   );
 }
