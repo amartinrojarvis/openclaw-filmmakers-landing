@@ -214,13 +214,14 @@ export function AnimatedBackground() {
   );
 }
 
-// Smooth gradient transition at bottom of hero
+// Smooth gradient transition at bottom of hero - ultra soft
 export function HeroBottomFade() {
   return (
     <div 
-      className="absolute bottom-0 left-0 right-0 h-48 md:h-64 pointer-events-none z-10"
+      className="absolute bottom-0 left-0 right-0 h-[50vh] md:h-[40vh] pointer-events-none z-10"
       style={{
-        background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.85) 70%, #000000 100%)',
+        background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.1) 30%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.9) 90%, #000000 100%)',
+        filter: 'blur(0px)',
       }}
     />
   );
