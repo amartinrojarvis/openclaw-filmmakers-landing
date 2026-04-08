@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import {
   ArrowRight,
@@ -323,41 +323,8 @@ function HowItWorks() {
           <AnimatedProgressSteps steps={steps} visibleItems={visibleItems} />
         </div>
         
-        {/* Mobile: Vertical cards */}
-        <div className="md:hidden space-y-6">
-          {steps.map((step, index) => (
-            <div
-              key={index}
-              data-animate-item
-              data-animate-index={index}
-              className={`relative p-6 rounded-2xl bg-white/[0.06] border border-white/10 ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-              style={{ transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)', transitionDelay: `${index * 100}ms` }}
-            >
-              <div className="flex items-start gap-4">
-                {/* Number and icon */}
-                <div className="flex-shrink-0">
-                  <div className="w-14 h-14 rounded-xl bg-[#00ff88]/10 border border-[#00ff88]/20 flex items-center justify-center">
-                    <step.icon className="w-6 h-6 text-[#00ff88]" />
-                  </div>
-                </div>
-                
-                {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-medium text-white/30 uppercase tracking-wider">Paso {step.number}</span>
-                  </div>
-                  <h3 className="text-lg font-medium text-white mb-2">{step.title}</h3>
-                  <p className="text-white/50 text-sm leading-relaxed">{step.description}</p>
-                </div>
-              </div>
-              
-              {/* Connector line for mobile (except last) */}
-              {index < steps.length - 1 && (
-                <div className="absolute -bottom-6 left-7 w-[2px] h-6 bg-gradient-to-b from-white/20 to-transparent" />
-              )}
-            </div>
-          ))}
-        </div>
+        {/* Mobile: Scroll-linked vertical progress */}
+        <MobileScrollSteps steps={steps} />
       </div>
     </section>
   );
@@ -648,7 +615,7 @@ function FloatingCTA() {
   );
 }
 
-// Animated progress steps component
+// Animated progress steps component - Desktop
 function AnimatedProgressSteps({ 
   steps, 
   visibleItems 
@@ -657,94 +624,261 @@ function AnimatedProgressSteps({
   visibleItems: boolean[];
 }) {
   const [progress, setProgress] = useState(0);
-  const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
-          setActiveStep(0);
           return 0;
         }
-        const newProgress = prev + 0.5;
-        // Determine active step based on progress
-        if (newProgress < 33) setActiveStep(0);
-        else if (newProgress < 66) setActiveStep(1);
-        else setActiveStep(2);
-        return newProgress;
+        return prev + 0.4;
       });
     }, 50);
 
     return () => clearInterval(interval);
   }, []);
 
+  // Calculate which step is active based on progress
+  const getActiveStep = (progress: number) => {
+    if (progress < 30) return 0;
+    if (progress < 65) return 1;
+    return 2;
+  };
+
+  const activeStep = getActiveStep(progress);
+
   return (
     <div className="relative">
-      {/* Progress bar background */}
-      <div className="absolute top-[48px] left-[16%] right-[16%] h-[2px] bg-white/10 rounded-full overflow-hidden">
-        {/* Animated progress fill */}
+      {/* Progress bar container - positioned between circles */}
+      <div className="absolute top-[48px] left-[20%] right-[20%] h-[3px]">
+        {/* Background track */}
+        <div className="absolute inset-0 bg-white/5 rounded-full" />
+        
+        {/* Animated light beam with fade effect */}
+        <div className="relative h-full overflow-hidden rounded-full">
+          {/* The light beam with gradient fade on both ends */}
+          <div 
+            className="absolute h-full"
+            style={{ 
+              left: 0,
+              width: `${Math.min(progress * 1.3, 100)}%`,
+              background: 'linear-gradient(90deg, rgba(0,255,136,0) 0%, rgba(0,255,136,0.6) 10%, rgba(0,255,136,1) 40%, rgba(0,255,136,1) 60%, rgba(0,255,136,0.6) 90%, rgba(0,255,136,0) 100%)',
+              boxShadow: '0 0 15px rgba(0, 255, 136, 0.6), 0 0 30px rgba(0, 255, 136, 0.3)',
+              filter: 'blur(0.5px)',
+              transform: `translateX(${Math.max(0, (progress - 77) * 1.3)}%)`,
+            }}
+          />
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-3 gap-8 lg:gap-12">
+        {steps.map((step, index) => {
+          const isActive = activeStep === index;
+          const isPast = activeStep > index;
+          
+          return (
+            <div
+              key={index}
+              data-animate-item
+              data-animate-index={index}
+              className={`relative text-center ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              style={{ transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)', transitionDelay: `${index * 150}ms` }}
+            >
+              {/* Step circle - only glows when active */}
+              <div className="relative inline-flex flex-col items-center mb-8">
+                {/* Glow effect - only when active */}
+                <div 
+                  className={`absolute w-24 h-24 rounded-full transition-all duration-700 ${
+                    isActive
+                      ? 'bg-[#00ff88]/30 blur-xl scale-150' 
+                      : 'bg-transparent blur-0 scale-100'
+                  }`}
+                />
+                
+                {/* Circle with number */}
+                <div 
+                  className={`w-24 h-24 rounded-full flex items-center justify-center relative z-20 transition-all duration-700 ${
+                    isActive
+                      ? 'bg-[#00ff88]/20 border-2 border-[#00ff88] shadow-[0_0_40px_rgba(0,255,136,0.5)]' 
+                      : isPast
+                        ? 'bg-white/[0.08] border-2 border-white/20'
+                        : 'bg-white/[0.04] border-2 border-white/10'
+                  }`}
+                >
+                  <span 
+                    className={`text-3xl font-bold transition-all duration-700 ${
+                      isActive ? 'text-[#00ff88] scale-110' : isPast ? 'text-white/50' : 'text-white/20'
+                    }`}
+                  >
+                    {step.number}
+                  </span>
+                </div>
+                
+                {/* Icon below */}
+                <div 
+                  className={`mt-4 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-700 ${
+                    isActive
+                      ? 'bg-[#00ff88]/30 border border-[#00ff88] shadow-[0_0_30px_rgba(0,255,136,0.6)]' 
+                      : isPast
+                        ? 'bg-[#00ff88]/10 border border-[#00ff88]/20'
+                        : 'bg-[#00ff88]/5 border border-[#00ff88]/20'
+                  }`}
+                >
+                  <step.icon className={`w-6 h-6 transition-all duration-700 ${
+                    isActive ? 'text-[#00ff88] scale-110' : isPast ? 'text-[#00ff88]/70' : 'text-[#00ff88]/40'
+                  }`} />
+                </div>
+              </div>
+              
+              <h3 className={`text-xl lg:text-2xl font-medium mb-3 transition-all duration-700 ${
+                isActive ? 'text-white' : 'text-white/70'
+              }`}>{step.title}</h3>
+              <p className="text-white/50 leading-relaxed text-sm lg:text-base max-w-xs mx-auto">{step.description}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// Mobile scroll-linked steps component
+function MobileScrollSteps({ 
+  steps 
+}: { 
+  steps: Array<{ number: string; title: string; description: string; icon: React.ElementType }>;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      
+      const rect = containerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Calculate progress based on how much of the section is visible
+      const sectionTop = rect.top;
+      const sectionHeight = rect.height;
+      
+      // Start progress when section enters viewport, end when it leaves
+      const start = windowHeight * 0.8;
+      const end = -sectionHeight + windowHeight * 0.2;
+      
+      const rawProgress = ((start - sectionTop) / (start - end)) * 100;
+      const clampedProgress = Math.max(0, Math.min(100, rawProgress));
+      
+      setScrollProgress(clampedProgress);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Calculate active step based on scroll progress
+  const getStepState = (index: number) => {
+    const stepSize = 100 / steps.length;
+    const stepStart = index * stepSize;
+    const stepEnd = (index + 1) * stepSize;
+    
+    if (scrollProgress < stepStart) return 'future';
+    if (scrollProgress >= stepEnd) return 'past';
+    return 'active';
+  };
+
+  return (
+    <div ref={containerRef} className="md:hidden relative">
+      {/* Vertical progress line container */}
+      <div className="absolute left-8 top-0 bottom-0 w-[3px]">
+        {/* Background track */}
+        <div className="absolute inset-0 bg-white/5 rounded-full" />
+        
+        {/* Scroll-linked light beam */}
         <div 
-          className="h-full bg-gradient-to-r from-[#00ff88]/0 via-[#00ff88] to-[#00ff88] transition-all duration-100 ease-linear"
+          className="absolute top-0 left-0 right-0 rounded-full transition-all duration-150 ease-out"
           style={{ 
-            width: `${progress}%`,
-            boxShadow: '0 0 20px rgba(0, 255, 136, 0.5)'
+            height: `${scrollProgress}%`,
+            background: 'linear-gradient(180deg, rgba(0,255,136,0) 0%, rgba(0,255,136,0.8) 15%, rgba(0,255,136,1) 50%, rgba(0,255,136,0.8) 85%, rgba(0,255,136,0) 100%)',
+            boxShadow: '0 0 10px rgba(0, 255, 136, 0.5), 0 0 20px rgba(0, 255, 136, 0.3)',
           }}
         />
       </div>
       
-      <div className="grid grid-cols-3 gap-8 lg:gap-12">
-        {steps.map((step, index) => (
-          <div
-            key={index}
-            data-animate-item
-            data-animate-index={index}
-            className={`relative text-center ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-            style={{ transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)', transitionDelay: `${index * 150}ms` }}
-          >
-            {/* Step circle with glow effect when active */}
-            <div className="relative inline-flex flex-col items-center mb-8">
-              {/* Glow effect behind circle when active */}
+      <div className="space-y-8 pl-20">
+        {steps.map((step, index) => {
+          const state = getStepState(index);
+          const isActive = state === 'active';
+          const isPast = state === 'past';
+          
+          return (
+            <div
+              key={index}
+              className={`relative transition-all duration-500 ${
+                isActive ? 'opacity-100' : isPast ? 'opacity-90' : 'opacity-50'
+              }`}
+            >
+              {/* Step circle positioned on the line */}
               <div 
-                className={`absolute w-24 h-24 rounded-full transition-all duration-500 ${
-                  activeStep === index 
-                    ? 'bg-[#00ff88]/20 blur-xl scale-125' 
-                    : 'bg-transparent blur-0 scale-100'
-                }`}
-              />
-              {/* Circle with number */}
-              <div 
-                className={`w-24 h-24 rounded-full flex items-center justify-center relative z-10 transition-all duration-500 ${
-                  activeStep === index 
-                    ? 'bg-white/[0.12] border-2 border-[#00ff88]/50 shadow-[0_0_30px_rgba(0,255,136,0.3)]' 
-                    : 'bg-white/[0.06] border-2 border-white/10'
-                }`}
+                className="absolute -left-[52px] top-0 flex flex-col items-center"
+                style={{ transform: 'translateX(-50%)' }}
               >
-                <span 
-                  className={`text-3xl font-bold transition-all duration-500 ${
-                    activeStep === index ? 'text-[#00ff88]' : 'text-white/30'
+                {/* Glow effect - only when active */}
+                <div 
+                  className={`absolute w-16 h-16 rounded-full transition-all duration-700 ${
+                    isActive
+                      ? 'bg-[#00ff88]/30 blur-xl scale-150' 
+                      : 'bg-transparent blur-0 scale-100'
+                  }`}
+                />
+                
+                {/* Circle with number */}
+                <div 
+                  className={`w-16 h-16 rounded-full flex items-center justify-center relative z-20 transition-all duration-700 ${
+                    isActive
+                      ? 'bg-[#00ff88]/20 border-2 border-[#00ff88] shadow-[0_0_30px_rgba(0,255,136,0.5)]' 
+                      : isPast
+                        ? 'bg-white/[0.08] border-2 border-white/20'
+                        : 'bg-white/[0.04] border-2 border-white/10'
                   }`}
                 >
-                  {step.number}
-                </span>
+                  <span 
+                    className={`text-2xl font-bold transition-all duration-700 ${
+                      isActive ? 'text-[#00ff88] scale-110' : isPast ? 'text-white/50' : 'text-white/20'
+                    }`}
+                  >
+                    {step.number}
+                  </span>
+                </div>
               </div>
-              {/* Icon below */}
-              <div 
-                className={`mt-4 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 ${
-                  activeStep === index 
-                    ? 'bg-[#00ff88]/20 border border-[#00ff88]/50 shadow-[0_0_20px_rgba(0,255,136,0.4)]' 
-                    : 'bg-[#00ff88]/10 border border-[#00ff88]/30'
-                }`}
-              >
-                <step.icon className={`w-6 h-6 transition-all duration-500 ${
-                  activeStep === index ? 'text-[#00ff88] scale-110' : 'text-[#00ff88]'
-                }`} />
+              
+              {/* Content */}
+              <div className="pb-8">
+                {/* Icon */}
+                <div 
+                  className={`inline-flex w-10 h-10 rounded-lg items-center justify-center mb-3 transition-all duration-700 ${
+                    isActive
+                      ? 'bg-[#00ff88]/30 border border-[#00ff88] shadow-[0_0_20px_rgba(0,255,136,0.5)]' 
+                      : isPast
+                        ? 'bg-[#00ff88]/10 border border-[#00ff88]/20'
+                        : 'bg-[#00ff88]/5 border border-[#00ff88]/20'
+                  }`}
+                >
+                  <step.icon className={`w-5 h-5 transition-all duration-700 ${
+                    isActive ? 'text-[#00ff88] scale-110' : isPast ? 'text-[#00ff88]/70' : 'text-[#00ff88]/40'
+                  }`} />
+                </div>
+                
+                <h3 className={`text-lg font-medium mb-2 transition-all duration-700 ${
+                  isActive ? 'text-white' : 'text-white/70'
+                }`}>{step.title}</h3>
+                <p className="text-white/50 text-sm leading-relaxed">{step.description}</p>
               </div>
             </div>
-            
-            <h3 className="text-xl lg:text-2xl font-medium text-white mb-3">{step.title}</h3>
-            <p className="text-white/50 leading-relaxed text-sm lg:text-base max-w-xs mx-auto">{step.description}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
