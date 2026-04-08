@@ -100,9 +100,7 @@ function GlassNavigation() {
     <nav className="fixed top-0 left-0 right-0 z-50">
       <div className="mx-4 mt-4">
         <div 
-          className={`max-w-5xl mx-auto px-6 py-3 border border-white/10 transition-all duration-300 ${
-            isMenuOpen ? 'rounded-2xl' : 'rounded-full'
-          }`}
+          className="max-w-5xl mx-auto px-6 py-3 border border-white/10 rounded-2xl md:rounded-full"
           style={{
             background: 'rgba(0, 0, 0, 0.5)',
             backdropFilter: 'blur(20px)',
