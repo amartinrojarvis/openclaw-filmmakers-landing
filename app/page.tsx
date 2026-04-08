@@ -203,12 +203,6 @@ function Hero() {
             Empezar ahora
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
-          <Link
-            href="#beneficios"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white/5 text-white rounded-full font-medium text-lg border border-white/10 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
-          >
-            Ver contenido
-          </Link>
         </div>
         
         {/* Feature pills */}
