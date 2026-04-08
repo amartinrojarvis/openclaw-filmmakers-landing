@@ -7,6 +7,37 @@ export function AuroraBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | null>(null);
   const timeRef = useRef(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768 || 
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      setIsMobile(mobile);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile, { passive: true });
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Mobile: show static gradient background
+  if (isMobile) {
+    return (
+      <div 
+        className="fixed inset-0 w-full h-full"
+        style={{
+          background: `
+            radial-gradient(ellipse at 20% 30%, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 20%, rgba(170, 0, 255, 0.12) 0%, transparent 45%),
+            radial-gradient(ellipse at 50% 60%, rgba(0, 255, 136, 0.08) 0%, transparent 40%),
+            linear-gradient(180deg, #000000 0%, #020408 30%, #03060a 60%, #050a15 100%)
+          `,
+        }}
+      />
+    );
+  }
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -236,6 +267,41 @@ export function HeroBottomFade() {
 
 // Gradient orbs for other sections - adapted to aurora colors
 export function GradientOrbs() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile, { passive: true });
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Mobile: static orbs without animation
+  if (isMobile) {
+    return (
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div 
+          className="absolute w-[300px] h-[300px] rounded-full opacity-10"
+          style={{
+            background: 'radial-gradient(circle, rgba(0,255,136,0.15) 0%, transparent 70%)',
+            top: '5%',
+            left: '-10%',
+            filter: 'blur(60px)',
+          }}
+        />
+        <div 
+          className="absolute w-[250px] h-[250px] rounded-full opacity-10"
+          style={{
+            background: 'radial-gradient(circle, rgba(170,0,255,0.12) 0%, transparent 70%)',
+            top: '50%',
+            right: '-5%',
+            filter: 'blur(80px)',
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <div 
@@ -275,6 +341,33 @@ export function GradientOrbs() {
 
 // Pulsing glow effect - aurora colors
 export function PulsingGlow() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile, { passive: true });
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Mobile: static glows without animation
+  if (isMobile) {
+    return (
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div 
+          className="absolute w-[400px] h-[400px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(0,255,136,0.08) 0%, transparent 70%)',
+            top: '20%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            filter: 'blur(60px)',
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Main central glow - green aurora */}
@@ -331,9 +424,15 @@ export function PulsingGlow() {
 // Star field component - client side only to avoid hydration
 export function StarField() {
   const [stars, setStars] = useState<Array<{id: number, left: number, top: number, size: number}>>([]);
+  const [starCount, setStarCount] = useState(50);
   
   useEffect(() => {
-    const generatedStars = Array.from({ length: 50 }, (_, i) => ({
+    // Reduce stars on mobile
+    const isMobile = window.innerWidth < 768;
+    const count = isMobile ? 15 : 50;
+    setStarCount(count);
+    
+    const generatedStars = Array.from({ length: count }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
       top: Math.random() * 60,
