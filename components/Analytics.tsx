@@ -1,8 +1,7 @@
 'use client';
 
 import Script from 'next/script';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect, Suspense } from 'react';
+import { useEffect } from 'react';
 
 export const GTM_ID = 'GTM-5N34HG2X';
 
@@ -25,33 +24,19 @@ export function GoogleTagManagerScript() {
   );
 }
 
-// Track page views
-function PageViewTrackerInner() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
+// Track page views - simplified version to avoid hydration issues
+export function PageViewTracker() {
   useEffect(() => {
-    if (pathname) {
-      const pagePath = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : '');
-      
-      // Push to dataLayer for GTM
-      window.dataLayer?.push({
+    if (typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push({
         event: 'pageview',
-        pagePath,
+        pagePath: window.location.pathname,
         pageTitle: document.title,
       });
     }
-  }, [pathname, searchParams]);
+  }, []);
 
   return null;
-}
-
-export function PageViewTracker() {
-  return (
-    <Suspense fallback={null}>
-      <PageViewTrackerInner />
-    </Suspense>
-  );
 }
 
 // Helper function to track custom events
