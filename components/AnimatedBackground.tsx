@@ -7,26 +7,25 @@ export function AuroraBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | null>(null);
   const timeRef = useRef(0);
+  const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Detect mobile on mount
+  // Detect mobile after mount to avoid hydration mismatch
   useEffect(() => {
+    setMounted(true);
     const checkMobile = () => {
-      const mobile = window.innerWidth < 768 || 
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      setIsMobile(mobile);
+      setIsMobile(window.innerWidth < 768);
     };
-    
     checkMobile();
     window.addEventListener('resize', checkMobile, { passive: true });
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Mobile: show static gradient background
-  if (isMobile) {
+  // During SSR and initial render, show static background
+  if (!mounted || isMobile) {
     return (
       <div 
-        className="fixed inset-0 w-full h-full"
+        className="fixed inset-0 w-full h-full md:hidden"
         style={{
           background: `
             radial-gradient(ellipse at 20% 30%, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
@@ -267,34 +266,22 @@ export function HeroBottomFade() {
 
 // Gradient orbs for other sections - adapted to aurora colors
 export function GradientOrbs() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile, { passive: true });
-    return () => window.removeEventListener('resize', checkMobile);
+    setMounted(true);
   }, []);
 
-  // Mobile: static orbs without animation
-  if (isMobile) {
+  // During SSR, render static version
+  if (!mounted) {
     return (
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none md:block hidden">
         <div 
-          className="absolute w-[300px] h-[300px] rounded-full opacity-10"
+          className="absolute w-[600px] h-[600px] rounded-full opacity-20"
           style={{
             background: 'radial-gradient(circle, rgba(0,255,136,0.15) 0%, transparent 70%)',
             top: '5%',
-            left: '-10%',
-            filter: 'blur(60px)',
-          }}
-        />
-        <div 
-          className="absolute w-[250px] h-[250px] rounded-full opacity-10"
-          style={{
-            background: 'radial-gradient(circle, rgba(170,0,255,0.12) 0%, transparent 70%)',
-            top: '50%',
-            right: '-5%',
+            left: '-15%',
             filter: 'blur(80px)',
           }}
         />
@@ -341,27 +328,24 @@ export function GradientOrbs() {
 
 // Pulsing glow effect - aurora colors
 export function PulsingGlow() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile, { passive: true });
-    return () => window.removeEventListener('resize', checkMobile);
+    setMounted(true);
   }, []);
 
-  // Mobile: static glows without animation
-  if (isMobile) {
+  // During SSR, render static version
+  if (!mounted) {
     return (
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none md:block hidden">
         <div 
-          className="absolute w-[400px] h-[400px] rounded-full"
+          className="absolute w-[800px] h-[800px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(0,255,136,0.08) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(0,255,136,0.12) 0%, transparent 70%)',
             top: '20%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            filter: 'blur(60px)',
+            filter: 'blur(80px)',
           }}
         />
       </div>
