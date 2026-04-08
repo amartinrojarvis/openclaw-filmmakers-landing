@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, Clapperboard } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowLeft, Clapperboard, Menu, X } from 'lucide-react';
 import { AnimatedBackground, PulsingGlow, GradientOrbs } from './AnimatedBackground';
 
 interface PageLayoutProps {
@@ -18,7 +19,7 @@ export function PageLayout({ children, showBackButton = true, fullHeight = true 
         <AnimatedBackground />
         <PulsingGlow />
         <GradientOrbs />
-        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-black/50" />
       </div>
       
       {/* Content */}
@@ -86,13 +87,22 @@ export function PageLayout({ children, showBackButton = true, fullHeight = true 
 
 // Glassmorphism Navigation for landing page
 function GlassNavigation() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navLinks = [
+    { href: '#beneficios', label: 'Beneficios' },
+    { href: '#contenido', label: 'Contenido' },
+    { href: '#pricing', label: 'Precios' },
+    { href: '#faq', label: 'FAQ' },
+  ];
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
       <div className="mx-4 mt-4">
         <div 
           className="max-w-5xl mx-auto px-6 py-3 rounded-full border border-white/10"
           style={{
-            background: 'rgba(0, 0, 0, 0.4)',
+            background: 'rgba(0, 0, 0, 0.5)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
           }}
@@ -104,22 +114,48 @@ function GlassNavigation() {
               <span className="font-medium text-sm">iaparafilmmakers</span>
             </Link>
             
-            {/* Nav Links */}
+            {/* Nav Links - Desktop */}
             <div className="hidden md:flex items-center gap-8">
-              <NavLink href="#beneficios">Beneficios</NavLink>
-              <NavLink href="#contenido">Contenido</NavLink>
-              <NavLink href="#precios">Precios</NavLink>
-              <NavLink href="#faq">FAQ</NavLink>
+              {navLinks.map((link) => (
+                <NavLink key={link.href} href={link.href}>{link.label}</NavLink>
+              ))}
             </div>
             
-            {/* CTA Button */}
+            {/* CTA Button - Desktop Only */}
             <Link 
-              href="#precios"
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm rounded-full transition-all duration-300 border border-white/10"
+              href="#pricing"
+              className="hidden md:block px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm rounded-full transition-all duration-300 border border-white/10"
             >
               Comprar
             </Link>
+
+            {/* Hamburger Menu - Mobile Only */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 text-white hover:text-white/80 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
+
+          {/* Mobile Menu Dropdown */}
+          {isMenuOpen && (
+            <div className="md:hidden mt-4 pt-4 border-t border-white/10">
+              <div className="flex flex-col gap-4 pb-2">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-white/80 hover:text-white transition-colors py-2"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </nav>
