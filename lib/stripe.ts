@@ -27,8 +27,8 @@ export const stripe = new Proxy({} as Stripe, {
 
 // Precios de productos (hardcodeados para evitar problemas de env vars en Vercel)
 export const STRIPE_PRICE_IDS = {
-  GUIA: 'price_1TE5n7QaHSvmpUvcw14G5MnO',
-  BUNDLE: 'price_1TE5n7QaHSvmpUvcGx38ZLa0',
+  GUIA: 'price_1TJtMYHBqq0IP9Ia8lI2iME2',
+  BUNDLE: 'price_1TJtMrHBqq0IP9IaH2MHxqtv',
 };
 
 // Mapeo de price_id a tipo de producto

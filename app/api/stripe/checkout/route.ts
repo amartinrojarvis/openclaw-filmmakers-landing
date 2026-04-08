@@ -49,6 +49,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       'line_items[0][quantity]': '1',
       'mode': 'payment',
       'billing_address_collection': 'required',
+      'allow_promotion_codes': 'true',
       'success_url': `${siteUrl}/gracias?session_id={CHECKOUT_SESSION_ID}`,
       'cancel_url': `${siteUrl}/`,
       'metadata[priceId]': priceId,

@@ -10,9 +10,18 @@ import Stripe from 'stripe';
 export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  console.log('=== WEBHOOK RECIBIDO ===');
+  console.log('Timestamp:', new Date().toISOString());
+  
   const payload = await request.text();
   const signature = request.headers.get('stripe-signature');
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+
+  console.log('Headers:', Object.fromEntries(request.headers.entries()));
+  console.log('Signature exists:', !!signature);
+  console.log('Webhook secret exists:', !!webhookSecret);
+  console.log('Stripe key exists:', !!stripeKey);
 
   if (!signature) {
     console.error('Webhook: Falta firma de Stripe');
@@ -34,7 +43,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   try {
     // Verificar la firma del webhook
+    console.log('Verificando firma...');
     event = getStripe().webhooks.constructEvent(payload, signature, webhookSecret);
+    console.log('Firma verificada OK. Event type:', event.type);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
     console.error(`Webhook: Error verificando firma: ${errorMessage}`);
