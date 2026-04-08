@@ -647,34 +647,42 @@ function AnimatedProgressSteps({
 
   const activeStep = getActiveStep(progress);
 
+  // Calculate individual step progress for precise activation
+  const getStepProgress = (index: number) => {
+    const stepStart = index * 33.33;
+    const stepEnd = (index + 1) * 33.33;
+    if (progress < stepStart) return 0;
+    if (progress > stepEnd) return 100;
+    return ((progress - stepStart) / (stepEnd - stepStart)) * 100;
+  };
+
   return (
     <div className="relative">
-      {/* Progress bar container - positioned between circles */}
-      <div className="absolute top-[48px] left-[20%] right-[20%] h-[3px]">
+      {/* Elegant progress line - positioned behind numbers */}
+      <div className="absolute top-[48px] left-[16%] right-[16%] h-[2px]">
         {/* Background track */}
-        <div className="absolute inset-0 bg-white/5 rounded-full" />
+        <div className="absolute inset-0 bg-white/10 rounded-full" />
         
         {/* Animated light beam with fade effect */}
-        <div className="relative h-full overflow-hidden rounded-full">
-          {/* The light beam with gradient fade on both ends */}
-          <div 
-            className="absolute h-full"
-            style={{ 
-              left: 0,
-              width: `${Math.min(progress * 1.3, 100)}%`,
-              background: 'linear-gradient(90deg, rgba(0,255,136,0) 0%, rgba(0,255,136,0.6) 10%, rgba(0,255,136,1) 40%, rgba(0,255,136,1) 60%, rgba(0,255,136,0.6) 90%, rgba(0,255,136,0) 100%)',
-              boxShadow: '0 0 15px rgba(0, 255, 136, 0.6), 0 0 30px rgba(0, 255, 136, 0.3)',
-              filter: 'blur(0.5px)',
-              transform: `translateX(${Math.max(0, (progress - 77) * 1.3)}%)`,
-            }}
-          />
-        </div>
+        <div 
+          className="absolute h-full rounded-full"
+          style={{ 
+            width: `${Math.min(progress * 1.15, 100)}%`,
+            background: `linear-gradient(90deg, 
+              rgba(168, 85, 247, 0.9) 0%, 
+              rgba(192, 132, 252, 0.8) 30%, 
+              rgba(0, 255, 136, 0.8) 70%, 
+              rgba(0, 255, 136, 0) 100%)`,
+            boxShadow: '0 0 15px rgba(168, 85, 247, 0.4), 0 0 25px rgba(0, 255, 136, 0.3)',
+          }}
+        />
       </div>
       
       <div className="grid grid-cols-3 gap-8 lg:gap-12">
         {steps.map((step, index) => {
-          const isActive = activeStep === index;
-          const isPast = activeStep > index;
+          const stepProgress = getStepProgress(index);
+          const isActive = stepProgress > 0;
+          const isFullyActive = stepProgress >= 100;
           
           return (
             <div
@@ -684,30 +692,37 @@ function AnimatedProgressSteps({
               className={`relative text-center ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
               style={{ transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)', transitionDelay: `${index * 150}ms` }}
             >
-              {/* Step circle - only glows when active */}
+              {/* Step circle with number - translucent */}
               <div className="relative inline-flex flex-col items-center mb-8">
-                {/* Glow effect - only when active */}
+                {/* Glow effect - appears when line arrives */}
                 <div 
-                  className={`absolute w-24 h-24 rounded-full transition-all duration-700 ${
+                  className={`absolute w-20 h-20 rounded-full transition-all duration-500 ${
                     isActive
-                      ? 'bg-[#00ff88]/30 blur-xl scale-150' 
-                      : 'bg-transparent blur-0 scale-100'
+                      ? 'bg-[#00ff88]/20 blur-xl scale-125 opacity-100' 
+                      : 'bg-transparent blur-0 scale-100 opacity-0'
                   }`}
                 />
                 
-                {/* Circle with number */}
+                {/* Translucent circle - activates when line touches it */}
                 <div 
-                  className={`w-24 h-24 rounded-full flex items-center justify-center relative z-20 transition-all duration-700 ${
-                    isActive
-                      ? 'bg-[#00ff88]/20 border-2 border-[#00ff88] shadow-[0_0_40px_rgba(0,255,136,0.5)]' 
-                      : isPast
-                        ? 'bg-white/[0.08] border-2 border-white/20'
-                        : 'bg-white/[0.04] border-2 border-white/10'
+                  className={`w-20 h-20 rounded-full flex items-center justify-center relative transition-all duration-500 backdrop-blur-sm ${
+                    isFullyActive
+                      ? 'bg-white/[0.08] border border-[#00ff88]/50' 
+                      : isActive
+                        ? 'bg-white/[0.05] border border-white/20'
+                        : 'bg-white/[0.03] border border-white/10'
                   }`}
+                  style={{
+                    boxShadow: isFullyActive 
+                      ? '0 0 30px rgba(0, 255, 136, 0.3), inset 0 0 20px rgba(0, 255, 136, 0.1)' 
+                      : isActive 
+                        ? '0 0 20px rgba(168, 85, 247, 0.2)' 
+                        : 'none'
+                  }}
                 >
                   <span 
-                    className={`text-3xl font-bold transition-all duration-700 ${
-                      isActive ? 'text-[#00ff88] scale-110' : isPast ? 'text-white/50' : 'text-white/20'
+                    className={`text-2xl font-medium transition-all duration-500 ${
+                      isFullyActive ? 'text-[#00ff88]' : isActive ? 'text-white/70' : 'text-white/30'
                     }`}
                   >
                     {step.number}
@@ -716,16 +731,16 @@ function AnimatedProgressSteps({
                 
                 {/* Icon below */}
                 <div 
-                  className={`mt-4 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-700 ${
-                    isActive
-                      ? 'bg-[#00ff88]/30 border border-[#00ff88] shadow-[0_0_30px_rgba(0,255,136,0.6)]' 
-                      : isPast
-                        ? 'bg-[#00ff88]/10 border border-[#00ff88]/20'
-                        : 'bg-[#00ff88]/5 border border-[#00ff88]/20'
+                  className={`mt-6 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 ${
+                    isFullyActive
+                      ? 'bg-[#00ff88]/20 border border-[#00ff88]/50' 
+                      : isActive
+                        ? 'bg-white/[0.05] border border-white/20'
+                        : 'bg-white/[0.03] border border-white/10'
                   }`}
                 >
-                  <step.icon className={`w-6 h-6 transition-all duration-700 ${
-                    isActive ? 'text-[#00ff88] scale-110' : isPast ? 'text-[#00ff88]/70' : 'text-[#00ff88]/40'
+                  <step.icon className={`w-6 h-6 transition-all duration-500 ${
+                    isFullyActive ? 'text-[#00ff88]' : isActive ? 'text-white/60' : 'text-white/30'
                   }`} />
                 </div>
               </div>
@@ -789,64 +804,82 @@ function MobileScrollSteps({
     return 'active';
   };
 
+  // Calculate step progress for mobile
+  const getMobileStepProgress = (index: number) => {
+    const stepSize = 100 / steps.length;
+    const stepStart = index * stepSize;
+    const stepEnd = (index + 1) * stepSize;
+    if (scrollProgress < stepStart) return 0;
+    if (scrollProgress > stepEnd) return 100;
+    return ((scrollProgress - stepStart) / (stepEnd - stepStart)) * 100;
+  };
+
   return (
-    <div ref={containerRef} className="md:hidden relative">
-      {/* Vertical progress line container */}
-      <div className="absolute left-8 top-0 bottom-0 w-[3px]">
+    <div ref={containerRef} className="md:hidden relative pl-4">
+      {/* Elegant vertical progress line */}
+      <div className="absolute left-[28px] top-6 bottom-6 w-[2px]">
         {/* Background track */}
-        <div className="absolute inset-0 bg-white/5 rounded-full" />
+        <div className="absolute inset-0 bg-white/10 rounded-full" />
         
-        {/* Scroll-linked light beam */}
+        {/* Scroll-linked light beam with fade */}
         <div 
-          className="absolute top-0 left-0 right-0 rounded-full transition-all duration-150 ease-out"
+          className="absolute top-0 left-0 right-0 rounded-full"
           style={{ 
             height: `${scrollProgress}%`,
-            background: 'linear-gradient(180deg, rgba(0,255,136,0) 0%, rgba(0,255,136,0.8) 15%, rgba(0,255,136,1) 50%, rgba(0,255,136,0.8) 85%, rgba(0,255,136,0) 100%)',
-            boxShadow: '0 0 10px rgba(0, 255, 136, 0.5), 0 0 20px rgba(0, 255, 136, 0.3)',
+            background: `linear-gradient(180deg, 
+              rgba(168, 85, 247, 0.9) 0%, 
+              rgba(192, 132, 252, 0.8) 40%, 
+              rgba(0, 255, 136, 0.8) 80%, 
+              rgba(0, 255, 136, 0) 100%)`,
+            boxShadow: '0 0 15px rgba(168, 85, 247, 0.4), 0 0 25px rgba(0, 255, 136, 0.3)',
           }}
         />
       </div>
       
-      <div className="space-y-8 pl-20">
+      <div className="space-y-8">
         {steps.map((step, index) => {
-          const state = getStepState(index);
-          const isActive = state === 'active';
-          const isPast = state === 'past';
+          const stepProgress = getMobileStepProgress(index);
+          const isActive = stepProgress > 0;
+          const isFullyActive = stepProgress >= 100;
           
           return (
             <div
               key={index}
-              className={`relative transition-all duration-500 ${
-                isActive ? 'opacity-100' : isPast ? 'opacity-90' : 'opacity-50'
+              className={`relative flex items-start gap-5 transition-all duration-500 ${
+                isActive ? 'opacity-100' : 'opacity-50'
               }`}
             >
-              {/* Step circle positioned on the line */}
-              <div 
-                className="absolute -left-[52px] top-0 flex flex-col items-center"
-                style={{ transform: 'translateX(-50%)' }}
-              >
-                {/* Glow effect - only when active */}
+              {/* Number circle - LEFT side - translucent */}
+              <div className="relative flex-shrink-0">
+                {/* Glow effect - appears when line arrives */}
                 <div 
-                  className={`absolute w-16 h-16 rounded-full transition-all duration-700 ${
+                  className={`absolute inset-0 rounded-full transition-all duration-500 ${
                     isActive
-                      ? 'bg-[#00ff88]/30 blur-xl scale-150' 
-                      : 'bg-transparent blur-0 scale-100'
+                      ? 'bg-[#00ff88]/20 blur-xl scale-125 opacity-100' 
+                      : 'bg-transparent blur-0 scale-100 opacity-0'
                   }`}
                 />
                 
-                {/* Circle with number */}
+                {/* Translucent circle */}
                 <div 
-                  className={`w-16 h-16 rounded-full flex items-center justify-center relative z-20 transition-all duration-700 ${
-                    isActive
-                      ? 'bg-[#00ff88]/20 border-2 border-[#00ff88] shadow-[0_0_30px_rgba(0,255,136,0.5)]' 
-                      : isPast
-                        ? 'bg-white/[0.08] border-2 border-white/20'
-                        : 'bg-white/[0.04] border-2 border-white/10'
+                  className={`w-14 h-14 rounded-full flex items-center justify-center relative transition-all duration-500 backdrop-blur-sm ${
+                    isFullyActive
+                      ? 'bg-white/[0.08] border border-[#00ff88]/50' 
+                      : isActive
+                        ? 'bg-white/[0.05] border border-white/20'
+                        : 'bg-white/[0.03] border border-white/10'
                   }`}
+                  style={{
+                    boxShadow: isFullyActive 
+                      ? '0 0 25px rgba(0, 255, 136, 0.3), inset 0 0 15px rgba(0, 255, 136, 0.1)' 
+                      : isActive 
+                        ? '0 0 15px rgba(168, 85, 247, 0.2)' 
+                        : 'none'
+                  }}
                 >
                   <span 
-                    className={`text-2xl font-bold transition-all duration-700 ${
-                      isActive ? 'text-[#00ff88] scale-110' : isPast ? 'text-white/50' : 'text-white/20'
+                    className={`text-lg font-medium transition-all duration-500 ${
+                      isFullyActive ? 'text-[#00ff88]' : isActive ? 'text-white/70' : 'text-white/30'
                     }`}
                   >
                     {step.number}
@@ -854,24 +887,24 @@ function MobileScrollSteps({
                 </div>
               </div>
               
-              {/* Content */}
-              <div className="pb-8">
+              {/* Content - RIGHT side */}
+              <div className="flex-1 pt-2">
                 {/* Icon */}
                 <div 
-                  className={`inline-flex w-10 h-10 rounded-lg items-center justify-center mb-3 transition-all duration-700 ${
-                    isActive
-                      ? 'bg-[#00ff88]/30 border border-[#00ff88] shadow-[0_0_20px_rgba(0,255,136,0.5)]' 
-                      : isPast
-                        ? 'bg-[#00ff88]/10 border border-[#00ff88]/20'
-                        : 'bg-[#00ff88]/5 border border-[#00ff88]/20'
+                  className={`inline-flex w-9 h-9 rounded-lg items-center justify-center mb-2 transition-all duration-500 ${
+                    isFullyActive
+                      ? 'bg-[#00ff88]/20 border border-[#00ff88]/50' 
+                      : isActive
+                        ? 'bg-white/[0.05] border border-white/20'
+                        : 'bg-white/[0.03] border border-white/10'
                   }`}
                 >
-                  <step.icon className={`w-5 h-5 transition-all duration-700 ${
-                    isActive ? 'text-[#00ff88] scale-110' : isPast ? 'text-[#00ff88]/70' : 'text-[#00ff88]/40'
+                  <step.icon className={`w-4 h-4 transition-all duration-500 ${
+                    isFullyActive ? 'text-[#00ff88]' : isActive ? 'text-white/60' : 'text-white/30'
                   }`} />
                 </div>
                 
-                <h3 className={`text-lg font-medium mb-2 transition-all duration-700 ${
+                <h3 className={`text-lg font-medium mb-1 transition-all duration-700 ${
                   isActive ? 'text-white' : 'text-white/70'
                 }`}>{step.title}</h3>
                 <p className="text-white/50 text-sm leading-relaxed">{step.description}</p>

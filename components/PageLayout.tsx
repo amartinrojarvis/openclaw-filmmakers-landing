@@ -91,7 +91,7 @@ function GlassNavigation() {
 
   const navLinks = [
     { href: '#beneficios', label: 'Beneficios' },
-    { href: '#contenido', label: 'Contenido' },
+    { href: '#contenido', label: 'Cómo funciona' },
     { href: '#pricing', label: 'Precios' },
     { href: '#faq', label: 'FAQ' },
   ];
