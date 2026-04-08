@@ -198,3 +198,4 @@ Si quiere **escalar con automatizaciones**, que vaya a **Stripe Checkout + webho
 Para este proyecto, mi recomendación práctica sería:
 1. **Primero Payment Link** para validar ventas rápido
 2. **Después Checkout + webhook** cuando quiera automatizar entrega y seguimiento
+# Deploy check Wed Apr  8 06:28:09 PM CEST 2026
