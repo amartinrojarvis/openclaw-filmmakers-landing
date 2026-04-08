@@ -318,37 +318,9 @@ function HowItWorks() {
           </h2>
         </AnimatedSection>
         
-        {/* Desktop: Horizontal layout with connecting line */}
+        {/* Desktop: Horizontal layout with animated progress */}
         <div ref={containerRef} className="hidden md:block relative">
-          {/* Connecting line background */}
-          <div className="absolute top-[60px] left-[16.67%] right-[16.67%] h-[2px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-          
-          <div className="grid grid-cols-3 gap-8 lg:gap-12">
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                data-animate-item
-                data-animate-index={index}
-                className={`relative text-center ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-                style={{ transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)', transitionDelay: `${index * 150}ms` }}
-              >
-                {/* Step number badge - simplified */}
-                <div className="relative inline-flex flex-col items-center mb-8">
-                  {/* Circle with number */}
-                  <div className="w-24 h-24 rounded-full bg-white/[0.06] border-2 border-white/10 flex items-center justify-center relative z-10">
-                    <span className="text-3xl font-bold text-white/30">{step.number}</span>
-                  </div>
-                  {/* Icon below */}
-                  <div className="mt-4 w-12 h-12 rounded-xl bg-[#00ff88]/10 border border-[#00ff88]/30 flex items-center justify-center">
-                    <step.icon className="w-6 h-6 text-[#00ff88]" />
-                  </div>
-                </div>
-                
-                <h3 className="text-xl lg:text-2xl font-medium text-white mb-3">{step.title}</h3>
-                <p className="text-white/50 leading-relaxed text-sm lg:text-base max-w-xs mx-auto">{step.description}</p>
-              </div>
-            ))}
-          </div>
+          <AnimatedProgressSteps steps={steps} visibleItems={visibleItems} />
         </div>
         
         {/* Mobile: Vertical cards */}
@@ -673,6 +645,108 @@ function FloatingCTA() {
       <span>Ver precios</span>
       <ArrowRight className="w-4 h-4" />
     </button>
+  );
+}
+
+// Animated progress steps component
+function AnimatedProgressSteps({ 
+  steps, 
+  visibleItems 
+}: { 
+  steps: Array<{ number: string; title: string; description: string; icon: React.ElementType }>;
+  visibleItems: boolean[];
+}) {
+  const [progress, setProgress] = useState(0);
+  const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          setActiveStep(0);
+          return 0;
+        }
+        const newProgress = prev + 0.5;
+        // Determine active step based on progress
+        if (newProgress < 33) setActiveStep(0);
+        else if (newProgress < 66) setActiveStep(1);
+        else setActiveStep(2);
+        return newProgress;
+      });
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="relative">
+      {/* Progress bar background */}
+      <div className="absolute top-[48px] left-[16%] right-[16%] h-[2px] bg-white/10 rounded-full overflow-hidden">
+        {/* Animated progress fill */}
+        <div 
+          className="h-full bg-gradient-to-r from-[#00ff88]/0 via-[#00ff88] to-[#00ff88] transition-all duration-100 ease-linear"
+          style={{ 
+            width: `${progress}%`,
+            boxShadow: '0 0 20px rgba(0, 255, 136, 0.5)'
+          }}
+        />
+      </div>
+      
+      <div className="grid grid-cols-3 gap-8 lg:gap-12">
+        {steps.map((step, index) => (
+          <div
+            key={index}
+            data-animate-item
+            data-animate-index={index}
+            className={`relative text-center ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            style={{ transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)', transitionDelay: `${index * 150}ms` }}
+          >
+            {/* Step circle with glow effect when active */}
+            <div className="relative inline-flex flex-col items-center mb-8">
+              {/* Glow effect behind circle when active */}
+              <div 
+                className={`absolute w-24 h-24 rounded-full transition-all duration-500 ${
+                  activeStep === index 
+                    ? 'bg-[#00ff88]/20 blur-xl scale-125' 
+                    : 'bg-transparent blur-0 scale-100'
+                }`}
+              />
+              {/* Circle with number */}
+              <div 
+                className={`w-24 h-24 rounded-full flex items-center justify-center relative z-10 transition-all duration-500 ${
+                  activeStep === index 
+                    ? 'bg-white/[0.12] border-2 border-[#00ff88]/50 shadow-[0_0_30px_rgba(0,255,136,0.3)]' 
+                    : 'bg-white/[0.06] border-2 border-white/10'
+                }`}
+              >
+                <span 
+                  className={`text-3xl font-bold transition-all duration-500 ${
+                    activeStep === index ? 'text-[#00ff88]' : 'text-white/30'
+                  }`}
+                >
+                  {step.number}
+                </span>
+              </div>
+              {/* Icon below */}
+              <div 
+                className={`mt-4 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 ${
+                  activeStep === index 
+                    ? 'bg-[#00ff88]/20 border border-[#00ff88]/50 shadow-[0_0_20px_rgba(0,255,136,0.4)]' 
+                    : 'bg-[#00ff88]/10 border border-[#00ff88]/30'
+                }`}
+              >
+                <step.icon className={`w-6 h-6 transition-all duration-500 ${
+                  activeStep === index ? 'text-[#00ff88] scale-110' : 'text-[#00ff88]'
+                }`} />
+              </div>
+            </div>
+            
+            <h3 className="text-xl lg:text-2xl font-medium text-white mb-3">{step.title}</h3>
+            <p className="text-white/50 leading-relaxed text-sm lg:text-base max-w-xs mx-auto">{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
