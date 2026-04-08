@@ -29,7 +29,8 @@ import {
 } from 'lucide-react';
 import { useScrollAnimation, useScrollAnimationGroup } from '@/hooks/useScrollAnimation';
 import { useCheckout } from '@/hooks/useCheckout';
-import { AnimatedBackground, GradientOrbs, PulsingGlow } from '@/components/AnimatedBackground';
+import { PageLayout } from '@/components/PageLayout';
+import { GradientOrbs } from '@/components/AnimatedBackground';
 
 const PRICE_IDS = {
   guia: 'price_1TJtMYHBqq0IP9Ia8lI2iME2',
@@ -177,12 +178,9 @@ function Hero() {
       {/* Floating gradient orbs */}
       <GradientOrbs />
       
-      {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-black/40 pointer-events-none" />
-      
       <div 
         ref={ref}
-        className={`relative z-10 max-w-5xl mx-auto text-center transition-all duration-1000 ${
+        className={`relative z-10 max-w-5xl mx-auto text-center transition-all duration-1000 pt-24 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >
@@ -261,10 +259,10 @@ function Hero() {
 }
 
 function Benefits() {
-  const { containerRef, visibleItems } = useScrollAnimationGroup(benefits.length);
-  
+  const { ref, isVisible } = useScrollAnimation();
+
   return (
-    <section id="beneficios" className="py-32 px-4 sm:px-6 lg:px-8 relative">
+    <section id="beneficios" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <AnimatedSection className="text-center mb-20">
           <span className="text-[#00ff88] text-sm font-medium uppercase tracking-wider">Beneficios</span>
@@ -300,6 +298,8 @@ function Benefits() {
 }
 
 function HowItWorks() {
+  const { ref, isVisible } = useScrollAnimation();
+  
   const steps = [
     {
       number: '01',
@@ -324,7 +324,7 @@ function HowItWorks() {
   const { containerRef, visibleItems } = useScrollAnimationGroup(steps.length);
   
   return (
-    <section className="py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <section id="contenido" className="py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#00ff88]/5 rounded-full blur-[150px] -translate-y-1/2" />
@@ -573,7 +573,7 @@ function FAQ() {
   const { containerRef, visibleItems } = useScrollAnimationGroup(faqs.length);
   
   return (
-    <section className="py-32 px-4 sm:px-6 lg:px-8 relative">
+    <section id="faq" className="py-32 px-4 sm:px-6 lg:px-8 relative">
       <div className="max-w-3xl mx-auto">
         <AnimatedSection className="text-center mb-20">
           <span className="text-[#00ff88] text-sm font-medium uppercase tracking-wider">FAQ</span>
@@ -621,42 +621,6 @@ function FAQ() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t border-white/5">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col items-center gap-8">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#00ff88]/10 flex items-center justify-center">
-              <Clapperboard className="w-5 h-5 text-[#00ff88]" />
-            </div>
-            <span className="text-white font-medium">iaparafilmmakers</span>
-          </div>
-          
-          {/* Links */}
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-white/40">
-            <Link href="/condiciones" className="hover:text-white transition-colors">
-              Condiciones
-            </Link>
-            <Link href="/cookies" className="hover:text-white transition-colors">
-              Cookies
-            </Link>
-            <Link href="/contacto" className="hover:text-white transition-colors">
-              Contacto
-            </Link>
-          </div>
-          
-          {/* Copyright */}
-          <p className="text-sm text-white/30 text-center">
-            © 2026 iaparafilmmakers
-          </p>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
 // Floating CTA Button for Mobile
 function FloatingCTA() {
   const [isVisible, setIsVisible] = useState(false);
@@ -693,16 +657,17 @@ function FloatingCTA() {
 
 export default function Home() {
   return (
-    <main className="relative">
-      <Hero />
-      <Benefits />
-      <HowItWorks />
-      <VisualFeatures />
-      <Testimonial />
-      <Pricing />
-      <FAQ />
-      <Footer />
-      <FloatingCTA />
-    </main>
+    <PageLayout showBackButton={false}>
+      <main className="relative">
+        <Hero />
+        <Benefits />
+        <HowItWorks />
+        <VisualFeatures />
+        <Testimonial />
+        <Pricing />
+        <FAQ />
+        <FloatingCTA />
+      </main>
+    </PageLayout>
   );
 }
