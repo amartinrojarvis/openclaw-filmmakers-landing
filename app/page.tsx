@@ -283,25 +283,23 @@ function Benefits() {
 }
 
 function HowItWorks() {
-  const { ref, isVisible } = useScrollAnimation();
-  
   const steps = [
     {
       number: '01',
       title: 'Descarga la guía',
-      description: 'Accede inmediatamente al contenido en Notion con todos los capítulos y recursos.',
+      description: 'Accede inmediatamente al contenido en Notion con todos los capítulos, recursos y código listo para usar.',
       icon: Zap,
     },
     {
       number: '02',
       title: 'Instala OpenClaw',
-      description: 'Sigue la guía paso a paso para instalar y configurar OpenClaw en tu sistema.',
+      description: 'Sigue la guía paso a paso para instalar y configurar OpenClaw en Linux, Mac o WSL en minutos.',
       icon: Bot,
     },
     {
       number: '03',
       title: 'Automatiza tu workflow',
-      description: 'Implementa los flujos de trabajo específicos para tu negocio de video.',
+      description: 'Implementa los flujos de trabajo específicos para tu negocio de video y empieza a ahorrar horas.',
       icon: Clock,
     },
   ];
@@ -309,44 +307,84 @@ function HowItWorks() {
   const { containerRef, visibleItems } = useScrollAnimationGroup(steps.length);
   
   return (
-    <section id="contenido" className="py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#00ff88]/5 rounded-full blur-[150px] -translate-y-1/2" />
-      </div>
-      
+    <section id="contenido" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <div className="max-w-6xl mx-auto relative">
-        <AnimatedSection className="text-center mb-20">
+        <AnimatedSection className="text-center mb-16 sm:mb-20">
           <span className="text-[#00ff88] text-sm font-medium uppercase tracking-wider">Cómo funciona</span>
-          <h2 className="mt-4 text-4xl sm:text-5xl md:text-6xl font-medium text-white tracking-tight">
+          <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-white tracking-tight">
             De la teoría a la
             <br />
             <span className="text-white/60">acción en 3 pasos</span>
           </h2>
         </AnimatedSection>
         
-        <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Desktop: Horizontal layout with connecting line */}
+        <div ref={containerRef} className="hidden md:block relative">
+          {/* Connecting line background */}
+          <div className="absolute top-[60px] left-[16.67%] right-[16.67%] h-[2px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          
+          <div className="grid grid-cols-3 gap-8 lg:gap-12">
+            {steps.map((step, index) => (
+              <div
+                key={index}
+                data-animate-item
+                data-animate-index={index}
+                className={`relative text-center ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                style={{ transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)', transitionDelay: `${index * 150}ms` }}
+              >
+                {/* Step number badge */}
+                <div className="relative inline-flex items-center justify-center w-[120px] h-[120px] mb-8">
+                  {/* Outer ring */}
+                  <div className="absolute inset-0 rounded-full border-2 border-white/10 group-hover:border-[#00ff88]/30 transition-colors" />
+                  {/* Inner circle with number */}
+                  <div className="relative w-20 h-20 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center">
+                    <span className="text-3xl font-bold text-white/20">{step.number}</span>
+                  </div>
+                  {/* Icon positioned at bottom */}
+                  <div className="absolute -bottom-2 w-10 h-10 rounded-lg bg-[#00ff88]/20 border border-[#00ff88]/30 flex items-center justify-center">
+                    <step.icon className="w-5 h-5 text-[#00ff88]" />
+                  </div>
+                </div>
+                
+                <h3 className="text-xl lg:text-2xl font-medium text-white mb-3">{step.title}</h3>
+                <p className="text-white/50 leading-relaxed text-sm lg:text-base max-w-xs mx-auto">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Mobile: Vertical cards */}
+        <div className="md:hidden space-y-6">
           {steps.map((step, index) => (
             <div
               key={index}
               data-animate-item
               data-animate-index={index}
-              className={`relative group ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-              style={{ transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)', transitionDelay: `${index * 150}ms` }}
+              className={`relative p-6 rounded-2xl bg-white/[0.06] border border-white/10 ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              style={{ transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)', transitionDelay: `${index * 100}ms` }}
             >
-              {/* Connector line */}
-              {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-12 left-[60%] w-[80%] h-[1px] bg-gradient-to-r from-white/20 to-transparent" />
-              )}
+              <div className="flex items-start gap-4">
+                {/* Number and icon */}
+                <div className="flex-shrink-0">
+                  <div className="w-14 h-14 rounded-xl bg-[#00ff88]/10 border border-[#00ff88]/20 flex items-center justify-center">
+                    <step.icon className="w-6 h-6 text-[#00ff88]" />
+                  </div>
+                </div>
+                
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs font-medium text-white/30 uppercase tracking-wider">Paso {step.number}</span>
+                  </div>
+                  <h3 className="text-lg font-medium text-white mb-2">{step.title}</h3>
+                  <p className="text-white/50 text-sm leading-relaxed">{step.description}</p>
+                </div>
+              </div>
               
-              <div className="text-[80px] font-medium text-white/5 leading-none mb-4 group-hover:text-[#00ff88]/10 transition-colors select-none">
-                {step.number}
-              </div>
-              <div className="w-12 h-12 rounded-xl bg-[#00ff88]/10 flex items-center justify-center mb-6 group-hover:bg-[#00ff88]/20 transition-colors group-hover:scale-110 transform duration-300">
-                <step.icon className="w-6 h-6 text-[#00ff88]" />
-              </div>
-              <h3 className="text-2xl font-medium text-white mb-3">{step.title}</h3>
-              <p className="text-white/50 leading-relaxed">{step.description}</p>
+              {/* Connector line for mobile (except last) */}
+              {index < steps.length - 1 && (
+                <div className="absolute -bottom-6 left-7 w-[2px] h-6 bg-gradient-to-b from-white/20 to-transparent" />
+              )}
             </div>
           ))}
         </div>
