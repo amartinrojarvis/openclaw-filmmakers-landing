@@ -37,16 +37,11 @@ export default function CondicionesPage() {
                 </div>
 
                 <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5">
-                  <h3 className="text-sm uppercase tracking-wider text-white/40 mb-2">NIF/CIF</h3>
-                  <p className="text-lg font-medium text-white">[Placeholder]</p>
-                </div>
-
-                <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5">
                   <h3 className="text-sm uppercase tracking-wider text-white/40 mb-2">Dirección</h3>
                   <p className="text-lg font-medium text-white">Salamanca, España</p>
                 </div>
 
-                <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+                <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 sm:col-span-2">
                   <h3 className="text-sm uppercase tracking-wider text-white/40 mb-2">Contacto</h3>
                   <p className="text-lg font-medium text-white">
                     alberto@tuvideopromocional.es
