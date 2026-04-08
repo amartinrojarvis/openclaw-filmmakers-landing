@@ -332,17 +332,15 @@ function HowItWorks() {
                 className={`relative text-center ${visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 style={{ transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)', transitionDelay: `${index * 150}ms` }}
               >
-                {/* Step number badge */}
-                <div className="relative inline-flex items-center justify-center w-[120px] h-[120px] mb-8">
-                  {/* Outer ring */}
-                  <div className="absolute inset-0 rounded-full border-2 border-white/10 group-hover:border-[#00ff88]/30 transition-colors" />
-                  {/* Inner circle with number */}
-                  <div className="relative w-20 h-20 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center">
-                    <span className="text-3xl font-bold text-white/20">{step.number}</span>
+                {/* Step number badge - simplified */}
+                <div className="relative inline-flex flex-col items-center mb-8">
+                  {/* Circle with number */}
+                  <div className="w-24 h-24 rounded-full bg-white/[0.06] border-2 border-white/10 flex items-center justify-center relative z-10">
+                    <span className="text-3xl font-bold text-white/30">{step.number}</span>
                   </div>
-                  {/* Icon positioned at bottom */}
-                  <div className="absolute -bottom-2 w-10 h-10 rounded-lg bg-[#00ff88]/20 border border-[#00ff88]/30 flex items-center justify-center">
-                    <step.icon className="w-5 h-5 text-[#00ff88]" />
+                  {/* Icon below */}
+                  <div className="mt-4 w-12 h-12 rounded-xl bg-[#00ff88]/10 border border-[#00ff88]/30 flex items-center justify-center">
+                    <step.icon className="w-6 h-6 text-[#00ff88]" />
                   </div>
                 </div>
                 
