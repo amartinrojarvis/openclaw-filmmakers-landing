@@ -18,13 +18,13 @@ export function PageLayout({ children, showBackButton = true, fullHeight = true 
         <AnimatedBackground />
         <PulsingGlow />
         <GradientOrbs />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/30" />
       </div>
       
       {/* Content */}
       <div className="relative z-10">
         {/* Navigation */}
-        {showBackButton && (
+        {showBackButton ? (
           <nav className="px-6 py-6">
             <div className="max-w-6xl mx-auto flex items-center justify-between">
               <Link
@@ -41,6 +41,8 @@ export function PageLayout({ children, showBackButton = true, fullHeight = true 
               </Link>
             </div>
           </nav>
+        ) : (
+          <GlassNavigation />
         )}
         
         {/* Main Content */}
@@ -49,7 +51,7 @@ export function PageLayout({ children, showBackButton = true, fullHeight = true 
         </main>
         
         {/* Footer */}
-        <footer className="border-t border-white/5 px-6 py-8">
+        <footer className="border-t border-white/5 px-6 py-8 mt-auto">
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-3">
@@ -79,5 +81,58 @@ export function PageLayout({ children, showBackButton = true, fullHeight = true 
         </footer>
       </div>
     </div>
+  );
+}
+
+// Glassmorphism Navigation for landing page
+function GlassNavigation() {
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50">
+      <div className="mx-4 mt-4">
+        <div 
+          className="max-w-5xl mx-auto px-6 py-3 rounded-full border border-white/10"
+          style={{
+            background: 'rgba(0, 0, 0, 0.4)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+          }}
+        >
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 text-white">
+              <Clapperboard className="w-5 h-5 text-[#00ff88]" />
+              <span className="font-medium text-sm">iaparafilmmakers</span>
+            </Link>
+            
+            {/* Nav Links */}
+            <div className="hidden md:flex items-center gap-8">
+              <NavLink href="#beneficios">Beneficios</NavLink>
+              <NavLink href="#contenido">Contenido</NavLink>
+              <NavLink href="#precios">Precios</NavLink>
+              <NavLink href="#faq">FAQ</NavLink>
+            </div>
+            
+            {/* CTA Button */}
+            <Link 
+              href="#precios"
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm rounded-full transition-all duration-300 border border-white/10"
+            >
+              Comprar
+            </Link>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link 
+      href={href}
+      className="text-sm text-white/60 hover:text-white transition-colors duration-300"
+    >
+      {children}
+    </Link>
   );
 }

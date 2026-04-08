@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-// Realistic Aurora Borealis Background
+// Realistic Aurora Borealis Background - Ultra smooth
 export function AuroraBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | null>(null);
@@ -23,65 +23,67 @@ export function AuroraBackground() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas, { passive: true });
 
-    // Aurora bands configuration - more visible and animated
+    // Aurora bands configuration - ultra smooth
     const bands = [
-      { color: '#00ff88', opacity: 0.7, speed: 0.0008, amplitude: 120, yOffset: 0.15 },
-      { color: '#00ffaa', opacity: 0.55, speed: 0.001, amplitude: 100, yOffset: 0.25 },
-      { color: '#aa00ff', opacity: 0.5, speed: 0.0006, amplitude: 140, yOffset: 0.1 },
-      { color: '#00dd99', opacity: 0.6, speed: 0.0009, amplitude: 110, yOffset: 0.2 },
-      { color: '#8800ff', opacity: 0.45, speed: 0.0007, amplitude: 130, yOffset: 0.3 },
-      { color: '#00cc99', opacity: 0.5, speed: 0.0012, amplitude: 90, yOffset: 0.35 },
+      { color: '#00ff88', opacity: 0.4, speed: 0.0003, amplitude: 180, yOffset: 0.2 },
+      { color: '#00ffaa', opacity: 0.3, speed: 0.0004, amplitude: 150, yOffset: 0.35 },
+      { color: '#aa00ff', opacity: 0.35, speed: 0.00025, amplitude: 200, yOffset: 0.15 },
+      { color: '#00dd99', opacity: 0.25, speed: 0.00035, amplitude: 160, yOffset: 0.3 },
+      { color: '#8800ff', opacity: 0.3, speed: 0.00028, amplitude: 190, yOffset: 0.25 },
+      { color: '#00cc99', opacity: 0.2, speed: 0.00045, amplitude: 140, yOffset: 0.4 },
     ];
 
     const animate = () => {
       timeRef.current += 1;
       const time = timeRef.current;
 
-      // Clear with darker night sky gradient
+      // Ultra smooth night sky gradient
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
       gradient.addColorStop(0, '#000000');
-      gradient.addColorStop(0.3, '#020308');
-      gradient.addColorStop(0.6, '#04060c');
-      gradient.addColorStop(1, '#060912');
+      gradient.addColorStop(0.2, '#020408');
+      gradient.addColorStop(0.5, '#03060a');
+      gradient.addColorStop(0.8, '#040810');
+      gradient.addColorStop(1, '#050a15');
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Draw stars
+      // Draw subtle stars
       ctx.fillStyle = '#ffffff';
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 80; i++) {
         const x = (i * 137.5) % canvas.width;
-        const y = (i * 71.3) % (canvas.height * 0.7);
-        const size = (i % 3) * 0.3 + 0.5;
-        const twinkle = Math.sin(time * 0.02 + i) * 0.3 + 0.7;
-        ctx.globalAlpha = 0.3 * twinkle;
+        const y = (i * 71.3) % (canvas.height * 0.6);
+        const size = (i % 3) * 0.25 + 0.3;
+        const twinkle = Math.sin(time * 0.015 + i) * 0.2 + 0.8;
+        ctx.globalAlpha = 0.2 * twinkle;
         ctx.beginPath();
         ctx.arc(x, y, size, 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.globalAlpha = 1;
 
-      // Draw aurora bands
+      // Draw aurora bands with ultra blur
       bands.forEach((band, index) => {
         ctx.save();
         
-        // Create gradient for the band
+        // Create smooth gradient for the band
         const bandGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
         bandGradient.addColorStop(0, band.color + '00');
-        bandGradient.addColorStop(0.3, band.color + Math.floor(band.opacity * 255).toString(16).padStart(2, '0'));
-        bandGradient.addColorStop(0.6, band.color + Math.floor(band.opacity * 200).toString(16).padStart(2, '0'));
+        bandGradient.addColorStop(0.2, band.color + Math.floor(band.opacity * 200).toString(16).padStart(2, '0'));
+        bandGradient.addColorStop(0.5, band.color + Math.floor(band.opacity * 150).toString(16).padStart(2, '0'));
+        bandGradient.addColorStop(0.8, band.color + Math.floor(band.opacity * 80).toString(16).padStart(2, '0'));
         bandGradient.addColorStop(1, band.color + '00');
         
         ctx.fillStyle = bandGradient;
-        ctx.filter = 'blur(25px)';
+        ctx.filter = 'blur(60px)';
         
         ctx.beginPath();
         const baseY = canvas.height * band.yOffset;
         
-        // Draw wave-like aurora band
-        for (let x = 0; x <= canvas.width; x += 5) {
-          const wave1 = Math.sin(x * 0.003 + time * band.speed + index) * band.amplitude;
-          const wave2 = Math.sin(x * 0.007 + time * band.speed * 1.5 + index * 2) * (band.amplitude * 0.5);
-          const wave3 = Math.sin(x * 0.001 + time * band.speed * 0.5) * (band.amplitude * 0.3);
+        // Draw ultra smooth wave-like aurora
+        for (let x = 0; x <= canvas.width; x += 3) {
+          const wave1 = Math.sin(x * 0.002 + time * band.speed + index) * band.amplitude;
+          const wave2 = Math.sin(x * 0.005 + time * band.speed * 1.3 + index * 1.5) * (band.amplitude * 0.4);
+          const wave3 = Math.sin(x * 0.001 + time * band.speed * 0.7) * (band.amplitude * 0.2);
           const y = baseY + wave1 + wave2 + wave3;
           
           if (x === 0) {
@@ -91,7 +93,6 @@ export function AuroraBackground() {
           }
         }
         
-        // Close the path to fill
         ctx.lineTo(canvas.width, canvas.height);
         ctx.lineTo(0, canvas.height);
         ctx.closePath();
@@ -100,13 +101,14 @@ export function AuroraBackground() {
         ctx.restore();
       });
 
-      // Add subtle atmospheric glow at horizon
-      const horizonGradient = ctx.createLinearGradient(0, canvas.height * 0.6, 0, canvas.height);
-      horizonGradient.addColorStop(0, 'rgba(0, 100, 150, 0)');
-      horizonGradient.addColorStop(0.5, 'rgba(0, 150, 100, 0.1)');
-      horizonGradient.addColorStop(1, 'rgba(0, 200, 150, 0.2)');
+      // Ultra soft atmospheric glow at horizon
+      const horizonGradient = ctx.createLinearGradient(0, canvas.height * 0.5, 0, canvas.height);
+      horizonGradient.addColorStop(0, 'rgba(0, 255, 136, 0)');
+      horizonGradient.addColorStop(0.5, 'rgba(0, 200, 150, 0.05)');
+      horizonGradient.addColorStop(0.8, 'rgba(0, 150, 200, 0.08)');
+      horizonGradient.addColorStop(1, 'rgba(100, 0, 200, 0.1)');
       ctx.fillStyle = horizonGradient;
-      ctx.fillRect(0, canvas.height * 0.6, canvas.width, canvas.height * 0.4);
+      ctx.fillRect(0, canvas.height * 0.5, canvas.width, canvas.height * 0.5);
 
       animationRef.current = requestAnimationFrame(animate);
     };
@@ -130,72 +132,78 @@ export function AuroraBackground() {
   );
 }
 
-// CSS-based aurora for fallback or additional layers
+// CSS-based aurora layers for additional depth
 export function AuroraCSS() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Green aurora curtain - more visible */}
+      {/* Primary green aurora - ultra soft */}
       <div 
-        className="absolute w-[200%] h-[70%] -left-[50%]"
+        className="absolute w-[250%] h-[80%] -left-[75%] -top-[10%]"
         style={{
-          background: 'linear-gradient(180deg, transparent 0%, rgba(0,255,136,0.5) 30%, rgba(0,221,170,0.35) 60%, transparent 100%)',
-          filter: 'blur(40px)',
-          animation: 'aurora-sway 12s ease-in-out infinite',
-          transformOrigin: 'top center',
+          background: 'radial-gradient(ellipse at 50% 0%, rgba(0,255,136,0.15) 0%, rgba(0,200,150,0.08) 30%, rgba(0,150,100,0.03) 50%, transparent 70%)',
+          filter: 'blur(80px)',
+          animation: 'aurora-drift-1 25s ease-in-out infinite',
         }}
       />
       
-      {/* Purple aurora curtain - more visible */}
+      {/* Secondary purple aurora - ultra soft */}
       <div 
-        className="absolute w-[200%] h-[60%] -left-[30%] top-[10%]"
+        className="absolute w-[200%] h-[70%] -left-[50%] top-[5%]"
         style={{
-          background: 'linear-gradient(180deg, transparent 0%, rgba(170,0,255,0.45) 40%, rgba(136,0,255,0.3) 70%, transparent 100%)',
-          filter: 'blur(50px)',
-          animation: 'aurora-sway-2 15s ease-in-out infinite reverse',
-          transformOrigin: 'top center',
+          background: 'radial-gradient(ellipse at 40% 20%, rgba(170,0,255,0.12) 0%, rgba(136,0,255,0.06) 25%, rgba(100,0,200,0.02) 50%, transparent 70%)',
+          filter: 'blur(100px)',
+          animation: 'aurora-drift-2 30s ease-in-out infinite reverse',
         }}
       />
       
-      {/* Secondary green wave - more visible */}
+      {/* Tertiary green wave - background */}
       <div 
-        className="absolute w-[150%] h-[50%] -right-[25%] top-[20%]"
+        className="absolute w-[180%] h-[60%] -right-[40%] top-[15%]"
         style={{
-          background: 'linear-gradient(180deg, transparent 0%, rgba(0,200,150,0.4) 50%, transparent 100%)',
-          filter: 'blur(35px)',
-          animation: 'aurora-sway-3 10s ease-in-out infinite',
-          transformOrigin: 'top right',
+          background: 'radial-gradient(ellipse at 60% 30%, rgba(0,200,150,0.1) 0%, rgba(0,150,120,0.04) 40%, transparent 70%)',
+          filter: 'blur(90px)',
+          animation: 'aurora-drift-3 20s ease-in-out infinite',
+        }}
+      />
+
+      {/* Bottom purple haze */}
+      <div 
+        className="absolute w-full h-[40%] bottom-0 left-0"
+        style={{
+          background: 'radial-gradient(ellipse at 50% 100%, rgba(136,0,255,0.08) 0%, rgba(100,0,200,0.03) 40%, transparent 70%)',
+          filter: 'blur(60px)',
         }}
       />
       
       <style jsx>{`
-        @keyframes aurora-sway {
+        @keyframes aurora-drift-1 {
           0%, 100% { 
-            transform: skewX(-8deg) translateX(-8%);
-            opacity: 0.7;
+            transform: translateX(-5%) translateY(0) rotate(-2deg);
+            opacity: 0.8;
           }
           50% { 
-            transform: skewX(8deg) translateX(8%);
+            transform: translateX(5%) translateY(-3%) rotate(2deg);
             opacity: 1;
           }
         }
-        @keyframes aurora-sway-2 {
+        @keyframes aurora-drift-2 {
           0%, 100% { 
-            transform: skewX(6deg) translateX(6%);
+            transform: translateX(3%) translateY(0) rotate(1deg);
+            opacity: 0.7;
+          }
+          50% { 
+            transform: translateX(-3%) translateY(2%) rotate(-1deg);
+            opacity: 0.9;
+          }
+        }
+        @keyframes aurora-drift-3 {
+          0%, 100% { 
+            transform: translateX(-2%) scaleY(1);
             opacity: 0.6;
           }
           50% { 
-            transform: skewX(-6deg) translateX(-6%);
-            opacity: 0.95;
-          }
-        }
-        @keyframes aurora-sway-3 {
-          0%, 100% { 
-            transform: skewX(-5deg) scaleY(1) translateY(0);
-            opacity: 0.5;
-          }
-          50% { 
-            transform: skewX(5deg) scaleY(1.2) translateY(-5%);
-            opacity: 0.85;
+            transform: translateX(2%) scaleY(1.1);
+            opacity: 0.8;
           }
         }
       `}</style>
@@ -214,14 +222,13 @@ export function AnimatedBackground() {
   );
 }
 
-// Smooth gradient transition at bottom of hero - ultra soft
+// Ultra smooth gradient transition at bottom of hero
 export function HeroBottomFade() {
   return (
     <div 
-      className="absolute bottom-0 left-0 right-0 h-[50vh] md:h-[40vh] pointer-events-none z-10"
+      className="absolute bottom-0 left-0 right-0 h-[60vh] pointer-events-none z-10"
       style={{
-        background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.1) 30%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.9) 90%, #000000 100%)',
-        filter: 'blur(0px)',
+        background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.05) 20%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.35) 60%, rgba(0,0,0,0.6) 80%, rgba(0,0,0,0.85) 95%, #000000 100%)',
       }}
     />
   );
@@ -232,34 +239,34 @@ export function GradientOrbs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <div 
-        className="absolute w-[500px] h-[500px] rounded-full opacity-30"
+        className="absolute w-[600px] h-[600px] rounded-full opacity-20"
         style={{
-          background: 'radial-gradient(circle, rgba(0,255,136,0.2) 0%, transparent 70%)',
-          top: '10%',
-          left: '-10%',
-          filter: 'blur(60px)',
-          animation: 'float-orb-1 25s ease-in-out infinite',
+          background: 'radial-gradient(circle, rgba(0,255,136,0.15) 0%, transparent 70%)',
+          top: '5%',
+          left: '-15%',
+          filter: 'blur(80px)',
+          animation: 'float-orb-1 30s ease-in-out infinite',
         }}
       />
       <div 
-        className="absolute w-[400px] h-[400px] rounded-full opacity-25"
+        className="absolute w-[500px] h-[500px] rounded-full opacity-15"
         style={{
-          background: 'radial-gradient(circle, rgba(170,0,255,0.15) 0%, transparent 70%)',
-          top: '60%',
-          right: '-5%',
-          filter: 'blur(80px)',
-          animation: 'float-orb-2 30s ease-in-out infinite',
+          background: 'radial-gradient(circle, rgba(170,0,255,0.12) 0%, transparent 70%)',
+          top: '50%',
+          right: '-10%',
+          filter: 'blur(100px)',
+          animation: 'float-orb-2 35s ease-in-out infinite',
         }}
       />
       
       <style jsx>{`
         @keyframes float-orb-1 {
           0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(30px, 20px) scale(1.05); }
+          50% { transform: translate(40px, 30px) scale(1.05); }
         }
         @keyframes float-orb-2 {
           0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(-20px, -30px) scale(1.1); }
+          50% { transform: translate(-30px, -40px) scale(1.1); }
         }
       `}</style>
     </div>
@@ -272,48 +279,48 @@ export function PulsingGlow() {
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Main central glow - green aurora */}
       <div 
-        className="absolute w-[700px] h-[700px] rounded-full"
+        className="absolute w-[800px] h-[800px] rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(0,255,136,0.15) 0%, rgba(0,200,150,0.08) 30%, rgba(0,150,100,0.04) 50%, transparent 70%)',
-          top: '30%',
+          background: 'radial-gradient(circle, rgba(0,255,136,0.12) 0%, rgba(0,200,150,0.06) 30%, rgba(0,150,100,0.02) 50%, transparent 70%)',
+          top: '20%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          animation: 'pulse-glow 15s ease-in-out infinite',
-          filter: 'blur(60px)',
+          animation: 'pulse-glow 20s ease-in-out infinite',
+          filter: 'blur(80px)',
         }}
       />
       
       {/* Secondary glow - purple aurora */}
       <div 
-        className="absolute w-[500px] h-[500px] rounded-full"
+        className="absolute w-[600px] h-[600px] rounded-full"
         style={{
-          background: 'radial-gradient(circle, rgba(170,0,255,0.12) 0%, rgba(136,0,255,0.06) 40%, transparent 65%)',
-          top: '20%',
-          right: '5%',
-          animation: 'pulse-glow-2 12s ease-in-out infinite reverse',
-          filter: 'blur(50px)',
+          background: 'radial-gradient(circle, rgba(170,0,255,0.1) 0%, rgba(136,0,255,0.04) 40%, transparent 65%)',
+          top: '10%',
+          right: '0%',
+          animation: 'pulse-glow-2 18s ease-in-out infinite reverse',
+          filter: 'blur(70px)',
         }}
       />
       
       <style jsx>{`
         @keyframes pulse-glow {
           0%, 100% { 
-            opacity: 0.6;
+            opacity: 0.5;
             transform: translate(-50%, -50%) scale(1);
           }
           50% { 
-            opacity: 0.9;
-            transform: translate(-50%, -50%) scale(1.15);
+            opacity: 0.8;
+            transform: translate(-50%, -50%) scale(1.2);
           }
         }
         @keyframes pulse-glow-2 {
           0%, 100% { 
-            opacity: 0.5;
+            opacity: 0.4;
             transform: scale(1);
           }
           50% { 
-            opacity: 0.8;
-            transform: scale(1.2);
+            opacity: 0.7;
+            transform: scale(1.15);
           }
         }
       `}</style>
@@ -329,7 +336,7 @@ export function StarField() {
     const generatedStars = Array.from({ length: 50 }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
-      top: Math.random() * 70,
+      top: Math.random() * 60,
       size: Math.random() * 1.5 + 0.5,
     }));
     setStars(generatedStars);
@@ -348,7 +355,7 @@ export function StarField() {
             top: `${star.top}%`,
             width: star.size,
             height: star.size,
-            opacity: 0.4,
+            opacity: 0.3,
             animationDelay: `${Math.random() * 5}s`,
             animationDuration: `${3 + Math.random() * 4}s`,
           }}
@@ -357,8 +364,8 @@ export function StarField() {
       
       <style jsx>{`
         @keyframes twinkle {
-          0%, 100% { opacity: 0.2; }
-          50% { opacity: 0.6; }
+          0%, 100% { opacity: 0.15; }
+          50% { opacity: 0.4; }
         }
         .animate-twinkle {
           animation: twinkle ease-in-out infinite;
