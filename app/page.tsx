@@ -169,18 +169,9 @@ function Hero() {
   
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
-      {/* Animated Background - Aurora Borealis */}
-      <AnimatedBackground />
-      
-      {/* Pulsing glow effects */}
-      <PulsingGlow />
-      
-      {/* Floating gradient orbs */}
-      <GradientOrbs />
-      
       <div 
         ref={ref}
-        className={`relative z-10 max-w-5xl mx-auto text-center transition-all duration-1000 pt-24 ${
+        className={`relative z-10 max-w-5xl mx-auto text-center transition-all duration-1000 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >
@@ -259,7 +250,7 @@ function Hero() {
 }
 
 function Benefits() {
-  const { ref, isVisible } = useScrollAnimation();
+  const { containerRef, visibleItems } = useScrollAnimationGroup(benefits.length);
 
   return (
     <section id="beneficios" className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
