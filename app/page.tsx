@@ -264,7 +264,7 @@ function Benefits() {
               key={index}
               data-animate-item
               data-animate-index={index}
-              className={`group p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[#00ff88]/30 transition-all duration-500 hover:-translate-y-1 glow-card ${
+              className={`group p-8 rounded-2xl bg-white/[0.06] border border-white/10 hover:border-[#00ff88]/30 transition-all duration-500 hover:-translate-y-1 glow-card ${
                 visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
@@ -411,7 +411,7 @@ function VisualFeatures() {
               key={index}
               data-animate-item
               data-animate-index={index}
-              className={`flex flex-col items-center text-center p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[#00ff88]/20 transition-all duration-300 group ${
+              className={`flex flex-col items-center text-center p-6 rounded-2xl bg-white/[0.06] border border-white/10 hover:border-[#00ff88]/20 transition-all duration-300 group ${
                 visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: `${index * 80}ms` }}
@@ -466,7 +466,7 @@ function Pricing() {
               } ${
                 offer.featured
                   ? 'bg-white text-black ring-2 ring-[#00ff88]/50'
-                  : 'bg-white/[0.02] border border-white/10 text-white hover:border-[#00ff88]/30'
+                  : 'bg-white/[0.06] border border-white/15 text-white hover:border-[#00ff88]/30'
               }`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >
@@ -575,7 +575,7 @@ function FAQ() {
               key={index}
               data-animate-item
               data-animate-index={index}
-              className={`rounded-2xl bg-white/[0.02] border border-white/5 overflow-hidden transition-all duration-700 hover:border-white/10 ${
+              className={`rounded-2xl bg-white/[0.06] border border-white/10 overflow-hidden transition-all duration-700 hover:border-white/20 ${
                 visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
