@@ -124,7 +124,7 @@ export function AuroraBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0"
+      className="absolute inset-0 w-full h-full"
       style={{ opacity: 1 }}
     />
   );
@@ -209,7 +209,20 @@ export function AnimatedBackground() {
     <>
       <AuroraBackground />
       <AuroraCSS />
+      <HeroBottomFade />
     </>
+  );
+}
+
+// Smooth gradient transition at bottom of hero
+export function HeroBottomFade() {
+  return (
+    <div 
+      className="absolute bottom-0 left-0 right-0 h-48 md:h-64 pointer-events-none z-10"
+      style={{
+        background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.85) 70%, #000000 100%)',
+      }}
+    />
   );
 }
 
