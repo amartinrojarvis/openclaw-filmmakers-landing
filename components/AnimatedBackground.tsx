@@ -21,23 +21,7 @@ export function AuroraBackground() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // During SSR and initial render, show static background
-  if (!mounted || isMobile) {
-    return (
-      <div 
-        className="fixed inset-0 w-full h-full md:hidden"
-        style={{
-          background: `
-            radial-gradient(ellipse at 20% 30%, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
-            radial-gradient(ellipse at 80% 20%, rgba(170, 0, 255, 0.12) 0%, transparent 45%),
-            radial-gradient(ellipse at 50% 60%, rgba(0, 255, 136, 0.08) 0%, transparent 40%),
-            linear-gradient(180deg, #000000 0%, #020408 30%, #03060a 60%, #050a15 100%)
-          `,
-        }}
-      />
-    );
-  }
-
+  // Canvas animation effect - always call hooks before any return
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -152,6 +136,23 @@ export function AuroraBackground() {
       }
     };
   }, []);
+
+  // During SSR and initial render, or on mobile, show static background
+  if (!mounted || isMobile) {
+    return (
+      <div 
+        className="fixed inset-0 w-full h-full"
+        style={{
+          background: `
+            radial-gradient(ellipse at 20% 30%, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 20%, rgba(170, 0, 255, 0.12) 0%, transparent 45%),
+            radial-gradient(ellipse at 50% 60%, rgba(0, 255, 136, 0.08) 0%, transparent 40%),
+            linear-gradient(180deg, #000000 0%, #020408 30%, #03060a 60%, #050a15 100%)
+          `,
+        }}
+      />
+    );
+  }
 
   return (
     <canvas

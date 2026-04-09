@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, MapPin, Clock, MessageCircle } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Instagram } from "lucide-react";
 import { PageLayout } from "@/components/PageLayout";
 
 export const metadata: Metadata = {
@@ -46,6 +46,23 @@ export default function ContactoPage() {
             </p>
           </div>
 
+          {/* Instagram Card */}
+          <a 
+            href="https://www.instagram.com/amartinro/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-[#00ff88]/30 transition-all duration-300 hover:-translate-y-1"
+          >
+            <div className="w-12 h-12 rounded-xl bg-[#00ff88]/10 flex items-center justify-center mb-6 group-hover:bg-[#00ff88]/20 transition-colors">
+              <Instagram className="w-6 h-6 text-[#00ff88]" />
+            </div>
+            <h3 className="text-xl font-medium text-white mb-2">Instagram</h3>
+            <p className="text-white/50 mb-4">Sígueme para más contenido</p>
+            <p className="text-[#00ff88] group-hover:underline">
+              @amartinro
+            </p>
+          </a>
+
           {/* Location Card */}
           <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/5">
             <div className="w-12 h-12 rounded-xl bg-[#00ff88]/10 flex items-center justify-center mb-6">
@@ -58,19 +75,6 @@ export default function ContactoPage() {
             </p>
           </div>
 
-          {/* Availability Card */}
-          <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/5">
-            <div className="w-12 h-12 rounded-xl bg-[#00ff88]/10 flex items-center justify-center mb-6">
-              <Clock className="w-6 h-6 text-[#00ff88]" />
-            </div>
-            <h3 className="text-xl font-medium text-white mb-2">Disponibilidad</h3>
-            <p className="text-white/50 mb-4">Horario de atención</p>
-            <p className="text-white/70">
-              Lunes a Viernes
-              <br />
-              9:00 - 18:00 (CET)
-            </p>
-          </div>
         </div>
 
         {/* FAQ CTA */}

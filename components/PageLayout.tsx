@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ArrowLeft, Clapperboard, Menu, X } from 'lucide-react';
+import { ArrowLeft, Clapperboard, Menu, X, Instagram } from 'lucide-react';
 import { AnimatedBackground, PulsingGlow, GradientOrbs } from './AnimatedBackground';
 
 interface PageLayoutProps {
@@ -74,9 +74,20 @@ export function PageLayout({ children, showBackButton = true, fullHeight = true 
                 </Link>
               </div>
               
-              <p className="text-sm text-white/30">
-                © 2026 iaparafilmmakers. Todos los derechos reservados.
-              </p>
+              <div className="flex items-center gap-4">
+                <a 
+                  href="https://www.instagram.com/amartinro/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/40 hover:text-[#00ff88] transition-colors"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="w-5 h-5" />
+                </a>
+                <p className="text-sm text-white/30">
+                  © 2026 iaparafilmmakers
+                </p>
+              </div>
             </div>
           </div>
         </footer>
