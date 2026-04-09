@@ -26,6 +26,7 @@ import {
   Palette,
   Workflow,
   Loader2,
+  Instagram,
 } from 'lucide-react';
 import { useScrollAnimation, useScrollAnimationGroup } from '@/hooks/useScrollAnimation';
 import { AnalyticsEvents } from '@/components/Analytics';
@@ -237,8 +238,8 @@ function Hero() {
         </div>
       </div>
       
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      {/* Scroll indicator - hidden on mobile */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
         <ChevronDown className="w-6 h-6 text-white/30" />
       </div>
     </section>
@@ -365,6 +366,15 @@ function Testimonial() {
           <div className="text-left">
             <div className="text-white font-medium text-lg">Alberto Martín</div>
             <div className="text-white/50 text-sm">Filmmaker & Creador de iaparafilmmakers</div>
+            <a 
+              href="https://www.instagram.com/amartinro/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-white/40 hover:text-[#00ff88] transition-colors mt-1 text-sm"
+            >
+              <Instagram className="w-4 h-4" />
+              <span>@amartinro</span>
+            </a>
           </div>
         </div>
       </div>
@@ -929,11 +939,44 @@ function MobileScrollSteps({
   );
 }
 
+// Video Section Component
+function VideoSection() {
+  const { ref, isVisible } = useScrollAnimation();
+  
+  return (
+    <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+      <div 
+        ref={ref}
+        className={`max-w-4xl mx-auto transition-all duration-1000 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        {/* Video Container */}
+        <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-900/50 border border-white/10 shadow-2xl shadow-cyan/5">
+          <iframe
+            src="https://www.youtube.com/embed/0PubGe_gQz8?rel=0&modestbranding=1&playsinline=1"
+            title="Demo IA para Filmmakers"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full"
+          />
+        </div>
+        
+        {/* Caption */}
+        <p className="mt-4 text-center text-sm text-white/40">
+          Mira cómo funciona en menos de 60 segundos
+        </p>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <PageLayout showBackButton={false}>
       <main className="relative">
         <Hero />
+        <VideoSection />
         <Benefits />
         <HowItWorks />
         <VisualFeatures />
