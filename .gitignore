@@ -9,3 +9,5 @@ npm-debug.log*
 .env
 node_modules/
 .vercel/
+.ga4-service-account.json
+.ga4-service-account.json
