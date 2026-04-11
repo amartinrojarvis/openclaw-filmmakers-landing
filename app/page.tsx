@@ -217,7 +217,7 @@ function Hero() {
             onClick={() => AnalyticsEvents.clickCTA('hero', 'Quiero la guía')}
             className="group relative inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#00ff88] to-[#00d4ff] text-black rounded-full font-bold text-lg hover:shadow-lg hover:shadow-[#00ff88]/30 transition-all duration-300 hover:scale-[1.02] overflow-hidden"
           >
-            <span className="relative z-10">Quiero la guía — €29</span>
+            <span className="relative z-10">Quiero la guía</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
           </Link>
@@ -228,7 +228,7 @@ function Hero() {
             className="group inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/20 text-white rounded-full font-medium hover:bg-white/10 hover:border-white/30 transition-all duration-300"
           >
             <span>¿Prefieres sesión 1:1?</span>
-            <span className="text-[#00ff88]">€127</span>
+            <ArrowRight className="w-4 h-4 text-[#00ff88] group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
         
