@@ -183,28 +183,52 @@ function Hero() {
           <span className="text-sm text-white/80">La guía que yo quería tener cuando empecé a automatizar mi workflow</span>
         </div>
         
-        {/* Headline */}
-        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium text-white tracking-tight leading-[0.9] mb-6">
-          Automatiza tu
+        {/* Badge destacado */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00ff88]/10 border border-[#00ff88]/30 mb-6 animate-pulse">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00ff88] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00ff88]"></span>
+          </span>
+          <span className="text-sm text-[#00ff88] font-medium">El filmmaking acaba de cambiar</span>
+        </div>
+
+        {/* Headline épica */}
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-6">
+          Tu ventaja de
           <br />
-          <span className="text-[#00ff88]">workflow creativo</span>
+          <span className="bg-gradient-to-r from-[#00ff88] to-[#00d4ff] bg-clip-text text-transparent">
+            2 años de adelanto
+          </span>
         </h1>
         
-        {/* Subheadline */}
-        <p className="text-lg sm:text-xl text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed">
-          La guía práctica para filmmakers que quieren usar OpenClaw e IA 
-          para recuperar horas de administración y enfocarse en lo que mejor saben hacer: crear.
+        {/* Subheadline potente */}
+        <p className="text-lg sm:text-xl text-white/70 max-w-3xl mx-auto mb-4 leading-relaxed">
+          <span className="text-white font-semibold">El filmmaking ha cambiado para siempre.</span> No te voy a enseñar a hacer vídeos con IA.
+        </p>
+        <p className="text-lg sm:text-xl text-white/70 max-w-3xl mx-auto mb-10 leading-relaxed">
+          Te voy a enseñar a tener un <span className="text-[#00ff88] font-semibold">agente IA que trabaje 24/7</span> para ti, 
+          gestionando lo repetitivo mientras tú te dedicas a <span className="text-white font-semibold">lo que de verdad importa</span>.
         </p>
         
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="#pricing"
-            onClick={() => AnalyticsEvents.clickCTA('hero', 'Empezar ahora')}
-            className="group inline-flex items-center gap-2 px-8 py-4 bg-white text-black rounded-full font-medium text-lg hover:bg-white/90 transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-white/10"
+            onClick={() => AnalyticsEvents.clickCTA('hero', 'Quiero la guía')}
+            className="group relative inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#00ff88] to-[#00d4ff] text-black rounded-full font-bold text-lg hover:shadow-lg hover:shadow-[#00ff88]/30 transition-all duration-300 hover:scale-[1.02] overflow-hidden"
           >
-            Empezar ahora
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <span className="relative z-10">Quiero la guía — €29</span>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
+            <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+          </Link>
+          
+          <Link
+            href="#pricing"
+            onClick={() => AnalyticsEvents.clickCTA('hero', 'Prefiero sesión 1:1')}
+            className="group inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/20 text-white rounded-full font-medium hover:bg-white/10 hover:border-white/30 transition-all duration-300"
+          >
+            <span>¿Prefieres sesión 1:1?</span>
+            <span className="text-[#00ff88]">€127</span>
           </Link>
         </div>
         
@@ -222,18 +246,18 @@ function Hero() {
         </div>
         
         {/* Trust indicators */}
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-white/40 text-sm">
-          <div className="flex items-center gap-2">
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-white/50 text-sm">
+          <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
             <CheckCircle2 className="w-4 h-4 text-[#00ff88]" />
-            <span>8 capítulos prácticos</span>
+            <span>Guía completa + código</span>
           </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-[#00ff88]" />
-            <span>Código listo para usar</span>
+          <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
+            <Clock className="w-4 h-4 text-[#00ff88]" />
+            <span>Ahorra 10+ horas semanales</span>
           </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-[#00ff88]" />
-            <span>Acceso de por vida</span>
+          <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
+            <Zap className="w-4 h-4 text-[#00ff88]" />
+            <span>Acceso inmediato</span>
           </div>
         </div>
       </div>
