@@ -1,6 +1,12 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { GoogleTagManagerScript, PageViewTracker } from '@/components/Analytics';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#000000',
+}
 
 export const metadata: Metadata = {
   title: 'IA para Filmmakers | Guía Práctica 2026 - Automatiza tu Workflow',
@@ -139,13 +145,23 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        {/* Cookiebot CMP */}
-        <script id="usercentrics-cmp" src="https://web.cmp.usercentrics.eu/ui/loader.js" data-settings-id="NO0pP5iJI35NHN" async></script>
-        
+        {/* Preconnect to critical domains */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://web.cmp.usercentrics.eu" />
+        
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <GoogleTagManagerScript />
+        
+        {/* Cookiebot CMP - lazy loaded after page load */}
+        <script 
+          id="usercentrics-cmp" 
+          src="https://web.cmp.usercentrics.eu/ui/loader.js" 
+          data-settings-id="NO0pP5iJI35NHN" 
+          async 
+          defer
+        ></script>
       </head>
       <body className="antialiased">
         {/* Google Tag Manager (noscript) */}
