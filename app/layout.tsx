@@ -194,6 +194,7 @@ export default function RootLayout({
           .btn-primary {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
             background: linear-gradient(135deg, #00ff88, #00d4ff);
             color: #000;
@@ -202,6 +203,21 @@ export default function RootLayout({
             font-weight: 700;
             text-decoration: none;
             font-size: 1.1rem;
+            min-width: 240px;
+          }
+          .btn-premium {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1.1rem;
+            min-width: 240px;
           }
         `}} />
       </head>

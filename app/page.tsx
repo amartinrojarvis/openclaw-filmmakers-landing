@@ -23,6 +23,7 @@ import {
   Gauge,
   Loader2,
   Instagram,
+  Gem,
 } from 'lucide-react';
 import { useScrollAnimation, useScrollAnimationGroup } from '@/hooks/useScrollAnimation';
 import { AnalyticsEvents } from '@/components/Analytics';
@@ -195,21 +196,26 @@ function Hero() {
         
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          {/* Botón principal - Guía */}
           <Link
             href="#pricing"
             onClick={() => AnalyticsEvents.clickCTA('hero', 'Quiero la guía')}
-            className="btn-primary"
+            className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#00ff88] to-[#00d4ff] text-black rounded-full font-bold text-lg hover:shadow-lg hover:shadow-[#00ff88]/30 transition-all duration-300 hover:scale-[1.02] overflow-hidden min-w-[240px]"
           >
-            <span>Quiero la guía</span>
-            <ArrowRight className="w-5 h-5" />
+            <span className="relative z-10">Quiero la guía</span>
+            <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
+            <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
           </Link>
           
+          {/* Botón premium - Sesión 1:1 */}
           <Link
             href="#sesion-1-1"
             onClick={() => AnalyticsEvents.clickCTA('hero', 'Prefiero sesión 1:1')}
-            className="inline-flex items-center gap-2 px-6 py-3 text-white/80 hover:text-white transition-colors"
+            className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#ffd700] to-[#ffaa00] text-black rounded-full font-bold text-lg hover:shadow-lg hover:shadow-[#ffd700]/30 transition-all duration-300 hover:scale-[1.02] overflow-hidden min-w-[240px]"
           >
-            <span>¿Prefieres sesión 1:1?</span>
+            <Gem className="w-5 h-5 relative z-10 text-black/70" />
+            <span className="relative z-10">Prefiero sesión 1:1</span>
+            <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
           </Link>
         </div>
       </div>
