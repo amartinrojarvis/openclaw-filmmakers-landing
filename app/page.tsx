@@ -205,13 +205,9 @@ function Hero() {
           </span>
         </h1>
         
-        {/* Subheadline potente */}
-        <p className="text-lg sm:text-xl text-white/70 max-w-3xl mx-auto mb-4 leading-relaxed">
-          <span className="text-white font-semibold">El filmmaking ha cambiado para siempre.</span> No te voy a enseñar a hacer vídeos con IA.
-        </p>
+        {/* Subheadline directo */}
         <p className="text-lg sm:text-xl text-white/70 max-w-3xl mx-auto mb-10 leading-relaxed">
-          Te voy a enseñar a tener un <span className="text-[#00ff88] font-semibold">agente IA que trabaje 24/7</span> para ti, 
-          gestionando lo repetitivo mientras tú te dedicas a <span className="text-white font-semibold">lo que de verdad importa</span>.
+          El filmmaking ha cambiado para siempre. No te voy a enseñar a hacer vídeos con IA, te voy a enseñar a tener un <span className="text-[#00ff88] font-semibold">agente IA que trabaje 24/7</span> para ti, gestionando lo repetitivo mientras tú te dedicas a lo que de verdad importa.
         </p>
         
         {/* CTA Buttons */}
@@ -234,35 +230,6 @@ function Hero() {
             <span>¿Prefieres sesión 1:1?</span>
             <ArrowRight className="w-4 h-4 text-[#00ff88] group-hover:translate-x-1 transition-transform" />
           </Link>
-        </div>
-        
-        {/* Feature pills */}
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
-          {features.slice(0, 4).map((feature, index) => (
-            <div 
-              key={index}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/5 text-sm text-white/60"
-            >
-              <feature.icon className="w-4 h-4 text-[#00ff88]" />
-              <span>{feature.label}</span>
-            </div>
-          ))}
-        </div>
-        
-        {/* Trust indicators */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-white/50 text-sm">
-          <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-            <CheckCircle2 className="w-4 h-4 text-[#00ff88]" />
-            <span>Guía completa + código</span>
-          </div>
-          <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-            <Clock className="w-4 h-4 text-[#00ff88]" />
-            <span>Ahorra 10+ horas semanales</span>
-          </div>
-          <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-            <Zap className="w-4 h-4 text-[#00ff88]" />
-            <span>Acceso inmediato</span>
-          </div>
         </div>
       </div>
       
