@@ -14,25 +14,31 @@ export function LazyParticles() {
   const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
-    // Detect mobile
+    // Detect mobile - be aggressive
     const checkMobile = () => {
-      const mobile = window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const mobile = window.innerWidth < 1024 || // Tablets and phones
+        /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+        ('ontouchstart' in window && navigator.maxTouchPoints > 0);
       setIsMobile(mobile);
     };
     
     checkMobile();
+    window.addEventListener('resize', checkMobile, { passive: true });
 
-    // Delay particles load until after text renders
+    // Delay particles load until after text renders - only on desktop
     const timer = setTimeout(() => {
-      if (!isMobile) {
+      if (!isMobile && !window.matchMedia('(pointer: coarse)').matches) {
         setShouldLoad(true);
       }
-    }, 100); // Load 100ms after mount
+    }, 500); // Delay 500ms to ensure text renders first
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', checkMobile);
+    };
   }, [isMobile]);
 
-  // Don't render on mobile at all for performance
+  // Don't render on mobile/tablet at all for performance
   if (isMobile) return null;
 
   // Don't render until after initial paint

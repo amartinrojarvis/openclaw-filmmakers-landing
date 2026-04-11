@@ -1,9 +1,14 @@
 /* Critical CSS - Load immediately */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Inter font - using system font stack as fallback for speed */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* Ensure text renders immediately */
-html {
+/* Preconnect to Google Fonts */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
   font-display: swap;
+  src: local('Inter'), local('Inter-Regular');
 }
 
 @tailwind base;
