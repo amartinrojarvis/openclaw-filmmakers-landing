@@ -181,14 +181,8 @@ function Hero() {
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 hover:bg-white/10 transition-colors">
-          <Sparkles className="w-4 h-4 text-[#00ff88]" />
-          <span className="text-sm text-white/80">La guía que yo quería tener cuando empecé a automatizar mi workflow</span>
-        </div>
-        
         {/* Badge destacado */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00ff88]/10 border border-[#00ff88]/30 mb-6 animate-pulse">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00ff88]/10 border border-[#00ff88]/30 mb-8 animate-pulse">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00ff88] opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00ff88]"></span>
@@ -223,7 +217,7 @@ function Hero() {
           </Link>
           
           <Link
-            href="#pricing"
+            href="#sesion-1-1"
             onClick={() => AnalyticsEvents.clickCTA('hero', 'Prefiero sesión 1:1')}
             className="group inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/20 text-white rounded-full font-medium hover:bg-white/10 hover:border-white/30 transition-all duration-300"
           >
@@ -451,6 +445,7 @@ function Pricing() {
           {offers.map((offer, index) => (
             <div
               key={index}
+              id={offer.name.includes('Sesión 1:1') ? 'sesion-1-1' : undefined}
               data-animate-item
               data-animate-index={index}
               className={`relative rounded-3xl p-8 transition-all duration-700 ${
