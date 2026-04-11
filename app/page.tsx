@@ -33,6 +33,7 @@ import { AnalyticsEvents } from '@/components/Analytics';
 import { useCheckout } from '@/hooks/useCheckout';
 import { PageLayout } from '@/components/PageLayout';
 import { GradientOrbs } from '@/components/AnimatedBackground';
+import { FloatingParticles } from '@/components/Particles';
 
 const PRICE_IDS = {
   guia: 'price_1TJtMYHBqq0IP9Ia8lI2iME2',
@@ -171,6 +172,9 @@ function Hero() {
   
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
+      {/* Floating particles background */}
+      <FloatingParticles />
+      
       <div 
         ref={ref}
         className={`relative z-10 max-w-5xl mx-auto text-center transition-all duration-1000 ${
