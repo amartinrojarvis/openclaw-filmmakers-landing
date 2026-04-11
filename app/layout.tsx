@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import { GoogleTagManagerScript, PageViewTracker } from '@/components/Analytics';
+import { GoogleTagManagerScript } from '@/components/Analytics';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -145,37 +145,72 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
+        {/* Critical: Preload font for instant text render */}
+        <link 
+          rel="preload" 
+          href="https://fonts.gstatic.com/s/inter/v18/UcCo3FwrK3iLTcviYwY.woff2" 
+          as="font" 
+          type="font/woff2" 
+          crossOrigin="anonymous" 
+        />
+        
         {/* Preconnect to critical domains */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://web.cmp.usercentrics.eu" />
         
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <GoogleTagManagerScript />
         
-        {/* Cookiebot CMP - lazy loaded after page load */}
-        <script 
-          id="usercentrics-cmp" 
-          src="https://web.cmp.usercentrics.eu/ui/loader.js" 
-          data-settings-id="NO0pP5iJI35NHN" 
-          async 
-          defer
-        ></script>
+        {/* Inline critical CSS for instant hero render */}
+        <style dangerouslySetInnerHTML={{__html: `
+          /* Critical CSS - Hero must render immediately */
+          .hero-critical {
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #0a1a10 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .hero-text {
+            color: #ffffff;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 1rem;
+          }
+          .hero-text h1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+          }
+          .hero-text p {
+            font-size: clamp(1rem, 4vw, 1.25rem);
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+          }
+          .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1.1rem;
+          }
+        `}} />
       </head>
       <body className="antialiased">
-        {/* Google Tag Manager (noscript) */}
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-5N34HG2X"
-            height="0"
-            width="0"
-            style={{ display: 'none', visibility: 'hidden' }}
-          />
-        </noscript>
         <StructuredData />
-        <PageViewTracker />
         {children}
+        
+        {/* GTM loaded after page content */}
+        <GoogleTagManagerScript />
       </body>
     </html>
   );
