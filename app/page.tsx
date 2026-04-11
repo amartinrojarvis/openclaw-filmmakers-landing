@@ -33,7 +33,7 @@ import { AnalyticsEvents } from '@/components/Analytics';
 import { useCheckout } from '@/hooks/useCheckout';
 import { PageLayout } from '@/components/PageLayout';
 import { GradientOrbs } from '@/components/AnimatedBackground';
-import { FloatingParticles } from '@/components/Particles';
+import { LazyParticles } from '@/components/LazyParticles';
 
 const PRICE_IDS = {
   guia: 'price_1TJtMYHBqq0IP9Ia8lI2iME2',
@@ -171,15 +171,17 @@ function Hero() {
   const { ref, isVisible } = useScrollAnimation();
   
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
-      {/* Floating particles background */}
-      <FloatingParticles />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 hero-gradient">
+      {/* Lazy loaded particles - only after text renders, desktop only */}
+      <LazyParticles />
       
+      {/* Static gradient overlay for immediate visual */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50 pointer-events-none" />
+      
+      {/* Text content renders immediately */}
       <div 
         ref={ref}
-        className={`relative z-10 max-w-5xl mx-auto text-center transition-all duration-1000 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}
+        className="relative z-10 max-w-5xl mx-auto text-center"
       >
         {/* Badge destacado */}
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00ff88]/10 border border-[#00ff88]/30 mb-8 animate-pulse">

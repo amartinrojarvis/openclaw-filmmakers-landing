@@ -32,8 +32,8 @@ export function FloatingParticles() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas, { passive: true });
 
-    // Initialize particles
-    const particleCount = window.innerWidth < 768 ? 25 : 50;
+    // Initialize particles - reduced for performance
+    const particleCount = window.innerWidth < 768 ? 15 : 30;
     const colors = ['#00ff88', '#00d4ff', '#ffffff', '#88ffcc'];
     
     particlesRef.current = Array.from({ length: particleCount }, () => ({
