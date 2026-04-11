@@ -159,7 +159,7 @@ const offers = [
 const features = [
   { icon: Film, label: 'Análisis de video con IA' },
   { icon: Wand2, label: 'Automatización inteligente' },
-  { icon: Brain, label: 'Workflows con IA local' },
+  { icon: Brain, label: 'Workflows profesionales' },
   { icon: Layers, label: 'Integración multiplataforma' },
   { icon: Gauge, label: 'Ahorra 10+ horas semanales' },
 ];
