@@ -167,39 +167,30 @@ function Hero() {
   const { ref, isVisible } = useScrollAnimation();
   
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 hero-gradient">
+    <section className="hero-critical relative overflow-hidden">
       {/* Lazy loaded particles - only after text renders, desktop only */}
       <LazyParticles />
       
-      {/* Static gradient overlay for immediate visual */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50 pointer-events-none" />
-      
-      {/* Text content renders immediately */}
-      <div 
-        ref={ref}
-        className="relative z-10 max-w-5xl mx-auto text-center"
-      >
-        {/* Badge destacado */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00ff88]/10 border border-[#00ff88]/30 mb-8 animate-pulse">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00ff88] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00ff88]"></span>
-          </span>
+      {/* Text content renders immediately with critical CSS */}
+      <div className="hero-text relative z-10">
+        {/* Badge destacado - simplified */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00ff88]/10 border border-[#00ff88]/30 mb-6">
+          <span className="w-2 h-2 bg-[#00ff88] rounded-full animate-pulse"></span>
           <span className="text-sm text-[#00ff88] font-medium">El filmmaking acaba de cambiar</span>
         </div>
 
         {/* Headline épica */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-6">
+        <h1>
           Tu ventaja de
           <br />
-          <span className="bg-gradient-to-r from-[#00ff88] to-[#00d4ff] bg-clip-text text-transparent">
+          <span style={{background: 'linear-gradient(135deg, #00ff88, #00d4ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>
             2 años de adelanto
           </span>
         </h1>
         
         {/* Subheadline directo */}
-        <p className="text-lg sm:text-xl text-white/70 max-w-3xl mx-auto mb-10 leading-relaxed">
-          El filmmaking ha cambiado para siempre. No te voy a enseñar a hacer vídeos con IA, te voy a enseñar a tener un <span className="text-[#00ff88] font-semibold">agente IA que trabaje 24/7</span> para ti, gestionando lo repetitivo mientras tú te dedicas a lo que de verdad importa.
+        <p>
+          El filmmaking ha cambiado para siempre. No te voy a enseñar a hacer vídeos con IA, te voy a enseñar a tener un <span style={{color: '#00ff88', fontWeight: 600}}>agente IA que trabaje 24/7</span> para ti, gestionando lo repetitivo mientras tú te dedicas a lo que de verdad importa.
         </p>
         
         {/* CTA Buttons */}
@@ -207,26 +198,24 @@ function Hero() {
           <Link
             href="#pricing"
             onClick={() => AnalyticsEvents.clickCTA('hero', 'Quiero la guía')}
-            className="group relative inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#00ff88] to-[#00d4ff] text-black rounded-full font-bold text-lg hover:shadow-lg hover:shadow-[#00ff88]/30 transition-all duration-300 hover:scale-[1.02] overflow-hidden"
+            className="btn-primary"
           >
-            <span className="relative z-10">Quiero la guía</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
-            <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+            <span>Quiero la guía</span>
+            <ArrowRight className="w-5 h-5" />
           </Link>
           
           <Link
             href="#sesion-1-1"
             onClick={() => AnalyticsEvents.clickCTA('hero', 'Prefiero sesión 1:1')}
-            className="group inline-flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/20 text-white rounded-full font-medium hover:bg-white/10 hover:border-white/30 transition-all duration-300"
+            className="inline-flex items-center gap-2 px-6 py-3 text-white/80 hover:text-white transition-colors"
           >
             <span>¿Prefieres sesión 1:1?</span>
-            <ArrowRight className="w-4 h-4 text-[#00ff88] group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>
       
       {/* Scroll indicator - hidden on mobile */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block">
         <ChevronDown className="w-6 h-6 text-white/30" />
       </div>
     </section>
