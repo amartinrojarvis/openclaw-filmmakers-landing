@@ -124,7 +124,7 @@ const offers = [
     priceId: PRICE_IDS.guia,
     description: 'La forma más rápida de empezar a automatizar tu workflow creativo con OpenClaw.',
     features: [
-      '8 capítulos en Notion con acceso de por vida',
+      '9 capítulos en Notion con acceso de por vida',
       'Guía viva: actualizaciones continuas incluidas',
       'Instalación paso a paso en Linux/Mac/WSL',
       'Integraciones: Telegram, IA local, APIs',
@@ -445,7 +445,7 @@ function Pricing() {
                 visibleItems[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               } ${
                 offer.featured
-                  ? 'bg-white text-black ring-2 ring-[#00ff88]/50'
+                  ? 'bg-gradient-to-br from-[#ffd700]/20 to-[#ffaa00]/10 border-2 border-[#ffd700]/50 text-white'
                   : 'bg-white/[0.06] border border-white/15 text-white hover:border-[#00ff88]/30'
               }`}
               style={{ transitionDelay: `${index * 150}ms` }}
@@ -454,7 +454,7 @@ function Pricing() {
               <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                 <span className={`px-4 py-1 text-sm font-medium rounded-full ${
                   offer.featured
-                    ? 'bg-[#00ff88] text-black'
+                    ? 'bg-gradient-to-r from-[#ffd700] to-[#ffaa00] text-black'
                     : 'bg-[#aa00ff] text-white'
                 }`}>
                   {offer.badge}
@@ -465,7 +465,7 @@ function Pricing() {
               <div className="absolute top-4 right-4">
                 <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
                   offer.featured
-                    ? 'bg-green-100 text-green-800'
+                    ? 'bg-[#ffd700]/30 text-[#ffd700]'
                     : 'bg-[#00ff88]/20 text-[#00ff88]'
                 }`}>
                   {offer.discount}
@@ -473,10 +473,10 @@ function Pricing() {
               </div>
               
               <div className="mb-6 pt-2">
-                <h3 className={`text-2xl font-medium mb-2 ${offer.featured ? 'text-black' : 'text-white'}`}>
+                <h3 className="text-2xl font-medium mb-2 text-white">
                   {offer.name}
                 </h3>
-                <p className={`text-sm ${offer.featured ? 'text-black/60' : 'text-white/50'}`}>
+                <p className={`text-sm ${offer.featured ? 'text-white/70' : 'text-white/50'}`}>
                   {offer.description}
                 </p>
               </div>
@@ -485,22 +485,22 @@ function Pricing() {
               <div className="mb-8">
                 <div className="flex items-baseline gap-3 mb-1">
                   <span className={`text-2xl line-through opacity-50 ${
-                    offer.featured ? 'text-black/40' : 'text-white/40'
+                    offer.featured ? 'text-white/40' : 'text-white/40'
                   }`}>
                     {offer.originalPrice}
                   </span>
-                  <span className={`text-5xl font-medium ${offer.featured ? 'text-black' : 'text-white'}`}>
+                  <span className={`text-5xl font-medium ${offer.featured ? 'text-[#ffd700]' : 'text-white'}`}>
                     {offer.price}
                   </span>
                 </div>
-                <span className={offer.featured ? 'text-black/50' : 'text-white/50'}>Pago único</span>
+                <span className={offer.featured ? 'text-white/60' : 'text-white/50'}>Pago único</span>
               </div>
               
               <ul className="space-y-4 mb-8">
                 {offer.features.map((feature, fIndex) => (
                   <li key={fIndex} className="flex items-start gap-3">
-                    <CheckCircle2 className={`w-5 h-5 flex-shrink-0 mt-0.5 ${offer.featured ? 'text-[#00ff88]' : 'text-[#00ff88]'}`} />
-                    <span className={`text-sm ${offer.featured ? 'text-black/70' : 'text-white/60'}`}>
+                    <CheckCircle2 className={`w-5 h-5 flex-shrink-0 mt-0.5 ${offer.featured ? 'text-[#ffd700]' : 'text-[#00ff88]'}`} />
+                    <span className={`text-sm ${offer.featured ? 'text-white/80' : 'text-white/60'}`}>
                       {feature}
                     </span>
                   </li>
@@ -512,7 +512,7 @@ function Pricing() {
                 disabled={loading && activeButton === offer.priceId}
                 className={`w-full py-4 rounded-full font-medium text-lg transition-all duration-300 hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
                   offer.featured
-                    ? 'bg-black text-white hover:bg-black/80'
+                    ? 'bg-gradient-to-r from-[#ffd700] to-[#ffaa00] text-black hover:shadow-lg hover:shadow-[#ffd700]/30'
                     : 'bg-white text-black hover:bg-white/90'
                 }`}
               >
