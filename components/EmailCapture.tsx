@@ -148,7 +148,7 @@ export function EmailCapture({
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
-                'Recibir prompts'
+                'Recibir casos'
               )}
             </button>
           </form>
