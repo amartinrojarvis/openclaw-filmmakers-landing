@@ -35,17 +35,17 @@ export const metadata: Metadata = {
     url: 'https://www.iaparafilmmakers.es',
     siteName: 'IA para Filmmakers',
     images: [{
-      url: 'https://www.iaparafilmmakers.es/og-image.jpg',
-      width: 1200,
-      height: 630,
-      alt: 'IA para Filmmakers - Guía práctica'
+      url: 'https://www.iaparafilmmakers.es/perfil-alberto-v2.jpg',
+      width: 400,
+      height: 400,
+      alt: 'Alberto Martín - Filmmaker & Creador de IA para Filmmakers'
     }]
   },
   twitter: {
     card: 'summary_large_image',
     title: 'IA para Filmmakers | Guía Práctica 2026',
     description: 'Automatiza tu workflow creativo con IA. Guía para filmmakers.',
-    images: ['https://www.iaparafilmmakers.es/og-image.jpg'],
+    images: ['https://www.iaparafilmmakers.es/perfil-alberto-v2.jpg'],
   },
   alternates: {
     canonical: 'https://www.iaparafilmmakers.es',
@@ -87,7 +87,7 @@ function StructuredData() {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: 'Guía OpenClaw para Filmmakers',
-    image: 'https://www.iaparafilmmakers.es/og-image.jpg',
+    image: 'https://www.iaparafilmmakers.es/perfil-alberto-v2.jpg',
     description: 'Guía práctica de IA para filmmakers. Automatiza emails, presupuestos y edición con OpenClaw.',
     brand: {
       '@type': 'Brand',
