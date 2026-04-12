@@ -22,6 +22,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Preparar atributos correctamente
+    const contactAttributes = {
+      ...attributes,
+      FIRSTNAME: firstName || attributes.FIRSTNAME || '',
+    };
+
+    console.log('Enviando a Brevo:', { email, firstName, listId, contactAttributes });
+
     // Crear/actualizar contacto en Brevo
     const response = await fetch('https://api.brevo.com/v3/contacts', {
       method: 'POST',
@@ -32,10 +40,7 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         email,
-        attributes: {
-          FIRSTNAME: firstName || attributes.FIRSTNAME,
-          ...attributes,
-        },
+        attributes: contactAttributes,
         listIds: [listId],
         updateEnabled: true, // Actualiza si ya existe
       }),
@@ -60,9 +65,7 @@ export async function POST(request: NextRequest) {
           'api-key': BREVO_API_KEY,
         },
         body: JSON.stringify({
-          attributes: {
-            ...attributes,
-          },
+          attributes: contactAttributes,
           listIds: [listId],
         }),
       });
