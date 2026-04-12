@@ -177,7 +177,7 @@ export function EmailCapture({
                 'Recibir los 3 casos gratis'
               )}
             </button>
-            <p className="text-[9px] text-white/20 text-center tracking-wider uppercase">
+            <p className="text-white/20 text-center tracking-wider uppercase" style={{ fontSize: '8px', letterSpacing: '0.1em' }}>
               Sin spam · Solo valor para tu negocio
             </p>
           </form>
@@ -223,7 +223,7 @@ export function EmailCapture({
                 {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Quiero los casos'}
               </button>
             </div>
-            <p className="text-[9px] text-white/20 text-center sm:text-left tracking-wider uppercase">
+            <p className="text-white/20 text-center sm:text-left tracking-wider uppercase" style={{ fontSize: '8px', letterSpacing: '0.1em' }}>
               Sin spam · Solo valor
             </p>
           </form>
