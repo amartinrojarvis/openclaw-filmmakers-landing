@@ -5,7 +5,7 @@ const BREVO_API_KEY = process.env.BREVO_API_KEY;
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, listId, attributes = {} } = body;
+    const { email, firstName, listId, attributes = {} } = body;
 
     if (!email || !listId) {
       return NextResponse.json(
@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         email,
         attributes: {
+          FIRSTNAME: firstName || attributes.FIRSTNAME,
           ...attributes,
         },
         listIds: [listId],
