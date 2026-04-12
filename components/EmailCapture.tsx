@@ -177,8 +177,8 @@ export function EmailCapture({
                 'Recibir los 3 casos gratis'
               )}
             </button>
-            <p className="text-[10px] text-white/30 text-center tracking-wide">
-              Para personalizar tu experiencia · Sin spam, solo valor
+            <p className="text-[9px] text-white/20 text-center tracking-wider uppercase">
+              Sin spam · Solo valor para tu negocio
             </p>
           </form>
         ) : (
@@ -198,33 +198,33 @@ export function EmailCapture({
       <div className="w-full">
         {!isSuccess ? (
           <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <input
                 type="text"
                 required
-                placeholder="Nombre"
+                placeholder="Tu nombre"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-24 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#00ff88]/50"
+                className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#00ff88]/50"
               />
               <input
                 type="email"
                 required
-                placeholder="Email"
+                placeholder="Tu email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#00ff88]/50"
+                className="flex-[2] px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#00ff88]/50"
               />
               <button
                 type="submit"
                 disabled={isLoading}
-                className="px-4 py-2 bg-[#00ff88] text-black text-sm font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+                className="w-full sm:w-auto px-4 py-2 bg-[#00ff88] text-black text-sm font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
               >
-                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'OK'}
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Quiero los casos'}
               </button>
             </div>
-            <p className="text-xs text-white/30">
-              Para personalizar tu experiencia
+            <p className="text-[9px] text-white/20 text-center sm:text-left tracking-wider uppercase">
+              Sin spam · Solo valor
             </p>
           </form>
         ) : (
