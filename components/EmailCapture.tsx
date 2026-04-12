@@ -35,7 +35,7 @@ export function EmailCapture({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email,
-          listId: 3, // Lista "Filmmakers Interesados"
+          listId: 7, // Lista "Filmmakers Interesados - 7 Casos"
           attributes: {
             SOURCE: 'website_capture',
             VARIANT: variant,
