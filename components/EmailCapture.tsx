@@ -177,8 +177,8 @@ export function EmailCapture({
                 'Recibir los 3 casos gratis'
               )}
             </button>
-            <p className="text-xs text-white/40 text-center">
-              Para personalizar tu experiencia. Sin spam, solo valor.
+            <p className="text-[10px] text-white/30 text-center tracking-wide">
+              Para personalizar tu experiencia · Sin spam, solo valor
             </p>
           </form>
         ) : (
