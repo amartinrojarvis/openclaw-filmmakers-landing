@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { ArrowLeft, Clapperboard, Menu, X, Instagram } from 'lucide-react';
 import { AnimatedBackground, PulsingGlow, GradientOrbs } from './AnimatedBackground';
+import { Footer } from './footer';
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -51,46 +52,8 @@ export function PageLayout({ children, showBackButton = true, fullHeight = true 
           {children}
         </main>
         
-        {/* Footer */}
-        <footer className="border-t border-white/5 px-6 py-8 mt-auto">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#00ff88]/10 flex items-center justify-center">
-                  <Clapperboard className="w-5 h-5 text-[#00ff88]" />
-                </div>
-                <span className="text-white font-medium">iaparafilmmakers</span>
-              </div>
-              
-              <div className="flex items-center gap-8 text-sm text-white/40">
-                <Link href="/condiciones" className="hover:text-white transition-colors">
-                  Condiciones de compra
-                </Link>
-                <Link href="/cookies" className="hover:text-white transition-colors">
-                  Política de cookies
-                </Link>
-                <Link href="/contacto" className="hover:text-white transition-colors">
-                  Contacto
-                </Link>
-              </div>
-              
-              <div className="flex items-center gap-4">
-                <a 
-                  href="https://www.instagram.com/amartinro/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white/40 hover:text-[#00ff88] transition-colors"
-                  aria-label="Instagram"
-                >
-                  <Instagram className="w-5 h-5" />
-                </a>
-                <p className="text-sm text-white/30">
-                  © 2026 iaparafilmmakers
-                </p>
-              </div>
-            </div>
-          </div>
-        </footer>
+        {/* Footer with Email Capture */}
+        <Footer />
       </div>
     </div>
   );
