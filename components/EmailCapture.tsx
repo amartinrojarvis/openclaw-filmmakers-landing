@@ -13,9 +13,9 @@ interface EmailCaptureProps {
 
 export function EmailCapture({
   variant = 'inline',
-  title = '7 Casos de Uso de IA para Filmmakers',
-  description = 'Recibe gratis por email 7 ejemplos reales de cómo uso IA en mi negocio de filmmaking. Sin teoría, solo aplicación práctica.',
-  buttonText = 'Quiero los 7 casos',
+  title = '3 Casos de Uso de IA para Filmmakers',
+  description = 'Recibe 3 casos de uso explicados GRATIS en tu correo. Ejemplos reales, no teoría.',
+  buttonText = 'Quiero los 3 casos',
   successMessage = '¡Perfecto! Revisa tu email (incluido spam) en los próximos minutos.',
 }: EmailCaptureProps) {
   const [email, setEmail] = useState('');
@@ -78,14 +78,14 @@ export function EmailCapture({
                 <div className="w-12 h-12 bg-gradient-to-br from-[#00ff88] to-[#00d4ff] rounded-full flex items-center justify-center mx-auto mb-4">
                   <Mail className="w-6 h-6 text-black" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">¿Te vas sin los prompts?</h3>
+                <h3 className="text-xl font-bold text-white mb-2">¿Te vas sin los casos?</h3>
                 <p className="text-white/60 text-sm">{description}</p>
               </div>
 
               <div className="bg-white/5 rounded-lg p-3 text-xs text-white/70 space-y-1">
-                <p>📧 Email 1: Análisis automático de videos</p>
-                <p>📧 Email 2: Propuestas en segundos</p>
-                <p>📧 Email 3-7: Workflow completo paso a paso</p>
+                <p>📧 Caso 1: Presupuestos que se escriben solos</p>
+                <p>📧 Caso 2: Análisis de cliente potencial</p>
+                <p>📧 Caso 3: Análisis automático de material de vídeo</p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-3">
@@ -135,7 +135,7 @@ export function EmailCapture({
             <input
               type="email"
               required
-              placeholder="Email para los 7 casos de uso"
+              placeholder="Email para recibir los 3 casos gratis"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-full text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#00ff88]/50"

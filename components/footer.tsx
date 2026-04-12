@@ -1,5 +1,6 @@
 import { Instagram, Globe, Mail } from 'lucide-react';
 import Link from 'next/link';
+import { EmailCapture } from './EmailCapture';
 
 export function Footer() {
   return (
@@ -65,6 +66,23 @@ export function Footer() {
             <p className="mt-4 text-sm text-slate-400">
               Automatiza tu workflow creativo y recupera horas para lo que realmente importa: crear.
             </p>
+          </div>
+        </div>
+
+        {/* Email Capture Section - Elegante y sutil */}
+        <div className="mt-12 mb-8 p-6 bg-white/5 border border-white/10 rounded-2xl">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-white mb-1">
+                ¿Aún no estás listo para comprar?
+              </h3>
+              <p className="text-sm text-slate-400">
+                Recibe 3 casos de uso explicados GRATIS y descubre cómo funciona antes de invertir.
+              </p>
+            </div>
+            <div className="w-full md:w-auto">
+              <EmailCapture variant="footer" />
+            </div>
           </div>
         </div>
 
