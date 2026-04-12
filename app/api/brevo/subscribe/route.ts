@@ -27,10 +27,10 @@ export async function POST(request: NextRequest) {
     // Preparar atributos correctamente - Brevo usa mayúsculas para atributos por defecto
     const contactAttributes: Record<string, string> = {};
     
-    // Solo añadir FIRSTNAME si tiene valor
-    const nameToUse = firstName || attributes.FIRSTNAME || attributes.firstname || '';
+    // Solo añadir NOMBRE si tiene valor (atributo personalizado en Brevo)
+    const nameToUse = firstName || attributes.NOMBRE || attributes.nombre || attributes.FIRSTNAME || '';
     if (nameToUse && nameToUse.trim() !== '') {
-      contactAttributes.FIRSTNAME = nameToUse.trim();
+      contactAttributes.NOMBRE = nameToUse.trim();
     }
     
     // Añadir otros atributos personalizados
