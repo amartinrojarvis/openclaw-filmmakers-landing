@@ -18,6 +18,7 @@ export function EmailCapture({
   buttonText = 'Quiero los 3 casos',
   successMessage = '¡Perfecto! Revisa tu email (incluido spam) en los próximos minutos.',
 }: EmailCaptureProps) {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -35,8 +36,10 @@ export function EmailCapture({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email,
+          firstName: name,
           listId: 7, // Lista "Filmmakers Interesados - 7 Casos"
           attributes: {
+            FIRSTNAME: name,
             SOURCE: 'website_capture',
             VARIANT: variant,
             DATE_SUBSCRIBED: new Date().toISOString(),
@@ -89,14 +92,24 @@ export function EmailCapture({
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-3">
-                <input
-                  type="email"
-                  required
-                  placeholder="tu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#00ff88]/50"
-                />
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    required
+                    placeholder="Tu nombre"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#00ff88]/50"
+                  />
+                  <input
+                    type="email"
+                    required
+                    placeholder="Tu email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="flex-[2] px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#00ff88]/50"
+                  />
+                </div>
                 <button
                   type="submit"
                   disabled={isLoading}
@@ -108,6 +121,9 @@ export function EmailCapture({
                     buttonText
                   )}
                 </button>
+                <p className="text-xs text-white/40 text-center">
+                  Para personalizar tu experiencia
+                </p>
               </form>
               
               {error && (
@@ -131,26 +147,39 @@ export function EmailCapture({
     return (
       <div className="mt-8 pt-6 border-t border-white/10">
         {!isSuccess ? (
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              required
-              placeholder="Email para recibir los 3 casos gratis"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-full text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#00ff88]/50"
-            />
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <input
+                type="text"
+                required
+                placeholder="Tu nombre"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-full text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#00ff88]/50"
+              />
+              <input
+                type="email"
+                required
+                placeholder="Tu email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-[2] px-4 py-3 bg-white/5 border border-white/10 rounded-full text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#00ff88]/50"
+              />
+            </div>
             <button
               type="submit"
               disabled={isLoading}
-              className="px-6 py-3 bg-white/10 border border-white/20 text-white text-sm font-semibold rounded-full hover:bg-white/20 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 whitespace-nowrap"
+              className="w-full sm:w-auto px-6 py-3 bg-white/10 border border-white/20 text-white text-sm font-semibold rounded-full hover:bg-white/20 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 whitespace-nowrap"
             >
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
-                'Recibir casos'
+                'Recibir los 3 casos gratis'
               )}
             </button>
+            <p className="text-xs text-white/40 text-center">
+              Para personalizar tu experiencia. Sin spam, solo valor.
+            </p>
           </form>
         ) : (
           <div className="flex items-center justify-center gap-2 text-[#00ff88]">
@@ -168,22 +197,35 @@ export function EmailCapture({
     return (
       <div className="w-full">
         {!isSuccess ? (
-          <form onSubmit={handleSubmit} className="flex gap-2">
-            <input
-              type="email"
-              required
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#00ff88]/50"
-            />
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="px-4 py-2 bg-[#00ff88] text-black text-sm font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
-              {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'OK'}
-            </button>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                required
+                placeholder="Nombre"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-24 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#00ff88]/50"
+              />
+              <input
+                type="email"
+                required
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#00ff88]/50"
+              />
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="px-4 py-2 bg-[#00ff88] text-black text-sm font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+              >
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'OK'}
+              </button>
+            </div>
+            <p className="text-xs text-white/30">
+              Para personalizar tu experiencia
+            </p>
           </form>
         ) : (
           <p className="text-[#00ff88] text-sm">{successMessage}</p>
@@ -209,14 +251,24 @@ export function EmailCapture({
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-3">
-            <input
-              type="email"
-              required
-              placeholder="tu@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#00ff88]/50"
-            />
+            <div className="flex gap-2">
+              <input
+                type="text"
+                required
+                placeholder="Tu nombre"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#00ff88]/50"
+              />
+              <input
+                type="email"
+                required
+                placeholder="Tu email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-[2] px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#00ff88]/50"
+              />
+            </div>
             <button
               type="submit"
               disabled={isLoading}
@@ -228,6 +280,9 @@ export function EmailCapture({
                 buttonText
               )}
             </button>
+            <p className="text-xs text-white/40 text-center">
+              Para personalizar tu experiencia
+            </p>
           </form>
 
           {error && (
