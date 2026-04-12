@@ -31,6 +31,7 @@ import { useCheckout } from '@/hooks/useCheckout';
 import { PageLayout } from '@/components/PageLayout';
 import { GradientOrbs } from '@/components/AnimatedBackground';
 import { LazyParticles } from '@/components/LazyParticles';
+import { EmailCapture } from '@/components/EmailCapture';
 
 const PRICE_IDS = {
   guia: 'price_1TJtMYHBqq0IP9Ia8lI2iME2',
@@ -218,6 +219,9 @@ function Hero() {
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
           </Link>
         </div>
+        
+        {/* Email Capture - Lead magnet */}
+        <EmailCapture variant="hero" />
       </div>
       
       {/* Scroll indicator - hidden on mobile */}
