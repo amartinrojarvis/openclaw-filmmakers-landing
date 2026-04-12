@@ -13,10 +13,10 @@ interface EmailCaptureProps {
 
 export function EmailCapture({
   variant = 'inline',
-  title = '7 Prompts de IA para Filmmakers',
-  description = 'Recibe gratis los prompts que uso para automatizar mi workflow. Sin spam, solo valor.',
-  buttonText = 'Quiero los prompts',
-  successMessage = '¡Listo! Revisa tu email (incluido spam)',
+  title = '7 Casos de Uso de IA para Filmmakers',
+  description = 'Recibe gratis por email 7 ejemplos reales de cómo uso IA en mi negocio de filmmaking. Sin teoría, solo aplicación práctica.',
+  buttonText = 'Quiero los 7 casos',
+  successMessage = '¡Perfecto! Revisa tu email (incluido spam) en los próximos minutos.',
 }: EmailCaptureProps) {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -82,6 +82,12 @@ export function EmailCapture({
                 <p className="text-white/60 text-sm">{description}</p>
               </div>
 
+              <div className="bg-white/5 rounded-lg p-3 text-xs text-white/70 space-y-1">
+                <p>📧 Email 1: Análisis automático de videos</p>
+                <p>📧 Email 2: Propuestas en segundos</p>
+                <p>📧 Email 3-7: Workflow completo paso a paso</p>
+              </div>
+
               <form onSubmit={handleSubmit} className="space-y-3">
                 <input
                   type="email"
@@ -129,7 +135,7 @@ export function EmailCapture({
             <input
               type="email"
               required
-              placeholder="Email para recibir 7 prompts gratis"
+              placeholder="Email para los 7 casos de uso"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-full text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-[#00ff88]/50"
