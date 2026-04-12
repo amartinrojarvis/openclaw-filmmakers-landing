@@ -99,7 +99,7 @@ const benefits = [
 const faqs = [
   {
     q: '¿Necesito conocimientos técnicos para aplicar la guía?',
-    a: 'No. Está pensada para filmmakers y creadores que quieren resultados prácticos, con ejemplos y procesos accionables.',
+    a: 'No. Está pensada para filmmakers y creadores que quieren resultados prácticos, con ejemplos y procesos accionables, pero si tienes facilidad para la tecnología, eso ayudará mucho y acelerará mucho más el proceso, lógicamente.',
   },
   {
     q: '¿Qué incluye la sesión de 45 minutos del Bundle?',

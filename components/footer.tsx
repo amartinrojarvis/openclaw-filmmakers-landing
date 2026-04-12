@@ -62,7 +62,7 @@ export function Footer() {
 
           {/* Brand */}
           <div>
-            <h3 className="text-lg font-semibold text-white">OpenClaw para Filmmakers</h3>
+            <h3 className="text-lg font-semibold text-white">IA para Filmmakers</h3>
             <p className="mt-4 text-sm text-slate-400">
               Automatiza tu workflow creativo y recupera horas para lo que realmente importa: crear.
             </p>
