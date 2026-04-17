@@ -11,3 +11,4 @@ node_modules/
 .vercel/
 .ga4-service-account.json
 .ga4-service-account.json
+data/brevo-fallback/
