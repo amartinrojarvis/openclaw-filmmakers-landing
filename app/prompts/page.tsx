@@ -86,6 +86,11 @@ export default function PromptsPage() {
     e.preventDefault();
     setError('');
 
+    if (!firstName || firstName.trim().length < 2) {
+      setError('Introduce tu nombre para personalizar las comunicaciones');
+      return;
+    }
+
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError('Introduce un email válido');
       return;
@@ -285,9 +290,10 @@ export default function PromptsPage() {
                   <div>
                     <input
                       type="text"
-                      placeholder="Tu nombre (opcional)"
+                      placeholder="Tu nombre"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
+                      required
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder:text-white/30 focus:outline-none focus:border-[#00ff88]/50 focus:ring-1 focus:ring-[#00ff88]/30 transition-all"
                     />
                   </div>
