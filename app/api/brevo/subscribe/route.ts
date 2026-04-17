@@ -90,12 +90,20 @@ export async function POST(request: NextRequest) {
     });
 
     if (response.ok) {
-      const data = await response.json();
-      console.log('Brevo response (nuevo contacto):', data);
+      let contactId: number | undefined;
+      if (response.status !== 204) {
+        try {
+          const data = await response.json();
+          contactId = data.id;
+          console.log('Brevo response (nuevo contacto):', data);
+        } catch {
+          // 204 No Content o body vacio
+        }
+      }
       return NextResponse.json({
         success: true,
-        message: 'Suscripción exitosa',
-        contactId: data.id,
+        message: 'Suscripcion exitosa',
+        ...(contactId ? { contactId } : {}),
       });
     }
 
@@ -116,11 +124,18 @@ export async function POST(request: NextRequest) {
       });
 
       if (updateResponse.ok) {
-        const updateData = await updateResponse.json();
-        console.log('Brevo response (update):', updateData);
+        let updateData: any = {};
+        if (updateResponse.status !== 204) {
+          try {
+            updateData = await updateResponse.json();
+            console.log('Brevo response (update):', updateData);
+          } catch {
+            // 204 No Content o body vacio
+          }
+        }
         return NextResponse.json({
           success: true,
-          message: 'Contacto actualizado y añadido a la lista',
+          message: 'Contacto actualizado y anadido a la lista',
         });
       }
 

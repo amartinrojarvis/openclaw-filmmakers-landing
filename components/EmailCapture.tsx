@@ -68,78 +68,76 @@ export function EmailCapture({
   // Exit intent popup
   if (variant === 'exit') {
     return (
-      <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl max-w-md w-full p-6 relative">
-          <button 
-            onClick={() => onClose ? onClose() : setIsSuccess(true)}
-            className="absolute top-4 right-4 text-white/40 hover:text-white"
-          >
-            ✕
-          </button>
-          
-          {!isSuccess ? (
-            <>
-              <div className="text-center mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-[#00ff88] to-[#00d4ff] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Mail className="w-6 h-6 text-black" />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">¿Te vas sin los casos?</h3>
-                <p className="text-white/60 text-sm">{description}</p>
-              </div>
+      <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl max-w-sm w-full p-6 relative">
+        <button
+          onClick={() => onClose ? onClose() : setIsSuccess(true)}
+          className="absolute top-4 right-4 text-white/40 hover:text-white"
+        >
+          ✕
+        </button>
 
-              <div className="bg-white/5 rounded-lg p-3 text-xs text-white/70 space-y-1">
-                <p>📧 Caso 1: Presupuestos que se escriben solos</p>
-                <p>📧 Caso 2: Análisis de cliente potencial</p>
-                <p>📧 Caso 3: Análisis automático de material de vídeo</p>
+        {!isSuccess ? (
+          <>
+            <div className="text-center mb-5">
+              <div className="w-12 h-12 bg-gradient-to-br from-[#00ff88] to-[#00d4ff] rounded-full flex items-center justify-center mx-auto mb-4">
+                <Mail className="w-6 h-6 text-black" />
               </div>
-
-              <form onSubmit={handleSubmit} className="space-y-3">
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    required
-                    placeholder="Tu nombre"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#00ff88]/50"
-                  />
-                  <input
-                    type="email"
-                    required
-                    placeholder="Tu email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="flex-[2] px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#00ff88]/50"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full py-3 bg-gradient-to-r from-[#00ff88] to-[#00d4ff] text-black font-bold rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
-                >
-                  {isLoading ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  ) : (
-                    buttonText
-                  )}
-                </button>
-                <p className="text-xs text-white/40 text-center">
-                  Para personalizar tu experiencia
-                </p>
-              </form>
-              
-              {error && (
-                <p className="text-red-400 text-sm mt-3 text-center">{error}</p>
-              )}
-            </>
-          ) : (
-            <div className="text-center py-6">
-              <CheckCircle className="w-12 h-12 text-[#00ff88] mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-white mb-2">¡Perfecto!</h3>
-              <p className="text-white/60">{successMessage}</p>
+              <h3 className="text-xl font-bold text-white mb-2">¿Te vas sin los casos?</h3>
+              <p className="text-white/60 text-sm">{description}</p>
             </div>
-          )}
-        </div>
+
+            <div className="bg-white/5 rounded-lg p-3 text-xs text-white/70 space-y-1 mb-4">
+              <p>📧 Caso 1: Presupuestos que se escriben solos</p>
+              <p>📧 Caso 2: Análisis de cliente potencial</p>
+              <p>📧 Caso 3: Análisis automático de material de vídeo</p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <div className="flex flex-col gap-2">
+                <input
+                  type="text"
+                  required
+                  placeholder="Tu nombre"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#00ff88]/50"
+                />
+                <input
+                  type="email"
+                  required
+                  placeholder="Tu email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-[#00ff88]/50"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full py-3 bg-gradient-to-r from-[#00ff88] to-[#00d4ff] text-black font-bold rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {isLoading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  buttonText
+                )}
+              </button>
+              <p className="text-xs text-white/40 text-center">
+                Para personalizar tu experiencia
+              </p>
+            </form>
+
+            {error && (
+              <p className="text-red-400 text-sm mt-3 text-center">{error}</p>
+            )}
+          </>
+        ) : (
+          <div className="text-center py-6">
+            <CheckCircle className="w-12 h-12 text-[#00ff88] mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-white mb-2">¡Perfecto!</h3>
+            <p className="text-white/60">{successMessage}</p>
+          </div>
+        )}
       </div>
     );
   }
