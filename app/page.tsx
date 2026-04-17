@@ -32,6 +32,7 @@ import { PageLayout } from '@/components/PageLayout';
 import { GradientOrbs } from '@/components/AnimatedBackground';
 import { LazyParticles } from '@/components/LazyParticles';
 import { EmailCapture } from '@/components/EmailCapture';
+import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 
 const PRICE_IDS = {
   guia: 'price_1TJtMYHBqq0IP9Ia8lI2iME2',
@@ -971,6 +972,7 @@ export default function Home() {
         <Pricing />
         <FAQ />
         <FloatingCTA />
+        <ExitIntentPopup />
       </main>
     </PageLayout>
   );

@@ -9,6 +9,7 @@ interface EmailCaptureProps {
   description?: string;
   buttonText?: string;
   successMessage?: string;
+  onClose?: () => void;
 }
 
 export function EmailCapture({
@@ -17,6 +18,7 @@ export function EmailCapture({
   description = 'Recibe 3 casos de uso explicados GRATIS en tu correo. Ejemplos reales, no teoría.',
   buttonText = 'Quiero los 3 casos',
   successMessage = '¡Perfecto! Revisa tu email (incluido spam) en los próximos minutos.',
+  onClose,
 }: EmailCaptureProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -69,7 +71,7 @@ export function EmailCapture({
       <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl max-w-md w-full p-6 relative">
           <button 
-            onClick={() => setIsSuccess(true)} // Close on X
+            onClick={() => onClose ? onClose() : setIsSuccess(true)}
             className="absolute top-4 right-4 text-white/40 hover:text-white"
           >
             ✕
