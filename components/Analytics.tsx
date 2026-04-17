@@ -1,12 +1,24 @@
 'use client';
 
 import Script from 'next/script';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { hasConsent } from '@/lib/cookies';
 
 export const GTM_ID = 'GTM-5N34HG2X';
 
-// Google Tag Manager Script
+// Google Tag Manager Script - solo carga si hay consentimiento de analiticas
 export function GoogleTagManagerScript() {
+  const [canLoad, setCanLoad] = useState(false);
+
+  useEffect(() => {
+    setCanLoad(hasConsent('analytics'));
+    const handler = () => setCanLoad(hasConsent('analytics'));
+    window.addEventListener('cookieConsentChanged', handler);
+    return () => window.removeEventListener('cookieConsentChanged', handler);
+  }, []);
+
+  if (!canLoad) return null;
+
   return (
     <Script
       id="gtm-script"
@@ -119,9 +131,45 @@ export const AnalyticsEvents = {
   },
 };
 
+// Meta Pixel Script - solo carga si hay consentimiento de marketing
+export function MetaPixelScript() {
+  const [canLoad, setCanLoad] = useState(false);
+
+  useEffect(() => {
+    setCanLoad(hasConsent('marketing'));
+    const handler = () => setCanLoad(hasConsent('marketing'));
+    window.addEventListener('cookieConsentChanged', handler);
+    return () => window.removeEventListener('cookieConsentChanged', handler);
+  }, []);
+
+  if (!canLoad) return null;
+
+  return (
+    <Script
+      id="meta-pixel"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{
+        __html: `
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '4396076083961602');
+          fbq('track', 'PageView');
+        `,
+      }}
+    />
+  );
+}
+
 // Type declaration for dataLayer
 declare global {
   interface Window {
     dataLayer: any[];
+    fbq: any;
   }
 }

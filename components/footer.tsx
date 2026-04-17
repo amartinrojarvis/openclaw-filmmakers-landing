@@ -1,6 +1,7 @@
 import { Instagram, Globe, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { EmailCapture } from './EmailCapture';
+import { openCookieSettings } from '@/lib/cookies';
 
 export function Footer() {
   return (
@@ -57,6 +58,30 @@ export function Footer() {
                   Condiciones de Compra
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/privacidad"
+                  className="text-slate-300 transition hover:text-cyan"
+                >
+                  Politica de Privacidad
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/cookies"
+                  className="text-slate-300 transition hover:text-cyan"
+                >
+                  Politica de Cookies
+                </Link>
+              </li>
+              <li>
+                <button
+                  onClick={openCookieSettings}
+                  className="text-slate-300 transition hover:text-cyan text-left"
+                >
+                  Gestionar cookies
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -74,10 +99,10 @@ export function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-white mb-1">
-                ¿Aún no estás listo para comprar?
+                ¿Aun no estas listo para comprar?
               </h3>
               <p className="text-sm text-slate-400">
-                Recibe 3 casos de uso explicados GRATIS y descubre cómo funciona antes de invertir.
+                Recibe 3 casos de uso explicados GRATIS y descubre como funciona antes de invertir.
               </p>
             </div>
             <div className="w-full md:w-auto">
@@ -88,7 +113,7 @@ export function Footer() {
 
         <div className="mt-12 border-t border-white/10 pt-8 text-center">
           <p className="text-sm text-slate-500">
-            © {new Date().getFullYear()} Alberto Martín. Todos los derechos reservados.
+            © {new Date().getFullYear()} Alberto Martin. Todos los derechos reservados.
           </p>
         </div>
       </div>

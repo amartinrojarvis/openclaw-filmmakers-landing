@@ -1,0 +1,26 @@
+{
+  "title": "Tu privacidad importa",
+  "description": "Utilizamos cookies propias y de terceros para mejorar tu experiencia, analizar el trafico y personalizar contenido. Puedes aceptar todas, rechazar las no esenciales o configurar tus preferencias.",
+  "privacyLink": "/privacidad",
+  "cookiesLink": "/cookies",
+  "categories": [
+    {
+      "id": "necessary",
+      "name": "Necesarias",
+      "description": "Esenciales para el funcionamiento basico del sitio: seguridad, sesion y procesamiento de pagos.",
+      "required": true
+    },
+    {
+      "id": "analytics",
+      "name": "Analiticas",
+      "description": "Nos ayudan a entender como interactuas con el sitio mediante Google Analytics y Google Tag Manager.",
+      "required": false
+    },
+    {
+      "id": "marketing",
+      "name": "Marketing",
+      "description": "Utilizadas para mostrarte anuncios relevantes en Meta (Facebook/Instagram) y medir su efectividad.",
+      "required": false
+    }
+  ]
+}
