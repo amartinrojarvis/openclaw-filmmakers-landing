@@ -4,7 +4,7 @@
  * Configura secuencias y automatizaciones para OpenClaw Filmmakers
  */
 
-const KIT_API_KEY = process.env.KIT_API_KEY || 'REDACTED_KIT_API_KEY';
+const KIT_API_KEY = process.env.KIT_API_KEY;
 const KIT_API_URL = 'https://api.kit.com/v4';
 
 // Configuración de la automatización

@@ -4,7 +4,7 @@
  * API v3 es más estable y ampliamente documentada
  */
 
-const KIT_API_KEY = process.env.KIT_API_KEY || 'REDACTED_KIT_API_KEY';
+const KIT_API_KEY = process.env.KIT_API_KEY;
 const KIT_API_URL = 'https://api.convertkit.com/v3';
 
 // Configuración de la automatización
