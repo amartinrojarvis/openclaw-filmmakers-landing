@@ -4,6 +4,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStripe, getProductTypeFromPriceId, STRIPE_PRICE_IDS } from '@/lib/stripe';
 import { sendGuiaEmail, sendBundleEmail } from '@/lib/brevo';
+import { isEventProcessed, markEventAsProcessed } from '@/lib/webhook-idempotency';
 import Stripe from 'stripe';
 
 // Deshabilitar el body parser para poder verificar la firma del webhook
@@ -57,6 +58,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   // Manejar el evento
   try {
+    // Idempotencia: evitar procesar el mismo evento dos veces
+    if (await isEventProcessed(event.id)) {
+      console.log(`Evento ${event.id} ya fue procesado. Saltando.`);
+      return NextResponse.json({ received: true, idempotent: true });
+    }
+
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
@@ -65,7 +72,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       }
 
       case 'payment_intent.succeeded': {
-        // Confirmación adicional del pago (opcional)
+        // Confirmacion adicional del pago (opcional)
         console.log('PaymentIntent exitoso:', event.data.object.id);
         break;
       }
@@ -86,6 +93,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       default:
         console.log(`Evento no manejado: ${event.type}`);
     }
+
+    // Marcar evento como procesado
+    await markEventAsProcessed(event.id);
 
     return NextResponse.json({ received: true });
 
@@ -109,6 +119,12 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
   console.log('Payment status:', session.payment_status);
   console.log('Amount total:', session.amount_total);
 
+  // Solo procesar si el pago fue exitoso
+  if (session.payment_status !== 'paid') {
+    console.log(`Pago no completado (status: ${session.payment_status}). Saltando envio de email.`);
+    return;
+  }
+
   // Obtener email del cliente
   const customerEmail = session.customer_email || session.customer_details?.email;
   console.log('Customer email (raw):', session.customer_email);
@@ -116,7 +132,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
   console.log('Customer email (final):', customerEmail);
   
   if (!customerEmail) {
-    console.error('❌ ERROR: No se encontró email del cliente en la sesión:', session.id);
+    console.error('❌ ERROR: No se encontro email del cliente en la sesion:', session.id);
     return;
   }
 

@@ -3,6 +3,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { STRIPE_PRICE_IDS } from '@/lib/stripe';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 interface CheckoutRequest {
   priceId: string;
@@ -13,6 +14,16 @@ const STRIPE_API_URL = 'https://api.stripe.com/v1';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
+    // Rate limiting: max 5 requests por IP cada 60 segundos
+    const ip = getClientIp(request);
+    const limit = rateLimit(`stripe-checkout:${ip}`, 5, 60_000);
+    if (!limit.success) {
+      return NextResponse.json(
+        { error: 'Demasiadas solicitudes. Intentalo de nuevo en un minuto.' },
+        { status: 429 }
+      );
+    }
+
     const body: CheckoutRequest = await request.json();
     const { priceId, email } = body;
 

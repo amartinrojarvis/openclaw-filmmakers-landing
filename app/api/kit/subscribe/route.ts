@@ -3,6 +3,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { addSubscriber, KIT_TAGS } from '@/lib/kit';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 interface SubscribeRequest {
   email: string;
@@ -11,6 +12,16 @@ interface SubscribeRequest {
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
+    // Rate limiting: max 3 requests por IP cada 60 segundos
+    const ip = getClientIp(request);
+    const limit = rateLimit(`kit-subscribe:${ip}`, 3, 60_000);
+    if (!limit.success) {
+      return NextResponse.json(
+        { error: 'Demasiadas solicitudes. Intentalo de nuevo en un minuto.' },
+        { status: 429 }
+      );
+    }
+
     const body: SubscribeRequest = await request.json();
     const { email, firstName } = body;
 

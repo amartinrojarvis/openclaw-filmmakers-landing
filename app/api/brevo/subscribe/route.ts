@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 const BREVO_API_KEY = process.env.BREVO_API_KEY;
 const FALLBACK_DIR = path.join(process.cwd(), 'data', 'brevo-fallback');
@@ -9,7 +10,7 @@ async function saveLocalFallback(email: string, firstName: string, listId: numbe
   try {
     await fs.mkdir(FALLBACK_DIR, { recursive: true });
     const timestamp = Date.now();
-    const filename = path.join(FALLBACK_DIR, `${timestamp}-${email.replace(/[@\.]/g, '_')}.json`);
+    const filename = path.join(FALLBACK_DIR, `${timestamp}-${email.replace(/[@\\.]/g, '_')}.json`);
     const payload = {
       email,
       firstName,
@@ -26,8 +27,26 @@ async function saveLocalFallback(email: string, firstName: string, listId: numbe
   }
 }
 
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function sanitizeName(name: string): string {
+  return name.trim().substring(0, 100).replace(/[<>\"']/g, '');
+}
+
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting: max 3 requests por IP cada 60 segundos
+    const ip = getClientIp(request);
+    const limit = rateLimit(`brevo-subscribe:${ip}`, 3, 60_000);
+    if (!limit.success) {
+      return NextResponse.json(
+        { error: 'Demasiadas solicitudes. Intentalo de nuevo en un minuto.' },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const { email, firstName, listId, attributes = {} } = body;
 
@@ -40,11 +59,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Preparar atributos correctamente - Brevo usa mayúsculas para atributos por defecto
+    if (!isValidEmail(email)) {
+      return NextResponse.json(
+        { error: 'Email no valido' },
+        { status: 400 }
+      );
+    }
+
+    // Preparar atributos correctamente - Brevo usa mayusculas para atributos por defecto
     const contactAttributes: Record<string, string> = {};
 
     // Solo añadir NOMBRE si tiene valor (atributo personalizado en Brevo)
-    const nameToUse = firstName || attributes.NOMBRE || attributes.nombre || attributes.FIRSTNAME || '';
+    const nameToUse = sanitizeName(firstName || attributes.NOMBRE || attributes.nombre || attributes.FIRSTNAME || '');
     if (nameToUse && nameToUse.trim() !== '') {
       contactAttributes.NOMBRE = nameToUse.trim();
     }
@@ -62,11 +88,11 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
           success: true,
           localFallback: true,
-          message: 'Suscripción guardada (modo local)',
+          message: 'Suscripcion guardada (modo local)',
         });
       }
       return NextResponse.json(
-        { error: 'Error de configuración' },
+        { error: 'Error de configuracion' },
         { status: 500 }
       );
     }
@@ -142,13 +168,13 @@ export async function POST(request: NextRequest) {
       const updateError = await updateResponse.text();
       console.error('Error en PUT:', updateError);
 
-      // Si el PUT también falla, guardamos fallback local
+      // Si el PUT tambien falla, guardamos fallback local
       const saved = await saveLocalFallback(email, nameToUse, listId, contactAttributes);
       if (saved) {
         return NextResponse.json({
           success: true,
           localFallback: true,
-          message: 'Suscripción guardada localmente por error temporal con Brevo',
+          message: 'Suscripcion guardada localmente por error temporal con Brevo',
         });
       }
     }
@@ -162,12 +188,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         localFallback: true,
-        message: 'Suscripción guardada localmente por error temporal con Brevo',
+        message: 'Suscripcion guardada localmente por error temporal con Brevo',
       });
     }
 
     return NextResponse.json(
-      { error: 'Error al procesar la suscripción' },
+      { error: 'Error al procesar la suscripcion' },
       { status: 500 }
     );
 

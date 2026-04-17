@@ -12,3 +12,4 @@ node_modules/
 .ga4-service-account.json
 .ga4-service-account.json
 data/brevo-fallback/
+data/processed-webhooks.json
