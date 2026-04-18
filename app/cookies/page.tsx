@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageLayout } from "@/components/PageLayout";
+import { OpenCookieSettings } from "@/components/OpenCookieSettings";
 
 export const metadata: Metadata = {
   title: "Politica de Cookies | OpenClaw para Filmmakers",
@@ -69,8 +70,8 @@ export default function CookiesPage() {
                   Nos ayudan a entender como interactuas con el sitio. Son anonimas y no identifican personalmente.
                 </p>
                 <ul className="list-disc list-inside text-white/50 space-y-1 text-sm">
-                  <li>Google Analytics: paginas vistas, tiempo de navegacion</li>
-                  <li>Google Tag Manager: gestion de etiquetas</li>
+                  <li>Google Analytics (Google LLC): paginas vistas, tiempo de navegacion</li>
+                  <li>Google Tag Manager (Google LLC): gestion de etiquetas</li>
                 </ul>
               </div>
 
@@ -83,8 +84,8 @@ export default function CookiesPage() {
                   Utilizadas para mostrarte anuncios relevantes y medir su efectividad. Requieren tu consentimiento explicito.
                 </p>
                 <ul className="list-disc list-inside text-white/50 space-y-1 text-sm">
-                  <li>Meta Pixel (Facebook/Instagram): conversion y remarketing</li>
-                  <li>YouTube: reproduccion de videos incrustados</li>
+                  <li>Meta Pixel (Meta Platforms, Inc.): conversion y remarketing</li>
+                  <li>YouTube (Google LLC): reproduccion de videos incrustados y personalizacion de anuncios</li>
                 </ul>
               </div>
             </div>
@@ -96,7 +97,7 @@ export default function CookiesPage() {
               <table className="w-full text-sm text-left">
                 <thead className="text-white/50 border-b border-white/10">
                   <tr>
-                    <th className="py-3">Cookie</th>
+                    <th className="py-3">Cookie / Entidad</th>
                     <th className="py-3">Duracion</th>
                     <th className="py-3">Tipo</th>
                     <th className="py-3">Proposito</th>
@@ -104,32 +105,81 @@ export default function CookiesPage() {
                 </thead>
                 <tbody className="text-white/70">
                   <tr className="border-b border-white/5">
-                    <td className="py-3">cookie_consent_v1</td>
+                    <td className="py-3">cookie_consent_v1<br/><span className="text-white/40 text-xs">Propia</span></td>
                     <td className="py-3">1 año</td>
                     <td className="py-3">Necesaria</td>
                     <td className="py-3">Almacena tus preferencias de consentimiento</td>
                   </tr>
                   <tr className="border-b border-white/5">
-                    <td className="py-3">_ga (Google)</td>
-                    <td className="py-3">2 años</td>
-                    <td className="py-3">Estadisticas</td>
-                    <td className="py-3">Distingue usuarios unicos</td>
-                  </tr>
-                  <tr className="border-b border-white/5">
-                    <td className="py-3">_fbp (Meta)</td>
-                    <td className="py-3">3 meses</td>
-                    <td className="py-3">Marketing</td>
-                    <td className="py-3">Identifica navegadores para publicidad</td>
-                  </tr>
-                  <tr className="border-b border-white/5">
-                    <td className="py-3">__stripe_mid</td>
+                    <td className="py-3">__stripe_mid<br/><span className="text-white/40 text-xs">Stripe, Inc.</span></td>
                     <td className="py-3">1 año</td>
                     <td className="py-3">Necesaria</td>
                     <td className="py-3">Prevencion de fraude en pagos</td>
                   </tr>
+                  <tr className="border-b border-white/5">
+                    <td className="py-3">_ga<br/><span className="text-white/40 text-xs">Google LLC</span></td>
+                    <td className="py-3">2 años</td>
+                    <td className="py-3">Estadisticas</td>
+                    <td className="py-3">Distingue usuarios unicos en Google Analytics</td>
+                  </tr>
+                  <tr className="border-b border-white/5">
+                    <td className="py-3">_gid<br/><span className="text-white/40 text-xs">Google LLC</span></td>
+                    <td className="py-3">24 horas</td>
+                    <td className="py-3">Estadisticas</td>
+                    <td className="py-3">Distingue usuarios durante la sesion</td>
+                  </tr>
+                  <tr className="border-b border-white/5">
+                    <td className="py-3">_gat / _gat_gtag_UA_*<br/><span className="text-white/40 text-xs">Google LLC</span></td>
+                    <td className="py-3">1 minuto</td>
+                    <td className="py-3">Estadisticas</td>
+                    <td className="py-3">Limita la tasa de solicitudes a Analytics</td>
+                  </tr>
+                  <tr className="border-b border-white/5">
+                    <td className="py-3">_fbp<br/><span className="text-white/40 text-xs">Meta Platforms, Inc.</span></td>
+                    <td className="py-3">3 meses</td>
+                    <td className="py-3">Marketing</td>
+                    <td className="py-3">Identifica navegadores para publicidad y remarketing</td>
+                  </tr>
+                  <tr className="border-b border-white/5">
+                    <td className="py-3">VISITOR_INFO1_LIVE<br/><span className="text-white/40 text-xs">Google LLC (YouTube)</span></td>
+                    <td className="py-3">6 meses</td>
+                    <td className="py-3">Marketing</td>
+                    <td className="py-3">Estima el ancho de banda y personaliza recomendaciones</td>
+                  </tr>
+                  <tr className="border-b border-white/5">
+                    <td className="py-3">YSC<br/><span className="text-white/40 text-xs">Google LLC (YouTube)</span></td>
+                    <td className="py-3">Sesion</td>
+                    <td className="py-3">Marketing</td>
+                    <td className="py-3">Registra un ID unico para estadisticas del video</td>
+                  </tr>
+                  <tr className="border-b border-white/5">
+                    <td className="py-3">CONSENT<br/><span className="text-white/40 text-xs">Google LLC (YouTube)</span></td>
+                    <td className="py-3">2 años</td>
+                    <td className="py-3">Marketing</td>
+                    <td className="py-3">Almacena las preferencias de consentimiento de Google</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-medium text-white mb-4">Transferencias internacionales de datos</h2>
+            <p className="mb-4">
+              Algunos de los terceros mencionados anteriormente operan desde fuera del Espacio Economico Europeo (EEE), concretamente en Estados Unidos. Esto implica una transferencia internacional de datos:
+            </p>
+            <ul className="list-disc list-inside text-white/50 space-y-2 mb-4">
+              <li><strong>Google LLC</strong> y <strong>Meta Platforms, Inc.</strong> estan certificados bajo el <em>EU-U.S. Data Privacy Framework</em>, que la Comision Europea reconoce como garantia adecuada para estas transferencias.</li>
+              <li>Ademas, solo transferimos datos cuando has otorgado tu consentimiento explicito para las cookies de estadisticas y/o marketing.</li>
+              <li>Puedes revocar tu consentimiento en cualquier momento, lo que detendra cualquier futura transferencia asociada a dichas cookies.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-medium text-white mb-4">Prueba de consentimiento</h2>
+            <p className="mb-4">
+              Cada vez que das, modificas o rechazas tu consentimiento de cookies, registramos de forma segura un log con la fecha, hora, categoria aceptadas/rechazadas y una huella anonimizada de tu conexion. Este registro nos permite demostrar ante las autoridades de proteccion de datos que tu consentimiento fue libre, especifico, informado y inequivoco.
+            </p>
           </section>
 
           <section>
@@ -139,16 +189,7 @@ export default function CookiesPage() {
               enlace "Gestionar cookies" del pie de pagina, o accediendo directamente a:
             </p>
             <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10">
-              <button 
-                onClick={() => {
-                  if (typeof window !== 'undefined') {
-                    window.dispatchEvent(new CustomEvent('openCookieBanner'));
-                  }
-                }}
-                className="text-[#00ff88] hover:underline cursor-pointer bg-transparent border-none"
-              >
-                Abrir configuracion de cookies →
-              </button>
+              <OpenCookieSettings />
             </div>
           </section>
 

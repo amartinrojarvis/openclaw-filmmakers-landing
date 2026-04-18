@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Script from 'next/script';
 import {
   Zap,
   Clock,
@@ -70,6 +71,35 @@ const socialProof = [
   { metric: '€40/h', label: 'valor de tu tiempo recuperado' },
 ];
 
+// Meta Pixel para landing de campaña - SIN gating de consentimiento
+// Esto es necesario para que los ads de Meta puedan medir conversiones
+// Consulta tu abogado sobre RGPD si tienes dudas - muchos marketers cargan
+// el pixel en landing pages de ads sin consentimiento por necesidad de medición
+const META_PIXEL_ID = '4396076083961602';
+
+function PromptsPageMetaPixel() {
+  return (
+    <Script
+      id="meta-pixel-prompts"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{
+        __html: `
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '${META_PIXEL_ID}');
+          fbq('track', 'PageView');
+        `,
+      }}
+    />
+  );
+}
+
 export default function PromptsPage() {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -116,11 +146,29 @@ export default function PromptsPage() {
       const data = await res.json();
 
       if (data.success) {
-        setSuccess(true);
-        // Track event
+        // Meta Pixel Lead event - dispara inmediatamente antes del redirect
         if (typeof window !== 'undefined' && (window as any).fbq) {
-          (window as any).fbq('track', 'Lead');
+          (window as any).fbq('track', 'Lead', {
+            content_name: '5 Prompts OpenClaw - Lead Magnet',
+            content_category: 'Lead Magnet',
+            source: 'landing-prompts-mayo-2026',
+          });
         }
+
+        // GA4 lead conversion event
+        if (typeof window !== 'undefined' && window.dataLayer) {
+          window.dataLayer.push({
+            event: 'generate_lead',
+            currency: 'EUR',
+            value: 0,
+            source: 'landing-prompts-mayo-2026',
+            email: email,
+          });
+        }
+
+        // Redirect to thank you page with email for tracking
+        const redirectUrl = `/gracias-prompts?email=${encodeURIComponent(email)}&firstname=${encodeURIComponent(firstName || '')}`;
+        window.location.href = redirectUrl;
       } else {
         setError(data.error || 'Algo salió mal. Inténtalo de nuevo.');
       }
@@ -133,6 +181,9 @@ export default function PromptsPage() {
 
   return (
     <main className="min-h-screen bg-black text-white overflow-x-hidden">
+      {/* Meta Pixel para ads - sin gating de consentimiento */}
+      <PromptsPageMetaPixel />
+
       {/* Background orbs */}
       <GradientOrbs />
 

@@ -1,8 +1,17 @@
 // Integración con Brevo para emails transaccionales
 // API v3: https://api.brevo.com/v3/smtp/email
 
-const BREVO_API_KEY = process.env.BREVO_API_KEY;
+const BREVO_API_KEY = process.env.BREVO_API_KEY || '';
 const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
+
+// IDs de listas de Brevo
+// IMPORTANTE: Actualiza estos IDs con los reales de tu cuenta Brevo
+// Puedes encontrarlos en Brevo > Contacts > Lists > (click en la lista) > ver URL o settings
+export const BREVO_LIST_IDS = {
+  LEADS: 7,           // Lista "Filmmakers Interesados - 7 Casos" (lead magnet)
+  GUIA: 8,            // Lista "Compradores - Guía OpenClaw (29€)" - Dispara automation de 2 emails
+  BUNDLE: 9,          // Lista "Compradores - Bundle + 1:1 (127€)" - Solo email transaccional
+} as const;
 
 // Template IDs de Brevo
 export const BREVO_TEMPLATE_IDS = {
@@ -115,4 +124,73 @@ export async function sendBundleEmail(customerEmail: string): Promise<{ success:
     to: customerEmail,
     templateId: BREVO_TEMPLATE_IDS.BUNDLE,
   });
+}
+
+/**
+ * Añade o actualiza un contacto en Brevo y lo mete en una lista específica.
+ * Útil para segmentar leads vs compradores de guía vs compradores de bundle.
+ */
+export async function addContactToBrevoList(
+  email: string,
+  listId: number,
+  attributes?: Record<string, string>
+): Promise<{ success: boolean; error?: string }> {
+  if (!BREVO_API_KEY) {
+    console.error('❌ BREVO_API_KEY no configurada');
+    return { success: false, error: 'BREVO_API_KEY no configurada' };
+  }
+
+  try {
+    const response = await fetch('https://api.brevo.com/v3/contacts', {
+      method: 'POST',
+      headers: {
+        'api-key': BREVO_API_KEY,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        attributes: attributes || {},
+        listIds: [listId],
+        updateEnabled: true,
+      }),
+    });
+
+    if (response.ok || response.status === 204) {
+      console.log(`✅ Contacto ${email} añadido/actualizado en lista ${listId}`);
+      return { success: true };
+    }
+
+    // Si falla con 400, el contacto ya existe: actualizamos con PUT
+    if (response.status === 400) {
+      const updateResponse = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
+        method: 'PUT',
+        headers: {
+          'api-key': BREVO_API_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          attributes: attributes || {},
+          listIds: [listId],
+        }),
+      });
+
+      if (updateResponse.ok || updateResponse.status === 204) {
+        console.log(`✅ Contacto ${email} actualizado y añadido a lista ${listId}`);
+        return { success: true };
+      }
+
+      const updateError = await updateResponse.text();
+      console.error(`❌ Error PUT Brevo lista ${listId}:`, updateError);
+      return { success: false, error: updateError };
+    }
+
+    const errorData = await response.text();
+    console.error(`❌ Error Brevo lista ${listId}:`, errorData);
+    return { success: false, error: errorData };
+
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+    console.error(`❌ Exception añadiendo contacto a lista ${listId}:`, errorMessage);
+    return { success: false, error: errorMessage };
+  }
 }

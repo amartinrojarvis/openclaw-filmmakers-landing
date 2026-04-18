@@ -3,7 +3,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getStripe, getProductTypeFromPriceId, STRIPE_PRICE_IDS } from '@/lib/stripe';
-import { sendGuiaEmail, sendBundleEmail } from '@/lib/brevo';
+import { sendGuiaEmail, sendBundleEmail, addContactToBrevoList, BREVO_LIST_IDS } from '@/lib/brevo';
 import { isEventProcessed, markEventAsProcessed } from '@/lib/webhook-idempotency';
 import Stripe from 'stripe';
 
@@ -181,20 +181,40 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
 
   console.log(`Procesando: Cliente ${customerEmail} compró ${productType}`);
 
-  // Enviar email via Brevo según el producto (usando plantillas)
-  let emailResult: { success: boolean; error?: string };
+  // Enviar email via Brevo según el producto + añadir a lista de compradores
+  let emailResult: { success: boolean; error?: string } = { success: true };
 
   try {
     if (productType === 'bundle') {
-      console.log('Llamando sendBundleEmail...');
-      emailResult = await sendBundleEmail(customerEmail);
+      console.log('Llamando sendBundleEmail + addContactToBrevoList BUNDLE...');
+      const [bundleEmailRes, bundleListRes] = await Promise.all([
+        sendBundleEmail(customerEmail),
+        addContactToBrevoList(customerEmail, BREVO_LIST_IDS.BUNDLE, {
+          PRODUCTO: 'bundle',
+          FECHA_COMPRA: new Date().toISOString(),
+        }),
+      ]);
+      emailResult = bundleEmailRes;
+      if (!bundleListRes.success) {
+        console.error('❌ ERROR añadiendo a lista BUNDLE:', bundleListRes.error);
+      }
     } else {
-      console.log('Llamando sendGuiaEmail...');
-      emailResult = await sendGuiaEmail(customerEmail);
+      // GUIA: Solo añadir a lista. La automation de Brevo se encarga del email de bienvenida
+      console.log('Añadiendo a lista GUIA (la automation de Brevo enviará el email)...');
+      const guiaListRes = await addContactToBrevoList(customerEmail, BREVO_LIST_IDS.GUIA, {
+        PRODUCTO: 'guia',
+        FECHA_COMPRA: new Date().toISOString(),
+      });
+      if (!guiaListRes.success) {
+        console.error('❌ ERROR añadiendo a lista GUIA:', guiaListRes.error);
+        emailResult = { success: false, error: guiaListRes.error };
+      } else {
+        console.log('✅ Cliente añadido a lista GUIA. Automation de Brevo enviará el email.');
+      }
     }
-    console.log('Email result:', JSON.stringify(emailResult));
+    console.log('Resultado:', JSON.stringify(emailResult));
   } catch (err) {
-    console.error('❌ EXCEPTION enviando email:', err);
+    console.error('❌ EXCEPTION procesando compra:', err);
     emailResult = { success: false, error: String(err) };
   }
 

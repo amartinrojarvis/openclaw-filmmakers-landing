@@ -121,8 +121,7 @@ function GraciasContentInner() {
 
 export function GraciasContent() {
   return (
-    <PageLayout showBackButton={false}>
-      <Suspense fallback={
+    <Suspense fallback={
         <div className="max-w-2xl mx-auto px-4 py-12 text-center">
           <div className="mb-8">
             <div className="w-20 h-20 bg-[#00ff88]/20 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
@@ -137,6 +136,5 @@ export function GraciasContent() {
       }>
         <GraciasContentInner />
       </Suspense>
-    </PageLayout>
   );
 }

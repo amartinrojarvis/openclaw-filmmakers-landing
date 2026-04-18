@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Mail, Loader2, CheckCircle } from 'lucide-react';
+import { BREVO_LIST_IDS } from '@/lib/brevo';
 
 interface EmailCaptureProps {
   variant?: 'hero' | 'inline' | 'footer' | 'exit';
@@ -39,7 +40,7 @@ export function EmailCapture({
         body: JSON.stringify({
           email,
           firstName: name,
-          listId: 7, // Lista "Filmmakers Interesados - 7 Casos"
+          listId: BREVO_LIST_IDS.LEADS, // Lista "Filmmakers Interesados - 7 Casos"
           attributes: {
             FIRSTNAME: name,
             SOURCE: 'website_capture',

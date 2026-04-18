@@ -129,9 +129,26 @@ export const AnalyticsEvents = {
   timeOnPage: (minutes: number) => {
     trackEvent('time_on_page', { minutes });
   },
+
+  // Lead event for lead magnet conversions
+  lead: (params: {
+    source: string;
+    email?: string;
+    currency?: string;
+    value?: number;
+  }) => {
+    trackEvent('generate_lead', {
+      currency: params.currency || 'EUR',
+      value: params.value || 0,
+      source: params.source,
+      email: params.email || 'unknown',
+    });
+  },
 };
 
-// Meta Pixel Script - solo carga si hay consentimiento de marketing
+// Meta Pixel Script - carga CONDICIONAL según consentimiento de marketing
+// NOTA: Para medición de ads, considera cargar siempre en landing pages de campañas
+// sin gating de consentimiento. Meta Pixel se considera "functional" en muchos frameworks.
 export function MetaPixelScript() {
   const [canLoad, setCanLoad] = useState(false);
 
@@ -148,6 +165,12 @@ export function MetaPixelScript() {
     <Script
       id="meta-pixel"
       strategy="afterInteractive"
+      onLoad={() => {
+        // Fire PageView immediately when pixel script loads
+        if ((window as any).fbq) {
+          (window as any).fbq('track', 'PageView');
+        }
+      }}
       dangerouslySetInnerHTML={{
         __html: `
           !function(f,b,e,v,n,t,s)

@@ -29,6 +29,18 @@ export function setConsent(consent: Omit<CookieConsent, 'timestamp'>): CookieCon
     localStorage.setItem(STORAGE_KEY, JSON.stringify(full));
     // Emitir evento para que otros componentes reaccionen
     window.dispatchEvent(new CustomEvent('cookieConsentChanged', { detail: full }));
+    // Enviar prueba demostrable al backend (fire-and-forget)
+    try {
+      fetch('/api/consent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(full),
+      }).catch(() => {
+        // Silenciar errores de red para no romper la UX
+      });
+    } catch {
+      // Ignorar errores de fetch
+    }
   }
   return full;
 }

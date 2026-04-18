@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { X, ChevronDown, Shield } from 'lucide-react';
+import { ChevronDown, Shield } from 'lucide-react';
 import cookieConfig from '@/config/cookies.json';
 import { getConsent, setConsent, type CookieConsent } from '@/lib/cookies';
 
@@ -60,20 +60,12 @@ export function CookieBanner() {
     <div className="fixed inset-x-0 bottom-0 z-[100] p-4 sm:p-6">
       <div className="mx-auto max-w-5xl">
         <div className="relative rounded-2xl border border-white/10 bg-[#0a0a0a]/95 backdrop-blur-md p-6 shadow-2xl shadow-black/50">
-          <button
-            onClick={() => setVisible(false)}
-            className="absolute right-4 top-4 text-white/40 hover:text-white transition"
-            aria-label="Cerrar"
-          >
-            <X className="w-5 h-5" />
-          </button>
-
           <div className="flex flex-col gap-5">
             <div className="flex items-start gap-4">
               <div className="hidden sm:flex w-12 h-12 rounded-full bg-gradient-to-br from-[#00ff88] to-[#00d4ff] items-center justify-center shrink-0">
                 <Shield className="w-6 h-6 text-black" />
               </div>
-              <div className="flex-1 pr-6">
+              <div className="flex-1 pr-0">
                 <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
                   {cookieConfig.title}
                 </h3>
@@ -181,7 +173,7 @@ export function CookieBanner() {
 
               <button
                 onClick={rejectNonEssential}
-                className="order-2 px-5 py-2.5 rounded-xl border border-white/10 text-sm font-semibold text-white hover:bg-white/5 transition"
+                className="order-2 px-5 py-2.5 rounded-xl bg-white/10 text-white text-sm font-bold hover:bg-white/20 transition"
               >
                 Rechazar no esenciales
               </button>

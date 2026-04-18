@@ -8,6 +8,7 @@ import { rateLimit, getClientIp } from '@/lib/rate-limit';
 interface CheckoutRequest {
   priceId: string;
   email?: string;
+  promotionCode?: string; // Código promocional pre-aplicado (opcional)
 }
 
 const STRIPE_API_URL = 'https://api.stripe.com/v1';
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     const body: CheckoutRequest = await request.json();
-    const { priceId, email } = body;
+    const { priceId, email, promotionCode } = body;
 
     // Validaciones
     if (!priceId) {
@@ -60,12 +61,19 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       'line_items[0][quantity]': '1',
       'mode': 'payment',
       'billing_address_collection': 'required',
-      'allow_promotion_codes': 'true',
       'success_url': `${siteUrl}/gracias?session_id={CHECKOUT_SESSION_ID}`,
       'cancel_url': `${siteUrl}/`,
       'metadata[priceId]': priceId,
       'metadata[source]': 'landing_page',
     });
+
+    // Si hay un código promocional, aplicarlo automáticamente
+    if (promotionCode) {
+      params.append('discounts[0][promotion_code]', promotionCode);
+    } else {
+      // Permitir que el usuario introduzca su propio código si no viene pre-aplicado
+      params.append('allow_promotion_codes', 'true');
+    }
 
     // Agregar email si se proporcionó
     if (email) {

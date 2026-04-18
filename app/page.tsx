@@ -28,6 +28,7 @@ import {
 import { useScrollAnimation, useScrollAnimationGroup } from '@/hooks/useScrollAnimation';
 import { AnalyticsEvents } from '@/components/Analytics';
 import { useCheckout } from '@/hooks/useCheckout';
+import { YouTubeEmbed } from '@/components/YouTubeEmbed';
 import { PageLayout } from '@/components/PageLayout';
 import { GradientOrbs } from '@/components/AnimatedBackground';
 import { LazyParticles } from '@/components/LazyParticles';
@@ -940,15 +941,7 @@ function VideoSection() {
         }`}
       >
         {/* Video Container */}
-        <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-900/50 border border-white/10 shadow-2xl shadow-cyan/5">
-          <iframe
-            src="https://www.youtube.com/embed/0PubGe_gQz8?rel=0&modestbranding=1&playsinline=1"
-            title="Demo IA para Filmmakers"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="absolute inset-0 w-full h-full"
-          />
-        </div>
+        <YouTubeEmbed videoId="0PubGe_gQz8" title="Demo IA para Filmmakers" />
         
         {/* Caption */}
         <p className="mt-4 text-center text-sm text-white/40">
