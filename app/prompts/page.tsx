@@ -76,6 +76,25 @@ const socialProof = [
 // Consulta tu abogado sobre RGPD si tienes dudas - muchos marketers cargan
 // el pixel en landing pages de ads sin consentimiento por necesidad de medición
 const META_PIXEL_ID = '4396076083961602';
+const GTM_ID = 'GTM-5N34HG2X';
+
+function PromptsPageGTM() {
+  return (
+    <Script
+      id="gtm-prompts"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{
+        __html: `
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','${GTM_ID}');
+        `,
+      }}
+    />
+  );
+}
 
 function PromptsPageMetaPixel() {
   return (
@@ -183,6 +202,9 @@ export default function PromptsPage() {
     <main className="min-h-screen bg-black text-white overflow-x-hidden">
       {/* Meta Pixel para ads - sin gating de consentimiento */}
       <PromptsPageMetaPixel />
+      
+      {/* GTM para analytics - sin gating en landing de campaña */}
+      <PromptsPageGTM />
 
       {/* Background orbs */}
       <GradientOrbs />
