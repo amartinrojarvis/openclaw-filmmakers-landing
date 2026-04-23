@@ -22,8 +22,8 @@ import { GradientOrbs } from '@/components/AnimatedBackground';
 
 const BREVO_LIST_ID = 10; // Leads - OpenClaw Guia Mayo 2026
 
-// Lista de prompts que aparecen en el PDF
-const promptsPreview = [
+// Lista de casos de uso que aparecen en el PDF
+const casosPreview = [
   {
     icon: Bot,
     title: 'Análisis de clips automático',
@@ -34,7 +34,7 @@ const promptsPreview = [
     icon: Mail,
     title: 'Presupuesto en 30 segundos',
     time: 'Ahorra 45min',
-    desc: 'Desglose profesional con precios de mercado, listo para enviar.',
+    desc: 'Desglose profesional con precios de mercado, listo para enviar al cliente.',
   },
   {
     icon: CheckCircle2,
@@ -46,7 +46,7 @@ const promptsPreview = [
     icon: Zap,
     title: 'Email de seguimiento profesional',
     time: 'Ahorra 20min',
-    desc: 'Recupera leads fríos sin parecer desesperado. Borrador listo.',
+    desc: 'Recupera clientes potenciales sin parecer desesperado. Borrador listo.',
   },
   {
     icon: FileText,
@@ -61,7 +61,7 @@ const benefits = [
   'PDF de 2-3 páginas, listo para leer en 2 minutos',
   'Copia y pega directamente en OpenClaw',
   'Basados en mi workflow real como filmmaker',
-  'Sin teoría: solo prompts que uso a diario',
+  'Sin teoría: solo workflows que uso a diario con resultados reales',
 ];
 
 // Testimonios sociales
@@ -215,12 +215,12 @@ export default function PromptsPage() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 mb-8 animate-fade-in">
             <Sparkles className="w-4 h-4 text-[#00ff88]" />
-            <span className="text-sm text-white/70">Gratis · 2 min de lectura · Copia y pega</span>
+            <span className="text-sm text-white/70">Workflows probados · Ahorra 10+ horas semanales · Implementación inmediata</span>
           </div>
 
           {/* Headline */}
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold leading-[1.1] mb-6">
-            <span className="block">5 prompts de OpenClaw</span>
+            <span className="block">5 casos de uso con OpenClaw</span>
             <span className="block bg-gradient-to-r from-[#00ff88] via-[#00d4ff] to-[#0099ff] bg-clip-text text-transparent">
               que me ahorran 10 horas semanales
             </span>
@@ -228,7 +228,7 @@ export default function PromptsPage() {
 
           {/* Subheadline */}
           <p className="text-lg sm:text-xl text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed">
-            No es magia. Es un sistema. Copia estos prompts exactos en tu OpenClaw 
+            No es magia. Es un sistema. Implementa estos casos de uso exactos en tu OpenClaw 
             y empieza a recuperar tiempo para lo que de verdad importa: <strong className="text-white/90">crear.</strong>
           </p>
 
@@ -270,11 +270,11 @@ export default function PromptsPage() {
             Lo que vas a recibir
           </h2>
           <p className="text-white/50 text-center mb-12 max-w-xl mx-auto">
-            5 prompts probados. Sin teoría. Solo copiar, pegar y ejecutar.
+            5 casos de uso probados. Sin teoría. Solo implementar y ejecutar.
           </p>
 
           <div className="grid gap-4">
-            {promptsPreview.map((prompt, i) => (
+            {casosPreview.map((prompt, i) => (
               <div
                 key={i}
                 className="group relative bg-white/[0.03] border border-white/[0.08] rounded-2xl p-5 sm:p-6 transition-all duration-300 hover:bg-white/[0.06] hover:border-[#00ff88]/30 hover:shadow-[0_0_30px_rgba(0,255,136,0.08)]"
@@ -401,7 +401,7 @@ export default function PromptsPage() {
                     ) : (
                       <>
                         <Download className="w-5 h-5" />
-                        Quiero los 5 prompts
+                        Quiero los 5 casos de uso
                         <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                       </>
                     )}
@@ -423,7 +423,7 @@ export default function PromptsPage() {
                 </div>
                 <h2 className="text-2xl font-bold mb-3">¡Listo! Revisa tu email</h2>
                 <p className="text-white/60 mb-2">
-                  Te acabo de enviar el PDF con los 5 prompts. 
+                  Te acabo de enviar el PDF con los 5 casos de uso. 
                   Si no lo ves en unos minutos, revisa spam.
                 </p>
                 <p className="text-white/40 text-sm">
