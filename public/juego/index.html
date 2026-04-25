@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>¡ACTION! - Filmmaker Platformer</title>
+    <link rel="stylesheet" href="css/styles.css?t=202504251910">
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- Mensaje modal FUERA del UI para que esté por encima de todo -->
+        <div id="message">
+            <div id="messageContent">
+                <div id="messageTitle">¡ACTION!</div>
+                <div id="messageSubtitle">El juego del filmmaker</div>
+                <div id="messageExtra"></div>
+                <button id="messageBtn">¡A GRABAR!</button>
+            </div>
+        </div>
+        
+        <div id="ui">
+            <div id="hud">
+                <div class="score">🎬 <span id="scoreValue">0</span></div>
+                <div class="money">💰 <span id="moneyValue">0</span>€</div>
+                <div class="level">📍 <span id="levelValue">1</span>/3</div>
+                <div class="progress-container">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <div class="battery-container">
+                    🔋<div class="battery-bar"><div class="battery-fill" id="batteryFill" style="width: 100%"></div></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="controls">
+            <div class="control-group">
+                <div class="control-btn" id="btnLeft">←</div>
+                <div class="control-btn" id="btnRight">→</div>
+            </div>
+            <div class="control-group">
+                <div class="control-btn" id="btnJump">↑</div>
+                <div class="control-btn" id="btnShoot">📷</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Plaquita de créditos -->
+    <div id="credits">
+        🎮 Videojuego creado por <a href="https://instagram.com/amartinro" target="_blank">@amartinro</a> con ayuda de Jarvis 🤖
+    </div>
+
+    <!-- Leyenda de controles de teclado (solo escritorio) -->
+    <div id="keyboardControls">
+        <div class="key-group">
+            <kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd>
+            <span>Moverse</span>
+        </div>
+        <div class="key-group">
+            <kbd>Z</kbd><kbd>X</kbd><kbd>C</kbd>
+            <span>Disparar</span>
+        </div>
+        <div class="key-group">
+            <kbd>B</kbd><kbd>V</kbd>
+            <span>Bomba flash</span>
+        </div>
+    </div>
+
+    <!-- Módulos del juego (orden importa) -->
+    <script src="js/config.js?t=202504251910"></script>
+    <script src="js/state.js?t=202504251910"></script>
+    <script src="js/audio.js?t=202504251910"></script>
+    <script src="js/input.js?t=202504251910"></script>
+    <script src="js/sprites-items.js?t=202504251910"></script>
+    <script src="js/sprites-enemies.js?t=202504251910"></script>
+    <script src="js/sprites-player.js?t=202504251910"></script>
+    <script src="js/level-generator.js?t=202504251910"></script>
+    <script src="js/levels.js?t=202504251910"></script>
+    <script src="js/physics.js?t=202504251910"></script>
+    <script src="js/powerups.js?t=202504251910"></script>
+    <script src="js/update.js?t=202504251910"></script>
+    <script src="js/render.js?t=202504251910"></script>
+    <script src="js/main.js?t=202504251910"></script>
+</body>
+</html>
