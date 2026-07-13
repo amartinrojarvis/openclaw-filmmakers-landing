@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowRight, CheckCircle2, CircleAlert } from 'lucide-react';
 import { PageLayout } from '@/components/PageLayout';
 import { SessionIntakeForm } from '@/components/SessionIntakeForm';
+import { AdvisoryPurchaseTracker } from '@/components/AdvisoryPurchaseTracker';
 import { getStripe, STRIPE_PRICE_IDS } from '@/lib/stripe';
 
 export const dynamic = 'force-dynamic';
@@ -38,6 +39,7 @@ export default async function GraciasAsesoriaPage({ searchParams }: Props) {
       <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8 sm:py-24">
         {valid ? (
           <>
+            <AdvisoryPurchaseTracker sessionId={sessionId!} />
             <header className="border-b border-[#f2eee5]/20 pb-12">
               <p className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#ff5a2a]"><CheckCircle2 className="h-4 w-4" /> Pago confirmado</p>
               <h1 className="font-editorial mt-6 max-w-4xl text-balance text-[clamp(3.2rem,7vw,6.8rem)] font-medium leading-[0.9] tracking-[-0.06em]">Ya tienes tu plaza. Ahora preparemos bien la sesión.</h1>

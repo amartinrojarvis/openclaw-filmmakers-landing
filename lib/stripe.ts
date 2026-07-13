@@ -32,6 +32,8 @@ export const STRIPE_PRICE_IDS = {
   ASESORIA_90M: 'price_1Tso8FHBqq0IP9IapfvQzXOn',
 };
 
+export const ASESORIA_PAYMENT_LINK_ID = 'plink_1Tsp3cHBqq0IP9IaoAA8S5V4';
+
 export type ProductType = 'guia' | 'bundle' | 'asesoria_90m';
 
 // Mapeo de price_id a tipo de producto.

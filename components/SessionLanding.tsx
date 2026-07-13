@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -27,51 +27,56 @@ const situations = [
 
 const faqs = [
   {
-    question: '¿Necesito saber de IA o programación?',
+    question: '¿Qué conseguiré en 90 minutos?',
     answer:
-      'No. Partimos de tu nivel y de las herramientas que ya utilizas. La sesión está pensada para profesionales audiovisuales que quieren avanzar sin perderse entre aplicaciones.',
-  },
-  {
-    question: '¿Qué conseguiremos en 90 minutos?',
-    answer:
-      'Elegiremos una prioridad real, analizaremos el proceso actual y construiremos o dejaremos definido un primer flujo aplicable. No intentaremos automatizar todo tu negocio en una sola sesión.',
+      'Trabajaremos una prioridad real y saldrás con un flujo aplicable, una hoja de ruta resumida y, cuando el alcance lo permita, un primer prototipo funcional. No intentaremos automatizar todo tu negocio en una sola sesión.',
   },
   {
     question: '¿Qué incluye exactamente el precio?',
     answer:
-      'Formulario previo, preparación breve del caso, sesión online de 90 minutos, una hoja de ruta resumida y una consulta corta durante los siete días posteriores.',
+      'Revisión previa del formulario, preparación del caso, sesión online de 90 minutos, diseño sobre tu caso real, hoja de ruta resumida y una consulta corta por email durante los siete días posteriores.',
+  },
+  {
+    question: '¿Incluye una automatización o aplicación completa?',
+    answer:
+      'No incluye desarrollo completo de software, integraciones complejas, mantenimiento ni soporte indefinido. Si el caso necesita una implementación mayor, saldrás con el alcance y los siguientes pasos claros, sin obligación de contratar nada más.',
+  },
+  {
+    question: '¿Qué ocurre si mi caso no cabe en una sola sesión?',
+    answer:
+      'Priorizaremos la parte con mayor impacto y dejaremos documentado qué puede resolverse en la sesión, qué requiere más trabajo y cómo abordarlo después. La sesión no promete terminar una implementación compleja en 90 minutos.',
   },
   {
     question: '¿Cómo elegimos la fecha?',
     answer:
-      'Después del pago completarás un formulario con tus horarios preferidos. Alberto te propondrá o confirmará fecha por email en un máximo de 48 horas laborables.',
+      'Después del pago completarás un formulario con tres horarios preferidos. Alberto te propondrá o confirmará fecha por email en un máximo de 48 horas laborables.',
   },
   {
-    question: '¿Puedo cambiar la fecha?',
+    question: '¿Puedo cambiar o cancelar la fecha?',
     answer:
-      'Sí. Puedes solicitar un cambio avisando con al menos 24 horas. Las cancelaciones y ausencias se rigen por las condiciones de contratación enlazadas en esta página.',
+      'Puedes solicitar un cambio sin coste avisando con al menos 24 horas. Una cancelación comunicada con al menos 48 horas da derecho al reembolso del importe abonado; el resto de supuestos se detalla en las condiciones de contratación.',
   },
   {
-    question: '¿Incluye una automatización completa?',
+    question: '¿Necesito saber de IA o programación?',
     answer:
-      'No incluye desarrollo a medida ni soporte indefinido. Cuando sea viable construiremos una primera versión funcional; si el caso necesita una implementación mayor, saldrás con el alcance y los siguientes pasos claros.',
+      'No. Partimos de tu nivel y de las herramientas que ya utilizas. La sesión está pensada para profesionales audiovisuales que quieren avanzar sin perderse entre aplicaciones.',
   },
 ];
 
-function CheckoutButton({ location, inverse = false, children }: { location: string; inverse?: boolean; children: React.ReactNode }) {
-  const startCheckout = () => {
-    AnalyticsEvents.beginCheckout([
-      { id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 },
-    ]);
-    AnalyticsEvents.clickCTA(location, 'Reservar oferta de lanzamiento');
-  };
+function trackAdvisoryCheckout(location: string) {
+  AnalyticsEvents.beginCheckout([
+    { id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 },
+  ]);
+  AnalyticsEvents.clickCTA(location, 'Pagar y solicitar fecha');
+}
 
+function CheckoutButton({ location, inverse = false, children }: { location: string; inverse?: boolean; children: React.ReactNode }) {
   return (
-    <div>
+    <div className="w-full sm:w-auto">
       <a
         href={PAYMENT_LINK}
-        onClick={startCheckout}
-        className={`group inline-flex min-h-14 cursor-pointer items-center justify-center gap-4 border px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] transition-colors ${
+        onClick={() => trackAdvisoryCheckout(location)}
+        className={`group inline-flex min-h-14 w-full cursor-pointer items-center justify-center gap-4 border px-6 py-4 text-center text-sm font-extrabold uppercase tracking-[0.08em] transition-colors sm:w-auto ${
           inverse
             ? 'border-[#171612] bg-[#171612] text-[#f2eee5] hover:bg-[#ff5a2a] hover:text-[#171612]'
             : 'border-[#ff5a2a] bg-[#ff5a2a] text-[#171612] hover:bg-[#f2eee5]'
@@ -84,7 +89,7 @@ function CheckoutButton({ location, inverse = false, children }: { location: str
   );
 }
 
-function Navigation() {
+function Navigation({ availabilityLabel }: { availabilityLabel: string }) {
   const [open, setOpen] = useState(false);
   const links = [
     ['#encaje', 'Para qué sirve'],
@@ -110,7 +115,7 @@ function Navigation() {
         </div>
 
         <a href="#sesion" className="hidden border-l border-[#f2eee5]/15 pl-8 text-xs font-extrabold uppercase tracking-[0.1em] text-[#f2eee5] hover:text-[#ff5a2a] md:block">
-          Oferta de lanzamiento · 5 plazas
+          {availabilityLabel}
         </a>
 
         <button type="button" onClick={() => setOpen(!open)} className="grid h-11 w-11 cursor-pointer place-items-center border border-[#f2eee5]/20 text-[#f2eee5] md:hidden" aria-expanded={open} aria-label={open ? 'Cerrar menú' : 'Abrir menú'}>
@@ -131,28 +136,80 @@ function Navigation() {
   );
 }
 
-export function SessionLanding() {
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+function MobileStickyCTA({ availabilityLabel, soldOut }: { availabilityLabel: string; soldOut: boolean }) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const update = () => {
+      const pricing = document.getElementById('sesion');
+      const pricingVisible = pricing ? pricing.getBoundingClientRect().top < window.innerHeight * 0.8 : false;
+      setVisible(window.scrollY > 760 && !pricingVisible);
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, []);
+
+  if (!visible || soldOut) return null;
 
   return (
-    <main className="bg-[#171612] text-[#f2eee5]">
-      <Navigation />
+    <aside className="fixed inset-x-0 bottom-0 z-40 border-t border-[#f2eee5]/20 bg-[#171612]/97 px-4 py-3 shadow-[0_-10px_35px_rgba(0,0,0,.35)] backdrop-blur md:hidden" aria-label="Reserva rápida">
+      <div className="mx-auto flex max-w-md items-center gap-3">
+        <div className="min-w-0 flex-1">
+          <p className="truncate font-mono text-[8px] font-bold uppercase tracking-[0.13em] text-[#ff5a2a]">{availabilityLabel}</p>
+          <p className="mt-1 text-sm font-black">90 min · 75 € + IVA</p>
+        </div>
+        <a href={PAYMENT_LINK} onClick={() => trackAdvisoryCheckout('mobile_sticky')} className="inline-flex min-h-12 shrink-0 items-center gap-2 bg-[#ff5a2a] px-4 py-3 text-xs font-extrabold uppercase tracking-[0.06em] text-[#171612]">
+          Pagar <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </a>
+      </div>
+    </aside>
+  );
+}
+
+export function SessionLanding({ remainingSlots }: { remainingSlots: number | null }) {
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const soldOut = remainingSlots === 0;
+  const availabilityLabel = remainingSlots === null
+    ? 'Edición limitada · 5 plazas'
+    : remainingSlots === 0
+      ? 'Edición completa'
+      : remainingSlots === 1
+        ? 'Última plaza disponible'
+        : `${remainingSlots} plazas disponibles`;
+
+  return (
+    <main className="bg-[#171612] pb-20 text-[#f2eee5] md:pb-0">
+      <Navigation availabilityLabel={availabilityLabel} />
+      <MobileStickyCTA availabilityLabel={availabilityLabel} soldOut={soldOut} />
 
       <section className="relative border-b border-[#f2eee5]/15 px-5 pb-16 pt-28 sm:px-8 sm:pb-24 sm:pt-36 lg:px-12">
         <div className="mx-auto grid max-w-[90rem] gap-12 lg:grid-cols-[1.22fr_.58fr] lg:items-end lg:gap-20">
           <div>
             <p className="mb-8 flex items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[0.19em] text-[#ff5a2a]">
-              <span className="h-px w-9 bg-current" /> Oferta de lanzamiento · cinco plazas
+              <span className="h-px w-9 bg-current" /> Oferta de lanzamiento · {availabilityLabel.toLowerCase()}
             </p>
             <h1 className="max-w-[18ch] text-balance text-[clamp(3.8rem,8.4vw,8.8rem)] font-black leading-[0.81] tracking-[-0.075em] text-[#f2eee5]">
               La IA no tiene que cambiar tu oficio.
               <em className="font-editorial mt-4 block font-normal tracking-[-0.04em] text-[#ff5a2a]">Tiene que quitarte fricción.</em>
             </h1>
             <div className="mt-10 grid max-w-4xl gap-7 border-t border-[#f2eee5]/20 pt-7 sm:grid-cols-[1fr_auto] sm:items-end">
-              <p className="max-w-2xl text-lg leading-8 text-[#f2eee5]/65 sm:text-xl">
-                Una sesión práctica 1:1 para estudiar tu caso y ayudarte a <strong className="font-semibold text-[#f2eee5]">diseñar y desarrollar herramientas de IA propias</strong> para tu trabajo audiovisual adaptadas a tu flujo de trabajo.
-              </p>
-              <CheckoutButton location="hero">Quiero una plaza</CheckoutButton>
+              <div>
+                <p className="max-w-2xl text-lg leading-8 text-[#f2eee5]/68 sm:text-xl">
+                  En 90 minutos trabajamos una prioridad real de tu negocio audiovisual. Saldrás con <strong className="font-semibold text-[#f2eee5]">un flujo aplicable, un primer prototipo cuando sea viable y una hoja de ruta clara</strong>.
+                </p>
+                <p className="mt-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">90 min online · 75 € + IVA</p>
+                <p className="mt-2 text-sm leading-6 text-[#f2eee5]/55">Pago seguro → briefing breve → fecha confirmada en un máximo de 48 h laborables.</p>
+              </div>
+              {soldOut ? (
+                <span className="inline-flex min-h-14 items-center justify-center border border-[#f2eee5]/25 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#f2eee5]/55">Edición completa</span>
+              ) : (
+                <CheckoutButton location="hero">Pagar y solicitar fecha</CheckoutButton>
+              )}
             </div>
           </div>
 
@@ -177,7 +234,7 @@ export function SessionLanding() {
 
       <section className="border-b border-[#f2eee5]/15 px-5 py-5 sm:px-8 lg:px-12">
         <div className="mx-auto flex max-w-[90rem] flex-wrap gap-x-9 gap-y-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#f2eee5]/45">
-          <span>Online · 90 minutos</span><span className="text-[#ff5a2a]">●</span><span>Una sola prioridad</span><span className="text-[#ff5a2a]">●</span><span className="text-[#ff5a2a]">Oferta de lanzamiento</span><span className="text-[#ff5a2a]">●</span><span>Diseño y desarrollo sobre tu caso</span>
+          <span>Online · 90 minutos</span><span className="text-[#ff5a2a]">●</span><span>Una sola prioridad</span><span className="text-[#ff5a2a]">●</span><span className="text-[#ff5a2a]">{availabilityLabel}</span><span className="text-[#ff5a2a]">●</span><span>Diseño sobre tu caso real</span>
         </div>
       </section>
 
@@ -227,13 +284,20 @@ export function SessionLanding() {
               ['60 min', 'Diseñamos y construimos', 'Creamos el flujo o una primera herramienta contigo, usando tus ejemplos, clientes o contenido.'],
               ['15 min', 'Decidimos', 'Cerramos con una hoja de ruta breve para repetir, medir y mejorar.'],
             ].map(([time, title, text], index) => (
-              <article key={time} className={`py-8 lg:px-8 lg:py-10 ${index > 0 ? 'border-t border-[#f2eee5]/20 lg:border-l lg:border-t-0' : ''}`}>
+              <article key={`${time}-${title}`} className={`py-8 lg:px-8 lg:py-10 ${index > 0 ? 'border-t border-[#f2eee5]/20 lg:border-l lg:border-t-0' : ''}`}>
                 <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#ff5a2a]">{time}</span>
                 <h3 className="mt-12 text-3xl font-black tracking-[-0.04em]">{title}</h3>
-                <p className="mt-4 max-w-sm leading-7 text-[#f2eee5]/52">{text}</p>
+                <p className="mt-4 max-w-sm leading-7 text-[#f2eee5]/60">{text}</p>
               </article>
             ))}
           </div>
+
+          {!soldOut && (
+            <div className="mt-10 flex flex-col gap-5 border-b border-[#f2eee5]/20 pb-10 sm:flex-row sm:items-center sm:justify-between">
+              <div><p className="font-black">¿Tienes ya una prioridad en mente?</p><p className="mt-1 text-sm text-[#f2eee5]/58">90 min online · 75 € + IVA · fecha confirmada en 48 h laborables.</p></div>
+              <CheckoutButton location="method">Pagar y solicitar fecha</CheckoutButton>
+            </div>
+          )}
         </div>
       </section>
 
@@ -250,14 +314,19 @@ export function SessionLanding() {
           <div className="mt-12 grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
             <article>
               <figure className="relative overflow-hidden border border-[#171612]/60 bg-[#171612]">
-                <Image src="/cutwise-desarrollo.webp" alt="Interfaz de Cutwise conectada a DaVinci Resolve" width={1800} height={1026} className="aspect-[16/9] w-full object-cover object-center transition-transform duration-500 hover:scale-[1.015]" />
+                <Image src="/cutwise-desarrollo.webp" alt="Interfaz de Cutwise preparando un timeline a partir del material grabado" width={1800} height={1026} className="aspect-[16/9] w-full object-cover object-center transition-transform duration-500 hover:scale-[1.015]" />
                 <figcaption className="absolute left-0 top-0 border-b border-r border-[#ff5a2a] bg-[#171612] px-4 py-3 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#ff5a2a]">Lab 01 · En desarrollo</figcaption>
               </figure>
               <div className="mt-6 grid gap-4 border-t border-[#171612]/45 pt-5 sm:grid-cols-[8rem_1fr]">
                 <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]">Cutwise</p>
                 <div>
-                  <h3 className="text-2xl font-black tracking-[-0.035em]">La IA que trabaja dentro del montaje.</h3>
-                  <p className="mt-3 max-w-lg leading-7 text-[#171612]/68">Editor de vídeo con IA conectado a DaVinci Resolve. Está en desarrollo: el objetivo es convertir decisiones de guion y estructura en un flujo de edición más rápido, sin sustituir el criterio del filmmaker.</p>
+                  <h3 className="text-2xl font-black tracking-[-0.035em]">Del material grabado a un timeline listo para editar.</h3>
+                  <p className="mt-3 max-w-lg leading-7 text-[#171612]/72">Cutwise analiza el material, descarta tomas falsas, detecta tomas buenas y B-roll, y prepara una primera edición con subtítulos, música y transiciones. El objetivo es ahorrar horas de selección y montaje inicial sin sustituir el criterio del editor.</p>
+                  <dl className="mt-6 grid gap-px border border-[#171612]/35 bg-[#171612]/35 sm:grid-cols-3">
+                    <div className="bg-[#ff5a2a] p-3"><dt className="font-mono text-[8px] font-bold uppercase tracking-[0.14em]">Entrada</dt><dd className="mt-2 text-xs font-semibold leading-5">Material bruto</dd></div>
+                    <div className="bg-[#ff5a2a] p-3"><dt className="font-mono text-[8px] font-bold uppercase tracking-[0.14em]">Proceso</dt><dd className="mt-2 text-xs font-semibold leading-5">Análisis y selección</dd></div>
+                    <div className="bg-[#ff5a2a] p-3"><dt className="font-mono text-[8px] font-bold uppercase tracking-[0.14em]">Salida</dt><dd className="mt-2 text-xs font-semibold leading-5">Timeline preparado</dd></div>
+                  </dl>
                 </div>
               </div>
             </article>
@@ -274,8 +343,13 @@ export function SessionLanding() {
                   Vilens <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
                 </a>
                 <div>
-                  <h3 className="text-2xl font-black tracking-[-0.035em]">La IA que audita tus reels.</h3>
-                  <p className="mt-3 max-w-lg leading-7 text-[#171612]/68">Analiza vídeos cortos antes de publicarlos y señala qué conviene mejorar. El piloto está vivo y puedes utilizarlo gratis por ahora en <a href="https://vilens.es/" target="_blank" rel="noopener noreferrer" className="font-bold underline underline-offset-4">vilens.es</a>.</p>
+                  <h3 className="text-2xl font-black tracking-[-0.035em]">La IA que audita tus reels antes de publicar.</h3>
+                  <p className="mt-3 max-w-lg leading-7 text-[#171612]/72">Vilens analiza el propio vídeo y señala oportunidades concretas de claridad, gancho, ritmo y confianza. El piloto está vivo y puedes utilizarlo gratis por ahora en <a href="https://vilens.es/" target="_blank" rel="noopener noreferrer" className="font-bold underline underline-offset-4">vilens.es</a>.</p>
+                  <dl className="mt-6 grid gap-px border border-[#171612]/35 bg-[#171612]/35 sm:grid-cols-3">
+                    <div className="bg-[#ff5a2a] p-3"><dt className="font-mono text-[8px] font-bold uppercase tracking-[0.14em]">Entrada</dt><dd className="mt-2 text-xs font-semibold leading-5">Reel antes de publicar</dd></div>
+                    <div className="bg-[#ff5a2a] p-3"><dt className="font-mono text-[8px] font-bold uppercase tracking-[0.14em]">Proceso</dt><dd className="mt-2 text-xs font-semibold leading-5">Auditoría audiovisual</dd></div>
+                    <div className="bg-[#ff5a2a] p-3"><dt className="font-mono text-[8px] font-bold uppercase tracking-[0.14em]">Salida</dt><dd className="mt-2 text-xs font-semibold leading-5">Cambios accionables</dd></div>
+                  </dl>
                 </div>
               </div>
             </article>
@@ -307,7 +381,7 @@ export function SessionLanding() {
         <div className="mx-auto max-w-[90rem] border-y border-[#171612] py-10 sm:py-14">
           <div className="grid gap-14 lg:grid-cols-[1.25fr_.75fr] lg:gap-20">
             <div>
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#b43414]">Oferta de lanzamiento · solo cinco plazas</p>
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#b43414]">Oferta de lanzamiento · {availabilityLabel.toLowerCase()}</p>
               <h2 className="mt-7 max-w-4xl text-balance text-[clamp(3.4rem,7vw,7.8rem)] font-black leading-[0.82] tracking-[-0.075em]">
                 Tu caso. <span className="font-editorial font-normal italic text-[#b43414]">Una prioridad.</span> Noventa minutos.
               </h2>
@@ -319,24 +393,38 @@ export function SessionLanding() {
                 <span className="text-7xl font-black tracking-[-0.08em]">75 €</span>
                 <span className="pb-2 text-sm font-bold">+ IVA</span>
               </div>
-              <p className="mt-3 text-sm leading-6 text-[#171612]/60">Disponible para las primeras cinco plazas de esta edición. 90,75 € con IVA español del 21 %. Stripe calcula el impuesto según tus datos de facturación.</p>
+              <p className="mt-3 text-sm leading-6 text-[#171612]/65">{remainingSlots === null ? 'Edición limitada a cinco plazas.' : `${availabilityLabel}.`} 90,75 € con IVA español del 21 %. Stripe calcula el impuesto según tus datos de facturación.</p>
 
-              <ul className="mt-8 space-y-3 border-y border-[#171612]/25 py-6 text-sm font-semibold">
-                {['Formulario y revisión previa', 'Sesión online de 90 minutos', 'Diseño sobre tu caso real', 'Primer prototipo cuando sea viable', 'Hoja de ruta y consulta posterior'].map((item) => (
-                  <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#b43414]" />{item}</li>
-                ))}
-              </ul>
+              <div className="mt-8 border-y border-[#171612]/25 py-6">
+                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#b43414]">Incluye</p>
+                <ul className="mt-4 space-y-3 text-sm font-semibold">
+                  {['Formulario y revisión previa', 'Sesión online de 90 minutos', 'Diseño sobre tu caso real', 'Primer prototipo cuando sea viable', 'Hoja de ruta resumida', 'Una consulta breve por email durante 7 días'].map((item) => (
+                    <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#b43414]" />{item}</li>
+                  ))}
+                </ul>
+                <div className="mt-6 border-t border-[#171612]/20 pt-5">
+                  <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#171612]/65">No incluye</p>
+                  <p className="mt-3 text-sm leading-6 text-[#171612]/65">Desarrollo completo de software, integraciones complejas, mantenimiento ni soporte indefinido.</p>
+                </div>
+              </div>
 
-              <div className="mt-8"><CheckoutButton location="pricing" inverse>Reservar mi sesión</CheckoutButton></div>
-              <p className="mt-5 text-xs leading-5 text-[#171612]/55"><ShieldCheck className="mr-1 inline h-3.5 w-3.5" /> Pago seguro con Stripe. Al continuar aceptas las <Link href="/condiciones" className="underline hover:text-[#b43414]">condiciones de contratación</Link>.</p>
+              <div className="mt-8">
+                {soldOut ? (
+                  <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#171612]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#171612]/55 sm:w-auto">Edición completa</span>
+                ) : (
+                  <CheckoutButton location="pricing" inverse>Pagar y solicitar fecha</CheckoutButton>
+                )}
+              </div>
+              <p className="mt-4 text-xs leading-5 text-[#171612]/60">El pago reserva una plaza de esta edición; la fecha se confirma después del briefing.</p>
+              <p className="mt-3 text-xs leading-5 text-[#171612]/55"><ShieldCheck className="mr-1 inline h-3.5 w-3.5" /> Pago seguro con Stripe. Al continuar aceptas las <Link href="/condiciones" className="underline hover:text-[#b43414]">condiciones de contratación</Link>.</p>
             </aside>
           </div>
 
           <div className="mt-14 grid gap-4 border-t border-[#171612]/25 pt-8 sm:grid-cols-3">
             {[
-              ['01', 'Pago seguro', 'Reservas tu plaza con Stripe.'],
-              ['02', 'Preparación', 'Completas un formulario breve.'],
-              ['03', 'Fecha', 'La confirmamos en 48 h laborables.'],
+              ['01', 'Pago seguro', 'Pagas y solicitas una fecha con Stripe.'],
+              ['02', 'Briefing', 'Completas tu caso y tres horarios preferidos.'],
+              ['03', 'Confirmación', 'Alberto confirma la fecha en 48 h laborables.'],
             ].map(([number, title, text]) => (
               <div key={number} className="grid grid-cols-[36px_1fr] gap-3">
                 <span className="font-mono text-[10px] font-bold text-[#b43414]">{number}</span>

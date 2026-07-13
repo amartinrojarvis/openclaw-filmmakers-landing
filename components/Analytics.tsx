@@ -2,23 +2,46 @@
 
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
-import { hasConsent } from '@/lib/cookies';
+import { getConsent, hasConsent } from '@/lib/cookies';
 
 export const GA4_ID = 'G-6C53BM67BD';
+export const GTM_ID = 'GTM-5N34HG2X';
 
-// GA4 directo: solo carga con consentimiento analítico. Evita que un contenedor
-// GTM pueda disparar etiquetas de marketing dentro de la categoría de analítica.
+// Si se aceptan analítica y marketing, GTM carga ambos proveedores una sola vez.
+// Con consentimiento parcial usamos el proveedor directo de esa categoría para
+// impedir que el contenedor dispare etiquetas no consentidas.
 export function GoogleTagManagerScript() {
-  const [canLoad, setCanLoad] = useState(false);
+  const [choice, setChoice] = useState({ analytics: false, marketing: false });
 
   useEffect(() => {
-    setCanLoad(hasConsent('analytics'));
-    const handler = () => setCanLoad(hasConsent('analytics'));
-    window.addEventListener('cookieConsentChanged', handler);
-    return () => window.removeEventListener('cookieConsentChanged', handler);
+    const sync = () => {
+      const consent = getConsent();
+      setChoice({ analytics: Boolean(consent?.analytics), marketing: Boolean(consent?.marketing) });
+    };
+    sync();
+    window.addEventListener('cookieConsentChanged', sync);
+    return () => window.removeEventListener('cookieConsentChanged', sync);
   }, []);
 
-  if (!canLoad) return null;
+  if (!choice.analytics) return null;
+
+  if (choice.marketing) {
+    return (
+      <Script
+        id="gtm-container"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','${GTM_ID}');
+          `,
+        }}
+      />
+    );
+  }
 
   return (
     <>
@@ -29,9 +52,9 @@ export function GoogleTagManagerScript() {
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA4_ID}', {
+            window.gtag = window.gtag || function(){dataLayer.push(arguments);};
+            window.gtag('js', new Date());
+            window.gtag('config', '${GA4_ID}', {
               anonymize_ip: true,
               cookie_flags: 'SameSite=None;Secure'
             });
@@ -59,11 +82,27 @@ export function PageViewTracker() {
 
 // Helper function to track custom events
 export function trackEvent(eventName: string, eventParams?: Record<string, any>) {
-  if (typeof window !== 'undefined' && hasConsent('analytics') && window.dataLayer) {
-    window.dataLayer.push({
-      event: eventName,
-      ...eventParams,
-    });
+  if (typeof window === 'undefined' || !hasConsent('analytics')) return;
+  const consent = getConsent();
+
+  if (consent?.marketing) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: eventName, ...eventParams });
+    return;
+  }
+
+  if (window.gtag) {
+    const params = eventParams?.ecommerce
+      ? { ...eventParams, ...eventParams.ecommerce, ecommerce: undefined }
+      : eventParams;
+    window.gtag('event', eventName, params);
+  }
+}
+
+function trackMetaDirect(eventName: string, params?: Record<string, unknown>) {
+  const consent = getConsent();
+  if (typeof window !== 'undefined' && consent?.marketing && !consent.analytics && window.fbq) {
+    window.fbq('track', eventName, params);
   }
 }
 
@@ -81,17 +120,25 @@ export const AnalyticsEvents = {
         }],
       },
     });
+    trackMetaDirect('ViewContent', { content_ids: [item.id], content_name: item.name, value: item.price, currency: item.currency || 'EUR' });
   },
 
   beginCheckout: (items: Array<{ id: string; name: string; price: number }>) => {
     trackEvent('begin_checkout', {
       ecommerce: {
+        currency: 'EUR',
+        value: items.reduce((total, item) => total + item.price, 0),
         items: items.map(item => ({
           item_id: item.id,
           item_name: item.name,
           price: item.price,
         })),
       },
+    });
+    trackMetaDirect('InitiateCheckout', {
+      content_ids: items.map((item) => item.id),
+      value: items.reduce((total, item) => total + item.price, 0),
+      currency: 'EUR',
     });
   },
 
@@ -113,6 +160,16 @@ export const AnalyticsEvents = {
         })),
       },
     });
+    trackMetaDirect('Purchase', {
+      content_ids: transaction.items.map((item) => item.id),
+      value: transaction.value,
+      currency: transaction.currency || 'EUR',
+    });
+  },
+
+  intakeSubmitted: () => {
+    trackEvent('intake_submitted', { product: 'asesoria-ia-audiovisual-90m' });
+    trackMetaDirect('Lead', { content_name: 'Briefing asesoría IA 1:1' });
   },
 
   // Engagement events
@@ -157,10 +214,10 @@ export function MetaPixelScript() {
   const [canLoad, setCanLoad] = useState(false);
 
   useEffect(() => {
-    setCanLoad(hasConsent('marketing'));
-    const handler = () => setCanLoad(hasConsent('marketing'));
-    window.addEventListener('cookieConsentChanged', handler);
-    return () => window.removeEventListener('cookieConsentChanged', handler);
+    const sync = () => setCanLoad(hasConsent('marketing') && !hasConsent('analytics'));
+    sync();
+    window.addEventListener('cookieConsentChanged', sync);
+    return () => window.removeEventListener('cookieConsentChanged', sync);
   }, []);
 
   if (!canLoad) return null;
@@ -198,5 +255,6 @@ declare global {
   interface Window {
     dataLayer: any[];
     fbq: any;
+    gtag?: (...args: any[]) => void;
   }
 }

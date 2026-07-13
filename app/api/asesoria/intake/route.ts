@@ -40,10 +40,11 @@ export async function POST(request: NextRequest) {
     const availability = clean(body.availability, 900);
     const context = clean(body.context, 1200);
     const privacyAccepted = body.privacyAccepted === true;
-    const earlyStartAccepted = body.earlyStartAccepted === true;
+    const serviceStartPreference = clean(body.serviceStartPreference, 20);
+    const validStartPreference = serviceStartPreference === 'within14' || serviceStartPreference === 'after14';
 
-    if (!sessionId.startsWith('cs_') || !name || !activity || !priority || !availability || !privacyAccepted || !earlyStartAccepted) {
-      return NextResponse.json({ error: 'Revisa los campos obligatorios y la aceptación de privacidad.' }, { status: 400 });
+    if (!sessionId.startsWith('cs_') || !name || !activity || !priority || !availability || !privacyAccepted || !validStartPreference) {
+      return NextResponse.json({ error: 'Revisa los campos obligatorios, la privacidad y la preferencia de fecha.' }, { status: 400 });
     }
 
     const stripe = getStripe();
@@ -60,6 +61,9 @@ export async function POST(request: NextRequest) {
     }
 
     const reference = session.id.slice(-10);
+    const startPreferenceLabel = serviceStartPreference === 'within14'
+      ? 'Puede celebrarse dentro de 14 días (inicio anticipado solicitado)'
+      : 'Celebrar después de los próximos 14 días';
     const adminEmail = await sendDirectBrevoEmail({
       to: [{ email: ADMIN_EMAIL, name: 'Alberto Martín' }],
       replyTo: { email: customerEmail, name },
@@ -78,6 +82,7 @@ export async function POST(request: NextRequest) {
           <h2 style="margin-top:28px">Problema prioritario</h2><p>${html(priority)}</p>
           <h2>Herramientas actuales</h2><p>${html(tools || 'No indicadas')}</p>
           <h2>Disponibilidad propuesta</h2><p>${html(availability)}</p>
+          <h2>Preferencia sobre el inicio</h2><p>${html(startPreferenceLabel)}</p>
           <h2>Contexto adicional</h2><p>${html(context || 'Sin información adicional')}</p>
           <p style="margin-top:28px"><a href="mailto:${html(customerEmail)}" style="background:#ff5a2a;color:#171612;text-decoration:none;padding:13px 20px;font-weight:bold">Responder y confirmar fecha</a></p>
         </div>`,
@@ -93,6 +98,8 @@ export async function POST(request: NextRequest) {
         ...session.metadata,
         intake_submitted: 'true',
         intake_submitted_at: new Date().toISOString(),
+        service_start_preference: serviceStartPreference,
+        early_start_accepted: String(serviceStartPreference === 'within14'),
       },
     });
 
