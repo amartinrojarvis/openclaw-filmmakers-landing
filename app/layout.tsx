@@ -1,55 +1,64 @@
 import type { Metadata, Viewport } from 'next';
-import Script from 'next/script';
+import { Manrope, Newsreader } from 'next/font/google';
 import './globals.css';
 import { GoogleTagManagerScript, MetaPixelScript } from '@/components/Analytics';
 import { CookieBanner } from '@/components/CookieBanner';
 
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
+  display: 'swap',
+});
+
+const newsreader = Newsreader({
+  subsets: ['latin'],
+  variable: '--font-newsreader',
+  display: 'swap',
+  style: ['normal', 'italic'],
+});
+
+const siteUrl = 'https://www.iaparafilmmakers.es';
+
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#000000',
-}
+  themeColor: '#171612',
+};
 
 export const metadata: Metadata = {
-  title: 'IA para Filmmakers | Guía Práctica 2026 - Automatiza tu Workflow',
-  description: 'La guía definitiva de IA para filmmakers y videógrafos. Automatiza emails, presupuestos y edición con OpenClaw. Ahorra 10+ horas semanales. Descarga gratis la guía.',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Asesoría 1:1 de IA para Filmmakers | Alberto Martín',
+    template: '%s | IA para Filmmakers',
+  },
+  description:
+    'Sesión práctica de 90 minutos para aplicar IA a un proceso real de tu negocio audiovisual. Diagnóstico, trabajo sobre tu caso y hoja de ruta clara.',
   keywords: [
-    'IA para filmmakers',
-    'IA para videografos', 
-    'automatización filmmakers',
-    'OpenClaw guia',
-    'workflow creativo IA',
-    'productividad filmmaker',
-    'automatizar edicion video',
-    'herramientas IA video',
-    'inteligencia artificial filmmakers',
-    'guia IA videografos 2026'
+    'asesoría IA filmmakers',
+    'inteligencia artificial audiovisual',
+    'IA para videógrafos',
+    'consultoría IA creadores',
+    'automatización negocio audiovisual',
+    'IA aplicada filmmaking',
   ],
-  authors: [{ name: 'Alberto Martín', url: 'https://www.iaparafilmmakers.es' }],
+  authors: [{ name: 'Alberto Martín', url: 'https://www.instagram.com/amartinro/' }],
   creator: 'Alberto Martín',
-  publisher: 'iaparafilmmakers',
+  publisher: 'IA para Filmmakers',
+  alternates: { canonical: '/' },
   openGraph: {
-    title: 'IA para Filmmakers | Guía Práctica 2026',
-    description: 'Automatiza tu workflow creativo con IA. Guía paso a paso para filmmakers. Ahorra 10+ horas semanales.',
     type: 'website',
     locale: 'es_ES',
-    url: 'https://www.iaparafilmmakers.es',
+    url: siteUrl,
     siteName: 'IA para Filmmakers',
-    images: [{
-      url: 'https://www.iaparafilmmakers.es/perfil-alberto-v2.jpg',
-      width: 400,
-      height: 400,
-      alt: 'Alberto Martín - Filmmaker & Creador de IA para Filmmakers'
-    }]
+    title: 'Sesión 1:1 de IA aplicada a tu negocio audiovisual',
+    description: 'Una prioridad real. 90 minutos. Un primer sistema que puedas utilizar.',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Asesoría 1:1 de IA para Filmmakers con Alberto Martín' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'IA para Filmmakers | Guía Práctica 2026',
-    description: 'Automatiza tu workflow creativo con IA. Guía para filmmakers.',
-    images: ['https://www.iaparafilmmakers.es/perfil-alberto-v2.jpg'],
-  },
-  alternates: {
-    canonical: 'https://www.iaparafilmmakers.es',
+    title: 'Sesión 1:1 de IA aplicada a tu negocio audiovisual',
+    description: 'Una prioridad real. 90 minutos. Un primer sistema que puedas utilizar.',
+    images: ['/opengraph-image'],
   },
   robots: {
     index: true,
@@ -57,182 +66,70 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
       'max-image-preview': 'large',
       'max-snippet': -1,
+      'max-video-preview': -1,
     },
   },
-  verification: {
-    google: 'AÑADE-AQUÍ-TU-CÓDIGO-DE-SEARCH-CONSOLE',
-  },
+  icons: { icon: '/favicon.svg' },
 };
 
-// Schema.org JSON-LD para SEO
 function StructuredData() {
-  const organizationSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'IA para Filmmakers',
-    url: 'https://www.iaparafilmmakers.es',
-    logo: 'https://www.iaparafilmmakers.es/favicon.svg',
-    sameAs: [
-      'https://www.youtube.com/@iaparafilmmakers',
-    ],
-    founder: {
+  const data = [
+    {
+      '@context': 'https://schema.org',
       '@type': 'Person',
       name: 'Alberto Martín',
+      url: siteUrl,
+      image: `${siteUrl}/perfil-alberto-v2.jpg`,
+      jobTitle: 'Filmmaker y creador de productos de IA',
+      sameAs: ['https://www.instagram.com/amartinro/', 'https://vilens.es'],
     },
-  };
-
-  const productSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: 'Guía OpenClaw para Filmmakers',
-    image: 'https://www.iaparafilmmakers.es/perfil-alberto-v2.jpg',
-    description: 'Guía práctica de IA para filmmakers. Automatiza emails, presupuestos y edición con OpenClaw.',
-    brand: {
-      '@type': 'Brand',
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Sesión 1:1 de IA aplicada al negocio audiovisual',
+      description: 'Sesión online individual de 90 minutos para trabajar una prioridad real de un negocio audiovisual con inteligencia artificial.',
+      provider: { '@type': 'Person', name: 'Alberto Martín' },
+      areaServed: 'ES',
+      serviceType: 'Asesoría individual de inteligencia artificial para profesionales audiovisuales',
+      offers: {
+        '@type': 'Offer',
+        price: '75.00',
+        priceCurrency: 'EUR',
+        url: `${siteUrl}/#sesion`,
+        availability: 'https://schema.org/LimitedAvailability',
+        priceSpecification: {
+          '@type': 'UnitPriceSpecification',
+          price: '75.00',
+          priceCurrency: 'EUR',
+          valueAddedTaxIncluded: false,
+        },
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
       name: 'IA para Filmmakers',
+      url: siteUrl,
+      inLanguage: 'es-ES',
     },
-    offers: {
-      '@type': 'Offer',
-      url: 'https://www.iaparafilmmakers.es',
-      price: '29',
-      priceCurrency: 'EUR',
-      availability: 'https://schema.org/InStock',
-      priceValidUntil: '2026-12-31',
-    },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '5',
-      reviewCount: '12',
-    },
-  };
+  ];
 
-  const websiteSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'IA para Filmmakers',
-    url: 'https://www.iaparafilmmakers.es',
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: 'https://www.iaparafilmmakers.es/?s={search_term_string}',
-      'query-input': 'required name=search_term_string',
-    },
-  };
-
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-      />
-    </>
-  );
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es">
       <head>
-        {/* Critical: Preload font for instant text render */}
-        <link 
-          rel="preload" 
-          href="https://fonts.gstatic.com/s/inter/v18/UcCo3FwrK3iLTcviYwY.woff2" 
-          as="font" 
-          type="font/woff2" 
-          crossOrigin="anonymous" 
-        />
-        
-        {/* Preconnect to critical domains */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        
-        {/* Inline critical CSS for instant hero render */}
-        <style dangerouslySetInnerHTML={{__html: `
-          /* Critical CSS - Hero must render immediately */
-          .hero-critical {
-            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #0a1a10 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-          .hero-text {
-            color: #ffffff;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            text-align: center;
-            max-width: 800px;
-            padding: 0 1rem;
-          }
-          .hero-text h1 {
-            font-size: clamp(2rem, 8vw, 4rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-          }
-          .hero-text p {
-            font-size: clamp(1rem, 4vw, 1.25rem);
-            color: rgba(255,255,255,0.7);
-            line-height: 1.6;
-            margin-bottom: 2rem;
-          }
-          .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, #00ff88, #00d4ff);
-            color: #000;
-            padding: 1rem 2rem;
-            border-radius: 9999px;
-            font-weight: 700;
-            text-decoration: none;
-            font-size: 1.1rem;
-            min-width: 240px;
-          }
-          .btn-premium {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, #ffd700, #ffaa00);
-            color: #000;
-            padding: 1rem 2rem;
-            border-radius: 9999px;
-            font-weight: 700;
-            text-decoration: none;
-            font-size: 1.1rem;
-            min-width: 240px;
-          }
-        `}} />
-      </head>
-      <body className="antialiased">
         <StructuredData />
-        {children}
-        
-        {/* Cookie consent banner */}
-        <CookieBanner />
-        
-        {/* Conditional marketing scripts */}
-        <MetaPixelScript />
-        
-        {/* GTM loaded after page content */}
+      </head>
+      <body className={`${manrope.variable} ${newsreader.variable}`}>
         <GoogleTagManagerScript />
+        <MetaPixelScript />
+        {children}
+        <CookieBanner />
       </body>
     </html>
   );

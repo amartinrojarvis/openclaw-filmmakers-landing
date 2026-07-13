@@ -3,7 +3,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getStripe, getProductTypeFromPriceId, STRIPE_PRICE_IDS } from '@/lib/stripe';
-import { sendGuiaEmail, sendBundleEmail, addContactToBrevoList, BREVO_LIST_IDS } from '@/lib/brevo';
+import { sendGuiaEmail, sendBundleEmail, sendDirectBrevoEmail, addContactToBrevoList, BREVO_LIST_IDS } from '@/lib/brevo';
 import { isEventProcessed, markEventAsProcessed } from '@/lib/webhook-idempotency';
 import Stripe from 'stripe';
 
@@ -19,7 +19,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   const stripeKey = process.env.STRIPE_SECRET_KEY;
 
-  console.log('Headers:', Object.fromEntries(request.headers.entries()));
   console.log('Signature exists:', !!signature);
   console.log('Webhook secret exists:', !!webhookSecret);
   console.log('Stripe key exists:', !!stripeKey);
@@ -185,7 +184,37 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
   let emailResult: { success: boolean; error?: string } = { success: true };
 
   try {
-    if (productType === 'bundle') {
+    if (productType === 'asesoria_90m') {
+      const intakeUrl = `https://www.iaparafilmmakers.es/gracias-asesoria?session_id=${encodeURIComponent(session.id)}`;
+      console.log('Procesando compra de asesoría 90m...');
+      const [customerMail, adminMail, listResult] = await Promise.all([
+        sendDirectBrevoEmail({
+          to: [{ email: customerEmail }],
+          subject: 'Tu sesión 1:1 está reservada — siguiente paso',
+          htmlContent: `
+            <div style="font-family:Arial,sans-serif;max-width:620px;margin:auto;color:#172018;line-height:1.65">
+              <p>Hola,</p>
+              <h1 style="font-size:28px;line-height:1.2">Ya tienes reservada tu sesión 1:1.</h1>
+              <p>Gracias por confiar en mí. Para preparar la sesión necesito que completes un formulario breve con tu objetivo y tus horarios preferidos.</p>
+              <p style="margin:28px 0"><a href="${intakeUrl}" style="background:#172018;color:#d6ff4b;text-decoration:none;padding:14px 22px;border-radius:999px;font-weight:bold">Completar el formulario</a></p>
+              <p>Después de recibirlo te confirmaré la fecha por email en un máximo de 48 horas laborables.</p>
+              <p>Un abrazo,<br><strong>Alberto Martín</strong><br>IA para Filmmakers</p>
+            </div>`,
+        }),
+        sendDirectBrevoEmail({
+          to: [{ email: 'alberto@tuvideopromocional.es', name: 'Alberto Martín' }],
+          subject: 'Nueva reserva — Asesoría IA 1:1 (pendiente de formulario)',
+          htmlContent: `<p>Nueva reserva pagada.</p><p><strong>Email:</strong> ${customerEmail}</p><p><strong>Checkout:</strong> ${session.id}</p><p>El cliente ha recibido el enlace al formulario previo.</p>`,
+        }),
+        addContactToBrevoList(customerEmail, BREVO_LIST_IDS.ASESORIA_PILOTO, {
+          PRODUCTO: 'asesoria_90m',
+          FECHA_COMPRA: new Date().toISOString(),
+        }),
+      ]);
+      emailResult = customerMail;
+      if (!adminMail.success) console.error('Error avisando a Alberto:', adminMail.error);
+      if (!listResult.success) console.error('Error añadiendo a lista de asesoría:', listResult.error);
+    } else if (productType === 'bundle') {
       console.log('Llamando sendBundleEmail + addContactToBrevoList BUNDLE...');
       const [bundleEmailRes, bundleListRes] = await Promise.all([
         sendBundleEmail(customerEmail),

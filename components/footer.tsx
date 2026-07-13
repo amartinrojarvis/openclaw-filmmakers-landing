@@ -1,121 +1,37 @@
-import { Instagram, Globe, Mail } from 'lucide-react';
+'use client';
+
 import Link from 'next/link';
-import { EmailCapture } from './EmailCapture';
+import { ArrowUpRight } from 'lucide-react';
 import { openCookieSettings } from '@/lib/cookies';
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-[#07111f] py-12">
-      <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
-        <div className="grid gap-8 md:grid-cols-3">
-          {/* Contact Info */}
-          <div>
-            <h3 className="text-lg font-semibold text-white">Contacto</h3>
-            <ul className="mt-4 space-y-3">
-              <li>
-                <a
-                  href="https://instagram.com/amartinro"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-slate-300 transition hover:text-cyan"
-                >
-                  <Instagram className="h-4 w-4" />
-                  @amartinro
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://tufotoyvideopromocional.es"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-slate-300 transition hover:text-cyan"
-                >
-                  <Globe className="h-4 w-4" />
-                  tufotoyvideopromocional.es
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:alberto@tuvideopromocional.es"
-                  className="flex items-center gap-2 text-slate-300 transition hover:text-cyan"
-                >
-                  <Mail className="h-4 w-4" />
-                  alberto@tuvideopromocional.es
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Legal Links */}
-          <div>
-            <h3 className="text-lg font-semibold text-white">Legal</h3>
-            <ul className="mt-4 space-y-3">
-              <li>
-                <Link
-                  href="/condiciones"
-                  className="text-slate-300 transition hover:text-cyan"
-                >
-                  Condiciones de Compra
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/privacidad"
-                  className="text-slate-300 transition hover:text-cyan"
-                >
-                  Politica de Privacidad
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/cookies"
-                  className="text-slate-300 transition hover:text-cyan"
-                >
-                  Politica de Cookies
-                </Link>
-              </li>
-              <li>
-                <button
-                  onClick={openCookieSettings}
-                  className="text-slate-300 transition hover:text-cyan text-left"
-                >
-                  Gestionar cookies
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Brand */}
-          <div>
-            <h3 className="text-lg font-semibold text-white">IA para Filmmakers</h3>
-            <p className="mt-4 text-sm text-slate-400">
-              Automatiza tu workflow creativo y recupera horas para lo que realmente importa: crear.
-            </p>
+    <footer className="border-t border-[#f2eee5]/15 bg-[#171612] px-5 py-12 text-[#f2eee5] sm:px-8 lg:px-12">
+      <div className="mx-auto grid max-w-[90rem] gap-10 md:grid-cols-[1.25fr_.75fr_.75fr]">
+        <div>
+          <p className="text-lg font-black uppercase tracking-[-0.035em]">IA para Filmmakers</p>
+          <p className="mt-3 max-w-md text-sm leading-6 text-[#f2eee5]/45">Orientación práctica para estudiar tu caso y diseñar herramientas de IA que tengan sentido en tu trabajo audiovisual.</p>
+        </div>
+        <div>
+          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#ff5a2a]">Contacto</p>
+          <div className="mt-4 flex flex-col items-start gap-3 text-sm text-[#f2eee5]/58">
+            <a href="mailto:alberto@tuvideopromocional.es" className="hover:text-[#ff5a2a]">alberto@tuvideopromocional.es</a>
+            <a href="https://instagram.com/amartinro" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-[#ff5a2a]">@amartinro <ArrowUpRight className="h-3.5 w-3.5" /></a>
           </div>
         </div>
-
-        {/* Email Capture Section - Elegante y sutil */}
-        <div className="mt-12 mb-8 p-6 bg-white/5 border border-white/10 rounded-2xl">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-white mb-1">
-                ¿Aun no estas listo para comprar?
-              </h3>
-              <p className="text-sm text-slate-400">
-                Recibe 3 casos de uso explicados GRATIS y descubre como funciona antes de invertir.
-              </p>
-            </div>
-            <div className="w-full md:w-auto">
-              <EmailCapture variant="footer" />
-            </div>
+        <div>
+          <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#ff5a2a]">Legal y privacidad</p>
+          <div className="mt-4 flex flex-col items-start gap-3 text-sm text-[#f2eee5]/58">
+            <Link href="/contacto" className="hover:text-[#ff5a2a]">Contacto</Link>
+            <Link href="/condiciones" className="hover:text-[#ff5a2a]">Condiciones</Link>
+            <Link href="/privacidad" className="hover:text-[#ff5a2a]">Privacidad</Link>
+            <Link href="/cookies" className="hover:text-[#ff5a2a]">Cookies</Link>
+            <button type="button" onClick={openCookieSettings} className="cursor-pointer text-left underline decoration-[#ff5a2a]/60 underline-offset-4 hover:text-[#ff5a2a]">Gestionar cookies</button>
           </div>
         </div>
-
-        <div className="mt-12 border-t border-white/10 pt-8 text-center">
-          <p className="text-sm text-slate-500">
-            © {new Date().getFullYear()} Alberto Martin. Todos los derechos reservados.
-          </p>
-        </div>
+      </div>
+      <div className="mx-auto mt-12 flex max-w-[90rem] flex-col gap-2 border-t border-[#f2eee5]/15 pt-6 font-mono text-[9px] uppercase tracking-[0.14em] text-[#f2eee5]/30 sm:flex-row sm:justify-between">
+        <span>© {new Date().getFullYear()} Alberto Martín</span><span>Salamanca · España</span>
       </div>
     </footer>
   );

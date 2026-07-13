@@ -8,9 +8,10 @@ const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 // IMPORTANTE: Actualiza estos IDs con los reales de tu cuenta Brevo
 // Puedes encontrarlos en Brevo > Contacts > Lists > (click en la lista) > ver URL o settings
 export const BREVO_LIST_IDS = {
-  LEADS: 7,           // Lista "Filmmakers Interesados - 7 Casos" (lead magnet)
-  GUIA: 8,            // Lista "Compradores - Guía OpenClaw (29€)" - Dispara automation de 2 emails
-  BUNDLE: 9,          // Lista "Compradores - Bundle + 1:1 (127€)" - Solo email transaccional
+  LEADS: 7,
+  GUIA: 8,
+  BUNDLE: 9,
+  ASESORIA_PILOTO: 15,
 } as const;
 
 // Template IDs de Brevo
@@ -40,8 +41,7 @@ export async function sendBrevoEmail(params: SendEmailParams): Promise<{ success
   console.log('=== sendBrevoEmail INICIO ===');
   console.log('To:', to);
   console.log('Template ID:', templateId);
-  console.log('BREVO_API_KEY existe:', !!BREVO_API_KEY);
-  console.log('BREVO_API_KEY prefix:', BREVO_API_KEY ? BREVO_API_KEY.substring(0, 10) + '...' : 'MISSING');
+  console.log('BREVO_API_KEY configurada:', !!BREVO_API_KEY);
 
   if (!BREVO_API_KEY) {
     console.error('❌ BREVO_API_KEY no configurada');
@@ -192,5 +192,52 @@ export async function addContactToBrevoList(
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
     console.error(`❌ Exception añadiendo contacto a lista ${listId}:`, errorMessage);
     return { success: false, error: errorMessage };
+  }
+}
+
+export interface DirectEmailParams {
+  to: { email: string; name?: string }[];
+  subject: string;
+  htmlContent: string;
+  replyTo?: { email: string; name?: string };
+}
+
+/** Envía un email transaccional sin depender de una plantilla externa. */
+export async function sendDirectBrevoEmail(params: DirectEmailParams): Promise<{ success: boolean; error?: string }> {
+  if (!BREVO_API_KEY) return { success: false, error: 'BREVO_API_KEY no configurada' };
+
+  try {
+    const response = await fetch(BREVO_API_URL, {
+      method: 'POST',
+      headers: {
+        'api-key': BREVO_API_KEY,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        sender: {
+          email: 'alberto@tuvideopromocional.es',
+          name: 'Alberto Martín · IA para Filmmakers',
+        },
+        to: params.to,
+        subject: params.subject,
+        htmlContent: params.htmlContent,
+        replyTo: params.replyTo || {
+          email: 'alberto@tuvideopromocional.es',
+          name: 'Alberto Martín',
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      const text = await response.text();
+      console.error('Brevo direct email error:', response.status, text);
+      return { success: false, error: `Brevo API error: ${response.status}` };
+    }
+
+    return { success: true };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error('Brevo direct email exception:', message);
+    return { success: false, error: message };
   }
 }

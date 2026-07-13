@@ -29,11 +29,16 @@ export const stripe = new Proxy({} as Stripe, {
 export const STRIPE_PRICE_IDS = {
   GUIA: 'price_1TJtMYHBqq0IP9Ia8lI2iME2',
   BUNDLE: 'price_1TJtMrHBqq0IP9IaH2MHxqtv',
+  ASESORIA_90M: 'price_1Tso8FHBqq0IP9IapfvQzXOn',
 };
 
-// Mapeo de price_id a tipo de producto
-export function getProductTypeFromPriceId(priceId: string): 'guia' | 'bundle' | null {
+export type ProductType = 'guia' | 'bundle' | 'asesoria_90m';
+
+// Mapeo de price_id a tipo de producto.
+// Se conservan los productos anteriores para que los webhooks históricos sigan siendo procesables.
+export function getProductTypeFromPriceId(priceId: string): ProductType | null {
   if (priceId === STRIPE_PRICE_IDS.GUIA) return 'guia';
   if (priceId === STRIPE_PRICE_IDS.BUNDLE) return 'bundle';
+  if (priceId === STRIPE_PRICE_IDS.ASESORIA_90M) return 'asesoria_90m';
   return null;
 }

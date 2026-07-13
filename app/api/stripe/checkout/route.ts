@@ -53,26 +53,39 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const siteUrl = 'https://www.iaparafilmmakers.es';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.iaparafilmmakers.es';
+    const isAdvisory = priceId === STRIPE_PRICE_IDS.ASESORIA_90M;
+    const successPath = isAdvisory ? '/gracias-asesoria' : '/gracias';
 
-    // Crear sesión de checkout usando fetch nativo
+    // Crear sesión de checkout usando fetch nativo.
+    // Stripe Tax está activo en la cuenta y calcula el impuesto según la dirección de facturación.
     const params = new URLSearchParams({
       'line_items[0][price]': priceId,
       'line_items[0][quantity]': '1',
       'mode': 'payment',
       'billing_address_collection': 'required',
-      'success_url': `${siteUrl}/gracias?session_id={CHECKOUT_SESSION_ID}`,
-      'cancel_url': `${siteUrl}/`,
+      'tax_id_collection[enabled]': 'true',
+      'automatic_tax[enabled]': 'true',
+      'customer_creation': 'always',
+      'locale': 'es',
+      'success_url': `${siteUrl}${successPath}?session_id={CHECKOUT_SESSION_ID}`,
+      'cancel_url': `${siteUrl}/#sesion`,
       'metadata[priceId]': priceId,
-      'metadata[source]': 'landing_page',
+      'metadata[source]': isAdvisory ? 'landing_asesoria_1a1' : 'landing_page',
+      'metadata[product_type]': isAdvisory ? 'asesoria_90m' : 'producto_digital',
     });
 
-    // Si hay un código promocional, aplicarlo automáticamente
-    if (promotionCode) {
-      params.append('discounts[0][promotion_code]', promotionCode);
-    } else {
-      // Permitir que el usuario introduzca su propio código si no viene pre-aplicado
-      params.append('allow_promotion_codes', 'true');
+    if (isAdvisory) {
+      params.append('submit_type', 'book');
+    }
+
+    // Los códigos se mantienen en los productos digitales anteriores; la edición piloto no admite descuentos.
+    if (!isAdvisory) {
+      if (promotionCode) {
+        params.append('discounts[0][promotion_code]', promotionCode);
+      } else {
+        params.append('allow_promotion_codes', 'true');
+      }
     }
 
     // Agregar email si se proporcionó

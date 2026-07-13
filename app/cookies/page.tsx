@@ -1,222 +1,75 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { PageLayout } from "@/components/PageLayout";
-import { OpenCookieSettings } from "@/components/OpenCookieSettings";
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { LegalSection } from '@/components/LegalSection';
+import { OpenCookieSettings } from '@/components/OpenCookieSettings';
+import { PageLayout } from '@/components/PageLayout';
 
 export const metadata: Metadata = {
-  title: "Politica de Cookies | OpenClaw para Filmmakers",
-  description: "Informacion detallada sobre el uso de cookies y gestion de consentimiento en nuestro sitio web.",
+  title: 'Política de cookies',
+  description: 'Gestión de cookies necesarias, analíticas y de marketing en IA para Filmmakers.',
 };
+
+const rows = [
+  ['iapf_cookie_consent_v2', 'IA para Filmmakers', 'Preferencias de consentimiento', 'Necesaria', '6 meses', 'Al decidir'],
+  ['iapf_consent_proof', 'IA para Filmmakers', 'Prueba técnica de la decisión y versión', 'Necesaria · HttpOnly', '6 meses', 'Al decidir'],
+  ['__stripe_mid', 'Stripe, Inc.', 'Prevención de fraude en el pago', 'Necesaria', '1 año', 'Al abrir Stripe'],
+  ['__stripe_sid', 'Stripe, Inc.', 'Sesión y prevención de fraude', 'Necesaria', '30 minutos', 'Al abrir Stripe'],
+  ['_ga / _ga_*', 'Google LLC', 'Distinguir usuarios y sesiones', 'Analítica', 'Hasta 2 años', 'Solo con permiso'],
+  ['_gid', 'Google LLC', 'Distinguir usuarios', 'Analítica', '24 horas', 'Solo con permiso'],
+  ['_gat', 'Google LLC', 'Limitar solicitudes', 'Analítica', '1 minuto', 'Solo con permiso'],
+  ['_fbp / _fbc', 'Meta Platforms, Inc.', 'Medición y atribución publicitaria', 'Marketing', 'Hasta 3 meses', 'Solo con permiso'],
+];
 
 export default function CookiesPage() {
   return (
     <PageLayout>
-      <div className="max-w-4xl mx-auto px-6 py-12 sm:px-8 lg:px-12">
-        <h1 className="text-4xl sm:text-5xl font-medium tracking-tight text-white mb-8">
-          Politica de <span className="text-[#00ff88]">Cookies</span>
-        </h1>
+      <article className="mx-auto max-w-[90rem] px-5 py-20 sm:px-8 sm:py-28 lg:px-12">
+        <header className="grid gap-8 pb-16 lg:grid-cols-[.68fr_1.32fr] lg:gap-20">
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff5a2a]">RGPD · ePrivacy · LSSI</p>
+          <div><h1 className="font-editorial max-w-5xl text-balance text-[clamp(3.4rem,7vw,7.5rem)] font-medium leading-[0.88] tracking-[-0.06em]">Política de cookies.</h1><p className="mt-7 max-w-2xl text-lg leading-8 text-[#f2eee5]/55">Tú decides si se cargan la analítica y la medición publicitaria. Ambas permanecen bloqueadas por defecto.</p></div>
+        </header>
 
-        <div className="space-y-8 text-white/70 leading-relaxed">
-          <section>
-            <h2 className="text-2xl font-medium text-white mb-4">¿Que son las cookies?</h2>
-            <p className="mb-4">
-              Las cookies son pequenos archivos de texto que los sitios web colocan en tu dispositivo 
-              para almacenar informacion sobre tu navegacion. En cumplimiento con el Reglamento General 
-              de Proteccion de Datos (GDPR) y la Ley de Servicios de la Sociedad de la Informacion (LSSI), 
-              te informamos detalladamente sobre las cookies que utilizamos.
-            </p>
-          </section>
+        <div className="space-y-12">
+          <LegalSection title="1. Qué son">
+            <p>Las cookies y tecnologías similares permiten recordar preferencias, proteger pagos y, si das permiso, medir cómo se utiliza una web. Las necesarias se usan para funciones solicitadas; las demás requieren consentimiento previo.</p>
+          </LegalSection>
 
-          <section>
-            <h2 className="text-2xl font-medium text-white mb-4">Gestion de consentimiento</h2>
-            <p className="mb-4">
-              Al visitar nuestra web, se te presenta un banner para que puedas decidir que cookies 
-              aceptas. Tus preferencias se almacenan localmente en tu navegador y puedes modificarlas 
-              en cualquier momento:
-            </p>
-            <ul className="list-disc list-inside text-white/50 space-y-2 mb-4">
-              <li>Aceptar todas las cookies</li>
-              <li>Rechazar cookies no esenciales</li>
-              <li>Personalizar tus preferencias por categoria</li>
-              <li>Modificar tu consentimiento cuando quieras</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-medium text-white mb-4">Categorias de cookies</h2>
-            <div className="space-y-4">
-              <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5">
-                <h3 className="text-lg font-medium text-white mb-2 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#00ff88]"></span>
-                  Cookies necesarias (Siempre activas)
-                </h3>
-                <p className="mb-2 text-white/60">
-                  Esenciales para el funcionamiento basico del sitio. No almacenan informacion personal identificable.
-                </p>
-                <ul className="list-disc list-inside text-white/50 space-y-1 text-sm">
-                  <li>Sesion de navegacion y seguridad</li>
-                  <li>Preferencias de visualizacion (tema, idioma)</li>
-                  <li>Procesamiento de pagos seguros (Stripe)</li>
-                  <li>Cookie de consentimiento propia</li>
-                </ul>
-              </div>
-
-              <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5">
-                <h3 className="text-lg font-medium text-white mb-2 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#aa00ff]"></span>
-                  Cookies de estadisticas
-                </h3>
-                <p className="mb-2 text-white/60">
-                  Nos ayudan a entender como interactuas con el sitio. Son anonimas y no identifican personalmente.
-                </p>
-                <ul className="list-disc list-inside text-white/50 space-y-1 text-sm">
-                  <li>Google Analytics (Google LLC): paginas vistas, tiempo de navegacion</li>
-                  <li>Google Tag Manager (Google LLC): gestion de etiquetas</li>
-                </ul>
-              </div>
-
-              <div className="p-6 rounded-2xl bg-white/[0.02] border border-white/5">
-                <h3 className="text-lg font-medium text-white mb-2 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
-                  Cookies de marketing
-                </h3>
-                <p className="mb-2 text-white/60">
-                  Utilizadas para mostrarte anuncios relevantes y medir su efectividad. Requieren tu consentimiento explicito.
-                </p>
-                <ul className="list-disc list-inside text-white/50 space-y-1 text-sm">
-                  <li>Meta Pixel (Meta Platforms, Inc.): conversion y remarketing</li>
-                  <li>YouTube (Google LLC): reproduccion de videos incrustados y personalizacion de anuncios</li>
-                </ul>
-              </div>
+          <LegalSection title="2. Tus opciones">
+            <div className="grid gap-px border border-[#f2eee5]/20 bg-[#f2eee5]/20 sm:grid-cols-3">
+              <div className="bg-[#171612] p-5"><p className="font-black text-[#f2eee5]">Necesarias</p><p className="mt-3 text-sm leading-6">Preferencias, seguridad y pago. No se pueden desactivar desde el gestor.</p></div>
+              <div className="bg-[#171612] p-5"><p className="font-black text-[#f2eee5]">Analítica</p><p className="mt-3 text-sm leading-6">Google Analytics. Desactivado por defecto.</p></div>
+              <div className="bg-[#171612] p-5"><p className="font-black text-[#f2eee5]">Marketing</p><p className="mt-3 text-sm leading-6">Meta Pixel para medir campañas. Desactivado por defecto.</p></div>
             </div>
-          </section>
+          </LegalSection>
 
-          <section>
-            <h2 className="text-2xl font-medium text-white mb-4">Cookies especificas</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
-                <thead className="text-white/50 border-b border-white/10">
-                  <tr>
-                    <th className="py-3">Cookie / Entidad</th>
-                    <th className="py-3">Duracion</th>
-                    <th className="py-3">Tipo</th>
-                    <th className="py-3">Proposito</th>
-                  </tr>
-                </thead>
-                <tbody className="text-white/70">
-                  <tr className="border-b border-white/5">
-                    <td className="py-3">cookie_consent_v1<br/><span className="text-white/40 text-xs">Propia</span></td>
-                    <td className="py-3">1 año</td>
-                    <td className="py-3">Necesaria</td>
-                    <td className="py-3">Almacena tus preferencias de consentimiento</td>
-                  </tr>
-                  <tr className="border-b border-white/5">
-                    <td className="py-3">__stripe_mid<br/><span className="text-white/40 text-xs">Stripe, Inc.</span></td>
-                    <td className="py-3">1 año</td>
-                    <td className="py-3">Necesaria</td>
-                    <td className="py-3">Prevencion de fraude en pagos</td>
-                  </tr>
-                  <tr className="border-b border-white/5">
-                    <td className="py-3">_ga<br/><span className="text-white/40 text-xs">Google LLC</span></td>
-                    <td className="py-3">2 años</td>
-                    <td className="py-3">Estadisticas</td>
-                    <td className="py-3">Distingue usuarios unicos en Google Analytics</td>
-                  </tr>
-                  <tr className="border-b border-white/5">
-                    <td className="py-3">_gid<br/><span className="text-white/40 text-xs">Google LLC</span></td>
-                    <td className="py-3">24 horas</td>
-                    <td className="py-3">Estadisticas</td>
-                    <td className="py-3">Distingue usuarios durante la sesion</td>
-                  </tr>
-                  <tr className="border-b border-white/5">
-                    <td className="py-3">_gat / _gat_gtag_UA_*<br/><span className="text-white/40 text-xs">Google LLC</span></td>
-                    <td className="py-3">1 minuto</td>
-                    <td className="py-3">Estadisticas</td>
-                    <td className="py-3">Limita la tasa de solicitudes a Analytics</td>
-                  </tr>
-                  <tr className="border-b border-white/5">
-                    <td className="py-3">_fbp<br/><span className="text-white/40 text-xs">Meta Platforms, Inc.</span></td>
-                    <td className="py-3">3 meses</td>
-                    <td className="py-3">Marketing</td>
-                    <td className="py-3">Identifica navegadores para publicidad y remarketing</td>
-                  </tr>
-                  <tr className="border-b border-white/5">
-                    <td className="py-3">VISITOR_INFO1_LIVE<br/><span className="text-white/40 text-xs">Google LLC (YouTube)</span></td>
-                    <td className="py-3">6 meses</td>
-                    <td className="py-3">Marketing</td>
-                    <td className="py-3">Estima el ancho de banda y personaliza recomendaciones</td>
-                  </tr>
-                  <tr className="border-b border-white/5">
-                    <td className="py-3">YSC<br/><span className="text-white/40 text-xs">Google LLC (YouTube)</span></td>
-                    <td className="py-3">Sesion</td>
-                    <td className="py-3">Marketing</td>
-                    <td className="py-3">Registra un ID unico para estadisticas del video</td>
-                  </tr>
-                  <tr className="border-b border-white/5">
-                    <td className="py-3">CONSENT<br/><span className="text-white/40 text-xs">Google LLC (YouTube)</span></td>
-                    <td className="py-3">2 años</td>
-                    <td className="py-3">Marketing</td>
-                    <td className="py-3">Almacena las preferencias de consentimiento de Google</td>
-                  </tr>
+          <LegalSection title="3. Cookies y tecnologías">
+            <div className="overflow-x-auto border border-[#f2eee5]/20">
+              <table className="w-full min-w-[900px] text-left text-sm">
+                <thead className="bg-[#f2eee5] text-[#171612]"><tr>{['Nombre','Entidad','Finalidad','Categoría','Duración','Activación'].map((item) => <th key={item} className="p-4 font-extrabold">{item}</th>)}</tr></thead>
+                <tbody className="divide-y divide-[#f2eee5]/15 text-[#f2eee5]/58">
+                  {rows.map((row) => <tr key={row[0]}>{row.map((cell) => <td key={cell} className="p-4 align-top">{cell}</td>)}</tr>)}
                 </tbody>
               </table>
             </div>
-          </section>
+            <p>Stripe puede utilizar tecnologías adicionales en su dominio para seguridad, autenticación y prevención de fraude. Sus nombres pueden variar según el navegador y el método de pago.</p>
+          </LegalSection>
 
-          <section>
-            <h2 className="text-2xl font-medium text-white mb-4">Transferencias internacionales de datos</h2>
-            <p className="mb-4">
-              Algunos de los terceros mencionados anteriormente operan desde fuera del Espacio Economico Europeo (EEE), concretamente en Estados Unidos. Esto implica una transferencia internacional de datos:
-            </p>
-            <ul className="list-disc list-inside text-white/50 space-y-2 mb-4">
-              <li><strong>Google LLC</strong> y <strong>Meta Platforms, Inc.</strong> estan certificados bajo el <em>EU-U.S. Data Privacy Framework</em>, que la Comision Europea reconoce como garantia adecuada para estas transferencias.</li>
-              <li>Ademas, solo transferimos datos cuando has otorgado tu consentimiento explicito para las cookies de estadisticas y/o marketing.</li>
-              <li>Puedes revocar tu consentimiento en cualquier momento, lo que detendra cualquier futura transferencia asociada a dichas cookies.</li>
-            </ul>
-          </section>
+          <LegalSection title="4. Consentimiento y retirada">
+            <p>El gestor ofrece “Aceptar todas” y “Rechazar no esenciales” con la misma visibilidad, sin casillas premarcadas. Puedes elegir categorías por separado. La decisión se guarda durante seis meses, junto a la versión de esta política y una referencia técnica de consentimiento.</p>
+            <p>Retirar una categoría impide futuras cargas y elimina, cuando el navegador lo permite, cookies conocidas de Google y Meta. También puedes borrarlas desde la configuración del navegador.</p>
+            <div className="border border-[#f2eee5]/20 bg-[#f2eee5] p-5 text-[#171612]"><OpenCookieSettings /></div>
+          </LegalSection>
 
-          <section>
-            <h2 className="text-2xl font-medium text-white mb-4">Prueba de consentimiento</h2>
-            <p className="mb-4">
-              Cada vez que das, modificas o rechazas tu consentimiento de cookies, registramos de forma segura un log con la fecha, hora, categoria aceptadas/rechazadas y una huella anonimizada de tu conexion. Este registro nos permite demostrar ante las autoridades de proteccion de datos que tu consentimiento fue libre, especifico, informado y inequivoco.
-            </p>
-          </section>
+          <LegalSection title="5. Transferencias internacionales">
+            <p>Google LLC, Meta Platforms, Inc., Stripe, Inc. y Vercel Inc. pueden tratar datos fuera del Espacio Económico Europeo. Se aplican las garantías previstas en el RGPD, incluido el Marco de Privacidad de Datos UE–EE. UU., decisiones de adecuación o cláusulas contractuales tipo, según corresponda.</p>
+          </LegalSection>
 
-          <section>
-            <h2 className="text-2xl font-medium text-white mb-4">Modificar tu consentimiento</h2>
-            <p className="mb-4">
-              Puedes cambiar tus preferencias de cookies en cualquier momento haciendo clic en el 
-              enlace "Gestionar cookies" del pie de pagina, o accediendo directamente a:
-            </p>
-            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10">
-              <OpenCookieSettings />
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-medium text-white mb-4">Mas informacion</h2>
-            <p className="mb-4">
-              Para mas detalles sobre como procesamos tus datos personales, consulta nuestra{" "}
-              <Link href="/privacidad" className="text-[#00ff88] hover:underline">
-                Politica de Privacidad
-              </Link>.
-            </p>
-            <p>
-              Si tienes preguntas sobre nuestra politica de cookies, puedes contactarnos en:{" "}
-              <a 
-                href="mailto:alberto@tuvideopromocional.es" 
-                className="text-[#00ff88] hover:underline"
-              >
-                alberto@tuvideopromocional.es
-              </a>
-            </p>
-          </section>
-
-          <div className="pt-8 text-sm text-white/40">
-            Ultima actualizacion: Abril 2026
-          </div>
+          <LegalSection title="6. Más información">
+            <p>Consulta la <Link href="/privacidad">política de privacidad</Link>. Para dudas o ejercicio de derechos, escribe a <a href="mailto:alberto@tuvideopromocional.es">alberto@tuvideopromocional.es</a>.</p>
+          </LegalSection>
         </div>
-      </div>
+        <p className="mt-16 border-t border-[#f2eee5]/20 pt-6 font-mono text-[9px] uppercase tracking-[0.14em] text-[#f2eee5]/32">Última actualización: 13 de julio de 2026 · Versión 2026-07-v2.</p>
+      </article>
     </PageLayout>
   );
 }

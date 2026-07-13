@@ -1,25 +1,25 @@
 {
-  "title": "Tu privacidad importa",
-  "description": "Utilizamos cookies propias y de terceros para mejorar tu experiencia, analizar el trafico y personalizar contenido. Puedes aceptar todas, rechazar las no esenciales o configurar tus preferencias.",
+  "title": "Tus datos, tu decisión",
+  "description": "Las cookies necesarias mantienen la web y el pago seguros. Google Analytics y Meta permanecen bloqueados hasta que decidas activarlos.",
   "privacyLink": "/privacidad",
   "cookiesLink": "/cookies",
   "categories": [
     {
       "id": "necessary",
       "name": "Necesarias",
-      "description": "Esenciales para el funcionamiento basico del sitio: seguridad, sesion y procesamiento de pagos.",
+      "description": "Preferencias de privacidad, seguridad, sesión y procesamiento de pagos. Siempre activas.",
       "required": true
     },
     {
       "id": "analytics",
-      "name": "Analiticas",
-      "description": "Nos ayudan a entender como interactuas con el sitio mediante Google Analytics y Google Tag Manager.",
+      "name": "Analítica",
+      "description": "Google Analytics para comprender el uso de la web. Bloqueado por defecto.",
       "required": false
     },
     {
       "id": "marketing",
       "name": "Marketing",
-      "description": "Utilizadas para mostrarte anuncios relevantes en Meta (Facebook/Instagram) y medir su efectividad.",
+      "description": "Meta Pixel para medir campañas y crear audiencias. Bloqueado por defecto.",
       "required": false
     }
   ]

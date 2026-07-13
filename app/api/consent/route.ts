@@ -1,123 +1,56 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
-import { createHash } from 'crypto';
 import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
-const BREVO_API_KEY = process.env.BREVO_API_KEY || '';
-const LOG_DIR = path.join(process.cwd(), 'data', 'consent-logs');
-
-function hashIp(ip: string): string {
-  return createHash('sha256').update(ip).digest('hex');
-}
-
-async function saveConsentLog(payload: Record<string, unknown>) {
-  try {
-    await fs.mkdir(LOG_DIR, { recursive: true });
-    const timestamp = Date.now();
-    const identifier = (payload.ipHash as string) || 'unknown';
-    const filename = path.join(LOG_DIR, `${timestamp}-${identifier.slice(0, 8)}.json`);
-    await fs.writeFile(filename, JSON.stringify(payload, null, 2));
-    return true;
-  } catch (err) {
-    console.error('Error guardando log de consentimiento:', err);
-    return false;
-  }
-}
-
-async function updateBrevoContact(email: string, consent: {
-  analytics: boolean;
-  marketing: boolean;
-  timestamp: string;
-}) {
-  if (!BREVO_API_KEY) return { success: false, reason: 'no_api_key' };
-  try {
-    const response = await fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'api-key': BREVO_API_KEY,
-      },
-      body: JSON.stringify({
-        attributes: {
-          CONSENT_ANALYTICS: String(consent.analytics),
-          CONSENT_MARKETING: String(consent.marketing),
-          CONSENT_TIMESTAMP: consent.timestamp,
-        },
-      }),
-    });
-    if (response.ok || response.status === 204) {
-      return { success: true };
-    }
-    const text = await response.text();
-    return { success: false, reason: 'brevo_error', status: response.status, text };
-  } catch (err) {
-    return { success: false, reason: 'exception', error: String(err) };
-  }
-}
+const CONSENT_VERSION = '2026-07-v2';
+const CONSENT_MAX_AGE_DAYS = 180;
+const PROOF_COOKIE = 'iapf_consent_proof';
 
 export async function POST(request: NextRequest) {
   try {
     const ip = getClientIp(request);
-    const limit = rateLimit(`consent:${ip}`, 10, 60_000);
-    if (!limit.success) {
-      return NextResponse.json(
-        { error: 'Demasiadas solicitudes. Intentalo de nuevo en un minuto.' },
-        { status: 429 }
-      );
-    }
+    const limit = rateLimit(`consent:${ip}`, 12, 60_000);
+    if (!limit.success) return NextResponse.json({ error: 'Demasiadas solicitudes' }, { status: 429 });
 
-    const body = await request.json();
-    const { necessary, analytics, marketing, timestamp, email } = body;
+    const raw = await request.text();
+    if (raw.length > 4_096) return NextResponse.json({ error: 'Solicitud demasiado grande' }, { status: 413 });
+    const body = JSON.parse(raw) as Record<string, unknown>;
+    const { necessary, analytics, marketing, timestamp, expiresAt, version, consentId } = body;
 
-    if (typeof necessary !== 'boolean' || typeof analytics !== 'boolean' || typeof marketing !== 'boolean') {
-      return NextResponse.json(
-        { error: 'Formato de consentimiento invalido' },
-        { status: 400 }
-      );
-    }
+    const timestampMs = typeof timestamp === 'string' ? Date.parse(timestamp) : NaN;
+    const expiresMs = typeof expiresAt === 'string' ? Date.parse(expiresAt) : NaN;
+    const valid = necessary === true
+      && typeof analytics === 'boolean'
+      && typeof marketing === 'boolean'
+      && version === CONSENT_VERSION
+      && typeof consentId === 'string'
+      && /^[a-zA-Z0-9-]{12,80}$/.test(consentId)
+      && Number.isFinite(timestampMs)
+      && Number.isFinite(expiresMs)
+      && Math.abs(Date.now() - timestampMs) < 10 * 60_000
+      && expiresMs > Date.now();
 
-    const ipHash = hashIp(ip);
-    const userAgent = request.headers.get('user-agent') || '';
-    const logPayload = {
-      necessary,
+    if (!valid) return NextResponse.json({ error: 'Formato de consentimiento inválido' }, { status: 400 });
+
+    const proof = Buffer.from(JSON.stringify({
+      consentId,
+      necessary: true,
       analytics,
       marketing,
-      timestamp: timestamp || new Date().toISOString(),
-      email: email || null,
-      ipHash,
-      userAgent,
-      savedAt: new Date().toISOString(),
-    };
+      timestamp,
+      expiresAt,
+      version,
+    })).toString('base64url');
 
-    const saved = await saveConsentLog(logPayload);
-
-    let brevoResult: {
-      success: boolean;
-      reason?: string;
-      status?: number;
-      text?: string;
-      error?: string;
-    } = { success: false, reason: 'no_email' };
-    if (email && typeof email === 'string') {
-      brevoResult = await updateBrevoContact(email, {
-        analytics,
-        marketing,
-        timestamp: timestamp || new Date().toISOString(),
-      });
-    }
-
-    return NextResponse.json({
-      success: true,
-      saved,
-      brevo: brevoResult.success,
+    const response = NextResponse.json({ success: true, consentId });
+    response.cookies.set(PROOF_COOKIE, proof, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: CONSENT_MAX_AGE_DAYS * 24 * 60 * 60,
     });
-  } catch (error) {
-    console.error('Error en /api/consent:', error);
-    return NextResponse.json(
-      { error: 'Error interno del servidor' },
-      { status: 500 }
-    );
+    return response;
+  } catch {
+    return NextResponse.json({ error: 'Solicitud inválida' }, { status: 400 });
   }
 }

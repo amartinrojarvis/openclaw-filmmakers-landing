@@ -4,9 +4,10 @@ import Script from 'next/script';
 import { useEffect, useState } from 'react';
 import { hasConsent } from '@/lib/cookies';
 
-export const GTM_ID = 'GTM-5N34HG2X';
+export const GA4_ID = 'G-6C53BM67BD';
 
-// Google Tag Manager Script - solo carga si hay consentimiento de analiticas
+// GA4 directo: solo carga con consentimiento analítico. Evita que un contenedor
+// GTM pueda disparar etiquetas de marketing dentro de la categoría de analítica.
 export function GoogleTagManagerScript() {
   const [canLoad, setCanLoad] = useState(false);
 
@@ -20,19 +21,24 @@ export function GoogleTagManagerScript() {
   if (!canLoad) return null;
 
   return (
-    <Script
-      id="gtm-script"
-      strategy="afterInteractive"
-      dangerouslySetInnerHTML={{
-        __html: `
-          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','${GTM_ID}');
-        `,
-      }}
-    />
+    <>
+      <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} strategy="afterInteractive" />
+      <Script
+        id="ga4-script"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA4_ID}', {
+              anonymize_ip: true,
+              cookie_flags: 'SameSite=None;Secure'
+            });
+          `,
+        }}
+      />
+    </>
   );
 }
 
@@ -53,7 +59,7 @@ export function PageViewTracker() {
 
 // Helper function to track custom events
 export function trackEvent(eventName: string, eventParams?: Record<string, any>) {
-  if (typeof window !== 'undefined' && window.dataLayer) {
+  if (typeof window !== 'undefined' && hasConsent('analytics') && window.dataLayer) {
     window.dataLayer.push({
       event: eventName,
       ...eventParams,
@@ -146,9 +152,7 @@ export const AnalyticsEvents = {
   },
 };
 
-// Meta Pixel Script - carga CONDICIONAL según consentimiento de marketing
-// NOTA: Para medición de ads, considera cargar siempre en landing pages de campañas
-// sin gating de consentimiento. Meta Pixel se considera "functional" en muchos frameworks.
+// Meta Pixel: solo se carga tras consentimiento expreso de marketing.
 export function MetaPixelScript() {
   const [canLoad, setCanLoad] = useState(false);
 
