@@ -202,9 +202,18 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
             </div>`,
         }),
         sendDirectBrevoEmail({
-          to: [{ email: 'alberto@tuvideopromocional.es', name: 'Alberto Martín' }],
-          subject: 'Nueva reserva — Asesoría IA 1:1 (pendiente de formulario)',
-          htmlContent: `<p>Nueva reserva pagada.</p><p><strong>Email:</strong> ${customerEmail}</p><p><strong>Checkout:</strong> ${session.id}</p><p>El cliente ha recibido el enlace al formulario previo.</p>`,
+          to: [{ email: 'a.martinro@gmail.com', name: 'Alberto Martín' }],
+          subject: 'Nueva reserva — enlace del formulario listo para enviar',
+          htmlContent: `
+            <div style="font-family:Arial,sans-serif;max-width:680px;margin:auto;color:#172018;line-height:1.65">
+              <h1 style="font-size:28px;line-height:1.2">Nueva reserva pagada</h1>
+              <p><strong>Email del comprador:</strong> ${customerEmail}</p>
+              <p><strong>Referencia de Stripe:</strong> ${session.id}</p>
+              <p>Stripe lo redirige automáticamente al formulario y el comprador también recibe este enlace por email.</p>
+              <p style="margin:28px 0"><a href="${intakeUrl}" style="background:#ff5a2a;color:#171612;text-decoration:none;padding:14px 22px;font-weight:bold">Abrir formulario del comprador</a></p>
+              <p><strong>Enlace para copiar o reenviar:</strong></p>
+              <p style="word-break:break-all"><a href="${intakeUrl}">${intakeUrl}</a></p>
+            </div>`,
         }),
         addContactToBrevoList(customerEmail, BREVO_LIST_IDS.ASESORIA_PILOTO, {
           PRODUCTO: 'asesoria_90m',
