@@ -2,7 +2,7 @@
 // POST /api/stripe/checkout
 
 import { NextRequest, NextResponse } from 'next/server';
-import { STRIPE_PRICE_IDS } from '@/lib/stripe';
+import { isAdvisoryBasePriceId, STRIPE_PRICE_IDS } from '@/lib/stripe';
 import { rateLimit, getClientIp } from '@/lib/rate-limit';
 
 interface CheckoutRequest {
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     // Verificar que el priceId sea válido
-    const validPriceIds = Object.values(STRIPE_PRICE_IDS).filter(Boolean);
+    const validPriceIds = [STRIPE_PRICE_IDS.GUIA, STRIPE_PRICE_IDS.BUNDLE, STRIPE_PRICE_IDS.ASESORIA_90M];
     if (!validPriceIds.includes(priceId)) {
       return NextResponse.json(
         { error: 'priceId no válido' },
@@ -54,11 +54,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.iaparafilmmakers.es';
-    const isAdvisory = priceId === STRIPE_PRICE_IDS.ASESORIA_90M;
+    const isAdvisory = isAdvisoryBasePriceId(priceId);
     const successPath = isAdvisory ? '/gracias-asesoria' : '/gracias';
 
     // Crear sesión de checkout usando fetch nativo.
-    // Stripe Tax está activo en la cuenta y calcula el impuesto según la dirección de facturación.
+    // Los precios de asesoría son inclusivos: Automatic Tax desglosa el impuesto cuando corresponda sin subir el total.
     const params = new URLSearchParams({
       'line_items[0][price]': priceId,
       'line_items[0][quantity]': '1',

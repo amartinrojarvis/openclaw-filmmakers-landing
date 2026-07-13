@@ -38,7 +38,7 @@ export default function OpenGraphImage() {
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 20 }}>
             <div style={{ color: 'rgba(255,255,255,.55)' }}>Con Alberto Martín · Filmmaker y creador de productos de IA</div>
-            <div style={{ display: 'flex', borderRadius: 999, background: '#d6ff4b', color: '#07100a', padding: '14px 24px', fontWeight: 800 }}>75 € + IVA</div>
+            <div style={{ display: 'flex', borderRadius: 999, background: '#d6ff4b', color: '#07100a', padding: '14px 24px', fontWeight: 800 }}>Desde 75 € · precio final</div>
           </div>
         </div>
       </div>

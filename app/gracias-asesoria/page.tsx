@@ -4,7 +4,7 @@ import { ArrowRight, CheckCircle2, CircleAlert } from 'lucide-react';
 import { PageLayout } from '@/components/PageLayout';
 import { SessionIntakeForm } from '@/components/SessionIntakeForm';
 import { AdvisoryPurchaseTracker } from '@/components/AdvisoryPurchaseTracker';
-import { getStripe, STRIPE_PRICE_IDS } from '@/lib/stripe';
+import { getStripe, isAdvisoryBasePriceId, STRIPE_PRICE_IDS } from '@/lib/stripe';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,12 +21,16 @@ export default async function GraciasAsesoriaPage({ searchParams }: Props) {
   let email = '';
   let valid = false;
   let alreadySubmitted = false;
+  let includesFollowup = false;
+  let purchaseValue = 75;
 
   if (sessionId?.startsWith('cs_')) {
     try {
       const session = await getStripe().checkout.sessions.retrieve(sessionId, { expand: ['line_items'] });
-      const priceId = session.line_items?.data[0]?.price?.id;
-      valid = session.payment_status === 'paid' && priceId === STRIPE_PRICE_IDS.ASESORIA_90M;
+      const priceIds = session.line_items?.data.map((item) => item.price?.id).filter(Boolean) || [];
+      valid = session.payment_status === 'paid' && priceIds.some(isAdvisoryBasePriceId);
+      includesFollowup = priceIds.includes(STRIPE_PRICE_IDS.ASESORIA_FOLLOWUP_30D);
+      purchaseValue = (session.amount_total || 7500) / 100;
       email = session.customer_details?.email || session.customer_email || '';
       alreadySubmitted = session.metadata?.intake_submitted === 'true';
     } catch {
@@ -39,11 +43,12 @@ export default async function GraciasAsesoriaPage({ searchParams }: Props) {
       <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8 sm:py-24">
         {valid ? (
           <>
-            <AdvisoryPurchaseTracker sessionId={sessionId!} />
+            <AdvisoryPurchaseTracker sessionId={sessionId!} value={purchaseValue} includesFollowup={includesFollowup} />
             <header className="border-b border-[#f2eee5]/20 pb-12">
               <p className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#ff5a2a]"><CheckCircle2 className="h-4 w-4" /> Pago confirmado</p>
               <h1 className="font-editorial mt-6 max-w-4xl text-balance text-[clamp(3.2rem,7vw,6.8rem)] font-medium leading-[0.9] tracking-[-0.06em]">Ya tienes tu plaza. Ahora preparemos bien la sesión.</h1>
               <p className="mt-7 max-w-2xl text-lg leading-8 text-[#f2eee5]/58">Cuanto más concreto sea el punto de partida, más tiempo podremos dedicar a diseñar y construir sobre tu caso.</p>
+              {includesFollowup && <p className="mt-5 inline-flex border border-[#ff5a2a]/55 px-4 py-2 font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-[#ff5a2a]">Acompañamiento de 30 días incluido</p>}
             </header>
 
             <div className="mt-12">

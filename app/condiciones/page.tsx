@@ -26,12 +26,15 @@ export default function CondicionesPage() {
           <LegalSection title="2. Servicio">
             <p>Una sesión online individual de 90 minutos orientada a estudiar el caso de cada profesional audiovisual, identificar dónde puede aportar valor la IA y ayudar a diseñar un proceso o una herramienta propia para un caso de uso concreto.</p>
             <p>Incluye formulario previo, preparación breve, trabajo práctico durante la sesión, una hoja de ruta resumida y una consulta corta durante los siete días posteriores.</p>
+            <p>La modalidad de acompañamiento añade dos sesiones online de seguimiento de 45 minutos, hasta cuatro consultas breves por email, revisión del flujo o prototipo y ajustes de la hoja de ruta durante los 30 días posteriores a la sesión inicial. Las consultas no utilizadas caducan al finalizar ese periodo.</p>
             <p>Cuando el alcance y el tiempo lo permitan, se podrá construir un prototipo o primera versión funcional. La sesión no incluye un desarrollo de software completo, integraciones complejas, entrega de una aplicación terminada ni soporte indefinido.</p>
+            <p>El acompañamiento tampoco incluye ejecución por parte de Alberto, mantenimiento, disponibilidad urgente ni mensajería ilimitada. Las respuestas por email se realizarán en un máximo de 48 horas laborables.</p>
           </LegalSection>
 
           <LegalSection title="3. Oferta de lanzamiento">
-            <p>El precio de lanzamiento para las primeras cinco plazas es de <strong>75 € más los impuestos aplicables</strong>. Para una compra sujeta al 21 % de IVA español, el total es de 90,75 €.</p>
-            <p>Es una edición limitada destinada a validar el formato de trabajo; no constituye una tarifa permanente. Stripe calcula los impuestos según los datos de facturación y procesa el pago. Esta web no almacena datos de tarjeta.</p>
+            <p>El precio de lanzamiento de la sesión estratégica es de <strong>75 € precio final</strong>. La modalidad que incorpora acompañamiento durante 30 días cuesta <strong>199 € precio final</strong>.</p>
+            <p>Los importes mostrados son los totales que se cobran en el checkout; Stripe no añade IVA al total indicado. Los impuestos se consideran incluidos cuando resulten aplicables.</p>
+            <p>Es una edición limitada a cinco compras entre ambas modalidades y destinada a validar el formato de trabajo; no constituye una tarifa permanente. Stripe procesa el pago y esta web no almacena datos de tarjeta.</p>
             <p>La plaza se considera reservada cuando Stripe confirma el pago.</p>
           </LegalSection>
 
@@ -42,16 +45,17 @@ export default function CondicionesPage() {
 
           <LegalSection title="5. Cambios y cancelaciones">
             <ul>
-              <li>Puede solicitarse un cambio de fecha sin coste avisando con al menos 24 horas, sujeto a disponibilidad.</li>
-              <li>Una cancelación comunicada con al menos 48 horas de antelación da derecho al reembolso del importe abonado.</li>
+              <li>Puede solicitarse un cambio de fecha de cualquiera de las sesiones sin coste avisando con al menos 24 horas, sujeto a disponibilidad y, en el acompañamiento, al plazo contratado de 30 días.</li>
+              <li>Una cancelación comunicada con al menos 48 horas de antelación a la sesión inicial y antes de comenzar el servicio da derecho al reembolso del importe abonado.</li>
               <li>Las cancelaciones con menos de 48 horas, los cambios con menos de 24 horas y las ausencias no dan derecho automático a reembolso, salvo fuerza mayor acreditada.</li>
-              <li>Si Alberto no pudiera prestar el servicio, la persona podrá elegir entre una nueva fecha o el reembolso íntegro.</li>
+              <li>Una vez celebrada la sesión inicial, la cancelación voluntaria de los seguimientos restantes no da derecho automático al reembolso íntegro del pack, sin perjuicio de los derechos legales aplicables.</li>
+              <li>Si Alberto no pudiera prestar el servicio, la persona podrá elegir entre nuevas fechas, el reembolso íntegro si el servicio no hubiera comenzado o el reembolso proporcional de la parte no prestada.</li>
             </ul>
           </LegalSection>
 
           <LegalSection title="6. Desistimiento">
             <p>Cuando resulte aplicable la normativa de consumo, la persona compradora dispone de 14 días naturales para desistir, siempre que el servicio no se haya ejecutado completamente.</p>
-            <p>Si solicita expresamente que la sesión se celebre dentro de ese plazo, acepta que el servicio comience antes de finalizar el periodo de desistimiento. Una vez prestado íntegramente, el derecho se extingue conforme a la normativa aplicable. Los derechos imperativos de consumidores y usuarios prevalecen.</p>
+            <p>Si solicita expresamente que el servicio comience dentro de ese plazo, acepta su inicio anticipado. Si desiste después de que haya comenzado pero antes de su ejecución completa, podrá corresponder el abono proporcional de la parte ya prestada. Una vez prestado íntegramente, el derecho se extingue conforme a la normativa aplicable. Los derechos imperativos de consumidores y usuarios prevalecen.</p>
           </LegalSection>
 
           <LegalSection title="7. Alcance y resultados">

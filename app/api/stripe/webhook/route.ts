@@ -2,7 +2,7 @@
 // POST /api/stripe/webhook
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getStripe, getProductTypeFromPriceId, STRIPE_PRICE_IDS } from '@/lib/stripe';
+import { getStripe, getProductTypeFromPriceId, STRIPE_PRICE_IDS, syncAdvisoryCapacity } from '@/lib/stripe';
 import { sendGuiaEmail, sendBundleEmail, sendDirectBrevoEmail, addContactToBrevoList, BREVO_LIST_IDS } from '@/lib/brevo';
 import { isEventProcessed, markEventAsProcessed } from '@/lib/webhook-idempotency';
 import Stripe from 'stripe';
@@ -135,14 +135,13 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
     return;
   }
 
-  // Obtener detalles de la línea de items para saber qué producto compró
-  let priceId: string | undefined;
+  // Obtener las líneas para identificar la modalidad comprada.
+  let lineItems: Stripe.LineItem[] = [];
   let productDescription: string = 'unknown';
   
   if (session.line_items && session.line_items.data.length > 0) {
     console.log('Line items ya presentes en sesión');
-    priceId = session.line_items.data[0]?.price?.id;
-    productDescription = session.line_items.data[0]?.description || 'unknown';
+    lineItems = session.line_items.data;
   } else {
     console.log('Line items no presentes, recuperando de Stripe...');
     try {
@@ -150,13 +149,17 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
         expand: ['line_items'],
       });
       console.log('Sesión recuperada, line_items:', JSON.stringify(sessionWithItems.line_items, null, 2));
-      priceId = sessionWithItems.line_items?.data[0]?.price?.id;
-      productDescription = sessionWithItems.line_items?.data[0]?.description || 'unknown';
+      lineItems = sessionWithItems.line_items?.data || [];
     } catch (err) {
       console.error('❌ ERROR recuperando session con line_items:', err);
       return;
     }
   }
+
+  const priceId = lineItems[0]?.price?.id;
+  const priceIds = lineItems.map((item) => item.price?.id).filter(Boolean);
+  const includesFollowup = priceIds.includes(STRIPE_PRICE_IDS.ASESORIA_FOLLOWUP_30D);
+  productDescription = lineItems[0]?.description || 'unknown';
 
   console.log('Price ID encontrado:', priceId);
   console.log('Product description:', productDescription);
@@ -186,15 +189,16 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
   try {
     if (productType === 'asesoria_90m') {
       const intakeUrl = `https://www.iaparafilmmakers.es/gracias-asesoria?session_id=${encodeURIComponent(session.id)}`;
+      const planLabel = includesFollowup ? 'Sesión + acompañamiento 30 días' : 'Sesión estratégica de 90 minutos';
       console.log('Procesando compra de asesoría 90m...');
       const [customerMail, adminMail, listResult] = await Promise.all([
         sendDirectBrevoEmail({
           to: [{ email: customerEmail }],
-          subject: 'Tu sesión 1:1 está reservada — siguiente paso',
+          subject: includesFollowup ? 'Tu acompañamiento de 30 días está reservado — siguiente paso' : 'Tu sesión 1:1 está reservada — siguiente paso',
           htmlContent: `
             <div style="font-family:Arial,sans-serif;max-width:620px;margin:auto;color:#172018;line-height:1.65">
               <p>Hola,</p>
-              <h1 style="font-size:28px;line-height:1.2">Ya tienes reservada tu sesión 1:1.</h1>
+              <h1 style="font-size:28px;line-height:1.2">Tu reserva está confirmada: ${planLabel}.</h1>
               <p>Gracias por confiar en mí. Para preparar la sesión necesito que completes un formulario breve con tu objetivo y tus horarios preferidos.</p>
               <p style="margin:28px 0"><a href="${intakeUrl}" style="background:#172018;color:#d6ff4b;text-decoration:none;padding:14px 22px;border-radius:999px;font-weight:bold">Completar el formulario</a></p>
               <p>Después de recibirlo te confirmaré la fecha por email en un máximo de 48 horas laborables.</p>
@@ -208,6 +212,8 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
             <div style="font-family:Arial,sans-serif;max-width:680px;margin:auto;color:#172018;line-height:1.65">
               <h1 style="font-size:28px;line-height:1.2">Nueva reserva pagada</h1>
               <p><strong>Email del comprador:</strong> ${customerEmail}</p>
+              <p><strong>Modalidad:</strong> ${planLabel}</p>
+              <p><strong>Total cobrado:</strong> ${((session.amount_total || 0) / 100).toFixed(2)} €</p>
               <p><strong>Referencia de Stripe:</strong> ${session.id}</p>
               <p>Stripe lo redirige automáticamente al formulario y el comprador también recibe este enlace por email.</p>
               <p style="margin:28px 0"><a href="${intakeUrl}" style="background:#ff5a2a;color:#171612;text-decoration:none;padding:14px 22px;font-weight:bold">Abrir formulario del comprador</a></p>
@@ -216,7 +222,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
             </div>`,
         }),
         addContactToBrevoList(customerEmail, BREVO_LIST_IDS.ASESORIA_PILOTO, {
-          PRODUCTO: 'asesoria_90m',
+          PRODUCTO: includesFollowup ? 'asesoria_followup_30d' : 'asesoria_90m',
           FECHA_COMPRA: new Date().toISOString(),
         }),
       ]);
@@ -260,6 +266,14 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
     console.log(`✅ Email enviado a ${customerEmail} via Brevo (template ${productType})`);
   } else {
     console.error(`❌ ERROR enviando email a ${customerEmail}:`, emailResult.error);
+  }
+  if (productType === 'asesoria_90m') {
+    try {
+      const inventory = await syncAdvisoryCapacity();
+      console.log(`Capacidad de asesoría sincronizada: ${inventory.remaining} plazas restantes`);
+    } catch (error) {
+      console.error('No se pudo sincronizar la capacidad compartida de asesoría:', error);
+    }
   }
   console.log('=== handleCheckoutCompleted FIN ===');
 }

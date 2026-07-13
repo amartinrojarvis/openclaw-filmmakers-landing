@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getStripe, STRIPE_PRICE_IDS } from '@/lib/stripe';
+import { getStripe, isAdvisoryBasePriceId, STRIPE_PRICE_IDS } from '@/lib/stripe';
 import { sendDirectBrevoEmail } from '@/lib/brevo';
 import { getClientIp, rateLimit } from '@/lib/rate-limit';
 
@@ -49,10 +49,11 @@ export async function POST(request: NextRequest) {
 
     const stripe = getStripe();
     const session = await stripe.checkout.sessions.retrieve(sessionId, { expand: ['line_items'] });
-    const priceId = session.line_items?.data[0]?.price?.id;
+    const priceIds = session.line_items?.data.map((item) => item.price?.id).filter(Boolean) || [];
+    const includesFollowup = priceIds.includes(STRIPE_PRICE_IDS.ASESORIA_FOLLOWUP_30D);
     const customerEmail = session.customer_details?.email || session.customer_email;
 
-    if (session.payment_status !== 'paid' || priceId !== STRIPE_PRICE_IDS.ASESORIA_90M || !customerEmail) {
+    if (session.payment_status !== 'paid' || !priceIds.some(isAdvisoryBasePriceId) || !customerEmail) {
       return NextResponse.json({ error: 'No se ha podido verificar una reserva pagada para este formulario.' }, { status: 403 });
     }
 
@@ -64,14 +65,16 @@ export async function POST(request: NextRequest) {
     const startPreferenceLabel = serviceStartPreference === 'within14'
       ? 'Puede celebrarse dentro de 14 días (inicio anticipado solicitado)'
       : 'Celebrar después de los próximos 14 días';
+    const planLabel = includesFollowup ? 'Sesión + acompañamiento 30 días (199 €)' : 'Sesión estratégica de 90 minutos (75 €)';
     const adminEmail = await sendDirectBrevoEmail({
       to: [{ email: ADMIN_EMAIL, name: 'Alberto Martín' }],
       replyTo: { email: customerEmail, name },
-      subject: `Formulario recibido — ${name} · Asesoría IA 1:1`,
+      subject: `Formulario recibido — ${name} · ${includesFollowup ? 'Acompañamiento 30 días' : 'Sesión IA 1:1'}`,
       htmlContent: `
         <div style="font-family:Arial,sans-serif;max-width:720px;margin:auto;color:#172018;line-height:1.65">
           <h1 style="font-size:28px;line-height:1.2">Nuevo formulario de asesoría 1:1</h1>
           <p><strong>Referencia:</strong> ${html(reference)}</p>
+          <p><strong>Modalidad:</strong> ${html(planLabel)}</p>
           <table style="width:100%;border-collapse:collapse">
             <tr><td style="padding:10px 0;border-bottom:1px solid #ddd"><strong>Nombre</strong></td><td style="padding:10px 0;border-bottom:1px solid #ddd">${html(name)}</td></tr>
             <tr><td style="padding:10px 0;border-bottom:1px solid #ddd"><strong>Email</strong></td><td style="padding:10px 0;border-bottom:1px solid #ddd">${html(customerEmail)}</td></tr>
@@ -100,6 +103,7 @@ export async function POST(request: NextRequest) {
         intake_submitted_at: new Date().toISOString(),
         service_start_preference: serviceStartPreference,
         early_start_accepted: String(serviceStartPreference === 'within14'),
+        advisory_plan: includesFollowup ? 'followup_30d' : 'session_90m',
       },
     });
 

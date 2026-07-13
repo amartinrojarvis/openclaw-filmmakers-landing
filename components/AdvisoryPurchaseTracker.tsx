@@ -4,9 +4,9 @@ import { useEffect } from 'react';
 import { AnalyticsEvents } from '@/components/Analytics';
 import { getConsent } from '@/lib/cookies';
 
-type Props = { sessionId: string };
+type Props = { sessionId: string; value: number; includesFollowup: boolean };
 
-export function AdvisoryPurchaseTracker({ sessionId }: Props) {
+export function AdvisoryPurchaseTracker({ sessionId, value, includesFollowup }: Props) {
   useEffect(() => {
     const storageKey = `asesoria-purchase:${sessionId}`;
 
@@ -16,9 +16,12 @@ export function AdvisoryPurchaseTracker({ sessionId }: Props) {
 
       AnalyticsEvents.purchase({
         id: sessionId,
-        value: 75,
+        value,
         currency: 'EUR',
-        items: [{ id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 }],
+        items: [
+          { id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 },
+          ...(includesFollowup ? [{ id: 'acompanamiento-30-dias', name: 'Acompañamiento 30 días', price: 124 }] : []),
+        ],
       });
       sessionStorage.setItem(storageKey, 'true');
     };
@@ -29,7 +32,7 @@ export function AdvisoryPurchaseTracker({ sessionId }: Props) {
       window.clearTimeout(timer);
       window.removeEventListener('cookieConsentChanged', track);
     };
-  }, [sessionId]);
+  }, [includesFollowup, sessionId, value]);
 
   return null;
 }

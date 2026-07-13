@@ -15,7 +15,12 @@ import {
 } from 'lucide-react';
 import { AnalyticsEvents } from '@/components/Analytics';
 
-const PAYMENT_LINK = 'https://book.stripe.com/28EfZhdGdddmckp86A8og0m';
+type AdvisoryPlan = 'session' | 'followup30d';
+
+const PAYMENT_LINKS: Record<AdvisoryPlan, string> = {
+  session: 'https://book.stripe.com/9B69AT0Tr3CMgAFdqU8og0n',
+  followup30d: 'https://book.stripe.com/cNidR959Hc9ifwBfz28og0o',
+};
 
 const situations = [
   ['01', 'Clientes y propuestas', 'Responder, presupuestar y hacer seguimiento sin perder tu tono.'],
@@ -35,6 +40,11 @@ const faqs = [
     question: '¿Qué incluye exactamente el precio?',
     answer:
       'Revisión previa del formulario, preparación del caso, sesión online de 90 minutos, diseño sobre tu caso real, hoja de ruta resumida y una consulta corta por email durante los siete días posteriores.',
+  },
+  {
+    question: '¿Qué añade el acompañamiento de 30 días?',
+    answer:
+      'Incluye dos sesiones de seguimiento de 45 minutos, hasta cuatro consultas breves por email, revisión del flujo o prototipo y ajustes de la hoja de ruta. No es soporte ilimitado ni incluye desarrollo completo o integraciones complejas.',
   },
   {
     question: '¿Incluye una automatización o aplicación completa?',
@@ -63,19 +73,23 @@ const faqs = [
   },
 ];
 
-function trackAdvisoryCheckout(location: string) {
-  AnalyticsEvents.beginCheckout([
+function trackAdvisoryCheckout(location: string, plan: AdvisoryPlan) {
+  const items = [
     { id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 },
-  ]);
-  AnalyticsEvents.clickCTA(location, 'Pagar y solicitar fecha');
+  ];
+  if (plan === 'followup30d') {
+    items.push({ id: 'acompanamiento-30-dias', name: 'Acompañamiento 30 días', price: 124 });
+  }
+  AnalyticsEvents.beginCheckout(items);
+  AnalyticsEvents.clickCTA(location, plan === 'followup30d' ? 'Elegir acompañamiento 30 días' : 'Elegir sesión de 90 minutos');
 }
 
-function CheckoutButton({ location, inverse = false, children }: { location: string; inverse?: boolean; children: React.ReactNode }) {
+function CheckoutButton({ location, plan, inverse = false, children }: { location: string; plan: AdvisoryPlan; inverse?: boolean; children: React.ReactNode }) {
   return (
     <div className="w-full sm:w-auto">
       <a
-        href={PAYMENT_LINK}
-        onClick={() => trackAdvisoryCheckout(location)}
+        href={PAYMENT_LINKS[plan]}
+        onClick={() => trackAdvisoryCheckout(location, plan)}
         className={`group inline-flex min-h-14 w-full cursor-pointer items-center justify-center gap-4 border px-6 py-4 text-center text-sm font-extrabold uppercase tracking-[0.08em] transition-colors sm:w-auto ${
           inverse
             ? 'border-[#171612] bg-[#171612] text-[#f2eee5] hover:bg-[#ff5a2a] hover:text-[#171612]'
@@ -161,10 +175,10 @@ function MobileStickyCTA({ availabilityLabel, soldOut }: { availabilityLabel: st
       <div className="mx-auto flex max-w-md items-center gap-3">
         <div className="min-w-0 flex-1">
           <p className="truncate font-mono text-[8px] font-bold uppercase tracking-[0.13em] text-[#ff5a2a]">{availabilityLabel}</p>
-          <p className="mt-1 text-sm font-black">90 min · 75 € + IVA</p>
+          <p className="mt-1 text-sm font-black">Desde 75 € · precio final</p>
         </div>
-        <a href={PAYMENT_LINK} onClick={() => trackAdvisoryCheckout('mobile_sticky')} className="inline-flex min-h-12 shrink-0 items-center gap-2 bg-[#ff5a2a] px-4 py-3 text-xs font-extrabold uppercase tracking-[0.06em] text-[#171612]">
-          Pagar <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        <a href="#sesion" onClick={() => AnalyticsEvents.clickCTA('mobile_sticky', 'Ver modalidades')} className="inline-flex min-h-12 shrink-0 items-center gap-2 bg-[#ff5a2a] px-4 py-3 text-xs font-extrabold uppercase tracking-[0.06em] text-[#171612]">
+          Ver opciones <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </a>
       </div>
     </aside>
@@ -202,13 +216,13 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
                 <p className="max-w-2xl text-lg leading-8 text-[#f2eee5]/68 sm:text-xl">
                   En 90 minutos trabajamos una prioridad real de tu negocio audiovisual. Saldrás con <strong className="font-semibold text-[#f2eee5]">un flujo aplicable, un primer prototipo cuando sea viable y una hoja de ruta clara</strong>.
                 </p>
-                <p className="mt-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">90 min online · 75 € + IVA</p>
+                <p className="mt-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">Desde 75 € · precio final</p>
                 <p className="mt-2 text-sm leading-6 text-[#f2eee5]/55">Pago seguro → briefing breve → fecha confirmada en un máximo de 48 h laborables.</p>
               </div>
               {soldOut ? (
                 <span className="inline-flex min-h-14 items-center justify-center border border-[#f2eee5]/25 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#f2eee5]/55">Edición completa</span>
               ) : (
-                <CheckoutButton location="hero">Pagar y solicitar fecha</CheckoutButton>
+                <a href="#sesion" onClick={() => AnalyticsEvents.clickCTA('hero', 'Ver modalidades')} className="group inline-flex min-h-14 w-full items-center justify-center gap-4 border border-[#ff5a2a] bg-[#ff5a2a] px-6 py-4 text-center text-sm font-extrabold uppercase tracking-[0.08em] text-[#171612] transition-colors hover:bg-[#f2eee5] sm:w-auto">Elegir modalidad <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></a>
               )}
             </div>
           </div>
@@ -294,8 +308,8 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
 
           {!soldOut && (
             <div className="mt-10 flex flex-col gap-5 border-b border-[#f2eee5]/20 pb-10 sm:flex-row sm:items-center sm:justify-between">
-              <div><p className="font-black">¿Tienes ya una prioridad en mente?</p><p className="mt-1 text-sm text-[#f2eee5]/58">90 min online · 75 € + IVA · fecha confirmada en 48 h laborables.</p></div>
-              <CheckoutButton location="method">Pagar y solicitar fecha</CheckoutButton>
+              <div><p className="font-black">¿Tienes ya una prioridad en mente?</p><p className="mt-1 text-sm text-[#f2eee5]/58">Desde 75 € precio final · fecha confirmada en 48 h laborables.</p></div>
+              <a href="#sesion" onClick={() => AnalyticsEvents.clickCTA('method', 'Ver modalidades')} className="group inline-flex min-h-14 items-center justify-center gap-4 border border-[#ff5a2a] bg-[#ff5a2a] px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#171612] hover:bg-[#f2eee5]">Ver modalidades <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></a>
             </div>
           )}
         </div>
@@ -379,46 +393,45 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
 
       <section id="sesion" className="bg-[#f2eee5] px-5 py-24 text-[#171612] sm:px-8 sm:py-32 lg:px-12">
         <div className="mx-auto max-w-[90rem] border-y border-[#171612] py-10 sm:py-14">
-          <div className="grid gap-14 lg:grid-cols-[1.25fr_.75fr] lg:gap-20">
-            <div>
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#b43414]">Oferta de lanzamiento · {availabilityLabel.toLowerCase()}</p>
-              <h2 className="mt-7 max-w-4xl text-balance text-[clamp(3.4rem,7vw,7.8rem)] font-black leading-[0.82] tracking-[-0.075em]">
-                Tu caso. <span className="font-editorial font-normal italic text-[#b43414]">Una prioridad.</span> Noventa minutos.
-              </h2>
-            </div>
-
-            <aside className="border-t border-[#171612] pt-7 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
-              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em]">Precio de lanzamiento</p>
-              <div className="mt-4 flex items-end gap-3">
-                <span className="text-7xl font-black tracking-[-0.08em]">75 €</span>
-                <span className="pb-2 text-sm font-bold">+ IVA</span>
-              </div>
-              <p className="mt-3 text-sm leading-6 text-[#171612]/65">{remainingSlots === null ? 'Edición limitada a cinco plazas.' : `${availabilityLabel}.`} 90,75 € con IVA español del 21 %. Stripe calcula el impuesto según tus datos de facturación.</p>
-
-              <div className="mt-8 border-y border-[#171612]/25 py-6">
-                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#b43414]">Incluye</p>
-                <ul className="mt-4 space-y-3 text-sm font-semibold">
-                  {['Formulario y revisión previa', 'Sesión online de 90 minutos', 'Diseño sobre tu caso real', 'Primer prototipo cuando sea viable', 'Hoja de ruta resumida', 'Una consulta breve por email durante 7 días'].map((item) => (
-                    <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#b43414]" />{item}</li>
-                  ))}
-                </ul>
-                <div className="mt-6 border-t border-[#171612]/20 pt-5">
-                  <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#171612]/65">No incluye</p>
-                  <p className="mt-3 text-sm leading-6 text-[#171612]/65">Desarrollo completo de software, integraciones complejas, mantenimiento ni soporte indefinido.</p>
-                </div>
-              </div>
-
-              <div className="mt-8">
-                {soldOut ? (
-                  <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#171612]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#171612]/55 sm:w-auto">Edición completa</span>
-                ) : (
-                  <CheckoutButton location="pricing" inverse>Pagar y solicitar fecha</CheckoutButton>
-                )}
-              </div>
-              <p className="mt-4 text-xs leading-5 text-[#171612]/60">El pago reserva una plaza de esta edición; la fecha se confirma después del briefing.</p>
-              <p className="mt-3 text-xs leading-5 text-[#171612]/55"><ShieldCheck className="mr-1 inline h-3.5 w-3.5" /> Pago seguro con Stripe. Al continuar aceptas las <Link href="/condiciones" className="underline hover:text-[#b43414]">condiciones de contratación</Link>.</p>
-            </aside>
+          <div>
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#b43414]">Oferta de lanzamiento · {availabilityLabel.toLowerCase()}</p>
+            <h2 className="mt-7 max-w-5xl text-balance text-[2.55rem] font-black leading-[0.84] tracking-[-0.065em] sm:text-[clamp(3.4rem,7vw,7.8rem)] sm:leading-[0.82] sm:tracking-[-0.075em]">
+              Elige claridad. <span className="font-editorial font-normal italic text-[#b43414]">O acompañamiento.</span>
+            </h2>
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171612]/65">Ambas modalidades empiezan con la misma sesión práctica de 90 minutos. La diferencia es si después quieres implementar y ajustar el flujo con Alberto durante un mes.</p>
           </div>
+
+          <div className="mt-14 grid gap-5 lg:grid-cols-2">
+            <article className="flex flex-col border border-[#171612] p-6 sm:p-8">
+              <p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#b43414]">Sesión estratégica</p>
+              <div className="mt-5 flex items-end gap-3"><span className="text-6xl font-black tracking-[-0.08em] sm:text-7xl">75 €</span><span className="pb-2 text-sm font-bold">precio final</span></div>
+              <p className="mt-4 text-sm leading-6 text-[#171612]/65">Para definir una prioridad y salir con un flujo aplicable.</p>
+              <ul className="mt-7 flex-1 space-y-3 border-t border-[#171612]/20 pt-6 text-sm font-semibold">
+                {['Revisión previa del briefing', 'Sesión online de 90 minutos', 'Diseño sobre tu caso real', 'Primer prototipo cuando sea viable', 'Hoja de ruta resumida', 'Una consulta breve por email durante 7 días'].map((item) => (
+                  <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#b43414]" />{item}</li>
+                ))}
+              </ul>
+              <div className="mt-8">{soldOut ? <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#171612]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#171612]/55">Edición completa</span> : <CheckoutButton location="pricing_session" plan="session" inverse>Elegir sesión de 90 min</CheckoutButton>}</div>
+            </article>
+
+            <article className="flex flex-col border border-[#171612] bg-[#171612] p-6 text-[#f2eee5] sm:p-8">
+              <div className="flex flex-wrap items-center justify-between gap-3"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#ff5a2a]">Acompañamiento 30 días</p><span className="border border-[#ff5a2a] px-3 py-1 font-mono text-[8px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">Para implementar</span></div>
+              <div className="mt-5 flex items-end gap-3"><span className="text-6xl font-black tracking-[-0.08em] sm:text-7xl">199 €</span><span className="pb-2 text-sm font-bold">precio final</span></div>
+              <p className="mt-4 text-sm leading-6 text-[#f2eee5]/62">La sesión inicial más un mes para probar, revisar y ajustar el sistema.</p>
+              <ul className="mt-7 flex-1 space-y-3 border-t border-[#f2eee5]/20 pt-6 text-sm font-semibold">
+                {['Todo lo incluido en la sesión estratégica', '2 seguimientos online de 45 minutos', 'Hasta 4 consultas breves por email', 'Revisión del flujo o prototipo', 'Ajustes de la hoja de ruta', 'Respuesta en un máximo de 48 h laborables'].map((item) => (
+                  <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#ff5a2a]" />{item}</li>
+                ))}
+              </ul>
+              <div className="mt-8">{soldOut ? <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#f2eee5]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#f2eee5]/55">Edición completa</span> : <CheckoutButton location="pricing_followup" plan="followup30d">Elegir acompañamiento</CheckoutButton>}</div>
+            </article>
+          </div>
+
+          <div className="mt-7 grid gap-4 text-xs leading-5 text-[#171612]/60 sm:grid-cols-2">
+            <p><ShieldCheck className="mr-1 inline h-3.5 w-3.5" /> Precios finales en el checkout. Stripe no añadirá IVA al total mostrado.</p>
+            <p>El acompañamiento no incluye desarrollo completo, integraciones complejas, ejecución por parte de Alberto ni soporte ilimitado.</p>
+          </div>
+          <p className="mt-4 text-xs leading-5 text-[#171612]/55">El pago reserva una plaza; la fecha se confirma después del briefing. Al continuar aceptas las <Link href="/condiciones" className="underline hover:text-[#b43414]">condiciones de contratación</Link>.</p>
 
           <div className="mt-14 grid gap-4 border-t border-[#171612]/25 pt-8 sm:grid-cols-3">
             {[
