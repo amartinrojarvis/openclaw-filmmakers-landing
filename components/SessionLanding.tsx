@@ -98,13 +98,13 @@ function BenefitGraphic({ index }: { index: number }) {
   if (index === 0) {
     return (
       <svg className="benefit-graphic benefit-graphic--time" viewBox="0 0 360 360" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="180" cy="168" r="116" stroke="currentColor" strokeWidth="1" />
-        <circle cx="180" cy="168" r="88" stroke="currentColor" strokeWidth="1" strokeDasharray="2 9" />
-        <path d="M180 52a116 116 0 0 1 109 76" stroke="currentColor" strokeWidth="9" strokeLinecap="round" />
-        <path d="M180 168V91M180 168l64 31" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="180" cy="168" r="116" stroke="currentColor" strokeWidth="1.6" />
+        <circle cx="180" cy="168" r="88" stroke="currentColor" strokeWidth="1.5" strokeDasharray="2 9" />
+        <path d="M180 52a116 116 0 0 1 109 76" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
+        <path d="M180 168V91M180 168l64 31" stroke="currentColor" strokeWidth="2.75" strokeLinecap="round" />
         <circle cx="180" cy="168" r="8" fill="currentColor" />
-        <path d="M42 294c28-42 55 42 83 0s55 42 83 0 55 42 110-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <path d="M42 314h276" stroke="currentColor" strokeWidth="1" strokeDasharray="3 8" />
+        <path d="M42 294c28-42 55 42 83 0s55 42 83 0 55 42 110-8" stroke="currentColor" strokeWidth="2.75" strokeLinecap="round" />
+        <path d="M42 314h276" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 8" />
       </svg>
     );
   }
@@ -112,13 +112,13 @@ function BenefitGraphic({ index }: { index: number }) {
   if (index === 1) {
     return (
       <svg className="benefit-graphic benefit-graphic--system" viewBox="0 0 360 360" fill="none" aria-hidden="true" focusable="false">
-        <path d="M54 82h84c26 0 30 34 56 34h108M54 180h58c30 0 36-32 66-32h124M54 278h94c30 0 36-60 66-60h88" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 9" />
-        <rect x="34" y="60" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="1.5" />
-        <rect x="282" y="96" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="1.5" />
-        <rect x="34" y="160" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="1.5" />
-        <rect x="282" y="198" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="1.5" />
-        <rect x="34" y="258" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="178" cy="148" r="18" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M54 82h84c26 0 30 34 56 34h108M54 180h58c30 0 36-32 66-32h124M54 278h94c30 0 36-60 66-60h88" stroke="currentColor" strokeWidth="2.2" strokeDasharray="4 9" />
+        <rect x="34" y="60" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="2.2" />
+        <rect x="282" y="96" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="2.2" />
+        <rect x="34" y="160" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="2.2" />
+        <rect x="282" y="198" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="2.2" />
+        <rect x="34" y="258" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="2.2" />
+        <circle cx="178" cy="148" r="18" stroke="currentColor" strokeWidth="2.2" />
         <circle cx="178" cy="148" r="5" fill="currentColor" />
         <circle cx="214" cy="218" r="6" fill="currentColor" />
       </svg>
@@ -127,12 +127,12 @@ function BenefitGraphic({ index }: { index: number }) {
 
   return (
     <svg className="benefit-graphic benefit-graphic--advantage" viewBox="0 0 900 320" fill="none" aria-hidden="true" focusable="false">
-      <path d="M34 266H866M34 196H866M34 126H866M34 56H866" stroke="currentColor" strokeWidth="1" strokeDasharray="3 12" />
-      <path d="M44 264C148 252 170 229 254 224s124 5 192-57 132-35 194-91 114-48 190-50" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      <path d="M34 266H866M34 196H866M34 126H866M34 56H866" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 12" />
+      <path d="M44 264C148 252 170 229 254 224s124 5 192-57 132-35 194-91 114-48 190-50" stroke="currentColor" strokeWidth="4.25" strokeLinecap="round" />
       <circle cx="254" cy="224" r="9" fill="currentColor" />
       <circle cx="446" cy="167" r="9" fill="currentColor" />
       <circle cx="640" cy="76" r="9" fill="currentColor" />
-      <path d="m804 10 36 16-30 26" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="m804 10 36 16-30 26" stroke="currentColor" strokeWidth="4.25" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
