@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   ADMIN_EMAIL,
+  ADMIN_SESSION_COOKIE_SAME_SITE,
   createAdminSessionToken,
   createMagicLinkToken,
   verifyAdminSessionToken,
@@ -24,6 +25,10 @@ test('la cookie de administrador dura doce horas y tiene propósito separado', (
   assert.equal(verifyAdminSessionToken(token, SECRET, NOW + 11 * 60 * 60_000)?.email, ADMIN_EMAIL);
   assert.equal(verifyAdminSessionToken(token, SECRET, NOW + 13 * 60 * 60_000), null);
   assert.equal(verifyMagicLinkToken(token, SECRET, NOW), null);
+});
+
+test('la cookie permite completar el enlace mágico desde clientes de correo externos', () => {
+  assert.equal(ADMIN_SESSION_COOKIE_SAME_SITE, 'lax');
 });
 
 test('rechaza tokens manipulados', () => {

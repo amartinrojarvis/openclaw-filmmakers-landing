@@ -3,6 +3,7 @@ import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 export const ADMIN_EMAIL = 'a.martinro@gmail.com';
 export const MAGIC_LINK_TTL_MS = 15 * 60 * 1000;
 export const ADMIN_SESSION_TTL_MS = 12 * 60 * 60 * 1000;
+export const ADMIN_SESSION_COOKIE_SAME_SITE = 'lax' as const;
 
 export type AdminTokenPurpose = 'magic-link' | 'admin-session';
 

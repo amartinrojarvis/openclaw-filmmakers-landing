@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ADMIN_COOKIE_NAME, getAdminSessionSecret } from '@/lib/admin-auth';
 import {
+  ADMIN_SESSION_COOKIE_SAME_SITE,
   ADMIN_SESSION_TTL_MS,
   createAdminSessionToken,
   verifyMagicLinkToken,
@@ -25,7 +26,7 @@ export async function GET(request: NextRequest) {
     response.cookies.set(ADMIN_COOKIE_NAME, createAdminSessionToken(getAdminSessionSecret()), {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: ADMIN_SESSION_COOKIE_SAME_SITE,
       maxAge: Math.floor(ADMIN_SESSION_TTL_MS / 1000),
       path: '/',
     });
