@@ -86,29 +86,29 @@ export function AdminStudentsDashboard({ purchases, filter, query, updated, upda
 
   return (
     <main className="min-h-screen bg-[#171612] text-[#f2eee5]">
-      <header className="border-b border-[#f2eee5]/12 px-5 py-6 sm:px-8 lg:px-12">
-        <div className="mx-auto flex max-w-[92rem] items-center justify-between gap-5">
-          <div>
-            <p className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-[#ff5a2a]">IA para Filmmakers · privado</p>
+      <header className="border-b border-[#f2eee5]/12 px-4 py-4 sm:px-8 sm:py-6 lg:px-12">
+        <div className="mx-auto flex max-w-[92rem] items-center justify-between gap-3 sm:gap-5">
+          <div className="min-w-0">
+            <p className="font-mono text-[8px] font-bold uppercase tracking-[0.18em] text-[#ff5a2a] sm:text-[9px] sm:tracking-[0.2em]">IA para Filmmakers · privado</p>
             <p className="mt-2 text-sm font-bold">Control de alumnos</p>
           </div>
           <form action="/api/admin/auth/logout" method="post">
-            <button className="min-h-11 border border-[#f2eee5]/20 px-4 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-[#f2eee5]/55 hover:border-[#ff5a2a] hover:text-[#ff5a2a]">Cerrar sesión</button>
+            <button className="min-h-11 shrink-0 border border-[#f2eee5]/20 px-3 font-mono text-[8px] font-bold uppercase tracking-[0.12em] text-[#f2eee5]/55 hover:border-[#ff5a2a] hover:text-[#ff5a2a] sm:px-4 sm:text-[9px] sm:tracking-[0.14em]">Cerrar sesión</button>
           </form>
         </div>
       </header>
 
-      <div className="mx-auto max-w-[92rem] px-5 py-10 sm:px-8 lg:px-12 lg:py-14">
-        <section className="grid gap-8 border-b border-[#f2eee5]/12 pb-10 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
+      <div className="mx-auto max-w-[92rem] px-4 py-6 sm:px-8 sm:py-10 lg:px-12 lg:py-14">
+        <section className="grid gap-5 border-b border-[#f2eee5]/12 pb-6 sm:gap-8 sm:pb-10 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
           <div>
             <div className="flex items-center gap-3"><ShieldCheck className="h-5 w-5 text-[#ff5a2a]" /><span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#f2eee5]/42">Datos protegidos</span></div>
-            <h1 className="font-editorial mt-6 text-[clamp(3.5rem,7vw,7rem)] font-semibold leading-[0.85] tracking-[-0.06em]">Tus alumnos,<br />sin perder fechas.</h1>
+            <h1 className="font-editorial mt-4 text-[2.85rem] font-semibold leading-[0.88] tracking-[-0.055em] sm:mt-6 sm:text-[clamp(3.5rem,7vw,7rem)] sm:leading-[0.85] sm:tracking-[-0.06em]">Tus alumnos,<br />sin perder fechas.</h1>
           </div>
-          <p className="max-w-xl text-base leading-7 text-[#f2eee5]/52 lg:justify-self-end">Solo aparecen compras pagadas con productos de IA para Filmmakers. El vencimiento del acompañamiento se calcula desde la sesión inicial.</p>
+          <p className="max-w-xl text-sm leading-6 text-[#f2eee5]/52 sm:text-base sm:leading-7 lg:justify-self-end">Solo aparecen compras pagadas con productos de IA para Filmmakers. El vencimiento del acompañamiento se calcula desde la sesión inicial.</p>
         </section>
 
         {(updated || updateError) && (
-          <div className={`mt-6 flex items-center gap-3 border p-4 text-sm ${updated ? 'border-lime-300/30 bg-lime-300/5 text-lime-100' : 'border-red-300/30 bg-red-300/5 text-red-100'}`}>
+          <div className={`mt-4 flex items-center gap-3 border p-3 text-sm sm:mt-6 sm:p-4 ${updated ? 'border-lime-300/30 bg-lime-300/5 text-lime-100' : 'border-red-300/30 bg-red-300/5 text-red-100'}`}>
             {updated ? <CheckCircle2 className="h-5 w-5" /> : <CircleAlert className="h-5 w-5" />}
             {updated ? 'Seguimiento actualizado.' : 'No se pudo guardar el cambio. Revisa los datos.'}
           </div>
@@ -120,21 +120,21 @@ export function AdminStudentsDashboard({ purchases, filter, query, updated, upda
           </div>
         )}
 
-        <section className="mt-8 grid gap-px bg-[#f2eee5]/12 sm:grid-cols-2 lg:grid-cols-4">
+        <section data-testid="admin-stats" className="mt-5 grid grid-cols-2 gap-px bg-[#f2eee5]/12 sm:mt-8 lg:grid-cols-4">
           {stats.map(({ label, value, Icon }) => (
-            <article key={label} className="bg-[#1b1915] p-5 sm:p-6">
-              <Icon className="h-5 w-5 text-[#ff5a2a]" aria-hidden="true" />
-              <strong className="mt-7 block text-4xl font-semibold tracking-[-0.04em]">{String(value).padStart(2, '0')}</strong>
-              <span className="mt-2 block font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-[#f2eee5]/35">{label}</span>
+            <article key={label} className="min-h-32 bg-[#1b1915] p-4 sm:min-h-0 sm:p-6">
+              <Icon className="h-4 w-4 text-[#ff5a2a] sm:h-5 sm:w-5" aria-hidden="true" />
+              <strong className="mt-4 block text-3xl font-semibold tracking-[-0.04em] sm:mt-7 sm:text-4xl">{String(value).padStart(2, '0')}</strong>
+              <span className="mt-1.5 block font-mono text-[8px] font-bold uppercase leading-4 tracking-[0.12em] text-[#f2eee5]/38 sm:mt-2 sm:text-[9px] sm:tracking-[0.14em]">{label}</span>
             </article>
           ))}
         </section>
 
-        <section className="mt-10">
-          <div className="flex flex-col gap-5 border-b border-[#f2eee5]/12 pb-5 lg:flex-row lg:items-end lg:justify-between">
-            <nav className="flex gap-2 overflow-x-auto pb-1" aria-label="Filtros de compras">
+        <section className="mt-7 sm:mt-10">
+          <div className="flex flex-col gap-4 border-b border-[#f2eee5]/12 pb-5 sm:gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <nav className="grid grid-cols-2 gap-2 sm:flex sm:overflow-x-auto sm:pb-1" aria-label="Filtros de compras">
               {FILTERS.map((item) => (
-                <Link key={item.key} href={`/admin/alumnos?filter=${item.key}`} className={`shrink-0 border px-4 py-3 font-mono text-[9px] font-bold uppercase tracking-[0.12em] ${filter === item.key ? 'border-[#ff5a2a] bg-[#ff5a2a] text-[#171612]' : 'border-[#f2eee5]/15 text-[#f2eee5]/45 hover:border-[#f2eee5]/45'}`}>{item.label}</Link>
+                <Link key={item.key} href={`/admin/alumnos?filter=${item.key}`} className={`flex min-h-11 shrink-0 items-center justify-center border px-3 py-2 text-center font-mono text-[8px] font-bold uppercase tracking-[0.1em] last:col-span-2 sm:min-h-0 sm:px-4 sm:py-3 sm:text-[9px] sm:tracking-[0.12em] sm:last:col-span-1 ${filter === item.key ? 'border-[#ff5a2a] bg-[#ff5a2a] text-[#171612]' : 'border-[#f2eee5]/15 text-[#f2eee5]/48 hover:border-[#f2eee5]/45'}`}>{item.label}</Link>
               ))}
             </nav>
             <form className="flex w-full max-w-md" method="get">
@@ -145,18 +145,18 @@ export function AdminStudentsDashboard({ purchases, filter, query, updated, upda
             </form>
           </div>
 
-          <div className="mt-6 space-y-4">
-            {visible.length === 0 && <div className="border border-dashed border-[#f2eee5]/18 p-10 text-center text-[#f2eee5]/42">No hay compras en este filtro.</div>}
+          <div className="mt-5 space-y-4 sm:mt-6">
+            {visible.length === 0 && <div className="border border-dashed border-[#f2eee5]/18 p-6 text-center text-sm text-[#f2eee5]/42 sm:p-10 sm:text-base">No hay compras en este filtro.</div>}
             {visible.map((item) => (
-              <article key={item.id} className="border border-[#f2eee5]/14 bg-[#1b1915]">
-                <div className="grid gap-6 p-5 sm:p-7 xl:grid-cols-[1.3fr_1fr_.85fr_auto] xl:items-center">
+              <article key={item.id} className="min-w-0 overflow-hidden border border-[#f2eee5]/14 bg-[#1b1915]">
+                <div className="grid gap-5 p-4 sm:gap-6 sm:p-7 xl:grid-cols-[1.3fr_1fr_.85fr_auto] xl:items-center">
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className={`border px-2.5 py-1 font-mono text-[8px] font-bold uppercase tracking-[0.12em] ${stateClass(item.accessState)}`}>{stateLabel(item.accessState)}</span>
                       {item.isInternal && <span className="border border-cyan-300/30 px-2.5 py-1 font-mono text-[8px] uppercase text-cyan-100">Interna</span>}
                     </div>
-                    <h2 className="mt-4 truncate text-2xl font-bold tracking-[-0.03em] sm:text-3xl" title={item.customerName}>{item.customerName}</h2>
-                    <a href={`mailto:${item.customerEmail}`} className="mt-2 block truncate text-sm text-[#f2eee5]/45 hover:text-[#ff5a2a]">{item.customerEmail}</a>
+                    <h2 className="mt-4 break-words text-xl font-bold leading-tight tracking-[-0.03em] sm:text-3xl" title={item.customerName}>{item.customerName}</h2>
+                    <a href={`mailto:${item.customerEmail}`} className="mt-2 block break-all text-sm leading-5 text-[#f2eee5]/45 hover:text-[#ff5a2a]">{item.customerEmail}</a>
                   </div>
                   <div>
                     <p className="font-mono text-[8px] font-bold uppercase tracking-[0.14em] text-[#f2eee5]/28">Compró</p>
@@ -175,14 +175,14 @@ export function AdminStudentsDashboard({ purchases, filter, query, updated, upda
                 {isAdvisory(item) && (
                   <details className="border-t border-[#f2eee5]/10 group">
                     <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between px-5 font-mono text-[9px] font-bold uppercase tracking-[0.13em] text-[#f2eee5]/45 hover:text-[#ff5a2a] sm:px-7">Gestionar seguimiento <ChevronDown className="h-4 w-4 transition group-open:rotate-180" /></summary>
-                    <form action={`/api/admin/students/${encodeURIComponent(item.id)}`} method="post" className="grid gap-5 border-t border-[#f2eee5]/10 bg-[#171612]/55 p-5 sm:p-7 lg:grid-cols-2 xl:grid-cols-4">
+                    <form action={`/api/admin/students/${encodeURIComponent(item.id)}`} method="post" className="grid min-w-0 gap-4 border-t border-[#f2eee5]/10 bg-[#171612]/55 p-4 sm:gap-5 sm:p-7 lg:grid-cols-2 xl:grid-cols-4">
                       <label className="text-sm"><span className="mb-2 block font-mono text-[8px] uppercase tracking-[0.14em] text-[#f2eee5]/35">Fecha sesión inicial</span><input type="date" name="serviceStart" defaultValue={item.serviceStart || ''} className="min-h-12 w-full border border-[#f2eee5]/15 bg-[#171612] px-3 [color-scheme:dark]" /></label>
                       <label className="text-sm"><span className="mb-2 block font-mono text-[8px] uppercase tracking-[0.14em] text-[#f2eee5]/35">Fecha final</span><input type="date" name="serviceEnd" defaultValue={item.serviceEnd || ''} className="min-h-12 w-full border border-[#f2eee5]/15 bg-[#171612] px-3 [color-scheme:dark]" /><small className="mt-2 block text-xs text-[#f2eee5]/28">Vacía = inicio + 30 días</small></label>
                       <label className="text-sm"><span className="mb-2 block font-mono text-[8px] uppercase tracking-[0.14em] text-[#f2eee5]/35">Estado</span><select name="status" defaultValue={item.adminStatus} className="min-h-12 w-full border border-[#f2eee5]/15 bg-[#171612] px-3"><option value="pending">Pendiente</option><option value="scheduled">Programado</option><option value="active">Activo</option><option value="completed">Completado</option><option value="cancelled">Cancelado</option></select></label>
                       <label className="text-sm"><span className="mb-2 block font-mono text-[8px] uppercase tracking-[0.14em] text-[#f2eee5]/35">Nota privada</span><textarea name="note" defaultValue={item.adminNote} maxLength={500} rows={3} className="w-full resize-y border border-[#f2eee5]/15 bg-[#171612] p-3" placeholder="Próxima acción, acuerdo o contexto" /></label>
-                      <div className="lg:col-span-2 xl:col-span-4 flex flex-wrap items-center justify-between gap-4 border-t border-[#f2eee5]/10 pt-5">
-                        <span className="font-mono text-[8px] uppercase tracking-[0.12em] text-[#f2eee5]/25">Referencia · {item.id.slice(-10)}</span>
-                        <button className="min-h-12 bg-[#ff5a2a] px-6 text-sm font-extrabold uppercase tracking-[0.07em] text-[#171612] hover:bg-[#f2eee5]">Guardar cambios</button>
+                      <div className="flex flex-col items-stretch gap-4 border-t border-[#f2eee5]/10 pt-5 sm:flex-row sm:items-center sm:justify-between lg:col-span-2 xl:col-span-4">
+                        <span className="break-all font-mono text-[8px] uppercase tracking-[0.12em] text-[#f2eee5]/28">Referencia · {item.id.slice(-10)}</span>
+                        <button className="min-h-12 w-full bg-[#ff5a2a] px-6 text-sm font-extrabold uppercase tracking-[0.07em] text-[#171612] hover:bg-[#f2eee5] sm:w-auto">Guardar cambios</button>
                       </div>
                     </form>
                   </details>
