@@ -30,6 +30,29 @@ const situations = [
   ['05', 'Procesos de negocio', 'Ordenar una tarea repetitiva en un flujo claro, documentado y repetible.'],
 ];
 
+const directBenefits = [
+  {
+    problem: 'Horas que se van en preparar, ordenar y repetir tareas mecánicas.',
+    benefit: 'Tiempo recuperado para crear y atender mejor a tus clientes.',
+    detail: 'Reducimos pasos manuales sin entregar a la IA las decisiones que necesitan tu criterio.',
+  },
+  {
+    problem: 'Procesos que dependen de que recuerdes cada paso y cada excepción.',
+    benefit: 'Más productividad con un sistema claro que puedes repetir.',
+    detail: 'Pasas de improvisar el proceso cada vez a trabajar con una secuencia definida y mejorable.',
+  },
+  {
+    problem: 'Herramientas genéricas que te obligan a cambiar constantemente de contexto.',
+    benefit: 'Menos fricción y una solución adaptada a tu forma de trabajar.',
+    detail: 'Diseñamos alrededor de tus proyectos, tus ejemplos y las aplicaciones que ya utilizas.',
+  },
+  {
+    problem: 'Ideas de automatización que nunca pasan de una nota o una conversación.',
+    benefit: 'Un primer flujo o prototipo que puedes poner a prueba.',
+    detail: 'Sales con algo tangible, los siguientes pasos claros y una forma concreta de medir si funciona.',
+  },
+];
+
 const faqs = [
   {
     question: '¿Qué conseguiré en 90 minutos?',
@@ -246,6 +269,61 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
         </div>
       </section>
 
+      <section id="beneficios" className="overflow-hidden bg-[#ff5a2a] px-5 py-20 text-[#171612] sm:px-8 sm:py-28 lg:px-12">
+        <div className="mx-auto max-w-[90rem]">
+          <header className="grid gap-8 border-b border-[#171612]/55 pb-12 lg:grid-cols-[.68fr_1.32fr] lg:gap-20">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em]">Lo que cambia</p>
+            <div>
+              <h2 className="max-w-5xl text-balance text-[clamp(3rem,6.5vw,7rem)] font-black leading-[0.86] tracking-[-0.07em]">
+                Menos trabajo mecánico. <span className="font-editorial font-normal italic">Más tiempo para tu oficio.</span>
+              </h2>
+              <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171612]/68">
+                No se trata de añadir IA a todo. Se trata de quitar pasos innecesarios, ordenar un proceso y devolverte tiempo para crear, decidir y atender mejor a tus clientes.
+              </p>
+            </div>
+          </header>
+
+          <div className="mt-4">
+            {directBenefits.map((item, index) => (
+              <article
+                key={item.benefit}
+                className="benefit-row group relative grid gap-6 overflow-hidden py-8 transition-colors duration-300 motion-reduce:transition-none md:grid-cols-[minmax(0,.82fr)_48px_minmax(0,1.18fr)] md:items-center md:gap-8 lg:-mx-6 lg:px-6 lg:hover:bg-[#171612] lg:hover:text-[#f2eee5]"
+              >
+                <div className="relative z-10">
+                  <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#171612]/55 transition-colors group-hover:text-inherit motion-reduce:transition-none lg:group-hover:text-[#f2eee5]/50">
+                    {String(index + 1).padStart(2, '0')} · Traes
+                  </p>
+                  <h3 className="mt-3 max-w-xl text-xl font-black leading-7 tracking-[-0.025em] sm:text-2xl">{item.problem}</h3>
+                </div>
+
+                <span className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#171612]/45 transition-transform duration-300 motion-reduce:transition-none md:justify-self-center lg:group-hover:translate-x-1 lg:group-hover:border-[#ff5a2a] lg:group-hover:text-[#ff5a2a]" aria-hidden="true">
+                  <ArrowRight className="h-4 w-4 rotate-90 md:rotate-0" />
+                </span>
+
+                <div className="relative z-10">
+                  <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#b43414] transition-colors motion-reduce:transition-none lg:group-hover:text-[#ff5a2a]">Te llevas</p>
+                  <h3 className="font-editorial mt-3 max-w-2xl text-3xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-4xl">{item.benefit}</h3>
+                  <p className="mt-4 max-w-xl leading-7 text-[#171612]/65 transition-colors motion-reduce:transition-none lg:group-hover:text-[#f2eee5]/62">{item.detail}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-8 grid gap-px border border-[#171612]/45 bg-[#171612]/45 sm:grid-cols-3">
+            {[
+              ['Tiempo', 'Menos horas en tareas repetitivas.'],
+              ['Productividad', 'Un flujo claro para avanzar más.'],
+              ['Foco', 'Más energía para las decisiones creativas.'],
+            ].map(([label, text]) => (
+              <div key={label} className="bg-[#ff5a2a] p-5 sm:p-6">
+                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em]">{label}</p>
+                <p className="mt-8 max-w-xs text-lg font-black leading-6 tracking-[-0.02em]">{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="border-b border-[#f2eee5]/15 px-5 py-5 sm:px-8 lg:px-12">
         <div className="mx-auto flex max-w-[90rem] flex-wrap gap-x-9 gap-y-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#f2eee5]/45">
           <span>Online · 90 minutos</span><span className="text-[#ff5a2a]">●</span><span>Una sola prioridad</span><span className="text-[#ff5a2a]">●</span><span className="text-[#ff5a2a]">{availabilityLabel}</span><span className="text-[#ff5a2a]">●</span><span>Diseño sobre tu caso real</span>
@@ -256,8 +334,8 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
         <div className="mx-auto max-w-[90rem]">
           <div className="grid gap-8 border-b border-[#171612] pb-14 lg:grid-cols-[.68fr_1.32fr] lg:gap-20">
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#b43414]">01 / El punto de partida</p>
-            <div>
-              <h2 className="font-editorial max-w-4xl text-balance text-[clamp(3rem,6vw,6.4rem)] font-medium leading-[0.92] tracking-[-0.055em]">
+            <div className="min-w-0">
+              <h2 className="font-editorial max-w-4xl break-words text-balance text-[clamp(3rem,6vw,6.4rem)] font-medium leading-[0.92] tracking-[-0.055em]">
                 No necesitas cuarenta herramientas. Necesitas construir la que encaja con tu forma de trabajar.
               </h2>
               <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171612]/65">
@@ -395,7 +473,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
         <div className="mx-auto max-w-[90rem] border-y border-[#171612] py-10 sm:py-14">
           <div>
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#b43414]">Oferta de lanzamiento · {availabilityLabel.toLowerCase()}</p>
-            <h2 className="mt-7 max-w-5xl text-balance text-[2.55rem] font-black leading-[0.84] tracking-[-0.065em] sm:text-[clamp(3.4rem,7vw,7.8rem)] sm:leading-[0.82] sm:tracking-[-0.075em]">
+            <h2 className="mt-7 max-w-5xl text-balance text-[clamp(2.1rem,10.5vw,2.55rem)] font-black leading-[0.86] tracking-[-0.065em] sm:text-[clamp(3.4rem,7vw,7.8rem)] sm:leading-[0.82] sm:tracking-[-0.075em]">
               Elige claridad. <span className="font-editorial font-normal italic text-[#b43414]">O acompañamiento.</span>
             </h2>
             <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171612]/65">Ambas modalidades empiezan con la misma sesión práctica de 90 minutos. La diferencia es si después quieres implementar y ajustar el flujo con Alberto durante un mes.</p>
@@ -405,6 +483,8 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             <article className="flex flex-col border border-[#171612] p-6 sm:p-8">
               <p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#b43414]">Sesión estratégica</p>
               <div className="mt-5 flex items-end gap-3"><span className="text-6xl font-black tracking-[-0.08em] sm:text-7xl">75 €</span><span className="pb-2 text-sm font-bold">precio final</span></div>
+              <p className="mt-3 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#b43414]">Precio piloto · primeras 5 plazas</p>
+              <p className="mt-2 text-xs leading-5 text-[#171612]/58">Precio previsto después del piloto: <strong className="font-extrabold text-[#171612]">150 €</strong></p>
               <p className="mt-4 text-sm leading-6 text-[#171612]/65">Para definir una prioridad y salir con un flujo aplicable.</p>
               <ul className="mt-7 flex-1 space-y-3 border-t border-[#171612]/20 pt-6 text-sm font-semibold">
                 {['Revisión previa del briefing', 'Sesión online de 90 minutos', 'Diseño sobre tu caso real', 'Primer prototipo cuando sea viable', 'Hoja de ruta resumida', 'Una consulta breve por email durante 7 días'].map((item) => (
@@ -417,6 +497,8 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             <article className="flex flex-col border border-[#171612] bg-[#171612] p-6 text-[#f2eee5] sm:p-8">
               <div className="flex flex-wrap items-center justify-between gap-3"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#ff5a2a]">Acompañamiento 30 días</p><span className="border border-[#ff5a2a] px-3 py-1 font-mono text-[8px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">Para implementar</span></div>
               <div className="mt-5 flex items-end gap-3"><span className="text-6xl font-black tracking-[-0.08em] sm:text-7xl">199 €</span><span className="pb-2 text-sm font-bold">precio final</span></div>
+              <p className="mt-3 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Precio piloto · primeras 5 plazas</p>
+              <p className="mt-2 text-xs leading-5 text-[#f2eee5]/58">Precio previsto después del piloto: <strong className="font-extrabold text-[#f2eee5]">350 €</strong></p>
               <p className="mt-4 text-sm leading-6 text-[#f2eee5]/62">La sesión inicial más un mes para probar, revisar y ajustar el sistema.</p>
               <ul className="mt-7 flex-1 space-y-3 border-t border-[#f2eee5]/20 pt-6 text-sm font-semibold">
                 {['Todo lo incluido en la sesión estratégica', '2 seguimientos online de 45 minutos', 'Hasta 4 consultas breves por email', 'Revisión del flujo o prototipo', 'Ajustes de la hoja de ruta', 'Respuesta en un máximo de 48 h laborables'].map((item) => (

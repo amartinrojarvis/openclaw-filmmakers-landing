@@ -88,7 +88,43 @@ select {
   line-height: 1.8;
 }
 
+.benefit-row {
+  border-top: 1px solid rgba(23, 22, 18, 0.42);
+}
+
+.benefit-row:last-child {
+  border-bottom: 1px solid rgba(23, 22, 18, 0.42);
+}
+
+.benefit-row::before {
+  position: absolute;
+  inset: -1px 0 auto;
+  height: 2px;
+  background: var(--ink);
+  content: '';
+  pointer-events: none;
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    @keyframes benefit-line-draw {
+      from {
+        transform: scaleX(0.08);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+
+    .benefit-row::before {
+      animation: benefit-line-draw linear both;
+      animation-range: entry 0% cover 28%;
+      animation-timeline: view();
+    }
+  }
+
   @keyframes editorial-reveal {
     from {
       opacity: 0;
