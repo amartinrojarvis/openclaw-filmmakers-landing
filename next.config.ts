@@ -12,7 +12,6 @@ const nextConfig: NextConfig = {
   // Reduce bundle size
   experimental: {
     optimizeCss: true,
-    scrollRestoration: true,
   },
 
   // Image optimization

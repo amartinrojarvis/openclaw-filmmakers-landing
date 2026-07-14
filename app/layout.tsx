@@ -19,6 +19,28 @@ const newsreader = Newsreader({
 
 const siteUrl = 'https://www.iaparafilmmakers.es';
 
+const reloadScrollResetScript = `
+  (() => {
+    try {
+      const navigation = performance.getEntriesByType('navigation')[0];
+      const isReload = navigation
+        ? navigation.type === 'reload'
+        : performance.navigation && performance.navigation.type === 1;
+
+      if (isReload && !window.location.hash) {
+        history.scrollRestoration = 'manual';
+        const root = document.documentElement;
+        const previousBehavior = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto';
+        window.scrollTo(0, 0);
+        root.style.scrollBehavior = previousBehavior;
+      } else {
+        history.scrollRestoration = 'auto';
+      }
+    } catch {}
+  })();
+`;
+
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -123,6 +145,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="es">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: reloadScrollResetScript }} />
         <StructuredData />
       </head>
       <body className={`${manrope.variable} ${newsreader.variable}`}>
