@@ -70,6 +70,7 @@ export async function POST(request: NextRequest) {
       to: [{ email: ADMIN_EMAIL, name: 'Alberto Martín' }],
       replyTo: { email: customerEmail, name },
       subject: `Formulario recibido — ${name} · ${includesFollowup ? 'Acompañamiento 30 días' : 'Sesión IA 1:1'}`,
+      idempotencyKey: `iaf-intake-${sessionId}-admin`,
       htmlContent: `
         <div style="font-family:Arial,sans-serif;max-width:720px;margin:auto;color:#172018;line-height:1.65">
           <h1 style="font-size:28px;line-height:1.2">Nuevo formulario de asesoría 1:1</h1>

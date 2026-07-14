@@ -25,6 +25,7 @@ export interface SendEmailParams {
   toName?: string;
   templateId: number;
   params?: Record<string, string>;
+  idempotencyKey?: string;
 }
 
 /**
@@ -36,6 +37,7 @@ export async function sendBrevoEmail(params: SendEmailParams): Promise<{ success
     toName,
     templateId,
     params: templateParams = {},
+    idempotencyKey,
   } = params;
 
   console.log('=== sendBrevoEmail INICIO ===');
@@ -65,6 +67,10 @@ export async function sendBrevoEmail(params: SendEmailParams): Promise<{ success
       ],
       templateId,
     };
+
+    if (idempotencyKey) {
+      emailBody.headers = { 'Idempotency-Key': idempotencyKey };
+    }
     
     // Añadir params solo si hay parámetros o si el template lo requiere
     // Brevo requiere que params tenga al menos una clave si se envía
@@ -119,10 +125,11 @@ export async function sendGuiaEmail(customerEmail: string): Promise<{ success: b
 /**
  * Envía email de bienvenida a comprador de bundle
  */
-export async function sendBundleEmail(customerEmail: string): Promise<{ success: boolean; error?: string }> {
+export async function sendBundleEmail(customerEmail: string, idempotencyKey?: string): Promise<{ success: boolean; error?: string }> {
   return sendBrevoEmail({
     to: customerEmail,
     templateId: BREVO_TEMPLATE_IDS.BUNDLE,
+    idempotencyKey,
   });
 }
 
@@ -200,6 +207,7 @@ export interface DirectEmailParams {
   subject: string;
   htmlContent: string;
   replyTo?: { email: string; name?: string };
+  idempotencyKey?: string;
 }
 
 /** Envía un email transaccional sin depender de una plantilla externa. */
@@ -225,6 +233,9 @@ export async function sendDirectBrevoEmail(params: DirectEmailParams): Promise<{
           email: 'alberto@tuvideopromocional.es',
           name: 'Alberto Martín',
         },
+        ...(params.idempotencyKey
+          ? { headers: { 'Idempotency-Key': params.idempotencyKey } }
+          : {}),
       }),
     });
 

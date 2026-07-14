@@ -4,7 +4,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStripe, getProductTypeFromPriceId, STRIPE_PRICE_IDS, syncAdvisoryCapacity } from '@/lib/stripe';
 import { sendGuiaEmail, sendBundleEmail, sendDirectBrevoEmail, addContactToBrevoList, BREVO_LIST_IDS } from '@/lib/brevo';
-import { isEventProcessed, markEventAsProcessed } from '@/lib/webhook-idempotency';
+import {
+  bookingNotificationMetadata,
+  hasSentBookingNotification,
+  notificationIdempotencyKey,
+} from '@/lib/booking-notifications';
 import Stripe from 'stripe';
 
 // Deshabilitar el body parser para poder verificar la firma del webhook
@@ -57,16 +61,19 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   // Manejar el evento
   try {
-    // Idempotencia: evitar procesar el mismo evento dos veces
-    if (await isEventProcessed(event.id)) {
-      console.log(`Evento ${event.id} ya fue procesado. Saltando.`);
-      return NextResponse.json({ received: true, idempotent: true });
-    }
-
     switch (event.type) {
       case 'checkout.session.completed': {
-        const session = event.data.object as Stripe.Checkout.Session;
-        await handleCheckoutCompleted(session);
+        const eventSession = event.data.object as Stripe.Checkout.Session;
+        // El payload original del evento no cambia entre reintentos. Recuperar la
+        // sesión fresca permite leer la marca persistente añadida tras el primer envío.
+        const session = await getStripe().checkout.sessions.retrieve(eventSession.id, {
+          expand: ['line_items'],
+        });
+        if (hasSentBookingNotification(session.metadata)) {
+          console.log(`Reserva ${session.id} ya notificada. Saltando evento ${event.id}.`);
+          return NextResponse.json({ received: true, idempotent: true });
+        }
+        await handleCheckoutCompleted(session, event.id);
         break;
       }
 
@@ -93,9 +100,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         console.log(`Evento no manejado: ${event.type}`);
     }
 
-    // Marcar evento como procesado
-    await markEventAsProcessed(event.id);
-
     return NextResponse.json({ received: true });
 
   } catch (error) {
@@ -111,7 +115,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 /**
  * Maneja la finalización exitosa de un checkout
  */
-async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promise<void> {
+async function handleCheckoutCompleted(session: Stripe.Checkout.Session, eventId: string): Promise<void> {
   console.log('=== handleCheckoutCompleted INICIO ===');
   console.log('Session ID:', session.id);
   console.log('Status:', session.status);
@@ -195,6 +199,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
         sendDirectBrevoEmail({
           to: [{ email: customerEmail }],
           subject: includesFollowup ? 'Tu acompañamiento de 30 días está reservado — siguiente paso' : 'Tu sesión 1:1 está reservada — siguiente paso',
+          idempotencyKey: notificationIdempotencyKey(eventId, 'customer'),
           htmlContent: `
             <div style="font-family:Arial,sans-serif;max-width:620px;margin:auto;color:#172018;line-height:1.65">
               <p>Hola,</p>
@@ -208,6 +213,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
         sendDirectBrevoEmail({
           to: [{ email: 'a.martinro@gmail.com', name: 'Alberto Martín' }],
           subject: 'Nueva reserva — enlace del formulario listo para enviar',
+          idempotencyKey: notificationIdempotencyKey(eventId, 'admin'),
           htmlContent: `
             <div style="font-family:Arial,sans-serif;max-width:680px;margin:auto;color:#172018;line-height:1.65">
               <h1 style="font-size:28px;line-height:1.2">Nueva reserva pagada</h1>
@@ -227,12 +233,14 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
         }),
       ]);
       emailResult = customerMail;
-      if (!adminMail.success) console.error('Error avisando a Alberto:', adminMail.error);
+      if (!customerMail.success || !adminMail.success) {
+        throw new Error(`Fallo en notificaciones de reserva: cliente=${customerMail.error || 'ok'}, admin=${adminMail.error || 'ok'}`);
+      }
       if (!listResult.success) console.error('Error añadiendo a lista de asesoría:', listResult.error);
     } else if (productType === 'bundle') {
       console.log('Llamando sendBundleEmail + addContactToBrevoList BUNDLE...');
       const [bundleEmailRes, bundleListRes] = await Promise.all([
-        sendBundleEmail(customerEmail),
+        sendBundleEmail(customerEmail, notificationIdempotencyKey(eventId, 'bundle')),
         addContactToBrevoList(customerEmail, BREVO_LIST_IDS.BUNDLE, {
           PRODUCTO: 'bundle',
           FECHA_COMPRA: new Date().toISOString(),
@@ -256,11 +264,21 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
         console.log('✅ Cliente añadido a lista GUIA. Automation de Brevo enviará el email.');
       }
     }
+    if (!emailResult.success) {
+      throw new Error(emailResult.error || 'No se pudo completar la notificación del pago');
+    }
     console.log('Resultado:', JSON.stringify(emailResult));
   } catch (err) {
     console.error('❌ EXCEPTION procesando compra:', err);
-    emailResult = { success: false, error: String(err) };
+    throw err;
   }
+
+  await getStripe().checkout.sessions.update(session.id, {
+    metadata: {
+      ...session.metadata,
+      ...bookingNotificationMetadata(eventId),
+    },
+  });
 
   if (emailResult.success) {
     console.log(`✅ Email enviado a ${customerEmail} via Brevo (template ${productType})`);
