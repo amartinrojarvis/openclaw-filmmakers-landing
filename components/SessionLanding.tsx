@@ -319,7 +319,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
                 Menos trabajo mecánico. <span className="font-editorial font-normal italic">Más tiempo para tu creatividad.</span>
               </h2>
               <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171612]/68">
-                No se trata de añadir IA a todo. Se trata de quitar pasos innecesarios, ordenar un proceso y devolverte tiempo para crear, decidir y atender mejor a tus clientes.
+                No se trata de añadir IA a todo. Se trata de aprender a utilizarla en tu beneficio para que trabaje por ti y devolverte tiempo para crear, decidir y atender mejor a tus clientes.
               </p>
             </div>
           </header>
@@ -333,7 +333,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
                     ? 'bg-[#f2eee5] md:col-span-7 md:min-h-[34rem]'
                     : index === 1
                       ? 'benefit-card--dark bg-[#171612] text-[#f2eee5] md:relative md:top-10 md:col-span-5 md:min-h-[30rem]'
-                      : 'md:col-span-12 md:mt-10'
+                      : 'bg-[#f2eee5] md:col-span-12 md:mt-10'
                 }`}
               >
                 <BenefitGraphic index={index} />
@@ -570,30 +570,32 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
           <div className="mt-14 grid gap-5 lg:grid-cols-2">
             <article className="flex flex-col border border-[#171612] p-6 sm:p-8">
               <p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#b43414]">Sesión estratégica</p>
-              <div className="mt-5 flex items-end gap-3"><span className="text-6xl font-black tracking-[-0.08em] sm:text-7xl">75 €</span><span className="pb-2 text-sm font-bold">precio final</span></div>
+              <h3 className="font-editorial mt-7 max-w-xl text-[2.35rem] font-semibold leading-[0.95] tracking-[-0.045em] sm:text-5xl">Convierte una prioridad en un flujo aplicable.</h3>
+              <p className="mt-5 max-w-lg text-base leading-7 text-[#171612]/68">Trabajamos sobre tu caso real para que salgas con claridad, una primera solución y los siguientes pasos definidos.</p>
+              <div className="mt-7 flex items-end gap-3"><span className="text-4xl font-black tracking-[-0.065em] sm:text-5xl">75 €</span><span className="pb-1.5 text-sm font-bold">precio final</span></div>
               <p className="mt-3 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#b43414]">Precio piloto · primeras 5 plazas</p>
               <p className="mt-2 text-xs leading-5 text-[#171612]/58">Precio previsto después del piloto: <strong className="font-extrabold text-[#171612]">150 €</strong></p>
-              <p className="mt-4 text-sm leading-6 text-[#171612]/65">Para definir una prioridad y salir con un flujo aplicable.</p>
               <ul className="mt-7 flex-1 space-y-3 border-t border-[#171612]/20 pt-6 text-sm font-semibold">
                 {['Revisión previa del briefing', 'Sesión online de 90 minutos', 'Diseño sobre tu caso real', 'Primer prototipo cuando sea viable', 'Hoja de ruta resumida', 'Una consulta breve por email durante 7 días'].map((item) => (
                   <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#b43414]" />{item}</li>
                 ))}
               </ul>
-              <div className="mt-8">{soldOut ? <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#171612]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#171612]/55">Edición completa</span> : <CheckoutButton location="pricing_session" plan="session" inverse>Elegir sesión de 90 min</CheckoutButton>}</div>
+              <div className="mt-8">{soldOut ? <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#171612]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#171612]/55">Edición completa</span> : <CheckoutButton location="pricing_session" plan="session" inverse>Trabajar mi prioridad</CheckoutButton>}</div>
             </article>
 
             <article className="flex flex-col border border-[#171612] bg-[#171612] p-6 text-[#f2eee5] sm:p-8">
               <div className="flex flex-wrap items-center justify-between gap-3"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#ff5a2a]">Acompañamiento 30 días</p><span className="border border-[#ff5a2a] px-3 py-1 font-mono text-[8px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">Para implementar</span></div>
-              <div className="mt-5 flex items-end gap-3"><span className="text-6xl font-black tracking-[-0.08em] sm:text-7xl">199 €</span><span className="pb-2 text-sm font-bold">precio final</span></div>
+              <h3 className="font-editorial mt-7 max-w-xl text-[2.35rem] font-semibold leading-[0.95] tracking-[-0.045em] sm:text-5xl">Ponlo en marcha, pruébalo y ajústalo conmigo.</h3>
+              <p className="mt-5 max-w-lg text-base leading-7 text-[#f2eee5]/68">La sesión inicial más un mes para revisar el sistema sobre el uso real y corregir lo que no funcione.</p>
+              <div className="mt-7 flex items-end gap-3"><span className="text-4xl font-black tracking-[-0.065em] sm:text-5xl">199 €</span><span className="pb-1.5 text-sm font-bold">precio final</span></div>
               <p className="mt-3 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Precio piloto · primeras 5 plazas</p>
               <p className="mt-2 text-xs leading-5 text-[#f2eee5]/58">Precio previsto después del piloto: <strong className="font-extrabold text-[#f2eee5]">350 €</strong></p>
-              <p className="mt-4 text-sm leading-6 text-[#f2eee5]/62">La sesión inicial más un mes para probar, revisar y ajustar el sistema.</p>
               <ul className="mt-7 flex-1 space-y-3 border-t border-[#f2eee5]/20 pt-6 text-sm font-semibold">
                 {['Todo lo incluido en la sesión estratégica', '2 seguimientos online de 45 minutos', 'Hasta 4 consultas breves por email', 'Revisión del flujo o prototipo', 'Ajustes de la hoja de ruta', 'Respuesta en un máximo de 48 h laborables'].map((item) => (
                   <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#ff5a2a]" />{item}</li>
                 ))}
               </ul>
-              <div className="mt-8">{soldOut ? <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#f2eee5]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#f2eee5]/55">Edición completa</span> : <CheckoutButton location="pricing_followup" plan="followup30d">Elegir acompañamiento</CheckoutButton>}</div>
+              <div className="mt-8">{soldOut ? <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#f2eee5]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#f2eee5]/55">Edición completa</span> : <CheckoutButton location="pricing_followup" plan="followup30d">Implementar mi sistema</CheckoutButton>}</div>
             </article>
           </div>
 
