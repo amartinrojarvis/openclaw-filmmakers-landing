@@ -51,6 +51,11 @@ const directBenefits = [
     benefit: 'Un primer flujo o prototipo que puedes poner a prueba.',
     detail: 'Sales con algo tangible, los siguientes pasos claros y una forma concreta de medir si funciona.',
   },
+  {
+    problem: 'La sensación de que otros ya están aprovechando la IA mientras tú sigues poniéndote al día.',
+    benefit: 'Ventaja para probar antes, responder mejor y moverte con más agilidad.',
+    detail: 'No se trata solo de alcanzar a tu competencia: construyes capacidad propia para detectar oportunidades y convertirlas en sistemas útiles.',
+  },
 ];
 
 const faqs = [
@@ -275,7 +280,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em]">Lo que cambia</p>
             <div>
               <h2 className="max-w-5xl text-balance text-[clamp(3rem,6.5vw,7rem)] font-black leading-[0.86] tracking-[-0.07em]">
-                Menos trabajo mecánico. <span className="font-editorial font-normal italic">Más tiempo para tu oficio.</span>
+                Menos trabajo mecánico. <span className="font-editorial font-normal italic">Más tiempo para tu creatividad.</span>
               </h2>
               <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171612]/68">
                 No se trata de añadir IA a todo. Se trata de quitar pasos innecesarios, ordenar un proceso y devolverte tiempo para crear, decidir y atender mejor a tus clientes.
@@ -287,33 +292,34 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             {directBenefits.map((item, index) => (
               <article
                 key={item.benefit}
-                className="benefit-row group relative grid gap-6 overflow-hidden py-8 transition-colors duration-300 motion-reduce:transition-none md:grid-cols-[minmax(0,.82fr)_48px_minmax(0,1.18fr)] md:items-center md:gap-8 lg:-mx-6 lg:px-6 lg:hover:bg-[#171612] lg:hover:text-[#f2eee5]"
+                className="benefit-row relative grid gap-6 overflow-hidden py-8 md:grid-cols-[minmax(0,.82fr)_48px_minmax(0,1.18fr)] md:items-center md:gap-8 lg:-mx-6 lg:px-6"
               >
                 <div className="relative z-10">
-                  <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#171612]/55 transition-colors group-hover:text-inherit motion-reduce:transition-none lg:group-hover:text-[#f2eee5]/50">
+                  <p className="benefit-row__origin font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#171612]/55">
                     {String(index + 1).padStart(2, '0')} · Traes
                   </p>
                   <h3 className="mt-3 max-w-xl text-xl font-black leading-7 tracking-[-0.025em] sm:text-2xl">{item.problem}</h3>
                 </div>
 
-                <span className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#171612]/45 transition-transform duration-300 motion-reduce:transition-none md:justify-self-center lg:group-hover:translate-x-1 lg:group-hover:border-[#ff5a2a] lg:group-hover:text-[#ff5a2a]" aria-hidden="true">
+                <span className="benefit-row__arrow relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#171612]/45 transition-transform duration-300 motion-reduce:transition-none md:justify-self-center" aria-hidden="true">
                   <ArrowRight className="h-4 w-4 rotate-90 md:rotate-0" />
                 </span>
 
                 <div className="relative z-10">
-                  <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#b43414] transition-colors motion-reduce:transition-none lg:group-hover:text-[#ff5a2a]">Te llevas</p>
+                  <p className="benefit-row__destination font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#b43414]">Te llevas</p>
                   <h3 className="font-editorial mt-3 max-w-2xl text-3xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-4xl">{item.benefit}</h3>
-                  <p className="mt-4 max-w-xl leading-7 text-[#171612]/65 transition-colors motion-reduce:transition-none lg:group-hover:text-[#f2eee5]/62">{item.detail}</p>
+                  <p className="benefit-row__detail mt-4 max-w-xl leading-7 text-[#171612]/65">{item.detail}</p>
                 </div>
               </article>
             ))}
           </div>
 
-          <div className="mt-8 grid gap-px border border-[#171612]/45 bg-[#171612]/45 sm:grid-cols-3">
+          <div className="mt-8 grid gap-px border border-[#171612]/45 bg-[#171612]/45 sm:grid-cols-2 lg:grid-cols-4">
             {[
               ['Tiempo', 'Menos horas en tareas repetitivas.'],
               ['Productividad', 'Un flujo claro para avanzar más.'],
               ['Foco', 'Más energía para las decisiones creativas.'],
+              ['Ventaja', 'Más capacidad para probar, responder y avanzar antes.'],
             ].map(([label, text]) => (
               <div key={label} className="bg-[#ff5a2a] p-5 sm:p-6">
                 <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em]">{label}</p>
@@ -322,6 +328,23 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             ))}
           </div>
         </div>
+      </section>
+
+      <section aria-label="Alberto Martín trabajando en un rodaje exterior" className="bg-[#171612] px-5 py-5 sm:px-8 sm:py-8 lg:px-12">
+        <figure className="mx-auto max-w-[90rem]">
+          <Image
+            src="/alberto-rodaje-exterior.webp"
+            alt="Alberto Martín grabando con cámara y micrófono durante un rodaje exterior"
+            width={1658}
+            height={680}
+            sizes="(max-width: 1536px) 100vw, 1440px"
+            className="aspect-video w-full border border-[#f2eee5]/15 object-cover object-center sm:aspect-[829/340]"
+          />
+          <figcaption className="flex flex-col gap-2 border-x border-b border-[#f2eee5]/15 px-4 py-4 font-mono text-[9px] uppercase tracking-[0.16em] text-[#f2eee5]/50 sm:flex-row sm:items-center sm:justify-between">
+            <span>En rodaje · La herramienta al servicio de la mirada</span>
+            <span className="text-[#ff5a2a]">Experiencia audiovisual real</span>
+          </figcaption>
+        </figure>
       </section>
 
       <section className="border-b border-[#f2eee5]/15 px-5 py-5 sm:px-8 lg:px-12">
@@ -369,6 +392,21 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
               </p>
             </div>
           </div>
+
+          <figure className="mt-16 grid items-start gap-6 border-t border-[#f2eee5]/20 pt-6 lg:grid-cols-[.68fr_1.32fr] lg:gap-20">
+            <figcaption>
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff5a2a]">Trabajo en curso</p>
+              <p className="mt-4 max-w-sm leading-7 text-[#f2eee5]/58">La sesión no se queda en hablar de herramientas: bajamos la idea a decisiones, pruebas y una forma de trabajar que puedas repetir.</p>
+            </figcaption>
+            <Image
+              src="/alberto-rodaje-interior.webp"
+              alt="Alberto Martín levantando la cámara para grabar durante un rodaje interior"
+              width={1362}
+              height={732}
+              sizes="(max-width: 1023px) 100vw, 64vw"
+              className="aspect-video w-full border border-[#f2eee5]/15 object-cover object-center grayscale-[12%] contrast-[1.04]"
+            />
+          </figure>
 
           <div className="mt-20 grid border-y border-[#f2eee5]/20 lg:grid-cols-3">
             {[
@@ -456,10 +494,25 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             <blockquote className="font-editorial max-w-5xl text-balance text-[clamp(2.6rem,5.5vw,5.8rem)] font-medium leading-[0.94] tracking-[-0.05em]">
               “Uno audiovisual e informática para diseñar herramientas a partir de problemas que conozco desde dentro.”
             </blockquote>
-            <div className="mt-10 grid gap-7 border-t border-[#f2eee5]/20 pt-8 md:grid-cols-2 md:gap-14">
-              <p className="text-lg leading-8 text-[#f2eee5]/58">Como filmmaker e ingeniero informático, trabajo entre producción, edición, contenido, clientes y desarrollo. La tecnología viene después del problema, no antes.</p>
+            <div className="mt-10 grid gap-8 border-t border-[#f2eee5]/20 pt-8 md:grid-cols-[minmax(0,.82fr)_minmax(0,1.18fr)] md:gap-10">
+              <figure>
+                <Image
+                  src="/alberto-camara-escaleras.webp"
+                  alt="Alberto Martín sentado en unas escaleras con una cámara durante una pausa de rodaje"
+                  width={1200}
+                  height={2144}
+                  sizes="(max-width: 767px) 100vw, 34vw"
+                  className="aspect-[4/5] w-full border border-[#f2eee5]/15 object-cover object-[center_58%] grayscale-[10%] contrast-[1.03]"
+                />
+                <figcaption className="border-x border-b border-[#f2eee5]/15 px-3 py-3 font-mono text-[9px] uppercase tracking-[0.15em] text-[#f2eee5]/45">Filmmaker antes que consultor</figcaption>
+              </figure>
               <div>
-                <p className="text-lg leading-8 text-[#f2eee5]/58">No voy a decirte que la IA hará tu trabajo por ti. Vamos a decidir qué puede simplificar y qué debe seguir bajo tu criterio. La idea es que aceleres tu productividad y empieces a delegar tareas que te aburren o te quitan tiempo.</p>
+                <p className="text-lg leading-8 text-[#f2eee5]/58">Como filmmaker e ingeniero informático, trabajo entre producción, edición, contenido, clientes y desarrollo. La tecnología viene después del problema, no antes.</p>
+                <p className="mt-7 text-lg leading-8 text-[#f2eee5]/58">No voy a decirte que la IA hará tu trabajo por ti. Vamos a decidir qué puede simplificar y qué debe seguir bajo tu criterio. La idea es que aceleres tu productividad y empieces a delegar tareas que te aburren o te quitan tiempo.</p>
+                <aside className="mt-8 border-l-2 border-[#ff5a2a] pl-5">
+                  <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#ff5a2a]">El objetivo de fondo</p>
+                  <p className="font-editorial mt-4 text-2xl font-medium leading-8 tracking-[-0.025em] text-[#f2eee5]">La idea es que consigas ser totalmente independiente con el uso de la IA en tu negocio y seas capaz de hacer casi cualquier cosa que se te pase por la cabeza.</p>
+                </aside>
                 <a href="https://www.instagram.com/amartinro/" target="_blank" rel="noopener noreferrer" className="mt-7 inline-flex items-center gap-2 text-sm font-extrabold uppercase tracking-[0.08em] text-[#ff5a2a] hover:text-[#f2eee5]">
                   @amartinro <ArrowUpRight className="h-4 w-4" />
                 </a>

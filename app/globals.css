@@ -107,6 +107,31 @@ select {
   transform-origin: left center;
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .benefit-row:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .benefit-row:hover .benefit-row__origin {
+    color: rgba(242, 238, 229, 0.58);
+  }
+
+  .benefit-row:hover .benefit-row__detail {
+    color: rgba(242, 238, 229, 0.72);
+  }
+
+  .benefit-row:hover .benefit-row__destination,
+  .benefit-row:hover .benefit-row__arrow {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .benefit-row:hover .benefit-row__arrow {
+    transform: translateX(0.25rem);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     @keyframes benefit-line-draw {
