@@ -20,7 +20,7 @@ const newsreader = Newsreader({
 const siteUrl = 'https://www.iaparafilmmakers.es';
 const shareTitle = 'Desbloquea el uso de la IA en tu negocio audiovisual';
 const shareDescription = 'Sesión práctica 1:1 de 90 minutos para detectar casos de uso reales y crear un plan para empezar a implementarlos.';
-const shareImage = '/social-preview-asesoria-v2.png';
+const shareImage = '/social-preview-asesoria-v3.png';
 
 const reloadScrollResetScript = `
   (() => {
@@ -76,7 +76,7 @@ export const metadata: Metadata = {
     siteName: 'IA para Filmmakers',
     title: shareTitle,
     description: shareDescription,
-    images: [{ url: shareImage, width: 1200, height: 630, alt: 'Desbloquea el uso de la IA en tu negocio audiovisual con Alberto Martín' }],
+    images: [{ url: shareImage, width: 1200, height: 630, alt: 'Alberto Martín con su cámara · Asesoría de IA para negocios audiovisuales' }],
   },
   twitter: {
     card: 'summary_large_image',
