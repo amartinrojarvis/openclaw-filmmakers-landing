@@ -18,6 +18,9 @@ const newsreader = Newsreader({
 });
 
 const siteUrl = 'https://www.iaparafilmmakers.es';
+const shareTitle = 'Desbloquea el uso de la IA en tu negocio audiovisual';
+const shareDescription = 'Sesión práctica 1:1 de 90 minutos para detectar casos de uso reales y crear un plan para empezar a implementarlos.';
+const shareImage = '/social-preview-asesoria-v2.png';
 
 const reloadScrollResetScript = `
   (() => {
@@ -53,8 +56,7 @@ export const metadata: Metadata = {
     default: 'Asesoría 1:1 de IA para Filmmakers | Alberto Martín',
     template: '%s | IA para Filmmakers',
   },
-  description:
-    'Sesión práctica de 90 minutos para aplicar IA a un proceso real de tu negocio audiovisual. Diagnóstico, trabajo sobre tu caso y hoja de ruta clara.',
+  description: shareDescription,
   keywords: [
     'asesoría IA filmmakers',
     'inteligencia artificial audiovisual',
@@ -72,15 +74,15 @@ export const metadata: Metadata = {
     locale: 'es_ES',
     url: siteUrl,
     siteName: 'IA para Filmmakers',
-    title: 'Sesión 1:1 de IA aplicada a tu negocio audiovisual',
-    description: 'Una prioridad real. 90 minutos. Un primer sistema que puedas utilizar.',
-    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Asesoría 1:1 de IA para Filmmakers con Alberto Martín' }],
+    title: shareTitle,
+    description: shareDescription,
+    images: [{ url: shareImage, width: 1200, height: 630, alt: 'Desbloquea el uso de la IA en tu negocio audiovisual con Alberto Martín' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sesión 1:1 de IA aplicada a tu negocio audiovisual',
-    description: 'Una prioridad real. 90 minutos. Un primer sistema que puedas utilizar.',
-    images: ['/opengraph-image'],
+    title: shareTitle,
+    description: shareDescription,
+    images: [shareImage],
   },
   robots: {
     index: true,
