@@ -119,8 +119,8 @@ select {
   top: 6.5rem;
   right: -8rem;
   width: 30rem;
-  color: #171612;
-  opacity: 0.1;
+  color: #f2eee5;
+  opacity: 0.11;
 }
 
 @media (min-width: 48rem) {

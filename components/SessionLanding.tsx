@@ -252,13 +252,7 @@ function MobileStickyCTA({ availabilityLabel, soldOut }: { availabilityLabel: st
 export function SessionLanding({ remainingSlots }: { remainingSlots: number | null }) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const soldOut = remainingSlots === 0;
-  const availabilityLabel = remainingSlots === null
-    ? 'Edición limitada · 5 plazas'
-    : remainingSlots === 0
-      ? 'Edición completa'
-      : remainingSlots === 1
-        ? 'Última plaza disponible'
-        : `${remainingSlots} plazas disponibles`;
+  const availabilityLabel = soldOut ? 'Edición completa' : '5 plazas disponibles';
 
   return (
     <main className="bg-[#171612] pb-20 text-[#f2eee5] md:pb-0">
@@ -333,30 +327,30 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
                     ? 'bg-[#f2eee5] md:col-span-7 md:min-h-[34rem]'
                     : index === 1
                       ? 'benefit-card--dark bg-[#171612] text-[#f2eee5] md:relative md:top-10 md:col-span-5 md:min-h-[30rem]'
-                      : 'bg-[#f2eee5] md:col-span-12 md:mt-10'
+                      : 'benefit-card--mid bg-[#5f5850] text-[#f2eee5] md:col-span-12 md:mt-10'
                 }`}
               >
                 <BenefitGraphic index={index} />
 
                 <div className="relative z-10 flex items-start justify-between gap-5 border-b border-current/25 pb-6">
-                  <p className={`font-mono text-[10px] font-bold uppercase tracking-[0.18em] ${index === 1 ? 'text-[#ff5a2a]' : index === 2 ? 'text-[#171612]' : 'text-[#b43414]'}`}>{item.kicker}</p>
-                  <span className={`select-none text-7xl font-black leading-[0.7] tracking-[-0.1em] sm:text-8xl ${index === 1 ? 'text-[#f2eee5]/10' : 'text-[#171612]/10'}`} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <p className={`font-mono text-[10px] font-bold uppercase tracking-[0.18em] ${index === 1 ? 'text-[#ff5a2a]' : index === 2 ? 'text-[#f2eee5]/75' : 'text-[#b43414]'}`}>{item.kicker}</p>
+                  <span className={`select-none text-7xl font-black leading-[0.7] tracking-[-0.1em] sm:text-8xl ${index === 0 ? 'text-[#171612]/10' : 'text-[#f2eee5]/10'}`} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                 </div>
 
                 <div className={`relative z-10 mt-8 flex flex-1 flex-col gap-7 ${index === 2 ? 'lg:grid lg:grid-cols-[minmax(0,.8fr)_64px_minmax(0,1.2fr)] lg:items-center lg:gap-10' : ''}`}>
                   <div>
-                    <p className={`font-mono text-[9px] font-bold uppercase tracking-[0.18em] ${index === 1 ? 'text-[#f2eee5]/50' : index === 2 ? 'text-[#171612]' : 'text-[#171612]/50'}`}>Antes</p>
-                    <p className={`mt-4 max-w-xl text-lg font-black leading-7 tracking-[-0.025em] sm:text-xl ${index === 1 ? 'text-[#f2eee5]/78' : 'text-[#171612]/75'}`}>{item.problem}</p>
+                    <p className={`font-mono text-[9px] font-bold uppercase tracking-[0.18em] ${index === 0 ? 'text-[#171612]/50' : 'text-[#f2eee5]/65'}`}>Antes</p>
+                    <p className={`mt-4 max-w-xl text-lg font-black leading-7 tracking-[-0.025em] sm:text-xl ${index === 0 ? 'text-[#171612]/75' : index === 1 ? 'text-[#f2eee5]/78' : 'text-[#f2eee5]/90'}`}>{item.problem}</p>
                   </div>
 
-                  <span className={`benefit-card__arrow flex h-12 w-12 shrink-0 items-center justify-center rounded-full border transition-transform duration-300 motion-reduce:transition-none ${index === 1 ? 'border-[#f2eee5]/30 text-[#ff5a2a]' : index === 2 ? 'border-[#171612]/45 text-[#171612]' : 'border-[#171612]/35 text-[#b43414]'}`} aria-hidden="true">
+                  <span className={`benefit-card__arrow flex h-12 w-12 shrink-0 items-center justify-center rounded-full border transition-transform duration-300 motion-reduce:transition-none ${index === 1 ? 'border-[#f2eee5]/30 text-[#ff5a2a]' : index === 2 ? 'border-[#f2eee5]/40 text-[#f2eee5]' : 'border-[#171612]/35 text-[#b43414]'}`} aria-hidden="true">
                     <ArrowRight className={`h-4 w-4 ${index === 2 ? 'rotate-90 lg:rotate-0' : 'rotate-90'}`} />
                   </span>
 
                   <div className={index === 2 ? '' : 'mt-auto'}>
-                    <p className={`font-mono text-[9px] font-bold uppercase tracking-[0.18em] ${index === 1 ? 'text-[#ff5a2a]' : index === 2 ? 'text-[#171612]' : 'text-[#b43414]'}`}>Después</p>
-                    <h3 className={`font-editorial mt-3 max-w-2xl text-3xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-4xl ${index === 1 ? 'text-[#f2eee5]' : ''}`}>{item.benefit}</h3>
-                    <p className={`mt-5 max-w-xl leading-7 ${index === 1 ? 'text-[#f2eee5]/65' : index === 2 ? 'text-[#171612]/75' : 'text-[#171612]/65'}`}>{item.detail}</p>
+                    <p className={`font-mono text-[9px] font-bold uppercase tracking-[0.18em] ${index === 0 ? 'text-[#b43414]' : index === 1 ? 'text-[#ff5a2a]' : 'text-[#f2eee5]/70'}`}>Después</p>
+                    <h3 className={`font-editorial mt-3 max-w-2xl text-3xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-4xl ${index === 0 ? '' : 'text-[#f2eee5]'}`}>{item.benefit}</h3>
+                    <p className={`mt-5 max-w-xl leading-7 ${index === 0 ? 'text-[#171612]/65' : index === 1 ? 'text-[#f2eee5]/65' : 'text-[#f2eee5]/85'}`}>{item.detail}</p>
                   </div>
                 </div>
               </article>
@@ -570,8 +564,8 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
           <div className="mt-14 grid gap-5 lg:grid-cols-2">
             <article className="flex flex-col border border-[#171612] p-6 sm:p-8">
               <p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#b43414]">Sesión estratégica</p>
-              <h3 className="font-editorial mt-7 max-w-xl text-[2.35rem] font-semibold leading-[0.95] tracking-[-0.045em] sm:text-5xl">Convierte una prioridad en un flujo aplicable.</h3>
-              <p className="mt-5 max-w-lg text-base leading-7 text-[#171612]/68">Trabajamos sobre tu caso real para que salgas con claridad, una primera solución y los siguientes pasos definidos.</p>
+              <h3 className="font-editorial mt-7 max-w-xl text-[2.35rem] font-semibold leading-[0.95] tracking-[-0.045em] sm:text-5xl">Desbloquea el uso de la IA en tu negocio</h3>
+              <p className="mt-5 max-w-lg text-base leading-7 text-[#171612]/68">Vemos qué casos de uso reales puedes aplicar a tu flujo de trabajo y establecemos un plan para que puedas empezar a implementarlos.</p>
               <div className="mt-7 flex items-end gap-3"><span className="text-4xl font-black tracking-[-0.065em] sm:text-5xl">75 €</span><span className="pb-1.5 text-sm font-bold">precio final</span></div>
               <p className="mt-3 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#b43414]">Precio piloto · primeras 5 plazas</p>
               <p className="mt-2 text-xs leading-5 text-[#171612]/58">Precio previsto después del piloto: <strong className="font-extrabold text-[#171612]">150 €</strong></p>
@@ -585,7 +579,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
 
             <article className="flex flex-col border border-[#171612] bg-[#171612] p-6 text-[#f2eee5] sm:p-8">
               <div className="flex flex-wrap items-center justify-between gap-3"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#ff5a2a]">Acompañamiento 30 días</p><span className="border border-[#ff5a2a] px-3 py-1 font-mono text-[8px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">Para implementar</span></div>
-              <h3 className="font-editorial mt-7 max-w-xl text-[2.35rem] font-semibold leading-[0.95] tracking-[-0.045em] sm:text-5xl">Ponlo en marcha, pruébalo y ajústalo conmigo.</h3>
+              <h3 className="font-editorial mt-7 max-w-xl text-[2.1rem] font-semibold leading-[0.96] tracking-[-0.04em] sm:text-[2.65rem]">Pasos detallados para implementar completamente herramientas que cubran tus casos de uso específicos.</h3>
               <p className="mt-5 max-w-lg text-base leading-7 text-[#f2eee5]/68">La sesión inicial más un mes para revisar el sistema sobre el uso real y corregir lo que no funcione.</p>
               <div className="mt-7 flex items-end gap-3"><span className="text-4xl font-black tracking-[-0.065em] sm:text-5xl">199 €</span><span className="pb-1.5 text-sm font-bold">precio final</span></div>
               <p className="mt-3 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Precio piloto · primeras 5 plazas</p>
