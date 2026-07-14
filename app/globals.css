@@ -92,6 +92,60 @@ select {
   box-shadow: 0 0 0 rgba(23, 22, 18, 0);
 }
 
+.benefit-graphic {
+  position: absolute;
+  z-index: 0;
+  width: auto;
+  pointer-events: none;
+}
+
+.benefit-graphic--time {
+  top: 9rem;
+  right: -4.5rem;
+  width: 17rem;
+  color: #b43414;
+  opacity: 0.11;
+}
+
+.benefit-graphic--system {
+  top: 9.5rem;
+  right: -4.5rem;
+  width: 16rem;
+  color: #ff5a2a;
+  opacity: 0.12;
+}
+
+.benefit-graphic--advantage {
+  top: 6.5rem;
+  right: -8rem;
+  width: 30rem;
+  color: #171612;
+  opacity: 0.1;
+}
+
+@media (min-width: 48rem) {
+  .benefit-graphic--time {
+    top: 8.5rem;
+    right: -2.5rem;
+    width: 21rem;
+    opacity: 0.14;
+  }
+
+  .benefit-graphic--system {
+    top: 9rem;
+    right: -3.5rem;
+    width: 17rem;
+    opacity: 0.14;
+  }
+
+  .benefit-graphic--advantage {
+    top: 2.5rem;
+    right: 2rem;
+    width: min(72%, 58rem);
+    opacity: 0.12;
+  }
+}
+
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .benefit-card {
     transition: box-shadow 220ms ease, transform 220ms ease;

@@ -94,6 +94,49 @@ const faqs = [
   },
 ];
 
+function BenefitGraphic({ index }: { index: number }) {
+  if (index === 0) {
+    return (
+      <svg className="benefit-graphic benefit-graphic--time" viewBox="0 0 360 360" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="180" cy="168" r="116" stroke="currentColor" strokeWidth="1" />
+        <circle cx="180" cy="168" r="88" stroke="currentColor" strokeWidth="1" strokeDasharray="2 9" />
+        <path d="M180 52a116 116 0 0 1 109 76" stroke="currentColor" strokeWidth="9" strokeLinecap="round" />
+        <path d="M180 168V91M180 168l64 31" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="180" cy="168" r="8" fill="currentColor" />
+        <path d="M42 294c28-42 55 42 83 0s55 42 83 0 55 42 110-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <path d="M42 314h276" stroke="currentColor" strokeWidth="1" strokeDasharray="3 8" />
+      </svg>
+    );
+  }
+
+  if (index === 1) {
+    return (
+      <svg className="benefit-graphic benefit-graphic--system" viewBox="0 0 360 360" fill="none" aria-hidden="true" focusable="false">
+        <path d="M54 82h84c26 0 30 34 56 34h108M54 180h58c30 0 36-32 66-32h124M54 278h94c30 0 36-60 66-60h88" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 9" />
+        <rect x="34" y="60" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="1.5" />
+        <rect x="282" y="96" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="1.5" />
+        <rect x="34" y="160" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="1.5" />
+        <rect x="282" y="198" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="1.5" />
+        <rect x="34" y="258" width="40" height="40" rx="8" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="178" cy="148" r="18" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="178" cy="148" r="5" fill="currentColor" />
+        <circle cx="214" cy="218" r="6" fill="currentColor" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg className="benefit-graphic benefit-graphic--advantage" viewBox="0 0 900 320" fill="none" aria-hidden="true" focusable="false">
+      <path d="M34 266H866M34 196H866M34 126H866M34 56H866" stroke="currentColor" strokeWidth="1" strokeDasharray="3 12" />
+      <path d="M44 264C148 252 170 229 254 224s124 5 192-57 132-35 194-91 114-48 190-50" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="254" cy="224" r="9" fill="currentColor" />
+      <circle cx="446" cy="167" r="9" fill="currentColor" />
+      <circle cx="640" cy="76" r="9" fill="currentColor" />
+      <path d="m804 10 36 16-30 26" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function trackAdvisoryCheckout(location: string, plan: AdvisoryPlan) {
   const items = [
     { id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 },
@@ -293,12 +336,14 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
                       : 'md:col-span-12 md:mt-10'
                 }`}
               >
-                <div className="flex items-start justify-between gap-5 border-b border-current/25 pb-6">
+                <BenefitGraphic index={index} />
+
+                <div className="relative z-10 flex items-start justify-between gap-5 border-b border-current/25 pb-6">
                   <p className={`font-mono text-[10px] font-bold uppercase tracking-[0.18em] ${index === 1 ? 'text-[#ff5a2a]' : index === 2 ? 'text-[#171612]' : 'text-[#b43414]'}`}>{item.kicker}</p>
                   <span className={`select-none text-7xl font-black leading-[0.7] tracking-[-0.1em] sm:text-8xl ${index === 1 ? 'text-[#f2eee5]/10' : 'text-[#171612]/10'}`} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                 </div>
 
-                <div className={`mt-8 flex flex-1 flex-col gap-7 ${index === 2 ? 'lg:grid lg:grid-cols-[minmax(0,.8fr)_64px_minmax(0,1.2fr)] lg:items-center lg:gap-10' : ''}`}>
+                <div className={`relative z-10 mt-8 flex flex-1 flex-col gap-7 ${index === 2 ? 'lg:grid lg:grid-cols-[minmax(0,.8fr)_64px_minmax(0,1.2fr)] lg:items-center lg:gap-10' : ''}`}>
                   <div>
                     <p className={`font-mono text-[9px] font-bold uppercase tracking-[0.18em] ${index === 1 ? 'text-[#f2eee5]/50' : index === 2 ? 'text-[#171612]' : 'text-[#171612]/50'}`}>Antes</p>
                     <p className={`mt-4 max-w-xl text-lg font-black leading-7 tracking-[-0.025em] sm:text-xl ${index === 1 ? 'text-[#f2eee5]/78' : 'text-[#171612]/75'}`}>{item.problem}</p>
