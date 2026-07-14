@@ -30,16 +30,45 @@ const reloadScrollResetScript = `
         ? navigation.type === 'reload'
         : performance.navigation && performance.navigation.type === 1;
 
-      if (isReload && !window.location.hash) {
-        history.scrollRestoration = 'manual';
-        const root = document.documentElement;
-        const previousBehavior = root.style.scrollBehavior;
-        root.style.scrollBehavior = 'auto';
-        window.scrollTo(0, 0);
-        root.style.scrollBehavior = previousBehavior;
-      } else {
-        history.scrollRestoration = 'auto';
-      }
+      // Safari can decide where to restore before a reload document finishes
+      // parsing. Keep this history entry manual from its first visit onward.
+      history.scrollRestoration = 'manual';
+
+      if (!isReload || window.location.hash) return;
+
+      const root = document.documentElement;
+      const previousBehavior = root.style.getPropertyValue('scroll-behavior');
+      const previousPriority = root.style.getPropertyPriority('scroll-behavior');
+      let released = false;
+
+      root.style.setProperty('scroll-behavior', 'auto', 'important');
+
+      const reset = () => {
+        if (!window.location.hash) window.scrollTo(0, 0);
+      };
+
+      const release = () => {
+        if (released) return;
+        reset();
+        requestAnimationFrame(() => {
+          reset();
+          requestAnimationFrame(() => {
+            reset();
+            if (previousBehavior) {
+              root.style.setProperty('scroll-behavior', previousBehavior, previousPriority);
+            } else {
+              root.style.removeProperty('scroll-behavior');
+            }
+            released = true;
+          });
+        });
+      };
+
+      reset();
+      document.addEventListener('DOMContentLoaded', reset, { once: true });
+      window.addEventListener('load', reset, { once: true });
+      window.addEventListener('pageshow', release, { once: true });
+      window.setTimeout(release, 1500);
     } catch {}
   })();
 `;
