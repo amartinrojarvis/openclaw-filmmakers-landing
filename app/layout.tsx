@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Manrope, Newsreader } from 'next/font/google';
 import './globals.css';
-import { GoogleTagManagerScript, MetaPixelScript } from '@/components/Analytics';
-import { CookieBanner } from '@/components/CookieBanner';
+import { PublicTrackingAndConsent } from '@/components/PublicTrackingAndConsent';
 
 const manrope = Manrope({
   subsets: ['latin'],
@@ -180,10 +179,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <StructuredData />
       </head>
       <body className={`${manrope.variable} ${newsreader.variable}`}>
-        <GoogleTagManagerScript />
-        <MetaPixelScript />
         {children}
-        <CookieBanner />
+        <PublicTrackingAndConsent />
       </body>
     </html>
   );
