@@ -97,7 +97,7 @@ const faqs = [
   {
     question: '¿Necesito saber de IA o programación?',
     answer:
-      'No. Partimos de tu nivel y de las herramientas que ya utilizas. La sesión está pensada para profesionales audiovisuales que quieren avanzar sin perderse entre aplicaciones.',
+      'No. Partimos de tu nivel y de las herramientas que ya utilizas. Si ya sabes de IA, de programación o de ambas, iremos más rápido y podremos profundizar más. La sesión está pensada para profesionales audiovisuales que quieren avanzar sin perderse entre aplicaciones.',
   },
 ];
 
@@ -587,7 +587,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
         <div className="mx-auto grid max-w-[90rem] gap-12 lg:grid-cols-[.68fr_1.32fr] lg:gap-20">
           <div>
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff5a2a]">04 / Antes de reservar</p>
-            <h2 className="font-editorial mt-5 max-w-md text-5xl font-medium leading-[0.95] tracking-[-0.05em] sm:text-6xl">Preguntas que conviene resolver.</h2>
+            <h2 className="font-editorial mt-5 max-w-md text-5xl font-medium leading-[0.95] tracking-[-0.05em] sm:text-6xl">Preguntas frecuentes</h2>
           </div>
           <div className="border-t border-[#f2eee5]/20">
             {faqs.map((faq, index) => {
