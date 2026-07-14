@@ -32,29 +32,22 @@ const situations = [
 
 const directBenefits = [
   {
+    kicker: 'Tiempo + creatividad',
     problem: 'Horas que se van en preparar, ordenar y repetir tareas mecánicas.',
-    benefit: 'Tiempo recuperado para crear y atender mejor a tus clientes.',
-    detail: 'Reducimos pasos manuales sin entregar a la IA las decisiones que necesitan tu criterio.',
+    benefit: 'Recuperas tiempo para crear y atender mejor a tus clientes.',
+    detail: 'Quitamos pasos manuales sin entregar a la IA las decisiones que necesitan tu criterio.',
   },
   {
-    problem: 'Procesos que dependen de que recuerdes cada paso y cada excepción.',
-    benefit: 'Más productividad con un sistema claro que puedes repetir.',
-    detail: 'Pasas de improvisar el proceso cada vez a trabajar con una secuencia definida y mejorable.',
+    kicker: 'Sistema + productividad',
+    problem: 'Procesos dispersos, herramientas genéricas e ideas que nunca pasan de una nota.',
+    benefit: 'Construyes un sistema propio que puedes repetir y mejorar.',
+    detail: 'Ordenamos el proceso y lo convertimos en un flujo o primer prototipo adaptado a tu manera de trabajar.',
   },
   {
-    problem: 'Herramientas genéricas que te obligan a cambiar constantemente de contexto.',
-    benefit: 'Menos fricción y una solución adaptada a tu forma de trabajar.',
-    detail: 'Diseñamos alrededor de tus proyectos, tus ejemplos y las aplicaciones que ya utilizas.',
-  },
-  {
-    problem: 'Ideas de automatización que nunca pasan de una nota o una conversación.',
-    benefit: 'Un primer flujo o prototipo que puedes poner a prueba.',
-    detail: 'Sales con algo tangible, los siguientes pasos claros y una forma concreta de medir si funciona.',
-  },
-  {
+    kicker: 'Ventaja competitiva',
     problem: 'La sensación de que otros ya están aprovechando la IA mientras tú sigues poniéndote al día.',
-    benefit: 'Ventaja para probar antes, responder mejor y moverte con más agilidad.',
-    detail: 'No se trata solo de alcanzar a tu competencia: construyes capacidad propia para detectar oportunidades y convertirlas en sistemas útiles.',
+    benefit: 'No solo te pones al día. Ganas capacidad para avanzar antes.',
+    detail: 'Desarrollas autonomía para detectar oportunidades, probar ideas y responder con más agilidad que quien sigue improvisando.',
   },
 ];
 
@@ -288,43 +281,40 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             </div>
           </header>
 
-          <div className="mt-4">
+          <div className="mt-12 grid gap-5 pb-10 md:grid-cols-12 md:items-start">
             {directBenefits.map((item, index) => (
               <article
                 key={item.benefit}
-                className="benefit-row relative grid gap-6 overflow-hidden py-8 md:grid-cols-[minmax(0,.82fr)_48px_minmax(0,1.18fr)] md:items-center md:gap-8 lg:-mx-6 lg:px-6"
+                className={`benefit-card relative flex min-w-0 flex-col overflow-hidden border border-[#171612] p-6 sm:p-8 lg:p-10 ${
+                  index === 0
+                    ? 'bg-[#f2eee5] md:col-span-7 md:min-h-[34rem]'
+                    : index === 1
+                      ? 'benefit-card--dark bg-[#171612] text-[#f2eee5] md:relative md:top-10 md:col-span-5 md:min-h-[30rem]'
+                      : 'md:col-span-12 md:mt-10'
+                }`}
               >
-                <div className="relative z-10">
-                  <p className="benefit-row__origin font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#171612]/55">
-                    {String(index + 1).padStart(2, '0')} · Traes
-                  </p>
-                  <h3 className="mt-3 max-w-xl text-xl font-black leading-7 tracking-[-0.025em] sm:text-2xl">{item.problem}</h3>
+                <div className="flex items-start justify-between gap-5 border-b border-current/25 pb-6">
+                  <p className={`font-mono text-[10px] font-bold uppercase tracking-[0.18em] ${index === 1 ? 'text-[#ff5a2a]' : index === 2 ? 'text-[#171612]' : 'text-[#b43414]'}`}>{item.kicker}</p>
+                  <span className={`select-none text-7xl font-black leading-[0.7] tracking-[-0.1em] sm:text-8xl ${index === 1 ? 'text-[#f2eee5]/10' : 'text-[#171612]/10'}`} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                 </div>
 
-                <span className="benefit-row__arrow relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#171612]/45 transition-transform duration-300 motion-reduce:transition-none md:justify-self-center" aria-hidden="true">
-                  <ArrowRight className="h-4 w-4 rotate-90 md:rotate-0" />
-                </span>
+                <div className={`mt-8 flex flex-1 flex-col gap-7 ${index === 2 ? 'lg:grid lg:grid-cols-[minmax(0,.8fr)_64px_minmax(0,1.2fr)] lg:items-center lg:gap-10' : ''}`}>
+                  <div>
+                    <p className={`font-mono text-[9px] font-bold uppercase tracking-[0.18em] ${index === 1 ? 'text-[#f2eee5]/50' : index === 2 ? 'text-[#171612]' : 'text-[#171612]/50'}`}>Antes</p>
+                    <p className={`mt-4 max-w-xl text-lg font-black leading-7 tracking-[-0.025em] sm:text-xl ${index === 1 ? 'text-[#f2eee5]/78' : 'text-[#171612]/75'}`}>{item.problem}</p>
+                  </div>
 
-                <div className="relative z-10">
-                  <p className="benefit-row__destination font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#b43414]">Te llevas</p>
-                  <h3 className="font-editorial mt-3 max-w-2xl text-3xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-4xl">{item.benefit}</h3>
-                  <p className="benefit-row__detail mt-4 max-w-xl leading-7 text-[#171612]/65">{item.detail}</p>
+                  <span className={`benefit-card__arrow flex h-12 w-12 shrink-0 items-center justify-center rounded-full border transition-transform duration-300 motion-reduce:transition-none ${index === 1 ? 'border-[#f2eee5]/30 text-[#ff5a2a]' : index === 2 ? 'border-[#171612]/45 text-[#171612]' : 'border-[#171612]/35 text-[#b43414]'}`} aria-hidden="true">
+                    <ArrowRight className={`h-4 w-4 ${index === 2 ? 'rotate-90 lg:rotate-0' : 'rotate-90'}`} />
+                  </span>
+
+                  <div className={index === 2 ? '' : 'mt-auto'}>
+                    <p className={`font-mono text-[9px] font-bold uppercase tracking-[0.18em] ${index === 1 ? 'text-[#ff5a2a]' : index === 2 ? 'text-[#171612]' : 'text-[#b43414]'}`}>Después</p>
+                    <h3 className={`font-editorial mt-3 max-w-2xl text-3xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-4xl ${index === 1 ? 'text-[#f2eee5]' : ''}`}>{item.benefit}</h3>
+                    <p className={`mt-5 max-w-xl leading-7 ${index === 1 ? 'text-[#f2eee5]/65' : index === 2 ? 'text-[#171612]/75' : 'text-[#171612]/65'}`}>{item.detail}</p>
+                  </div>
                 </div>
               </article>
-            ))}
-          </div>
-
-          <div className="mt-8 grid gap-px border border-[#171612]/45 bg-[#171612]/45 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              ['Tiempo', 'Menos horas en tareas repetitivas.'],
-              ['Productividad', 'Un flujo claro para avanzar más.'],
-              ['Foco', 'Más energía para las decisiones creativas.'],
-              ['Ventaja', 'Más capacidad para probar, responder y avanzar antes.'],
-            ].map(([label, text]) => (
-              <div key={label} className="bg-[#ff5a2a] p-5 sm:p-6">
-                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em]">{label}</p>
-                <p className="mt-8 max-w-xs text-lg font-black leading-6 tracking-[-0.02em]">{text}</p>
-              </div>
             ))}
           </div>
         </div>
