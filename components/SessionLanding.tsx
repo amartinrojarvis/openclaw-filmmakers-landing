@@ -33,6 +33,24 @@ const situations = [
   ['05', 'Procesos de negocio', 'Ordenar una tarea repetitiva en un flujo claro, documentado y repetible.'],
 ];
 
+const firstMonthItems = [
+  'Revisión previa del briefing',
+  'Sesión de diagnóstico y construcción de 90 minutos',
+  'El mapa de tus cinco sistemas, priorizado',
+  'El primer sistema, montado y funcionando',
+  '1 seguimiento online de 45 minutos',
+  'Hasta 4 consultas por email',
+  'Respuesta en un máximo de 48 h laborables',
+];
+
+const continuityItems = [
+  'Un sistema nuevo del mapa, montado contigo en sesión',
+  'Sesión online de 45-60 minutos',
+  'Mantenimiento de todo lo ya construido',
+  'Hasta 4 consultas por email',
+  'Nota mensual: qué ha cambiado en IA y cómo te afecta',
+];
+
 const directBenefits = [
   {
     kicker: 'Tiempo + creatividad',
@@ -141,14 +159,11 @@ function BenefitGraphic({ index }: { index: number }) {
 }
 
 function trackAdvisoryCheckout(location: string, plan: AdvisoryPlan) {
-  const items = [
-    { id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 },
-  ];
-  if (plan === 'followup30d') {
-    items.push({ id: 'acompanamiento-30-dias', name: 'Acompañamiento 30 días', price: 124 });
-  }
+  const items = plan === 'followup30d'
+    ? [{ id: 'suscripcion-mensual-primer-mes', name: 'Suscripción mensual · primer mes', price: 199 }]
+    : [{ id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 }];
   AnalyticsEvents.beginCheckout(items);
-  AnalyticsEvents.clickCTA(location, plan === 'followup30d' ? 'Elegir acompañamiento 30 días' : 'Elegir sesión de 90 minutos');
+  AnalyticsEvents.clickCTA(location, plan === 'followup30d' ? 'Construir mi sistema' : 'Elegir sesión de 90 minutos');
 }
 
 function CheckoutButton({ location, plan, inverse = false, children }: { location: string; plan: AdvisoryPlan; inverse?: boolean; children: React.ReactNode }) {
@@ -653,18 +668,56 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             </article>
 
             <article className="flex flex-col border border-[#171612] bg-[#171612] p-6 text-[#f2eee5] sm:p-8">
-              <div className="flex flex-wrap items-center justify-between gap-3"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#ff5a2a]">Acompañamiento 30 días</p><span className="border border-[#ff5a2a] px-3 py-1 font-mono text-[8px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">Para implementar</span></div>
-              <h3 className="font-editorial mt-7 max-w-xl text-[2.1rem] font-semibold leading-[0.96] tracking-[-0.04em] sm:text-[2.65rem]">Pasos detallados para implementar completamente herramientas que cubran tus casos de uso específicos.</h3>
-              <p className="mt-5 max-w-lg text-base leading-7 text-[#f2eee5]/68">La sesión inicial más un mes para revisar el sistema sobre el uso real y corregir lo que no funcione.</p>
-              <div className="mt-7 flex items-end gap-3"><span className="text-4xl font-black tracking-[-0.065em] sm:text-5xl">199 €</span><span className="pb-1.5 text-sm font-bold">precio final</span></div>
-              <p className="mt-3 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Precio piloto · primeras 5 plazas</p>
-              <p className="mt-2 text-xs leading-5 text-[#f2eee5]/58">Precio previsto después del piloto: <strong className="font-extrabold text-[#f2eee5]">350 €</strong></p>
-              <ul className="mt-7 flex-1 space-y-3 border-t border-[#f2eee5]/20 pt-6 text-sm font-semibold">
-                {['Todo lo incluido en la sesión estratégica', '2 seguimientos online de 45 minutos', 'Hasta 4 consultas breves por email', 'Revisión del flujo o prototipo', 'Ajustes de la hoja de ruta', 'Respuesta en un máximo de 48 h laborables'].map((item) => (
-                  <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#ff5a2a]" />{item}</li>
+              <div className="flex flex-wrap items-center justify-between gap-3"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#ff5a2a]">Suscripción mensual</p><span className="border border-[#ff5a2a] px-3 py-1 font-mono text-[8px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">Primer mes</span></div>
+              <h3 className="font-editorial mt-7 max-w-xl text-[2.1rem] font-semibold leading-[0.96] tracking-[-0.04em] sm:text-[2.65rem]">Implementación · primer mes</h3>
+              <p className="mt-5 max-w-lg text-base leading-7 text-[#f2eee5]/68">Construimos el primer sistema de tu mapa y lo dejamos funcionando. A partir de ahí, uno nuevo cada mes.</p>
+              <div className="mt-7 flex flex-wrap items-end gap-x-3 gap-y-2">
+                <span className="text-4xl font-black tracking-[-0.065em] sm:text-5xl">199 €</span>
+                <s className="pb-1.5 text-base font-bold text-[#f2eee5]/70"><span className="sr-only">Precio habitual: </span>349 €</s>
+              </div>
+              <p className="mt-2 text-sm font-bold text-[#f2eee5]/78">precio final · primer mes</p>
+
+              <div className="mt-7 border border-[#ff5a2a]/60 bg-[#ff5a2a]/[0.08] p-4 sm:p-5">
+                <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <span className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Después:</span>
+                  <strong className="text-2xl font-black tracking-[-0.04em]">149 €/mes</strong>
+                  <s className="text-sm font-bold text-[#f2eee5]/70"><span className="sr-only">Precio habitual: </span>199 €/mes</s>
+                </p>
+                <p className="mt-4 text-sm font-semibold leading-6 text-[#f2eee5]/82">Conservas 149 €/mes mientras mantengas la suscripción.</p>
+                <p className="mt-1 text-sm leading-6 text-[#f2eee5]/65">Sin permanencia: puedes cancelar cuando quieras.</p>
+              </div>
+
+              <p className="mt-5 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Precio piloto · primeras 5 plazas</p>
+              <ul className="mt-7 space-y-3 border-t border-[#f2eee5]/20 pt-6 text-sm font-semibold" aria-label="Incluido durante el primer mes">
+                {firstMonthItems.map((item) => (
+                  <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#ff5a2a]" aria-hidden="true" />{item}</li>
                 ))}
               </ul>
-              <div className="mt-8">{soldOut ? <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#f2eee5]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#f2eee5]/55">Edición completa</span> : <CheckoutButton location="pricing_followup" plan="followup30d">Implementar mi sistema</CheckoutButton>}</div>
+
+              <details className="group mt-7 border-t border-[#f2eee5]/20 md:hidden">
+                <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 font-mono text-[9px] font-bold uppercase tracking-[0.13em] text-[#ff5a2a] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5a2a] [&::-webkit-details-marker]:hidden">
+                  <span>Ver qué incluye cada mes siguiente</span>
+                  <ChevronDown className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none" aria-hidden="true" />
+                </summary>
+                <p className="border-t border-[#f2eee5]/12 pt-5 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Cada mes siguiente · 149 €</p>
+                <ul className="mt-5 space-y-3 text-sm font-semibold" aria-label="Incluido cada mes siguiente">
+                  {continuityItems.map((item) => (
+                    <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#ff5a2a]" aria-hidden="true" />{item}</li>
+                  ))}
+                </ul>
+              </details>
+
+              <div className="mt-7 hidden border-t border-[#f2eee5]/20 pt-6 md:block">
+                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Cada mes siguiente · 149 €</p>
+                <ul className="mt-5 space-y-3 text-sm font-semibold" aria-label="Incluido cada mes siguiente">
+                  {continuityItems.map((item) => (
+                    <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#ff5a2a]" aria-hidden="true" />{item}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* TODO: sustituir por payment link de suscripción */}
+              <div className="mt-8">{soldOut ? <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#f2eee5]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#f2eee5]/55">Edición completa</span> : <CheckoutButton location="pricing_subscription" plan="followup30d">Construir mi sistema</CheckoutButton>}</div>
             </article>
           </div>
 
