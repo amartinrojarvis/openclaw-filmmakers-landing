@@ -193,12 +193,12 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, eventId
   try {
     if (productType === 'asesoria_90m') {
       const intakeUrl = `https://www.iaparafilmmakers.es/gracias-asesoria?session_id=${encodeURIComponent(session.id)}`;
-      const planLabel = includesFollowup ? 'Sesión + acompañamiento 30 días' : 'Sesión estratégica de 90 minutos';
+      const planLabel = includesFollowup ? 'Implementación · primer mes' : 'Sesión estratégica de 90 minutos';
       console.log('Procesando compra de asesoría 90m...');
       const [customerMail, adminMail, listResult] = await Promise.all([
         sendDirectBrevoEmail({
           to: [{ email: customerEmail }],
-          subject: includesFollowup ? 'Tu acompañamiento de 30 días está reservado — siguiente paso' : 'Tu sesión 1:1 está reservada — siguiente paso',
+          subject: includesFollowup ? 'Tu primer mes de implementación está reservado — siguiente paso' : 'Tu sesión 1:1 está reservada — siguiente paso',
           idempotencyKey: notificationIdempotencyKey(eventId, 'customer'),
           htmlContent: `
             <div style="font-family:Arial,sans-serif;max-width:620px;margin:auto;color:#172018;line-height:1.65">

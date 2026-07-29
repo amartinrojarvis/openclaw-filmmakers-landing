@@ -65,11 +65,11 @@ export async function POST(request: NextRequest) {
     const startPreferenceLabel = serviceStartPreference === 'within14'
       ? 'Puede celebrarse dentro de 14 días (inicio anticipado solicitado)'
       : 'Celebrar después de los próximos 14 días';
-    const planLabel = includesFollowup ? 'Sesión + acompañamiento 30 días (199 €)' : 'Sesión estratégica de 90 minutos (75 €)';
+    const planLabel = includesFollowup ? 'Implementación · primer mes (199 €)' : 'Sesión estratégica de 90 minutos (75 €)';
     const adminEmail = await sendDirectBrevoEmail({
       to: [{ email: ADMIN_EMAIL, name: 'Alberto Martín' }],
       replyTo: { email: customerEmail, name },
-      subject: `Formulario recibido — ${name} · ${includesFollowup ? 'Acompañamiento 30 días' : 'Sesión IA 1:1'}`,
+      subject: `Formulario recibido — ${name} · ${includesFollowup ? 'Implementación · primer mes' : 'Sesión IA 1:1'}`,
       idempotencyKey: `iaf-intake-${sessionId}-admin`,
       htmlContent: `
         <div style="font-family:Arial,sans-serif;max-width:720px;margin:auto;color:#172018;line-height:1.65">

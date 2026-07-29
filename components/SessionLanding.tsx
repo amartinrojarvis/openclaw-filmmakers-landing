@@ -376,7 +376,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             <div className="mt-10 grid max-w-4xl gap-7 border-t border-[#f2eee5]/20 pt-7 sm:grid-cols-[1fr_auto] sm:items-end">
               <div>
                 <p className="max-w-2xl text-lg leading-8 text-[#f2eee5]/68 sm:text-xl">
-                  En 90 minutos trabajamos una prioridad real de tu negocio audiovisual. Saldrás con <strong className="font-semibold text-[#f2eee5]">un flujo aplicable, un primer prototipo cuando sea viable y una hoja de ruta clara</strong>.
+                  En 90 minutos trabajamos una prioridad real de tu negocio audiovisual. Saldrás con <strong className="font-semibold text-[#f2eee5]">un flujo aplicable, un primer prototipo cuando sea viable y tu mapa priorizado</strong>.
                 </p>
                 <p className="mt-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">Desde 75 € · precio final</p>
                 <p className="mt-2 text-sm leading-6 text-[#f2eee5]/55">Pago seguro → briefing breve → fecha confirmada en un máximo de 48 h laborables.</p>

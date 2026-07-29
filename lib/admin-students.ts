@@ -69,7 +69,7 @@ export function classifyProduct(priceIds: string[]): ProductKind | null {
 }
 
 function productLabel(kind: ProductKind): string {
-  if (kind === 'followup_30d') return 'Sesión 1:1 + acompañamiento 30 días';
+  if (kind === 'followup_30d') return 'Sesión 1:1 + implementación inicial';
   if (kind === 'session_90m') return 'Sesión estratégica de 90 minutos';
   if (kind === 'bundle') return 'Bundle IA para Filmmakers';
   return 'Guía IA para Filmmakers';

@@ -20,7 +20,7 @@ export function AdvisoryPurchaseTracker({ sessionId, value, includesFollowup }: 
         currency: 'EUR',
         items: [
           { id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 },
-          ...(includesFollowup ? [{ id: 'acompanamiento-30-dias', name: 'Acompañamiento 30 días', price: 124 }] : []),
+          ...(includesFollowup ? [{ id: 'acompanamiento-30-dias', name: 'Implementación · primer mes', price: 124 }] : []),
         ],
       });
       sessionStorage.setItem(storageKey, 'true');
