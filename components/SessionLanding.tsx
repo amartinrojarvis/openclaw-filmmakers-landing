@@ -22,6 +22,9 @@ const PAYMENT_LINKS: Record<AdvisoryPlan, string> = {
   followup30d: 'https://book.stripe.com/cNidR959Hc9ifwBfz28og0o',
 };
 
+// Contador editorial anunciado; Stripe sigue siendo el gate de cierre al agotarse.
+const PUBLISHED_REMAINING_SLOTS = 4;
+
 const situations = [
   ['01', 'Clientes y propuestas', 'Responder, presupuestar y hacer seguimiento sin perder tu tono.'],
   ['02', 'Guion y preproducción', 'Convertir briefings dispersos en estructuras y planes de rodaje útiles.'],
@@ -167,7 +170,34 @@ function CheckoutButton({ location, plan, inverse = false, children }: { locatio
   );
 }
 
-function Navigation({ availabilityLabel }: { availabilityLabel: string }) {
+function AvailabilityDisplay({ remainingSlots, prominent = false }: { remainingSlots: number | null; prominent?: boolean }) {
+  if (remainingSlots === 0) return <>Edición completa</>;
+  if (remainingSlots === null) return <>Plazas disponibles</>;
+
+  const slotLabel = remainingSlots === 1 ? 'plaza disponible' : 'plazas disponibles';
+  if (remainingSlots !== 4) return <>{remainingSlots} {slotLabel}</>;
+
+  return (
+    <span
+      className={`inline-flex items-center whitespace-nowrap border bg-[#ff5a2a]/[0.08] leading-none ${
+        prominent
+          ? 'gap-2 border-[#ff5a2a]/60 px-3 py-2 text-[11px] shadow-[0_0_0_1px_rgba(255,90,42,0.08)] sm:text-xs'
+          : 'gap-1.5 border-[#ff5a2a]/35 px-2.5 py-1'
+      }`}
+      aria-label="5 plazas iniciales; ahora solo quedan 4"
+    >
+      <span className="text-[#f2eee5]/60" aria-hidden="true">
+        <span className="font-black line-through decoration-[#ff5a2a] decoration-2">5</span> iniciales
+      </span>
+      <span className="text-[#ff5a2a]" aria-hidden="true">→</span>
+      <span className="inline-flex items-center gap-1 text-[#f2eee5]" aria-hidden="true">
+        quedan <strong className="bg-[#ff5a2a] px-1.5 py-1 text-[1.1em] font-black text-[#171612]">4</strong> plazas
+      </span>
+    </span>
+  );
+}
+
+function Navigation({ remainingSlots }: { remainingSlots: number | null }) {
   const [open, setOpen] = useState(false);
   const links = [
     ['#encaje', 'Para qué sirve'],
@@ -193,7 +223,7 @@ function Navigation({ availabilityLabel }: { availabilityLabel: string }) {
         </div>
 
         <a href="#sesion" className="hidden border-l border-[#f2eee5]/15 pl-8 text-xs font-extrabold uppercase tracking-[0.1em] text-[#f2eee5] hover:text-[#ff5a2a] md:block">
-          {availabilityLabel}
+          <AvailabilityDisplay remainingSlots={remainingSlots} />
         </a>
 
         <button type="button" onClick={() => setOpen(!open)} className="grid h-11 w-11 cursor-pointer place-items-center border border-[#f2eee5]/20 text-[#f2eee5] md:hidden" aria-expanded={open} aria-label={open ? 'Cerrar menú' : 'Abrir menú'}>
@@ -251,19 +281,22 @@ function MobileStickyCTA({ availabilityLabel, soldOut }: { availabilityLabel: st
 
 export function SessionLanding({ remainingSlots }: { remainingSlots: number | null }) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const soldOut = remainingSlots === 0;
-  const availabilityLabel = soldOut ? 'Edición completa' : '5 plazas disponibles';
+  const displayedSlots = remainingSlots === 0 ? 0 : PUBLISHED_REMAINING_SLOTS;
+  const soldOut = displayedSlots === 0;
+  const availabilityLabel = soldOut
+    ? 'Edición completa'
+    : `${displayedSlots} plazas disponibles`;
 
   return (
     <main className="bg-[#171612] pb-20 text-[#f2eee5] md:pb-0">
-      <Navigation availabilityLabel={availabilityLabel} />
+      <Navigation remainingSlots={displayedSlots} />
       <MobileStickyCTA availabilityLabel={availabilityLabel} soldOut={soldOut} />
 
       <section className="relative border-b border-[#f2eee5]/15 px-5 pb-16 pt-28 sm:px-8 sm:pb-24 sm:pt-36 lg:px-12">
         <div className="mx-auto grid max-w-[90rem] gap-12 lg:grid-cols-[1.22fr_.58fr] lg:items-end lg:gap-20">
           <div>
-            <p className="mb-8 flex items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[0.19em] text-[#ff5a2a]">
-              <span className="h-px w-9 bg-current" /> Oferta de lanzamiento · {availabilityLabel.toLowerCase()}
+            <p className="mb-8 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[10px] font-bold uppercase tracking-[0.19em] text-[#ff5a2a]">
+              <span className="hidden h-px w-9 bg-current sm:block" /> <span className="whitespace-nowrap">Oferta de lanzamiento ·</span> <AvailabilityDisplay remainingSlots={displayedSlots} prominent />
             </p>
             <h1 className="max-w-[18ch] text-balance text-[clamp(3.8rem,8.4vw,8.8rem)] font-black leading-[0.81] tracking-[-0.075em] text-[#f2eee5]">
               La IA no tiene que cambiar tu oficio.
