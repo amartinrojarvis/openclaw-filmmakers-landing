@@ -666,7 +666,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             <PurchaseAvailabilityDisplay remainingSlots={displayedSlots} />
           </div>
 
-          <div className="mt-14 grid gap-5 lg:grid-cols-2">
+          <div className="mt-14 grid gap-5 lg:grid-cols-2 lg:items-start">
             <article className="flex flex-col border border-[#171612] p-6 sm:p-8">
               <p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#b43414]">Sesión estratégica</p>
               <h3 className="font-editorial mt-7 max-w-xl text-[2.35rem] font-semibold leading-[0.95] tracking-[-0.045em] sm:text-5xl">Desbloquea el uso de la IA en tu negocio</h3>
