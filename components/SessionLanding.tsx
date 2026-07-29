@@ -179,21 +179,24 @@ function AvailabilityDisplay({ remainingSlots, prominent = false }: { remainingS
 
   if (prominent) {
     return (
-      <span
-        className="inline-grid grid-cols-[auto_auto_1fr] items-stretch border border-[#ff5a2a]/65 bg-[#ff5a2a]/[0.08] shadow-[0_14px_45px_rgba(255,90,42,0.12)]"
-        aria-label="Oferta de lanzamiento: solo quedan 4 de las 5 plazas iniciales; 1 plaza ya está reservada"
+      <a
+        href="#sesion"
+        className="group inline-grid cursor-pointer grid-cols-[auto_auto_1fr] items-stretch border border-[#ff5a2a]/65 bg-[#ff5a2a]/[0.08] shadow-[0_14px_45px_rgba(255,90,42,0.12)] transition-[border-color,background-color,box-shadow,transform] motion-safe:hover:-translate-y-0.5 hover:border-[#ff5a2a] hover:bg-[#ff5a2a]/[0.12] hover:shadow-[0_18px_50px_rgba(255,90,42,0.18)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5a2a] motion-reduce:transform-none"
+        aria-label="Oferta de lanzamiento: solo quedan 4 de las 5 plazas iniciales; 1 plaza ya está reservada. Ir a precios y reserva"
       >
         <span className="flex items-center border-r border-[#ff5a2a]/35 px-3 py-3 font-mono text-[9px] font-black uppercase tracking-[0.16em] text-[#ff5a2a] sm:px-4 sm:text-[10px]" aria-hidden="true">
           Solo quedan
         </span>
         <strong className="grid min-w-14 place-items-center bg-[#ff5a2a] px-3 text-3xl font-black leading-none tracking-[-0.06em] text-[#171612] sm:min-w-16 sm:text-4xl" aria-hidden="true">4</strong>
-        <span className="flex flex-col justify-center px-3 py-2.5 text-left sm:px-4" aria-hidden="true">
-          <span className="font-mono text-xs font-black uppercase tracking-[0.16em] text-[#f2eee5] sm:text-sm">Plazas</span>
-          <span className="mt-1 font-mono text-[8.5px] font-bold uppercase tracking-[0.06em] text-[#f2eee5]/60 sm:text-[9px]">
-            De <span className="line-through decoration-[#ff5a2a] decoration-2">5</span> iniciales · 1 reservada
+        <span className="flex flex-col justify-center px-2.5 py-2.5 text-left sm:px-4" aria-hidden="true">
+          <span className="flex items-center gap-1.5 font-mono text-xs font-black uppercase tracking-[0.16em] text-[#f2eee5] sm:gap-2 sm:text-sm">
+            Plazas <ArrowRight className="h-3 w-3 text-[#ff5a2a] transition-transform motion-safe:group-hover:translate-x-1 sm:h-3.5 sm:w-3.5" />
+          </span>
+          <span className="mt-1 whitespace-nowrap font-mono text-[8px] font-bold uppercase tracking-[0.03em] text-[#f2eee5]/60 sm:text-[9px] sm:tracking-[0.06em]">
+            5 iniciales · 1 reservada
           </span>
         </span>
-      </span>
+      </a>
     );
   }
 
@@ -203,13 +206,32 @@ function AvailabilityDisplay({ remainingSlots, prominent = false }: { remainingS
       aria-label="5 plazas iniciales; ahora solo quedan 4"
     >
       <span className="text-[#f2eee5]/60" aria-hidden="true">
-        <span className="font-black line-through decoration-[#ff5a2a] decoration-2">5</span> iniciales
+        <span className="font-black">5</span> iniciales
       </span>
       <span className="text-[#ff5a2a]" aria-hidden="true">→</span>
       <span className="inline-flex items-center gap-1 text-[#f2eee5]" aria-hidden="true">
         quedan <strong className="bg-[#ff5a2a] px-1.5 py-1 text-[1.1em] font-black text-[#171612]">4</strong> plazas
       </span>
     </span>
+  );
+}
+
+function PurchaseAvailabilityDisplay({ remainingSlots }: { remainingSlots: number | null }) {
+  if (remainingSlots === 0) return null;
+  if (remainingSlots !== 4) return <p className="mt-8 font-mono text-xs font-black uppercase tracking-[0.14em] text-[#b43414]">{remainingSlots ?? 'Varias'} plazas disponibles</p>;
+
+  return (
+    <aside
+      className="mt-9 inline-grid max-w-full grid-cols-[auto_auto_1fr] items-stretch border border-[#b43414]/70 bg-[#b43414]/[0.06] shadow-[0_12px_35px_rgba(180,52,20,0.08)]"
+      aria-label="Oferta de lanzamiento: solo quedan 4 de las 5 plazas iniciales; 1 plaza ya está reservada"
+    >
+      <span className="flex items-center border-r border-[#b43414]/30 px-3 py-3 font-mono text-[9px] font-black uppercase tracking-[0.14em] text-[#b43414] sm:px-5 sm:text-[10px]" aria-hidden="true">Solo quedan</span>
+      <strong className="grid min-w-14 place-items-center bg-[#b43414] px-3 text-3xl font-black leading-none tracking-[-0.06em] text-[#f2eee5] sm:min-w-16 sm:text-4xl" aria-hidden="true">4</strong>
+      <span className="flex flex-col justify-center px-3 py-2.5 text-left sm:px-5" aria-hidden="true">
+        <span className="font-mono text-xs font-black uppercase tracking-[0.14em] text-[#171612] sm:text-sm">Plazas</span>
+        <span className="mt-1 whitespace-nowrap font-mono text-[8.5px] font-bold uppercase tracking-[0.05em] text-[#171612]/60 sm:text-[9px]">De 5 iniciales · 1 reservada</span>
+      </span>
+    </aside>
   );
 }
 
@@ -611,6 +633,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
               Elige tu ritmo. <span className="font-editorial font-normal italic text-[#b43414]">Una sesión o un mes para implementarlo.</span>
             </h2>
             <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171612]/65">Ambas modalidades empiezan con la misma sesión práctica de 90 minutos. La diferencia es si después quieres implementar y ajustar el flujo con Alberto durante un mes.</p>
+            <PurchaseAvailabilityDisplay remainingSlots={displayedSlots} />
           </div>
 
           <div className="mt-14 grid gap-5 lg:grid-cols-2">
