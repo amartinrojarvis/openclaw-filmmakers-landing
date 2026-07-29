@@ -93,6 +93,7 @@
 
 ## Evidencias
 
+- Producción final: `/home/amartin/.hermes/backups/stripe/iaf-production-evidence-20260729.json`.
 - Estado E2E: `/home/amartin/.hermes/backups/stripe/iaf-qa-evidence-20260729.json`.
 - Portal E2E: `/home/amartin/.hermes/backups/stripe/iaf-qa-portal-evidence-20260729.json`.
 - Estado y limpieza QA: `/home/amartin/.hermes/backups/stripe/iaf-qa-state-20260729.json`.
