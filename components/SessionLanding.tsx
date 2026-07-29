@@ -177,13 +177,29 @@ function AvailabilityDisplay({ remainingSlots, prominent = false }: { remainingS
   const slotLabel = remainingSlots === 1 ? 'plaza disponible' : 'plazas disponibles';
   if (remainingSlots !== 4) return <>{remainingSlots} {slotLabel}</>;
 
+  if (prominent) {
+    return (
+      <span
+        className="inline-grid grid-cols-[auto_auto_1fr] items-stretch border border-[#ff5a2a]/65 bg-[#ff5a2a]/[0.08] shadow-[0_14px_45px_rgba(255,90,42,0.12)]"
+        aria-label="Oferta de lanzamiento: solo quedan 4 de las 5 plazas iniciales; 1 plaza ya está reservada"
+      >
+        <span className="flex items-center border-r border-[#ff5a2a]/35 px-3 py-3 font-mono text-[9px] font-black uppercase tracking-[0.16em] text-[#ff5a2a] sm:px-4 sm:text-[10px]" aria-hidden="true">
+          Solo quedan
+        </span>
+        <strong className="grid min-w-14 place-items-center bg-[#ff5a2a] px-3 text-3xl font-black leading-none tracking-[-0.06em] text-[#171612] sm:min-w-16 sm:text-4xl" aria-hidden="true">4</strong>
+        <span className="flex flex-col justify-center px-3 py-2.5 text-left sm:px-4" aria-hidden="true">
+          <span className="font-mono text-xs font-black uppercase tracking-[0.16em] text-[#f2eee5] sm:text-sm">Plazas</span>
+          <span className="mt-1 font-mono text-[8.5px] font-bold uppercase tracking-[0.06em] text-[#f2eee5]/60 sm:text-[9px]">
+            De <span className="line-through decoration-[#ff5a2a] decoration-2">5</span> iniciales · 1 reservada
+          </span>
+        </span>
+      </span>
+    );
+  }
+
   return (
     <span
-      className={`inline-flex items-center whitespace-nowrap border bg-[#ff5a2a]/[0.08] leading-none ${
-        prominent
-          ? 'gap-2 border-[#ff5a2a]/60 px-3 py-2 text-[11px] shadow-[0_0_0_1px_rgba(255,90,42,0.08)] sm:text-xs'
-          : 'gap-1.5 border-[#ff5a2a]/35 px-2.5 py-1'
-      }`}
+      className="inline-flex items-center gap-1.5 whitespace-nowrap border border-[#ff5a2a]/35 bg-[#ff5a2a]/[0.08] px-2.5 py-1 leading-none"
       aria-label="5 plazas iniciales; ahora solo quedan 4"
     >
       <span className="text-[#f2eee5]/60" aria-hidden="true">
@@ -295,9 +311,12 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
       <section className="relative border-b border-[#f2eee5]/15 px-5 pb-16 pt-28 sm:px-8 sm:pb-24 sm:pt-36 lg:px-12">
         <div className="mx-auto grid max-w-[90rem] gap-12 lg:grid-cols-[1.22fr_.58fr] lg:items-end lg:gap-20">
           <div>
-            <p className="mb-8 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[10px] font-bold uppercase tracking-[0.19em] text-[#ff5a2a]">
-              <span className="hidden h-px w-9 bg-current sm:block" /> <span className="whitespace-nowrap">Oferta de lanzamiento ·</span> <AvailabilityDisplay remainingSlots={displayedSlots} prominent />
-            </p>
+            <div className="mb-8 flex flex-col items-start gap-3">
+              <p className="flex items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[0.19em] text-[#ff5a2a]">
+                <span className="h-px w-9 bg-current" /> Oferta de lanzamiento
+              </p>
+              <AvailabilityDisplay remainingSlots={displayedSlots} prominent />
+            </div>
             <h1 className="max-w-[18ch] text-balance text-[clamp(3.8rem,8.4vw,8.8rem)] font-black leading-[0.81] tracking-[-0.075em] text-[#f2eee5]">
               La IA no tiene que cambiar tu oficio.
               <em className="font-editorial mt-4 block font-normal tracking-[-0.04em] text-[#ff5a2a]">Tiene que quitarte fricción.</em>
