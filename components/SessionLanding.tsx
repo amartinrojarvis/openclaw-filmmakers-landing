@@ -349,7 +349,7 @@ function MobileStickyCTA({ availabilityLabel, soldOut }: { availabilityLabel: st
 
 export function SessionLanding({ remainingSlots }: { remainingSlots: number | null }) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const displayedSlots = remainingSlots === 0 ? 0 : PUBLISHED_REMAINING_SLOTS;
+  const displayedSlots = remainingSlots ?? PUBLISHED_REMAINING_SLOTS;
   const soldOut = displayedSlots === 0;
   const availabilityLabel = soldOut
     ? 'Edición completa'

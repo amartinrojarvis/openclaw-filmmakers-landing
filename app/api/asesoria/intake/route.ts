@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdvisoryPlanFromPriceIds, getStripe } from '@/lib/stripe';
+import { getAdvisoryPlanFromPriceIds, getStripe, isCompletedPaidCheckout } from '@/lib/stripe';
 import { sendDirectBrevoEmail } from '@/lib/brevo';
 import { getClientIp, rateLimit } from '@/lib/rate-limit';
 
@@ -50,10 +50,10 @@ export async function POST(request: NextRequest) {
     const stripe = getStripe();
     const session = await stripe.checkout.sessions.retrieve(sessionId, { expand: ['line_items'] });
     const priceIds = session.line_items?.data.map((item) => item.price?.id).filter(Boolean) || [];
-    const plan = getAdvisoryPlanFromPriceIds(priceIds);
+    const plan = getAdvisoryPlanFromPriceIds(priceIds, session.mode);
     const customerEmail = session.customer_details?.email || session.customer_email;
 
-    if (session.payment_status !== 'paid' || !plan || !customerEmail) {
+    if (!isCompletedPaidCheckout(session) || !plan || !customerEmail) {
       return NextResponse.json({ error: 'No se ha podido verificar una reserva pagada para este formulario.' }, { status: 403 });
     }
 

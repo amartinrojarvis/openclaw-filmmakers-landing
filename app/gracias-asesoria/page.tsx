@@ -8,6 +8,7 @@ import {
   ASESORIA_PORTAL_LOGIN_URL,
   getAdvisoryPlanFromPriceIds,
   getStripe,
+  isCompletedPaidCheckout,
   type AdvisoryPlanKind,
 } from '@/lib/stripe';
 
@@ -33,8 +34,8 @@ export default async function GraciasAsesoriaPage({ searchParams }: Props) {
     try {
       const session = await getStripe().checkout.sessions.retrieve(sessionId, { expand: ['line_items'] });
       const priceIds = session.line_items?.data.map((item) => item.price?.id).filter(Boolean) || [];
-      plan = getAdvisoryPlanFromPriceIds(priceIds);
-      valid = session.payment_status === 'paid' && Boolean(plan);
+      plan = getAdvisoryPlanFromPriceIds(priceIds, session.mode);
+      valid = isCompletedPaidCheckout(session) && Boolean(plan);
       purchaseValue = (session.amount_total || 7500) / 100;
       email = session.customer_details?.email || session.customer_email || '';
       alreadySubmitted = session.metadata?.intake_submitted === 'true';

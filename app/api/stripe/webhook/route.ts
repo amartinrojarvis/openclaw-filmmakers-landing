@@ -7,6 +7,7 @@ import {
   getAdvisoryPlanFromPriceIds,
   getStripe,
   getProductTypeFromPriceId,
+  isCompletedPaidCheckout,
   STRIPE_PRICE_IDS,
   syncAdvisoryCapacity,
 } from '@/lib/stripe';
@@ -192,7 +193,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, eventId
 
   const priceId = lineItems[0]?.price?.id;
   const priceIds = lineItems.map((item) => item.price?.id).filter(Boolean);
-  const advisoryPlan = getAdvisoryPlanFromPriceIds(priceIds);
+  const advisoryPlan = getAdvisoryPlanFromPriceIds(priceIds, session.mode);
   productDescription = lineItems[0]?.description || 'unknown';
 
   console.log('Price ID encontrado:', priceId);
@@ -209,10 +210,14 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, eventId
   
   if (!productType) {
     console.error('❌ ERROR: Producto desconocido para priceId:', priceId);
-    console.log('Precio ID bekend:', priceId);
+    console.log('Precio ID bekannt:', priceId);
     console.log('GUIA ID:', STRIPE_PRICE_IDS.GUIA);
     console.log('BUNDLE ID:', STRIPE_PRICE_IDS.BUNDLE);
     return;
+  }
+
+  if (productType === 'asesoria_90m' && !isCompletedPaidCheckout(session)) {
+    throw new Error(`Checkout de asesoría no completado o no pagado: ${session.id}`);
   }
 
   console.log(`Procesando: Cliente ${customerEmail} compró ${productType}`);
@@ -238,7 +243,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, eventId
         sendDirectBrevoEmail({
           to: [{ email: customerEmail }],
           subject: isSubscription ? 'Tu suscripción mensual está activa — siguiente paso' : advisoryPlan === 'followup_30d' ? 'Tu primer mes de implementación está reservado — siguiente paso' : 'Tu sesión 1:1 está reservada — siguiente paso',
-          idempotencyKey: notificationIdempotencyKey(eventId, 'customer'),
+          idempotencyKey: notificationIdempotencyKey(session.id, 'customer'),
           htmlContent: `
             <div style="font-family:Arial,sans-serif;max-width:620px;margin:auto;color:#172018;line-height:1.65">
               <p>Hola,</p>
@@ -253,7 +258,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, eventId
         sendDirectBrevoEmail({
           to: [{ email: 'a.martinro@gmail.com', name: 'Alberto Martín' }],
           subject: 'Nueva reserva — enlace del formulario listo para enviar',
-          idempotencyKey: notificationIdempotencyKey(eventId, 'admin'),
+          idempotencyKey: notificationIdempotencyKey(session.id, 'admin'),
           htmlContent: `
             <div style="font-family:Arial,sans-serif;max-width:680px;margin:auto;color:#172018;line-height:1.65">
               <h1 style="font-size:28px;line-height:1.2">Nueva reserva pagada</h1>
@@ -280,7 +285,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, eventId
     } else if (productType === 'bundle') {
       console.log('Llamando sendBundleEmail + addContactToBrevoList BUNDLE...');
       const [bundleEmailRes, bundleListRes] = await Promise.all([
-        sendBundleEmail(customerEmail, notificationIdempotencyKey(eventId, 'bundle')),
+        sendBundleEmail(customerEmail, notificationIdempotencyKey(session.id, 'bundle')),
         addContactToBrevoList(customerEmail, BREVO_LIST_IDS.BUNDLE, {
           PRODUCTO: 'bundle',
           FECHA_COMPRA: new Date().toISOString(),

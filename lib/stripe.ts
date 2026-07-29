@@ -83,13 +83,31 @@ export function isAdvisoryPriceId(priceId?: string | null): boolean {
     || priceId === STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_SETUP;
 }
 
-export function getAdvisoryPlanFromPriceIds(priceIds: Array<string | null | undefined>): AdvisoryPlanKind | null {
+export function getAdvisoryPlanFromPriceIds(
+  priceIds: Array<string | null | undefined>,
+  mode?: string | null,
+): AdvisoryPlanKind | null {
   const ids = new Set(priceIds.filter((id): id is string => Boolean(id)));
-  if (ids.has(STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY)) return 'subscription_monthly';
+  const hasMonthly = ids.has(STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY);
+  const hasSetup = ids.has(STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_SETUP);
+  if (hasMonthly || hasSetup) {
+    return hasMonthly && hasSetup && (!mode || mode === 'subscription') ? 'subscription_monthly' : null;
+  }
   const hasBase = ids.has(STRIPE_PRICE_IDS.ASESORIA_90M) || ids.has(STRIPE_PRICE_IDS.ASESORIA_90M_LEGACY);
+  if (hasBase && mode && mode !== 'payment') return null;
   if (hasBase && ids.has(STRIPE_PRICE_IDS.ASESORIA_FOLLOWUP_30D)) return 'followup_30d';
   if (hasBase) return 'session_90m';
   return null;
+}
+
+export function isCompletedPaidCheckout(session: {
+  status?: string | null;
+  payment_status?: string | null;
+  metadata?: Record<string, string> | null;
+}): boolean {
+  if (session.status !== 'complete') return false;
+  if (session.payment_status === 'paid') return true;
+  return session.metadata?.qa === 'true' && session.payment_status === 'no_payment_required';
 }
 
 const CAPACITY_PAYMENT_LINK_IDS = [
