@@ -465,7 +465,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
                 No necesitas cuarenta herramientas. Necesitas construir la que encaja con tu forma de trabajar.
               </h2>
               <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171612]/65">
-                Para filmmakers, videógrafos, fotógrafos y pequeños equipos creativos. Estudiamos tu proceso, elegimos un caso de uso con sentido y definimos —o empezamos a construir— una herramienta adaptada a él.
+                Para filmmakers, videógrafos, fotógrafos y pequeños equipos creativos. Estos son los cinco sistemas que forman el mapa de un negocio audiovisual. En la sesión los revisamos, los priorizamos según tu caso y empezamos por el que más te está frenando.
               </p>
             </div>
           </div>
