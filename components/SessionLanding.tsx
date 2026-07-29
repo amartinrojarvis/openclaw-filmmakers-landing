@@ -76,17 +76,17 @@ const faqs = [
   {
     question: '¿Qué conseguiré en 90 minutos?',
     answer:
-      'Trabajaremos una prioridad real y saldrás con un flujo aplicable, una hoja de ruta resumida y, cuando el alcance lo permita, un primer prototipo funcional. No intentaremos automatizar todo tu negocio en una sola sesión.',
+      'Trabajaremos una prioridad real y saldrás con un flujo aplicable, el mapa de tus cinco sistemas priorizado y, cuando el alcance lo permita, un primer prototipo funcional. No intentaremos automatizar todo tu negocio en una sola sesión.',
   },
   {
     question: '¿Qué incluye exactamente el precio?',
     answer:
-      'Revisión previa del formulario, preparación del caso, sesión online de 90 minutos, diseño sobre tu caso real, hoja de ruta resumida y una consulta corta por email durante los siete días posteriores.',
+      'Revisión previa del formulario, preparación del caso, sesión online de 90 minutos, diseño sobre tu caso real, el mapa de tus cinco sistemas priorizado y una consulta corta por email durante los siete días posteriores.',
   },
   {
-    question: '¿Qué añade el acompañamiento de 30 días?',
+    question: '¿Qué añade la suscripción mensual?',
     answer:
-      'Incluye dos sesiones de seguimiento de 45 minutos, hasta cuatro consultas breves por email, revisión del flujo o prototipo y ajustes de la hoja de ruta. No es soporte ilimitado ni incluye desarrollo completo o integraciones complejas.',
+      'El primer mes incluye el diagnóstico y la construcción del primer sistema de tu mapa, terminado y en uso. A partir del segundo mes montamos un sistema nuevo cada mes, mantenemos lo ya construido y ajustamos lo que el uso real revele. No es soporte: es construcción continua.',
   },
   {
     question: '¿Incluye una automatización o aplicación completa?',
@@ -112,6 +112,21 @@ const faqs = [
     question: '¿Necesito saber de IA o programación?',
     answer:
       'No. Partimos de tu nivel y de las herramientas que ya utilizas. Si ya sabes de IA, de programación o de ambas, iremos más rápido y podremos profundizar más. La sesión está pensada para profesionales audiovisuales que quieren avanzar sin perderse entre aplicaciones.',
+  },
+  {
+    question: '¿Qué es el mapa?',
+    answer:
+      'Los cinco sistemas que forman un negocio audiovisual: clientes y propuestas, guion y preproducción, contenido y reutilización, edición asistida y procesos de negocio. En la sesión los revisamos y los ordenamos según tu caso. Cada mes construimos uno.',
+  },
+  {
+    question: '¿Puedo cancelar cuando quiera?',
+    answer:
+      'Sí. No hay permanencia: cancelas desde el mismo enlace de Stripe y la suscripción termina al final del periodo pagado. Si más adelante quieres volver, entrarás al precio que esté vigente en ese momento.',
+  },
+  {
+    question: '¿Me subirá el precio cuando acabe el piloto?',
+    answer:
+      'No. Quien entra durante el piloto conserva 149 €/mes mientras mantenga la suscripción activa de forma continuada. Los precios posteriores sólo se aplican a clientes nuevos.',
   },
 ];
 
