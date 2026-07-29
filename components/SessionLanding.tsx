@@ -630,9 +630,9 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
           <div>
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#b43414]">Oferta de lanzamiento · {availabilityLabel.toLowerCase()}</p>
             <h2 className="mt-7 max-w-5xl text-balance text-[clamp(2.1rem,10.5vw,2.55rem)] font-black leading-[0.86] tracking-[-0.065em] sm:text-[clamp(3.4rem,7vw,7.8rem)] sm:leading-[0.82] sm:tracking-[-0.075em]">
-              Elige tu ritmo. <span className="font-editorial font-normal italic text-[#b43414]">Una sesión o un mes para implementarlo.</span>
+              Elige tu ritmo. <span className="font-editorial font-normal italic text-[#b43414]">Una sesión suelta o construir tu sistema mes a mes.</span>
             </h2>
-            <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171612]/65">Ambas modalidades empiezan con la misma sesión práctica de 90 minutos. La diferencia es si después quieres implementar y ajustar el flujo con Alberto durante un mes.</p>
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171612]/65">Las dos modalidades empiezan con la misma sesión práctica de 90 minutos. La diferencia es si después quieres construir el mapa completo, un sistema cada mes.</p>
             <PurchaseAvailabilityDisplay remainingSlots={displayedSlots} />
           </div>
 
