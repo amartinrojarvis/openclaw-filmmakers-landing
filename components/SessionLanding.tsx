@@ -15,11 +15,11 @@ import {
 } from 'lucide-react';
 import { AnalyticsEvents } from '@/components/Analytics';
 
-type AdvisoryPlan = 'session' | 'followup30d';
+type AdvisoryPlan = 'session' | 'subscription';
 
 const PAYMENT_LINKS: Record<AdvisoryPlan, string> = {
   session: 'https://book.stripe.com/9B69AT0Tr3CMgAFdqU8og0n',
-  followup30d: 'https://book.stripe.com/cNidR959Hc9ifwBfz28og0o',
+  subscription: 'https://buy.stripe.com/4gM4gzdGd6OYesx0E88og0p',
 };
 
 // Contador editorial anunciado; Stripe sigue siendo el gate de cierre al agotarse.
@@ -31,6 +31,24 @@ const situations = [
   ['03', 'Contenido y reutilización', 'Sacar más recorrido a cada proyecto sin producir contenido genérico.'],
   ['04', 'Edición asistida', 'Acelerar tareas concretas sin entregar las decisiones creativas a una máquina.'],
   ['05', 'Procesos de negocio', 'Ordenar una tarea repetitiva en un flujo claro, documentado y repetible.'],
+];
+
+const firstMonthItems = [
+  'Revisión previa del briefing',
+  'Sesión de diagnóstico y construcción de 90 minutos',
+  'El mapa de tus cinco sistemas, priorizado',
+  'El primer sistema, montado y funcionando',
+  '1 seguimiento online de 45 minutos',
+  'Hasta 4 consultas por email',
+  'Respuesta en un máximo de 48 h laborables',
+];
+
+const continuityItems = [
+  'Un sistema nuevo del mapa, montado contigo en sesión',
+  'Sesión online de 45-60 minutos',
+  'Mantenimiento de todo lo ya construido',
+  'Hasta 4 consultas por email',
+  'Nota mensual: qué ha cambiado en IA y cómo te afecta',
 ];
 
 const directBenefits = [
@@ -58,17 +76,17 @@ const faqs = [
   {
     question: '¿Qué conseguiré en 90 minutos?',
     answer:
-      'Trabajaremos una prioridad real y saldrás con un flujo aplicable, una hoja de ruta resumida y, cuando el alcance lo permita, un primer prototipo funcional. No intentaremos automatizar todo tu negocio en una sola sesión.',
+      'Trabajaremos una prioridad real y saldrás con un flujo aplicable, el mapa de tus cinco sistemas priorizado y, cuando el alcance lo permita, un primer prototipo funcional. No intentaremos automatizar todo tu negocio en una sola sesión.',
   },
   {
     question: '¿Qué incluye exactamente el precio?',
     answer:
-      'Revisión previa del formulario, preparación del caso, sesión online de 90 minutos, diseño sobre tu caso real, hoja de ruta resumida y una consulta corta por email durante los siete días posteriores.',
+      'Revisión previa del formulario, preparación del caso, sesión online de 90 minutos, diseño sobre tu caso real, el mapa de tus cinco sistemas priorizado y una consulta corta por email durante los siete días posteriores.',
   },
   {
-    question: '¿Qué añade el acompañamiento de 30 días?',
+    question: '¿Qué añade la suscripción mensual?',
     answer:
-      'Incluye dos sesiones de seguimiento de 45 minutos, hasta cuatro consultas breves por email, revisión del flujo o prototipo y ajustes de la hoja de ruta. No es soporte ilimitado ni incluye desarrollo completo o integraciones complejas.',
+      'El primer mes incluye el diagnóstico y la construcción del primer sistema de tu mapa, terminado y en uso. A partir del segundo mes montamos un sistema nuevo cada mes, mantenemos lo ya construido y ajustamos lo que el uso real revele. No es soporte: es construcción continua.',
   },
   {
     question: '¿Incluye una automatización o aplicación completa?',
@@ -94,6 +112,21 @@ const faqs = [
     question: '¿Necesito saber de IA o programación?',
     answer:
       'No. Partimos de tu nivel y de las herramientas que ya utilizas. Si ya sabes de IA, de programación o de ambas, iremos más rápido y podremos profundizar más. La sesión está pensada para profesionales audiovisuales que quieren avanzar sin perderse entre aplicaciones.',
+  },
+  {
+    question: '¿Qué es el mapa?',
+    answer:
+      'Los cinco sistemas que forman un negocio audiovisual: clientes y propuestas, guion y preproducción, contenido y reutilización, edición asistida y procesos de negocio. En la sesión los revisamos y los ordenamos según tu caso. Cada mes construimos uno.',
+  },
+  {
+    question: '¿Puedo cancelar cuando quiera?',
+    answer:
+      'Sí. No hay permanencia: cancelas desde el portal seguro de Stripe que recibes después de la compra y la suscripción termina al final del periodo pagado. Si más adelante quieres volver, entrarás al precio que esté vigente en ese momento.',
+  },
+  {
+    question: '¿Me subirá el precio cuando acabe el piloto?',
+    answer:
+      'No. Quien entra durante el piloto conserva 149 €/mes mientras mantenga la suscripción activa de forma continuada. Los precios posteriores sólo se aplican a clientes nuevos.',
   },
 ];
 
@@ -141,14 +174,11 @@ function BenefitGraphic({ index }: { index: number }) {
 }
 
 function trackAdvisoryCheckout(location: string, plan: AdvisoryPlan) {
-  const items = [
-    { id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 },
-  ];
-  if (plan === 'followup30d') {
-    items.push({ id: 'acompanamiento-30-dias', name: 'Acompañamiento 30 días', price: 124 });
-  }
+  const items = plan === 'subscription'
+    ? [{ id: 'suscripcion-mensual-primer-mes', name: 'Suscripción mensual · primer mes', price: 199 }]
+    : [{ id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 }];
   AnalyticsEvents.beginCheckout(items);
-  AnalyticsEvents.clickCTA(location, plan === 'followup30d' ? 'Elegir acompañamiento 30 días' : 'Elegir sesión de 90 minutos');
+  AnalyticsEvents.clickCTA(location, plan === 'subscription' ? 'Construir mi sistema' : 'Elegir sesión de 90 minutos');
 }
 
 function CheckoutButton({ location, plan, inverse = false, children }: { location: string; plan: AdvisoryPlan; inverse?: boolean; children: React.ReactNode }) {
@@ -319,7 +349,7 @@ function MobileStickyCTA({ availabilityLabel, soldOut }: { availabilityLabel: st
 
 export function SessionLanding({ remainingSlots }: { remainingSlots: number | null }) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const displayedSlots = remainingSlots === 0 ? 0 : PUBLISHED_REMAINING_SLOTS;
+  const displayedSlots = remainingSlots ?? PUBLISHED_REMAINING_SLOTS;
   const soldOut = displayedSlots === 0;
   const availabilityLabel = soldOut
     ? 'Edición completa'
@@ -346,7 +376,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             <div className="mt-10 grid max-w-4xl gap-7 border-t border-[#f2eee5]/20 pt-7 sm:grid-cols-[1fr_auto] sm:items-end">
               <div>
                 <p className="max-w-2xl text-lg leading-8 text-[#f2eee5]/68 sm:text-xl">
-                  En 90 minutos trabajamos una prioridad real de tu negocio audiovisual. Saldrás con <strong className="font-semibold text-[#f2eee5]">un flujo aplicable, un primer prototipo cuando sea viable y una hoja de ruta clara</strong>.
+                  En 90 minutos trabajamos una prioridad real de tu negocio audiovisual. Saldrás con <strong className="font-semibold text-[#f2eee5]">un flujo aplicable, un primer prototipo cuando sea viable y tu mapa priorizado</strong>.
                 </p>
                 <p className="mt-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">Desde 75 € · precio final</p>
                 <p className="mt-2 text-sm leading-6 text-[#f2eee5]/55">Pago seguro → briefing breve → fecha confirmada en un máximo de 48 h laborables.</p>
@@ -465,7 +495,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
                 No necesitas cuarenta herramientas. Necesitas construir la que encaja con tu forma de trabajar.
               </h2>
               <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171612]/65">
-                Para filmmakers, videógrafos, fotógrafos y pequeños equipos creativos. Estudiamos tu proceso, elegimos un caso de uso con sentido y definimos —o empezamos a construir— una herramienta adaptada a él.
+                Para filmmakers, videógrafos, fotógrafos y pequeños equipos creativos. Estos son los cinco sistemas que forman el mapa de un negocio audiovisual. En la sesión los revisamos, los priorizamos según tu caso y empezamos por el que más te está frenando.
               </p>
             </div>
           </div>
@@ -515,7 +545,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             {[
               ['15 min', 'Aterrizamos', 'Tu negocio, el cuello de botella y qué resultado sería verdaderamente útil.'],
               ['60 min', 'Diseñamos y construimos', 'Creamos el flujo o una primera herramienta contigo, usando tus ejemplos, clientes o contenido.'],
-              ['15 min', 'Decidimos', 'Cerramos con una hoja de ruta breve para repetir, medir y mejorar.'],
+              ['15 min', 'Decidimos', 'Cerramos con tu mapa: los cinco sistemas priorizados y cuál construimos primero.'],
             ].map(([time, title, text], index) => (
               <article key={`${time}-${title}`} className={`py-8 lg:px-8 lg:py-10 ${index > 0 ? 'border-t border-[#f2eee5]/20 lg:border-l lg:border-t-0' : ''}`}>
                 <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#ff5a2a]">{time}</span>
@@ -630,22 +660,22 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
           <div>
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#b43414]">Oferta de lanzamiento · {availabilityLabel.toLowerCase()}</p>
             <h2 className="mt-7 max-w-5xl text-balance text-[clamp(2.1rem,10.5vw,2.55rem)] font-black leading-[0.86] tracking-[-0.065em] sm:text-[clamp(3.4rem,7vw,7.8rem)] sm:leading-[0.82] sm:tracking-[-0.075em]">
-              Elige tu ritmo. <span className="font-editorial font-normal italic text-[#b43414]">Una sesión o un mes para implementarlo.</span>
+              Elige tu ritmo. <span className="font-editorial font-normal italic text-[#b43414]">Una sesión suelta o construir tu sistema mes a mes.</span>
             </h2>
-            <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171612]/65">Ambas modalidades empiezan con la misma sesión práctica de 90 minutos. La diferencia es si después quieres implementar y ajustar el flujo con Alberto durante un mes.</p>
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-[#171612]/65">Las dos modalidades empiezan con la misma sesión práctica de 90 minutos. La diferencia es si después quieres construir el mapa completo, un sistema cada mes.</p>
             <PurchaseAvailabilityDisplay remainingSlots={displayedSlots} />
           </div>
 
-          <div className="mt-14 grid gap-5 lg:grid-cols-2">
+          <div className="mt-14 grid gap-5 lg:grid-cols-2 lg:items-start">
             <article className="flex flex-col border border-[#171612] p-6 sm:p-8">
               <p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#b43414]">Sesión estratégica</p>
               <h3 className="font-editorial mt-7 max-w-xl text-[2.35rem] font-semibold leading-[0.95] tracking-[-0.045em] sm:text-5xl">Desbloquea el uso de la IA en tu negocio</h3>
               <p className="mt-5 max-w-lg text-base leading-7 text-[#171612]/68">Vemos qué casos de uso reales puedes aplicar a tu flujo de trabajo y establecemos un plan para que puedas empezar a implementarlos.</p>
               <div className="mt-7 flex items-end gap-3"><span className="text-4xl font-black tracking-[-0.065em] sm:text-5xl">75 €</span><span className="pb-1.5 text-sm font-bold">precio final</span></div>
               <p className="mt-3 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#b43414]">Precio piloto · primeras 5 plazas</p>
-              <p className="mt-2 text-xs leading-5 text-[#171612]/58">Precio previsto después del piloto: <strong className="font-extrabold text-[#171612]">150 €</strong></p>
+              <p className="mt-2 text-xs leading-5 text-[#171612]/58">Precio previsto después del piloto: <strong className="font-extrabold text-[#171612]">149 €</strong></p>
               <ul className="mt-7 flex-1 space-y-3 border-t border-[#171612]/20 pt-6 text-sm font-semibold">
-                {['Revisión previa del briefing', 'Sesión online de 90 minutos', 'Diseño sobre tu caso real', 'Primer prototipo cuando sea viable', 'Hoja de ruta resumida', 'Una consulta breve por email durante 7 días'].map((item) => (
+                {['Revisión previa del briefing', 'Sesión online de 90 minutos', 'Diseño sobre tu caso real', 'Primer prototipo cuando sea viable', 'El mapa de tus cinco sistemas, priorizado', 'Una consulta breve por email durante 7 días'].map((item) => (
                   <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#b43414]" />{item}</li>
                 ))}
               </ul>
@@ -653,24 +683,61 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             </article>
 
             <article className="flex flex-col border border-[#171612] bg-[#171612] p-6 text-[#f2eee5] sm:p-8">
-              <div className="flex flex-wrap items-center justify-between gap-3"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#ff5a2a]">Acompañamiento 30 días</p><span className="border border-[#ff5a2a] px-3 py-1 font-mono text-[8px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">Para implementar</span></div>
-              <h3 className="font-editorial mt-7 max-w-xl text-[2.1rem] font-semibold leading-[0.96] tracking-[-0.04em] sm:text-[2.65rem]">Pasos detallados para implementar completamente herramientas que cubran tus casos de uso específicos.</h3>
-              <p className="mt-5 max-w-lg text-base leading-7 text-[#f2eee5]/68">La sesión inicial más un mes para revisar el sistema sobre el uso real y corregir lo que no funcione.</p>
-              <div className="mt-7 flex items-end gap-3"><span className="text-4xl font-black tracking-[-0.065em] sm:text-5xl">199 €</span><span className="pb-1.5 text-sm font-bold">precio final</span></div>
-              <p className="mt-3 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Precio piloto · primeras 5 plazas</p>
-              <p className="mt-2 text-xs leading-5 text-[#f2eee5]/58">Precio previsto después del piloto: <strong className="font-extrabold text-[#f2eee5]">350 €</strong></p>
-              <ul className="mt-7 flex-1 space-y-3 border-t border-[#f2eee5]/20 pt-6 text-sm font-semibold">
-                {['Todo lo incluido en la sesión estratégica', '2 seguimientos online de 45 minutos', 'Hasta 4 consultas breves por email', 'Revisión del flujo o prototipo', 'Ajustes de la hoja de ruta', 'Respuesta en un máximo de 48 h laborables'].map((item) => (
-                  <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#ff5a2a]" />{item}</li>
+              <div className="flex flex-wrap items-center justify-between gap-3"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#ff5a2a]">Suscripción mensual</p><span className="border border-[#ff5a2a] px-3 py-1 font-mono text-[8px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">Primer mes</span></div>
+              <h3 className="font-editorial mt-7 max-w-xl text-[2.1rem] font-semibold leading-[0.96] tracking-[-0.04em] sm:text-[2.65rem]">Implementación · primer mes</h3>
+              <p className="mt-5 max-w-lg text-base leading-7 text-[#f2eee5]/68">Construimos el primer sistema de tu mapa y lo dejamos funcionando. A partir de ahí, uno nuevo cada mes.</p>
+              <div className="mt-7 flex flex-wrap items-end gap-x-3 gap-y-2">
+                <span className="text-4xl font-black tracking-[-0.065em] sm:text-5xl">199 €</span>
+                <s className="pb-1.5 text-base font-bold text-[#f2eee5]/70"><span className="sr-only">Precio habitual: </span>349 €</s>
+              </div>
+              <p className="mt-2 text-sm font-bold text-[#f2eee5]/78">precio final · primer mes</p>
+
+              <div className="mt-7 border border-[#ff5a2a]/60 bg-[#ff5a2a]/[0.08] p-4 sm:p-5">
+                <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <span className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Después:</span>
+                  <strong className="text-2xl font-black tracking-[-0.04em]">149 €/mes</strong>
+                  <s className="text-sm font-bold text-[#f2eee5]/70"><span className="sr-only">Precio habitual: </span>199 €/mes</s>
+                </p>
+                <p className="mt-4 text-sm font-semibold leading-6 text-[#f2eee5]/82">Conservas 149 €/mes mientras mantengas la suscripción.</p>
+                <p className="mt-1 text-sm leading-6 text-[#f2eee5]/65">Sin permanencia: puedes cancelar cuando quieras.</p>
+              </div>
+
+              <p className="mt-5 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Precio piloto · primeras 5 plazas</p>
+              <ul className="mt-7 space-y-3 border-t border-[#f2eee5]/20 pt-6 text-sm font-semibold" aria-label="Incluido durante el primer mes">
+                {firstMonthItems.map((item) => (
+                  <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#ff5a2a]" aria-hidden="true" />{item}</li>
                 ))}
               </ul>
-              <div className="mt-8">{soldOut ? <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#f2eee5]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#f2eee5]/55">Edición completa</span> : <CheckoutButton location="pricing_followup" plan="followup30d">Implementar mi sistema</CheckoutButton>}</div>
+
+              <details className="group mt-7 border-t border-[#f2eee5]/20 md:hidden">
+                <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 font-mono text-[9px] font-bold uppercase tracking-[0.13em] text-[#ff5a2a] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5a2a] [&::-webkit-details-marker]:hidden">
+                  <span>Ver qué incluye cada mes siguiente</span>
+                  <ChevronDown className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none" aria-hidden="true" />
+                </summary>
+                <p className="border-t border-[#f2eee5]/12 pt-5 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Cada mes siguiente · 149 €</p>
+                <ul className="mt-5 space-y-3 text-sm font-semibold" aria-label="Incluido cada mes siguiente">
+                  {continuityItems.map((item) => (
+                    <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#ff5a2a]" aria-hidden="true" />{item}</li>
+                  ))}
+                </ul>
+              </details>
+
+              <div className="mt-7 hidden border-t border-[#f2eee5]/20 pt-6 md:block">
+                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Cada mes siguiente · 149 €</p>
+                <ul className="mt-5 space-y-3 text-sm font-semibold" aria-label="Incluido cada mes siguiente">
+                  {continuityItems.map((item) => (
+                    <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#ff5a2a]" aria-hidden="true" />{item}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-8">{soldOut ? <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#f2eee5]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#f2eee5]/55">Edición completa</span> : <CheckoutButton location="pricing_subscription" plan="subscription">Construir mi sistema</CheckoutButton>}</div>
             </article>
           </div>
 
           <div className="mt-7 grid gap-4 text-xs leading-5 text-[#171612]/60 sm:grid-cols-2">
             <p><ShieldCheck className="mr-1 inline h-3.5 w-3.5" /> Precios finales en el checkout. Stripe no añadirá IVA al total mostrado.</p>
-            <p>El acompañamiento no incluye desarrollo completo, integraciones complejas, ejecución por parte de Alberto ni soporte ilimitado.</p>
+            <p>La suscripción no incluye desarrollo completo, integraciones complejas, ejecución por parte de Alberto ni soporte ilimitado. Los costes de herramientas y APIs de terceros los asume el cliente.</p>
           </div>
           <p className="mt-4 text-xs leading-5 text-[#171612]/55">El pago reserva una plaza; la fecha se confirma después del briefing. Al continuar aceptas las <Link href="/condiciones" className="underline hover:text-[#b43414]">condiciones de contratación</Link>.</p>
 

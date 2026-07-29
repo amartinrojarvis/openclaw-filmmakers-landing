@@ -21,7 +21,7 @@ const FILTERS: { key: Filter; label: string }[] = [
 ];
 
 function isAdvisory(item: IafPurchase) {
-  return item.productKind === 'followup_30d' || item.productKind === 'session_90m';
+  return item.productKind === 'subscription_monthly' || item.productKind === 'followup_30d' || item.productKind === 'session_90m';
 }
 
 function filterPurchases(purchases: IafPurchase[], filter: Filter, query: string) {
@@ -29,7 +29,7 @@ function filterPurchases(purchases: IafPurchase[], filter: Filter, query: string
   return purchases.filter((item) => {
     if (filter === 'students' && (!isAdvisory(item) || item.isInternal)) return false;
     if (filter === 'active' && (item.isInternal || item.accessState !== 'active')) return false;
-    if (filter === 'pending' && (item.isInternal || !['pending_start', 'session_pending'].includes(item.accessState))) return false;
+    if (filter === 'pending' && (item.isInternal || !['pending_start', 'past_due', 'session_pending'].includes(item.accessState))) return false;
     if (filter === 'all' && item.isInternal) return false;
     if (filter === 'internal' && !item.isInternal) return false;
     if (!normalizedQuery) return true;
@@ -41,6 +41,7 @@ function stateLabel(state: AccessState) {
   const labels: Record<AccessState, string> = {
     pending_start: 'Falta fecha de inicio',
     active: 'Activo',
+    past_due: 'Pago pendiente',
     expired: 'Vencido',
     completed: 'Completado',
     cancelled: 'Cancelado',
@@ -53,6 +54,7 @@ function stateLabel(state: AccessState) {
 function stateClass(state: AccessState) {
   if (state === 'active' || state === 'lifetime') return 'border-lime-300/35 bg-lime-300/8 text-lime-200';
   if (state === 'pending_start' || state === 'session_pending') return 'border-amber-300/35 bg-amber-300/8 text-amber-100';
+  if (state === 'past_due') return 'border-orange-300/35 bg-orange-300/8 text-orange-100';
   if (state === 'expired' || state === 'cancelled') return 'border-red-300/35 bg-red-300/8 text-red-100';
   return 'border-[#f2eee5]/20 bg-[#f2eee5]/5 text-[#f2eee5]/70';
 }
@@ -75,7 +77,7 @@ export function AdminStudentsDashboard({ purchases, filter, query, updated, upda
   const visible = filterPurchases(purchases, filter, query);
   const realAdvisory = purchases.filter((item) => isAdvisory(item) && !item.isInternal);
   const active = realAdvisory.filter((item) => item.accessState === 'active').length;
-  const pending = realAdvisory.filter((item) => item.accessState === 'pending_start' || item.accessState === 'session_pending').length;
+  const pending = realAdvisory.filter((item) => ['pending_start', 'past_due', 'session_pending'].includes(item.accessState)).length;
   const endingSoon = realAdvisory.filter((item) => item.daysRemaining !== null && item.daysRemaining <= 7 && item.accessState === 'active').length;
   const stats: { label: string; value: number; Icon: LucideIcon }[] = [
     { label: 'Alumnos reales', value: realAdvisory.length, Icon: Users },
@@ -104,7 +106,7 @@ export function AdminStudentsDashboard({ purchases, filter, query, updated, upda
             <div className="flex items-center gap-3"><ShieldCheck className="h-5 w-5 text-[#ff5a2a]" /><span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#f2eee5]/42">Datos protegidos</span></div>
             <h1 className="font-editorial mt-4 text-[2.85rem] font-semibold leading-[0.88] tracking-[-0.055em] sm:mt-6 sm:text-[clamp(3.5rem,7vw,7rem)] sm:leading-[0.85] sm:tracking-[-0.06em]">Tus alumnos,<br />sin perder fechas.</h1>
           </div>
-          <p className="max-w-xl text-sm leading-6 text-[#f2eee5]/52 sm:text-base sm:leading-7 lg:justify-self-end">Solo aparecen compras pagadas con productos de IA para Filmmakers. El vencimiento del acompañamiento se calcula desde la sesión inicial.</p>
+          <p className="max-w-xl text-sm leading-6 text-[#f2eee5]/52 sm:text-base sm:leading-7 lg:justify-self-end">Solo aparecen compras pagadas con productos de IA para Filmmakers. El vencimiento de las modalidades anteriores se calcula desde la sesión inicial.</p>
         </section>
 
         {(updated || updateError) && (
@@ -165,10 +167,10 @@ export function AdminStudentsDashboard({ purchases, filter, query, updated, upda
                   </div>
                   <div className="grid grid-cols-2 gap-4 xl:grid-cols-1">
                     <div><p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#f2eee5]/28">Inicio</p><p className="mt-1 text-sm font-bold">{formatDate(item.serviceStart)}</p></div>
-                    <div><p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#f2eee5]/28">Finaliza</p><p className="mt-1 text-sm font-bold">{item.accessState === 'lifetime' ? 'No caduca' : formatDate(item.serviceEnd)}</p></div>
+                    <div><p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#f2eee5]/28">Finaliza</p><p className="mt-1 text-sm font-bold">{item.accessState === 'lifetime' ? 'No caduca' : item.productKind === 'subscription_monthly' && item.accessState === 'active' && !item.cancelAtPeriodEnd ? 'Renovación automática' : formatDate(item.serviceEnd)}</p></div>
                   </div>
                   <div className="xl:text-right">
-                    {item.daysRemaining !== null ? <><strong className="text-4xl text-[#ff5a2a]">{item.daysRemaining}</strong><span className="ml-2 font-mono text-[8px] uppercase text-[#f2eee5]/35">días</span></> : <span className="font-mono text-[9px] uppercase text-[#f2eee5]/35">{item.intakeSubmitted ? 'Briefing recibido' : 'Briefing pendiente'}</span>}
+                    {item.daysRemaining !== null ? <><strong className="text-4xl text-[#ff5a2a]">{item.daysRemaining}</strong><span className="ml-2 font-mono text-[8px] uppercase text-[#f2eee5]/35">días</span></> : <span className="font-mono text-[9px] uppercase text-[#f2eee5]/35">{item.productKind === 'subscription_monthly' && item.accessState === 'active' ? 'Renovación automática' : item.intakeSubmitted ? 'Briefing recibido' : 'Briefing pendiente'}</span>}
                   </div>
                 </div>
 
@@ -177,7 +179,7 @@ export function AdminStudentsDashboard({ purchases, filter, query, updated, upda
                     <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between px-5 font-mono text-[9px] font-bold uppercase tracking-[0.13em] text-[#f2eee5]/45 hover:text-[#ff5a2a] sm:px-7">Gestionar seguimiento <ChevronDown className="h-4 w-4 transition group-open:rotate-180" /></summary>
                     <form action={`/api/admin/students/${encodeURIComponent(item.id)}`} method="post" className="grid min-w-0 gap-4 border-t border-[#f2eee5]/10 bg-[#171612]/55 p-4 sm:gap-5 sm:p-7 lg:grid-cols-2 xl:grid-cols-4">
                       <label className="text-sm"><span className="mb-2 block font-mono text-[8px] uppercase tracking-[0.14em] text-[#f2eee5]/35">Fecha sesión inicial</span><input type="date" name="serviceStart" defaultValue={item.serviceStart || ''} className="min-h-12 w-full border border-[#f2eee5]/15 bg-[#171612] px-3 [color-scheme:dark]" /></label>
-                      <label className="text-sm"><span className="mb-2 block font-mono text-[8px] uppercase tracking-[0.14em] text-[#f2eee5]/35">Fecha final</span><input type="date" name="serviceEnd" defaultValue={item.serviceEnd || ''} className="min-h-12 w-full border border-[#f2eee5]/15 bg-[#171612] px-3 [color-scheme:dark]" /><small className="mt-2 block text-xs text-[#f2eee5]/28">Vacía = inicio + 30 días</small></label>
+                      <label className="text-sm"><span className="mb-2 block font-mono text-[8px] uppercase tracking-[0.14em] text-[#f2eee5]/35">Fecha final</span><input type="date" name="serviceEnd" defaultValue={item.productKind === 'subscription_monthly' ? '' : item.serviceEnd || ''} disabled={item.productKind === 'subscription_monthly'} className="min-h-12 w-full border border-[#f2eee5]/15 bg-[#171612] px-3 disabled:cursor-not-allowed disabled:opacity-45 [color-scheme:dark]" /><small className="mt-2 block text-xs text-[#f2eee5]/28">{item.productKind === 'subscription_monthly' ? 'Stripe controla el periodo y la cancelación' : 'Vacía = periodo original desde el inicio'}</small></label>
                       <label className="text-sm"><span className="mb-2 block font-mono text-[8px] uppercase tracking-[0.14em] text-[#f2eee5]/35">Estado</span><select name="status" defaultValue={item.adminStatus} className="min-h-12 w-full border border-[#f2eee5]/15 bg-[#171612] px-3"><option value="pending">Pendiente</option><option value="scheduled">Programado</option><option value="active">Activo</option><option value="completed">Completado</option><option value="cancelled">Cancelado</option></select></label>
                       <label className="text-sm"><span className="mb-2 block font-mono text-[8px] uppercase tracking-[0.14em] text-[#f2eee5]/35">Nota privada</span><textarea name="note" defaultValue={item.adminNote} maxLength={500} rows={3} className="w-full resize-y border border-[#f2eee5]/15 bg-[#171612] p-3" placeholder="Próxima acción, acuerdo o contexto" /></label>
                       <div className="flex flex-col items-stretch gap-4 border-t border-[#f2eee5]/10 pt-5 sm:flex-row sm:items-center sm:justify-between lg:col-span-2 xl:col-span-4">

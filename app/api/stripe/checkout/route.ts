@@ -37,8 +37,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     // Verificar que el priceId sea válido
-    const validPriceIds = [STRIPE_PRICE_IDS.GUIA, STRIPE_PRICE_IDS.BUNDLE, STRIPE_PRICE_IDS.ASESORIA_90M];
-    if (!validPriceIds.includes(priceId)) {
+    const validPriceIds = new Set<string>([
+      STRIPE_PRICE_IDS.GUIA,
+      STRIPE_PRICE_IDS.BUNDLE,
+      STRIPE_PRICE_IDS.ASESORIA_90M,
+    ]);
+    if (!validPriceIds.has(priceId)) {
       return NextResponse.json(
         { error: 'priceId no válido' },
         { status: 400 }
