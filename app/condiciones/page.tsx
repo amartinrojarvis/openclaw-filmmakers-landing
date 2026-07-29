@@ -39,8 +39,6 @@ export default function CondicionesPage() {
             <p>La plaza se considera reservada cuando Stripe confirma el primer pago.</p>
           </LegalSection>
 
-          {/* <!-- PENDIENTE REVISIÓN LEGAL --> */}
-          <span className="hidden" aria-hidden="true" dangerouslySetInnerHTML={{ __html: '<!-- PENDIENTE REVISIÓN LEGAL -->' }} />
           <LegalSection title="4. Suscripción, renovación y cancelación">
             <p>La modalidad de continuidad es una suscripción mensual recurrente. Se activa con el pago de <strong>199 €</strong> correspondiente al primer mes y se renueva automáticamente cada mes mediante Stripe por <strong>149 €/mes</strong> mientras se mantenga activa.</p>
             <p>No hay permanencia. El cliente puede cancelar desde el portal de cliente de Stripe. La cancelación evita la siguiente renovación y produce efecto al terminar el periodo ya pagado. No implica el reembolso del periodo en curso, sin perjuicio de los derechos legales que resulten aplicables.</p>

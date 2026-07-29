@@ -54,7 +54,18 @@ async function listCompletedSessions(): Promise<Stripe.Checkout.Session[]> {
 }
 
 async function toRawPurchase(session: Stripe.Checkout.Session): Promise<RawStripePurchase> {
-  const lineItems = await getStripe().checkout.sessions.listLineItems(session.id, { limit: 20 });
+  const stripe = getStripe();
+  const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 20 });
+  const subscriptionId = typeof session.subscription === 'string'
+    ? session.subscription
+    : session.subscription?.id;
+  const subscription = subscriptionId
+    ? await stripe.subscriptions.retrieve(subscriptionId)
+    : null;
+  const currentPeriodEnd = subscription
+    ? subscription.items.data.map((item) => item.current_period_end).filter(Boolean).sort((a, b) => b - a)[0]
+    : null;
+
   return {
     id: session.id,
     paymentStatus: session.payment_status,
@@ -66,6 +77,9 @@ async function toRawPurchase(session: Stripe.Checkout.Session): Promise<RawStrip
     priceIds: lineItems.data.map((item) => item.price?.id).filter((id): id is string => Boolean(id)),
     descriptions: lineItems.data.flatMap((item) => item.description ? [item.description] : []),
     metadata: session.metadata || {},
+    subscriptionStatus: subscription ? subscription.status : null,
+    subscriptionCancelAtPeriodEnd: subscription ? subscription.cancel_at_period_end : undefined,
+    subscriptionCurrentPeriodEnd: currentPeriodEnd ? new Date(currentPeriodEnd * 1000).toISOString() : null,
   };
 }
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getStripe, isAdvisoryBasePriceId, STRIPE_PRICE_IDS } from '@/lib/stripe';
+import { getAdvisoryPlanFromPriceIds, getStripe } from '@/lib/stripe';
 import { sendDirectBrevoEmail } from '@/lib/brevo';
 import { getClientIp, rateLimit } from '@/lib/rate-limit';
 
@@ -50,10 +50,10 @@ export async function POST(request: NextRequest) {
     const stripe = getStripe();
     const session = await stripe.checkout.sessions.retrieve(sessionId, { expand: ['line_items'] });
     const priceIds = session.line_items?.data.map((item) => item.price?.id).filter(Boolean) || [];
-    const includesFollowup = priceIds.includes(STRIPE_PRICE_IDS.ASESORIA_FOLLOWUP_30D);
+    const plan = getAdvisoryPlanFromPriceIds(priceIds);
     const customerEmail = session.customer_details?.email || session.customer_email;
 
-    if (session.payment_status !== 'paid' || !priceIds.some(isAdvisoryBasePriceId) || !customerEmail) {
+    if (session.payment_status !== 'paid' || !plan || !customerEmail) {
       return NextResponse.json({ error: 'No se ha podido verificar una reserva pagada para este formulario.' }, { status: 403 });
     }
 
@@ -65,11 +65,15 @@ export async function POST(request: NextRequest) {
     const startPreferenceLabel = serviceStartPreference === 'within14'
       ? 'Puede celebrarse dentro de 14 días (inicio anticipado solicitado)'
       : 'Celebrar después de los próximos 14 días';
-    const planLabel = includesFollowup ? 'Implementación · primer mes (199 €)' : 'Sesión estratégica de 90 minutos (75 €)';
+    const planLabel = plan === 'subscription_monthly'
+      ? 'Suscripción mensual · primer mes (199 €)'
+      : plan === 'followup_30d'
+        ? 'Implementación · modalidad anterior (199 €)'
+        : 'Sesión estratégica de 90 minutos (75 €)';
     const adminEmail = await sendDirectBrevoEmail({
       to: [{ email: ADMIN_EMAIL, name: 'Alberto Martín' }],
       replyTo: { email: customerEmail, name },
-      subject: `Formulario recibido — ${name} · ${includesFollowup ? 'Implementación · primer mes' : 'Sesión IA 1:1'}`,
+      subject: `Formulario recibido — ${name} · ${plan === 'subscription_monthly' ? 'Suscripción mensual' : plan === 'followup_30d' ? 'Implementación inicial' : 'Sesión IA 1:1'}`,
       idempotencyKey: `iaf-intake-${sessionId}-admin`,
       htmlContent: `
         <div style="font-family:Arial,sans-serif;max-width:720px;margin:auto;color:#172018;line-height:1.65">
@@ -104,7 +108,7 @@ export async function POST(request: NextRequest) {
         intake_submitted_at: new Date().toISOString(),
         service_start_preference: serviceStartPreference,
         early_start_accepted: String(serviceStartPreference === 'within14'),
-        advisory_plan: includesFollowup ? 'followup_30d' : 'session_90m',
+        advisory_plan: plan,
       },
     });
 

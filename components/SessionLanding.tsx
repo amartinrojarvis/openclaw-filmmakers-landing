@@ -15,11 +15,11 @@ import {
 } from 'lucide-react';
 import { AnalyticsEvents } from '@/components/Analytics';
 
-type AdvisoryPlan = 'session' | 'followup30d';
+type AdvisoryPlan = 'session' | 'subscription';
 
 const PAYMENT_LINKS: Record<AdvisoryPlan, string> = {
   session: 'https://book.stripe.com/9B69AT0Tr3CMgAFdqU8og0n',
-  followup30d: 'https://book.stripe.com/cNidR959Hc9ifwBfz28og0o',
+  subscription: 'https://buy.stripe.com/4gM4gzdGd6OYesx0E88og0p',
 };
 
 // Contador editorial anunciado; Stripe sigue siendo el gate de cierre al agotarse.
@@ -121,7 +121,7 @@ const faqs = [
   {
     question: '¿Puedo cancelar cuando quiera?',
     answer:
-      'Sí. No hay permanencia: cancelas desde el mismo enlace de Stripe y la suscripción termina al final del periodo pagado. Si más adelante quieres volver, entrarás al precio que esté vigente en ese momento.',
+      'Sí. No hay permanencia: cancelas desde el portal seguro de Stripe que recibes después de la compra y la suscripción termina al final del periodo pagado. Si más adelante quieres volver, entrarás al precio que esté vigente en ese momento.',
   },
   {
     question: '¿Me subirá el precio cuando acabe el piloto?',
@@ -174,11 +174,11 @@ function BenefitGraphic({ index }: { index: number }) {
 }
 
 function trackAdvisoryCheckout(location: string, plan: AdvisoryPlan) {
-  const items = plan === 'followup30d'
+  const items = plan === 'subscription'
     ? [{ id: 'suscripcion-mensual-primer-mes', name: 'Suscripción mensual · primer mes', price: 199 }]
     : [{ id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 }];
   AnalyticsEvents.beginCheckout(items);
-  AnalyticsEvents.clickCTA(location, plan === 'followup30d' ? 'Construir mi sistema' : 'Elegir sesión de 90 minutos');
+  AnalyticsEvents.clickCTA(location, plan === 'subscription' ? 'Construir mi sistema' : 'Elegir sesión de 90 minutos');
 }
 
 function CheckoutButton({ location, plan, inverse = false, children }: { location: string; plan: AdvisoryPlan; inverse?: boolean; children: React.ReactNode }) {
@@ -731,8 +731,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
                 </ul>
               </div>
 
-              {/* TODO: sustituir por payment link de suscripción */}
-              <div className="mt-8">{soldOut ? <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#f2eee5]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#f2eee5]/55">Edición completa</span> : <CheckoutButton location="pricing_subscription" plan="followup30d">Construir mi sistema</CheckoutButton>}</div>
+              <div className="mt-8">{soldOut ? <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#f2eee5]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#f2eee5]/55">Edición completa</span> : <CheckoutButton location="pricing_subscription" plan="subscription">Construir mi sistema</CheckoutButton>}</div>
             </article>
           </div>
 

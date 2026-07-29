@@ -61,3 +61,42 @@ test('la sesión de 90 minutos y los productos digitales no inventan caducidad',
   assert.equal(guide?.productKind, 'guia');
   assert.equal(guide?.accessState, 'lifetime');
 });
+
+test('clasifica una suscripción activa como renovación automática sin falso vencimiento', () => {
+  const result = normalizeIafPurchase(purchase({
+    priceIds: [STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY, STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_SETUP],
+    subscriptionStatus: 'active',
+    subscriptionCancelAtPeriodEnd: false,
+    subscriptionCurrentPeriodEnd: '2026-08-29T10:00:00.000Z',
+  }), '2026-07-29');
+  assert.equal(result?.productKind, 'subscription_monthly');
+  assert.equal(result?.accessState, 'active');
+  assert.equal(result?.serviceEnd, null);
+  assert.equal(result?.daysRemaining, null);
+  assert.equal(result?.cancelAtPeriodEnd, false);
+});
+
+test('muestra el final del periodo cuando la suscripción queda cancelada para renovar', () => {
+  const result = normalizeIafPurchase(purchase({
+    priceIds: [STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY, STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_SETUP],
+    subscriptionStatus: 'active',
+    subscriptionCancelAtPeriodEnd: true,
+    subscriptionCurrentPeriodEnd: '2026-08-29T10:00:00.000Z',
+  }), '2026-08-20');
+  assert.equal(result?.accessState, 'active');
+  assert.equal(result?.serviceEnd, '2026-08-29');
+  assert.equal(result?.daysRemaining, 9);
+  assert.equal(result?.cancelAtPeriodEnd, true);
+});
+
+test('marca el pago recurrente pendiente y rechaza el cargo inicial aislado', () => {
+  const result = normalizeIafPurchase(purchase({
+    priceIds: [STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY, STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_SETUP],
+    subscriptionStatus: 'past_due',
+    subscriptionCurrentPeriodEnd: '2026-08-29T10:00:00.000Z',
+  }), '2026-08-29');
+  assert.equal(result?.accessState, 'past_due');
+  assert.equal(normalizeIafPurchase(purchase({
+    priceIds: [STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_SETUP],
+  }), '2026-07-29'), null);
+});

@@ -3,8 +3,8 @@ import { STRIPE_PRICE_IDS as CORE_STRIPE_PRICE_IDS } from './stripe';
 
 export const STRIPE_PRICE_IDS = CORE_STRIPE_PRICE_IDS;
 
-export type ProductKind = 'guia' | 'bundle' | 'session_90m' | 'followup_30d';
-export type AccessState = 'pending_start' | 'active' | 'expired' | 'completed' | 'cancelled' | 'session_pending' | 'lifetime';
+export type ProductKind = 'guia' | 'bundle' | 'session_90m' | 'followup_30d' | 'subscription_monthly';
+export type AccessState = 'pending_start' | 'active' | 'past_due' | 'expired' | 'completed' | 'cancelled' | 'session_pending' | 'lifetime';
 export type AdminStatus = 'pending' | 'scheduled' | 'active' | 'completed' | 'cancelled';
 
 export interface RawStripePurchase {
@@ -18,6 +18,9 @@ export interface RawStripePurchase {
   priceIds: string[];
   descriptions?: string[];
   metadata: Record<string, string>;
+  subscriptionStatus?: string | null;
+  subscriptionCancelAtPeriodEnd?: boolean;
+  subscriptionCurrentPeriodEnd?: string | null;
 }
 
 export interface IafPurchase {
@@ -38,10 +41,12 @@ export interface IafPurchase {
   intakeSubmittedAt: string | null;
   adminNote: string;
   isInternal: boolean;
+  subscriptionStatus: string | null;
+  cancelAtPeriodEnd: boolean;
 }
 
 const VALID_DATE = /^\d{4}-\d{2}-\d{2}$/;
-const KNOWN_PRICE_IDS = new Set(Object.values(STRIPE_PRICE_IDS));
+const KNOWN_PRICE_IDS = new Set<string>(Object.values(STRIPE_PRICE_IDS));
 
 export function addCalendarDays(date: string, days: number): string {
   if (!VALID_DATE.test(date)) throw new Error('Fecha civil inválida');
@@ -60,6 +65,7 @@ function daysBetween(from: string, to: string): number {
 
 export function classifyProduct(priceIds: string[]): ProductKind | null {
   const ids = new Set(priceIds);
+  if (ids.has(STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY)) return 'subscription_monthly';
   const hasBaseAdvisory = ids.has(STRIPE_PRICE_IDS.ASESORIA_90M) || ids.has(STRIPE_PRICE_IDS.ASESORIA_90M_LEGACY);
   if (hasBaseAdvisory && ids.has(STRIPE_PRICE_IDS.ASESORIA_FOLLOWUP_30D)) return 'followup_30d';
   if (hasBaseAdvisory) return 'session_90m';
@@ -69,10 +75,18 @@ export function classifyProduct(priceIds: string[]): ProductKind | null {
 }
 
 function productLabel(kind: ProductKind): string {
+  if (kind === 'subscription_monthly') return 'Suscripción mensual · implementación';
   if (kind === 'followup_30d') return 'Sesión 1:1 + implementación inicial';
   if (kind === 'session_90m') return 'Sesión estratégica de 90 minutos';
   if (kind === 'bundle') return 'Bundle IA para Filmmakers';
   return 'Guía IA para Filmmakers';
+}
+
+function isInternalEmail(email: string): boolean {
+  const normalized = email.trim().toLowerCase();
+  return normalized === ADMIN_EMAIL
+    || normalized === 'a.martinro.jarvis@gmail.com'
+    || normalized.startsWith('a.martinro.jarvis+stripeqa@');
 }
 
 export function normalizeIafPurchase(raw: RawStripePurchase, today: string): IafPurchase | null {
@@ -83,12 +97,31 @@ export function normalizeIafPurchase(raw: RawStripePurchase, today: string): Iaf
   const metadata = raw.metadata || {};
   const start = VALID_DATE.test(metadata.iaf_service_start || '') ? metadata.iaf_service_start : null;
   const explicitEnd = VALID_DATE.test(metadata.iaf_service_end || '') ? metadata.iaf_service_end : null;
-  const end = kind === 'followup_30d' && start ? explicitEnd || addCalendarDays(start, 30) : null;
+  const subscriptionStatus = raw.subscriptionStatus || metadata.iaf_subscription_status || null;
+  const cancelAtPeriodEnd = raw.subscriptionCancelAtPeriodEnd ?? metadata.iaf_cancel_at_period_end === 'true';
+  const periodEndValue = raw.subscriptionCurrentPeriodEnd || metadata.iaf_current_period_end || '';
+  const periodEnd = periodEndValue && !Number.isNaN(Date.parse(periodEndValue)) ? periodEndValue.slice(0, 10) : null;
+  let end = kind === 'followup_30d' && start ? explicitEnd || addCalendarDays(start, 30) : explicitEnd;
   const storedStatus = metadata.iaf_admin_status;
   let accessState: AccessState;
   let daysRemaining: number | null = null;
 
-  if (storedStatus === 'cancelled') {
+  if (kind === 'subscription_monthly') {
+    if (subscriptionStatus === 'canceled' || subscriptionStatus === 'incomplete_expired') {
+      accessState = 'cancelled';
+      end = periodEnd;
+    } else if (subscriptionStatus === 'past_due' || subscriptionStatus === 'unpaid') {
+      accessState = 'past_due';
+      end = periodEnd;
+    } else if (subscriptionStatus === 'active' || subscriptionStatus === 'trialing') {
+      accessState = 'active';
+      end = cancelAtPeriodEnd ? periodEnd : null;
+      if (end) daysRemaining = daysBetween(today, end);
+    } else {
+      accessState = 'pending_start';
+      end = periodEnd;
+    }
+  } else if (storedStatus === 'cancelled') {
     accessState = 'cancelled';
   } else if (storedStatus === 'completed') {
     accessState = 'completed';
@@ -108,6 +141,15 @@ export function normalizeIafPurchase(raw: RawStripePurchase, today: string): Iaf
     accessState = 'lifetime';
   }
 
+  const derivedAdminStatus: AdminStatus = accessState === 'active'
+    ? 'active'
+    : accessState === 'cancelled'
+      ? 'cancelled'
+      : 'pending';
+  const adminStatus = storedStatus === 'scheduled' || storedStatus === 'active' || storedStatus === 'completed' || storedStatus === 'cancelled'
+    ? storedStatus
+    : derivedAdminStatus;
+
   return {
     id: raw.id,
     customerName: raw.customerName?.trim() || 'Sin nombre',
@@ -121,12 +163,12 @@ export function normalizeIafPurchase(raw: RawStripePurchase, today: string): Iaf
     serviceEnd: end,
     daysRemaining,
     accessState,
-    adminStatus: storedStatus === 'scheduled' || storedStatus === 'active' || storedStatus === 'completed' || storedStatus === 'cancelled'
-      ? storedStatus
-      : 'pending',
+    adminStatus,
     intakeSubmitted: metadata.intake_submitted === 'true',
     intakeSubmittedAt: metadata.intake_submitted_at || null,
     adminNote: (metadata.iaf_admin_note || '').slice(0, 500),
-    isInternal: raw.customerEmail?.trim().toLowerCase() === ADMIN_EMAIL,
+    isInternal: isInternalEmail(raw.customerEmail || ''),
+    subscriptionStatus,
+    cancelAtPeriodEnd,
   };
 }

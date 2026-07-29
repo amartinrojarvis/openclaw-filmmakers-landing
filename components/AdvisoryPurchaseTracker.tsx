@@ -3,36 +3,34 @@
 import { useEffect } from 'react';
 import { AnalyticsEvents } from '@/components/Analytics';
 import { getConsent } from '@/lib/cookies';
+import type { AdvisoryPlanKind } from '@/lib/stripe';
 
-type Props = { sessionId: string; value: number; includesFollowup: boolean };
+type Props = { sessionId: string; value: number; plan: AdvisoryPlanKind };
 
-export function AdvisoryPurchaseTracker({ sessionId, value, includesFollowup }: Props) {
+export function AdvisoryPurchaseTracker({ sessionId, value, plan }: Props) {
   useEffect(() => {
     const storageKey = `asesoria-purchase:${sessionId}`;
-
     const track = () => {
-      const consent = getConsent();
-      if ((!consent?.analytics && !consent?.marketing) || sessionStorage.getItem(storageKey)) return;
-
+      if (!getConsent()?.analytics || sessionStorage.getItem(storageKey)) return;
+      const items = plan === 'subscription_monthly'
+        ? [{ id: 'suscripcion-mensual-primer-mes', name: 'Suscripción mensual · primer mes', price: 199 }]
+        : [
+            { id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 },
+            ...(plan === 'followup_30d' ? [{ id: 'acompanamiento-30-dias', name: 'Implementación · modalidad anterior', price: 124 }] : []),
+          ];
       AnalyticsEvents.purchase({
         id: sessionId,
         value,
-        currency: 'EUR',
-        items: [
-          { id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 },
-          ...(includesFollowup ? [{ id: 'acompanamiento-30-dias', name: 'Implementación · primer mes', price: 124 }] : []),
-        ],
+        items,
       });
-      sessionStorage.setItem(storageKey, 'true');
+      sessionStorage.setItem(storageKey, '1');
     };
-
-    const timer = window.setTimeout(track, 900);
+    track();
     window.addEventListener('cookieConsentChanged', track);
     return () => {
-      window.clearTimeout(timer);
       window.removeEventListener('cookieConsentChanged', track);
     };
-  }, [includesFollowup, sessionId, value]);
+  }, [plan, sessionId, value]);
 
   return null;
 }
