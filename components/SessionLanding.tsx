@@ -723,7 +723,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
 
           <div className="mt-7 grid gap-4 text-xs leading-5 text-[#171612]/60 sm:grid-cols-2">
             <p><ShieldCheck className="mr-1 inline h-3.5 w-3.5" /> Precios finales en el checkout. Stripe no añadirá IVA al total mostrado.</p>
-            <p>El acompañamiento no incluye desarrollo completo, integraciones complejas, ejecución por parte de Alberto ni soporte ilimitado.</p>
+            <p>La suscripción no incluye desarrollo completo, integraciones complejas, ejecución por parte de Alberto ni soporte ilimitado. Los costes de herramientas y APIs de terceros los asume el cliente.</p>
           </div>
           <p className="mt-4 text-xs leading-5 text-[#171612]/55">El pago reserva una plaza; la fecha se confirma después del briefing. Al continuar aceptas las <Link href="/condiciones" className="underline hover:text-[#b43414]">condiciones de contratación</Link>.</p>
 
