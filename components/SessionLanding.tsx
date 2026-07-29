@@ -515,7 +515,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             {[
               ['15 min', 'Aterrizamos', 'Tu negocio, el cuello de botella y qué resultado sería verdaderamente útil.'],
               ['60 min', 'Diseñamos y construimos', 'Creamos el flujo o una primera herramienta contigo, usando tus ejemplos, clientes o contenido.'],
-              ['15 min', 'Decidimos', 'Cerramos con una hoja de ruta breve para repetir, medir y mejorar.'],
+              ['15 min', 'Decidimos', 'Cerramos con tu mapa: los cinco sistemas priorizados y cuál construimos primero.'],
             ].map(([time, title, text], index) => (
               <article key={`${time}-${title}`} className={`py-8 lg:px-8 lg:py-10 ${index > 0 ? 'border-t border-[#f2eee5]/20 lg:border-l lg:border-t-0' : ''}`}>
                 <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#ff5a2a]">{time}</span>
