@@ -27,11 +27,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   
   const payload = await request.text();
   const signature = request.headers.get('stripe-signature');
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  const webhookSecrets = [process.env.STRIPE_WEBHOOK_SECRET, process.env.STRIPE_QA_WEBHOOK_SECRET]
+    .filter((secret): secret is string => Boolean(secret));
   const stripeKey = process.env.STRIPE_SECRET_KEY;
 
   console.log('Signature exists:', !!signature);
-  console.log('Webhook secret exists:', !!webhookSecret);
+  console.log('Webhook secret exists:', webhookSecrets.length > 0);
   console.log('Stripe key exists:', !!stripeKey);
 
   if (!signature) {
@@ -42,7 +43,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  if (!webhookSecret) {
+  if (webhookSecrets.length === 0) {
     console.error('Webhook: STRIPE_WEBHOOK_SECRET no configurado');
     return NextResponse.json(
       { error: 'Webhook secret no configurado' },
@@ -50,12 +51,21 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  let event: Stripe.Event;
+  let event: Stripe.Event | null = null;
 
   try {
     // Verificar la firma del webhook
     console.log('Verificando firma...');
-    event = getStripe().webhooks.constructEvent(payload, signature, webhookSecret);
+    let lastError: unknown;
+    for (const secret of webhookSecrets) {
+      try {
+        event = getStripe().webhooks.constructEvent(payload, signature, secret);
+        break;
+      } catch (error) {
+        lastError = error;
+      }
+    }
+    if (!event) throw lastError || new Error('Ningún secreto aceptó la firma');
     console.log('Firma verificada OK. Event type:', event.type);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
@@ -332,7 +342,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, eventId
   } else {
     console.error(`❌ ERROR enviando email a ${customerEmail}:`, emailResult.error);
   }
-  if (productType === 'asesoria_90m') {
+  if (productType === 'asesoria_90m' && session.metadata?.qa !== 'true') {
     try {
       const inventory = await syncAdvisoryCapacity();
       console.log(`Capacidad de asesoría sincronizada: ${inventory.remaining} plazas restantes`);
