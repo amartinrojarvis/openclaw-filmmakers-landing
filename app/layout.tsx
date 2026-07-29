@@ -18,7 +18,7 @@ const newsreader = Newsreader({
 
 const siteUrl = 'https://www.iaparafilmmakers.es';
 const shareTitle = 'Desbloquea el uso de la IA en tu negocio audiovisual';
-const shareDescription = 'Sesión práctica 1:1 de 90 minutos para detectar casos de uso reales y crear un plan para empezar a implementarlos.';
+const shareDescription = 'Sesión práctica 1:1 de 90 minutos y suscripción mensual para construir, un sistema cada mes, la IA de tu negocio audiovisual.';
 const shareImage = '/social-preview-asesoria-v3.png';
 
 const reloadScrollResetScript = `
