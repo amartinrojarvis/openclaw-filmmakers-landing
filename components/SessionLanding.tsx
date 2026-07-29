@@ -643,9 +643,9 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
               <p className="mt-5 max-w-lg text-base leading-7 text-[#171612]/68">Vemos qué casos de uso reales puedes aplicar a tu flujo de trabajo y establecemos un plan para que puedas empezar a implementarlos.</p>
               <div className="mt-7 flex items-end gap-3"><span className="text-4xl font-black tracking-[-0.065em] sm:text-5xl">75 €</span><span className="pb-1.5 text-sm font-bold">precio final</span></div>
               <p className="mt-3 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#b43414]">Precio piloto · primeras 5 plazas</p>
-              <p className="mt-2 text-xs leading-5 text-[#171612]/58">Precio previsto después del piloto: <strong className="font-extrabold text-[#171612]">150 €</strong></p>
+              <p className="mt-2 text-xs leading-5 text-[#171612]/58">Precio previsto después del piloto: <strong className="font-extrabold text-[#171612]">149 €</strong></p>
               <ul className="mt-7 flex-1 space-y-3 border-t border-[#171612]/20 pt-6 text-sm font-semibold">
-                {['Revisión previa del briefing', 'Sesión online de 90 minutos', 'Diseño sobre tu caso real', 'Primer prototipo cuando sea viable', 'Hoja de ruta resumida', 'Una consulta breve por email durante 7 días'].map((item) => (
+                {['Revisión previa del briefing', 'Sesión online de 90 minutos', 'Diseño sobre tu caso real', 'Primer prototipo cuando sea viable', 'El mapa de tus cinco sistemas, priorizado', 'Una consulta breve por email durante 7 días'].map((item) => (
                   <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#b43414]" />{item}</li>
                 ))}
               </ul>
