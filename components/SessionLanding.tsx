@@ -38,14 +38,14 @@ const firstMonthItems = [
   'Sesión de diagnóstico y construcción de 90 minutos',
   'El mapa de tus cinco sistemas, priorizado',
   'El primer sistema, montado y funcionando',
-  '1 seguimiento online de 45 minutos',
+  '1 seguimiento online de 1 hora',
   'Hasta 4 consultas por email',
   'Respuesta en un máximo de 48 h laborables',
 ];
 
 const continuityItems = [
   'Un sistema nuevo del mapa, montado contigo en sesión',
-  'Sesión online de 45-60 minutos',
+  'Sesión semanal online de 1 hora',
   'Mantenimiento de todo lo ya construido',
   'Hasta 4 consultas por email',
   'Nota mensual: qué ha cambiado en IA y cómo te afecta',
@@ -86,7 +86,7 @@ const faqs = [
   {
     question: '¿Qué añade la suscripción mensual?',
     answer:
-      'El primer mes incluye el diagnóstico y la construcción del primer sistema de tu mapa, terminado y en uso. A partir del segundo mes montamos un sistema nuevo cada mes, mantenemos lo ya construido y ajustamos lo que el uso real revele. No es soporte: es construcción continua.',
+      'El primer mes incluye el diagnóstico y la construcción del primer sistema de tu mapa, terminado y en uso. A partir del segundo mes montamos un sistema nuevo cada mes con sesión semanal, mantenemos lo ya construido y ajustamos lo que el uso real revele. No es soporte: es construcción continua.',
   },
   {
     question: '¿Incluye una automatización o aplicación completa?',
@@ -685,7 +685,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             <article className="flex flex-col border border-[#171612] bg-[#171612] p-6 text-[#f2eee5] sm:p-8">
               <div className="flex flex-wrap items-center justify-between gap-3"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#ff5a2a]">Suscripción mensual</p><span className="border border-[#ff5a2a] px-3 py-1 font-mono text-[8px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">Primer mes</span></div>
               <h3 className="font-editorial mt-7 max-w-xl text-[2.1rem] font-semibold leading-[0.96] tracking-[-0.04em] sm:text-[2.65rem]">Implementación · primer mes</h3>
-              <p className="mt-5 max-w-lg text-base leading-7 text-[#f2eee5]/68">Construimos el primer sistema de tu mapa y lo dejamos funcionando. A partir de ahí, uno nuevo cada mes.</p>
+              <p className="mt-5 max-w-lg text-base leading-7 text-[#f2eee5]/68">Construimos el primer sistema de tu mapa y lo dejamos funcionando. A partir de ahí, uno nuevo cada mes con sesión semanal.</p>
               <div className="mt-7 flex flex-wrap items-end gap-x-3 gap-y-2">
                 <span className="text-4xl font-black tracking-[-0.065em] sm:text-5xl">199 €</span>
                 <s className="pb-1.5 text-base font-bold text-[#f2eee5]/70"><span className="sr-only">Precio habitual: </span>349 €</s>
