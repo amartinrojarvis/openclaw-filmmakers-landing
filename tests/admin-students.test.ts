@@ -64,7 +64,7 @@ test('la sesión de 90 minutos y los productos digitales no inventan caducidad',
 
 test('clasifica una suscripción activa como renovación automática sin falso vencimiento', () => {
   const result = normalizeIafPurchase(purchase({
-    priceIds: [STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY, STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_SETUP],
+    priceIds: [STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY],
     subscriptionStatus: 'active',
     subscriptionCancelAtPeriodEnd: false,
     subscriptionCurrentPeriodEnd: '2026-08-29T10:00:00.000Z',
@@ -76,9 +76,22 @@ test('clasifica una suscripción activa como renovación automática sin falso v
   assert.equal(result?.cancelAtPeriodEnd, false);
 });
 
+test('mantiene reconocible una suscripción histórica de 149 €/mes + inicio', () => {
+  const result = normalizeIafPurchase(purchase({
+    priceIds: [
+      STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY_LEGACY_149,
+      STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_SETUP,
+    ],
+    subscriptionStatus: 'active',
+    subscriptionCancelAtPeriodEnd: false,
+  }), '2026-08-17');
+  assert.equal(result?.productKind, 'subscription_monthly');
+  assert.equal(result?.accessState, 'active');
+});
+
 test('muestra el final del periodo cuando la suscripción queda cancelada para renovar', () => {
   const result = normalizeIafPurchase(purchase({
-    priceIds: [STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY, STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_SETUP],
+    priceIds: [STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY],
     subscriptionStatus: 'active',
     subscriptionCancelAtPeriodEnd: true,
     subscriptionCurrentPeriodEnd: '2026-08-29T10:00:00.000Z',
@@ -91,7 +104,7 @@ test('muestra el final del periodo cuando la suscripción queda cancelada para r
 
 test('marca el pago recurrente pendiente y rechaza el cargo inicial aislado', () => {
   const result = normalizeIafPurchase(purchase({
-    priceIds: [STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY, STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_SETUP],
+    priceIds: [STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY],
     subscriptionStatus: 'past_due',
     subscriptionCurrentPeriodEnd: '2026-08-29T10:00:00.000Z',
   }), '2026-08-29');

@@ -65,7 +65,10 @@ function daysBetween(from: string, to: string): number {
 
 export function classifyProduct(priceIds: string[]): ProductKind | null {
   const ids = new Set(priceIds);
-  if (ids.has(STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY)) return 'subscription_monthly';
+  if (
+    ids.has(STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY)
+    || ids.has(STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY_LEGACY_149)
+  ) return 'subscription_monthly';
   const hasBaseAdvisory = ids.has(STRIPE_PRICE_IDS.ASESORIA_90M) || ids.has(STRIPE_PRICE_IDS.ASESORIA_90M_LEGACY);
   if (hasBaseAdvisory && ids.has(STRIPE_PRICE_IDS.ASESORIA_FOLLOWUP_30D)) return 'followup_30d';
   if (hasBaseAdvisory) return 'session_90m';

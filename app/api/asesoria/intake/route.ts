@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
       ? 'Puede celebrarse dentro de 14 días (inicio anticipado solicitado)'
       : 'Celebrar después de los próximos 14 días';
     const planLabel = plan === 'subscription_monthly'
-      ? 'Suscripción mensual · primer mes (199 €)'
+      ? 'Suscripción mensual (199 €/mes)'
       : plan === 'followup_30d'
         ? 'Implementación · modalidad anterior (199 €)'
         : 'Sesión estratégica de 90 minutos (75 €)';

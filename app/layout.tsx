@@ -166,6 +166,30 @@ function StructuredData() {
       url: siteUrl,
       inLanguage: 'es-ES',
     },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Implementación mensual de IA para negocios audiovisuales',
+      description: 'Suscripción mensual para construir un sistema de IA nuevo cada mes, mantener lo ya implantado y trabajar en una sesión semanal individual.',
+      provider: { '@type': 'Person', name: 'Alberto Martín' },
+      areaServed: 'ES',
+      serviceType: 'Implementación mensual de inteligencia artificial para profesionales audiovisuales',
+      offers: {
+        '@type': 'Offer',
+        price: '199.00',
+        priceCurrency: 'EUR',
+        url: `${siteUrl}/#sesion`,
+        availability: 'https://schema.org/LimitedAvailability',
+        priceSpecification: {
+          '@type': 'UnitPriceSpecification',
+          price: '199.00',
+          priceCurrency: 'EUR',
+          unitCode: 'MON',
+          referenceQuantity: { '@type': 'QuantitativeValue', value: 1, unitCode: 'MON' },
+          valueAddedTaxIncluded: true,
+        },
+      },
+    },
   ];
 
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;

@@ -7,17 +7,26 @@ import {
 } from '../lib/stripe';
 
 const monthly = STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY;
+const legacyMonthly = STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY_LEGACY_149;
 const setup = STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_SETUP;
 
-test('la suscripción exige monthly + setup, acepta ambos órdenes y mode=subscription', () => {
-  assert.equal(getAdvisoryPlanFromPriceIds([monthly, setup], 'subscription'), 'subscription_monthly');
-  assert.equal(getAdvisoryPlanFromPriceIds([setup, monthly], 'subscription'), 'subscription_monthly');
+test('la oferta actual acepta únicamente el precio recurrente de 199 €/mes', () => {
+  assert.equal(getAdvisoryPlanFromPriceIds([monthly], 'subscription'), 'subscription_monthly');
+  assert.equal(getAdvisoryPlanFromPriceIds([monthly]), 'subscription_monthly');
 });
 
-test('rechaza monthly o setup aislados y la combinación en mode=payment', () => {
-  assert.equal(getAdvisoryPlanFromPriceIds([monthly], 'subscription'), null);
+test('conserva la oferta histórica de 149 €/mes + 50 € de inicio en ambos órdenes', () => {
+  assert.equal(getAdvisoryPlanFromPriceIds([legacyMonthly, setup], 'subscription'), 'subscription_monthly');
+  assert.equal(getAdvisoryPlanFromPriceIds([setup, legacyMonthly], 'subscription'), 'subscription_monthly');
+});
+
+test('rechaza precios históricos aislados, mezclas entre ofertas y mode=payment', () => {
+  assert.equal(getAdvisoryPlanFromPriceIds([legacyMonthly], 'subscription'), null);
   assert.equal(getAdvisoryPlanFromPriceIds([setup], 'subscription'), null);
-  assert.equal(getAdvisoryPlanFromPriceIds([monthly, setup], 'payment'), null);
+  assert.equal(getAdvisoryPlanFromPriceIds([monthly, setup], 'subscription'), null);
+  assert.equal(getAdvisoryPlanFromPriceIds([monthly, legacyMonthly], 'subscription'), null);
+  assert.equal(getAdvisoryPlanFromPriceIds([monthly], 'payment'), null);
+  assert.equal(getAdvisoryPlanFromPriceIds([legacyMonthly, setup], 'payment'), null);
 });
 
 test('conserva las modalidades históricas únicamente en mode=payment', () => {

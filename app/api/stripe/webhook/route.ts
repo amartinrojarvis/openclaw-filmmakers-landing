@@ -7,6 +7,7 @@ import {
   getAdvisoryPlanFromPriceIds,
   getStripe,
   getProductTypeFromPriceId,
+  isAdvisorySubscriptionPriceId,
   isCompletedPaidCheckout,
   STRIPE_PRICE_IDS,
   syncAdvisoryCapacity,
@@ -231,7 +232,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, eventId
       if (!advisoryPlan) throw new Error(`Combinación de precios de asesoría desconocida: ${priceIds.join(',')}`);
       const isSubscription = advisoryPlan === 'subscription_monthly';
       const planLabel = isSubscription
-        ? 'Suscripción mensual · primer mes'
+        ? 'Suscripción mensual · 199 €/mes'
         : advisoryPlan === 'followup_30d'
           ? 'Implementación · modalidad anterior'
           : 'Sesión estratégica de 90 minutos';
@@ -379,7 +380,7 @@ async function handleSubscriptionLifecycle(
   eventId: string,
 ): Promise<void> {
   const isIafSubscription = subscription.items.data.some(
-    (item) => item.price.id === STRIPE_PRICE_IDS.ASESORIA_SUBSCRIPTION_MONTHLY,
+    (item) => isAdvisorySubscriptionPriceId(item.price.id),
   );
   if (!isIafSubscription) {
     console.log(`Suscripción ${subscription.id} ajena a IAF; se ignora.`);

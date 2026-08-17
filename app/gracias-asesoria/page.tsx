@@ -54,7 +54,7 @@ export default async function GraciasAsesoriaPage({ searchParams }: Props) {
               <p className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#ff5a2a]"><CheckCircle2 className="h-4 w-4" /> Pago confirmado</p>
               <h1 className="font-editorial mt-6 max-w-4xl text-balance text-[clamp(3.2rem,7vw,6.8rem)] font-medium leading-[0.9] tracking-[-0.06em]">Ya tienes tu plaza. Ahora preparemos bien la sesión.</h1>
               <p className="mt-7 max-w-2xl text-lg leading-8 text-[#f2eee5]/58">Cuanto más concreto sea el punto de partida, más tiempo podremos dedicar a diseñar y construir sobre tu caso.</p>
-              {plan !== 'session_90m' && <p className="mt-5 inline-flex border border-[#ff5a2a]/55 px-4 py-2 font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-[#ff5a2a]">Implementación · primer mes incluido</p>}
+              {plan !== 'session_90m' && <p className="mt-5 inline-flex border border-[#ff5a2a]/55 px-4 py-2 font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-[#ff5a2a]">Suscripción mensual activa</p>}
               {plan === 'subscription_monthly' && (
                 <p className="mt-5 max-w-2xl text-sm leading-6 text-[#f2eee5]/58">
                   Puedes actualizar tu tarjeta, consultar facturas o cancelar al final del periodo desde el{' '}

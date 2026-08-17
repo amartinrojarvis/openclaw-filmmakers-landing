@@ -33,16 +33,16 @@ export default function CondicionesPage() {
 
           <LegalSection title="3. Oferta de lanzamiento">
             <p>El precio de lanzamiento de la sesión estratégica es de <strong>75 € precio final</strong>. El precio previsto para nuevas reservas después del piloto es de <strong>149 €</strong>.</p>
-            <p>El primer mes de la suscripción cuesta <strong>199 € precio final</strong>. Su precio habitual previsto es de <strong>349 €</strong>. A partir del segundo mes, quienes entren durante el piloto pagan <strong>149 €/mes</strong> en lugar del precio habitual previsto de <strong>199 €/mes</strong>, con las condiciones del apartado siguiente.</p>
+            <p>El precio de lanzamiento de la suscripción es de <strong>199 €/mes precio final</strong>, en lugar del precio habitual previsto de <strong>349 €/mes</strong>. El primer pago y las renovaciones mensuales tienen el mismo importe de <strong>199 €</strong>, con las condiciones del apartado siguiente.</p>
             <p>Los importes mostrados son los totales que se cobran en el checkout; Stripe no añade IVA al total indicado. Los impuestos se consideran incluidos cuando resulten aplicables.</p>
             <p>Es una edición piloto limitada a cinco plazas entre ambas modalidades. Cuando estén cubiertas, no se admitirán nuevas reservas o altas hasta que se comunique nueva disponibilidad. Stripe procesa los cargos y esta web no almacena datos de tarjeta.</p>
             <p>La plaza se considera reservada cuando Stripe confirma el primer pago.</p>
           </LegalSection>
 
           <LegalSection title="4. Suscripción, renovación y cancelación">
-            <p>La modalidad de continuidad es una suscripción mensual recurrente. Se activa con el pago de <strong>199 €</strong> correspondiente al primer mes y se renueva automáticamente cada mes mediante Stripe por <strong>149 €/mes</strong> mientras se mantenga activa.</p>
+            <p>La modalidad de continuidad es una suscripción mensual recurrente. Se activa con un primer pago de <strong>199 €</strong> y se renueva automáticamente cada mes mediante Stripe por el mismo importe de <strong>199 €/mes</strong> mientras se mantenga activa.</p>
             <p>No hay permanencia. El cliente puede cancelar desde el portal de cliente de Stripe. La cancelación evita la siguiente renovación y produce efecto al terminar el periodo ya pagado. No implica el reembolso del periodo en curso, sin perjuicio de los derechos legales que resulten aplicables.</p>
-            <p>Quien contrate durante el piloto conserva el precio de <strong>149 €/mes</strong> mientras la suscripción permanezca activa de forma continuada. Si cancela y vuelve a contratar más adelante, se aplicará el precio vigente para nuevas altas en ese momento.</p>
+            <p>Quien contrate durante el piloto conserva el precio de <strong>199 €/mes</strong> mientras la suscripción permanezca activa de forma continuada. Si cancela y vuelve a contratar más adelante, se aplicará el precio vigente para nuevas altas en ese momento.</p>
             <p>Al finalizar la suscripción cesan las nuevas sesiones, consultas y tareas de mantenimiento. Los materiales, documentos y sistemas ya construidos para el cliente permanecen en su poder y puede seguir utilizándolos.</p>
             <p>El límite de plazas se aplica a nuevas altas. Alcanzar el cupo no interrumpe las suscripciones que ya estén activas.</p>
           </LegalSection>
@@ -84,7 +84,7 @@ export default function CondicionesPage() {
             <p>Estas condiciones se rigen por la legislación española, sin perjuicio de los fueros y derechos imperativos que correspondan a consumidores y usuarios.</p>
           </LegalSection>
         </div>
-        <p className="mt-16 border-t border-[#f2eee5]/20 pt-6 font-mono text-[9px] uppercase tracking-[0.14em] text-[#f2eee5]/32">Última actualización: 29 de julio de 2026 · pendiente de revisión legal.</p>
+        <p className="mt-16 border-t border-[#f2eee5]/20 pt-6 font-mono text-[9px] uppercase tracking-[0.14em] text-[#f2eee5]/32">Última actualización: 17 de agosto de 2026 · pendiente de revisión legal.</p>
       </article>
     </PageLayout>
   );

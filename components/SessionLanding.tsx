@@ -19,7 +19,7 @@ type AdvisoryPlan = 'session' | 'subscription';
 
 const PAYMENT_LINKS: Record<AdvisoryPlan, string> = {
   session: 'https://book.stripe.com/9B69AT0Tr3CMgAFdqU8og0n',
-  subscription: 'https://buy.stripe.com/4gM4gzdGd6OYesx0E88og0p',
+  subscription: 'https://buy.stripe.com/9B66oH6dLb5eesxeuY8og0s',
 };
 
 // Contador editorial anunciado; Stripe sigue siendo el gate de cierre al agotarse.
@@ -126,7 +126,7 @@ const faqs = [
   {
     question: '¿Me subirá el precio cuando acabe el piloto?',
     answer:
-      'No. Quien entra durante el piloto conserva 149 €/mes mientras mantenga la suscripción activa de forma continuada. Los precios posteriores sólo se aplican a clientes nuevos.',
+      'No. La oferta es de 199 €/mes: pagas 199 € al empezar y 199 € en cada renovación mensual mientras mantengas la suscripción activa. Los precios posteriores sólo se aplican a clientes nuevos.',
   },
 ];
 
@@ -175,7 +175,7 @@ function BenefitGraphic({ index }: { index: number }) {
 
 function trackAdvisoryCheckout(location: string, plan: AdvisoryPlan) {
   const items = plan === 'subscription'
-    ? [{ id: 'suscripcion-mensual-primer-mes', name: 'Suscripción mensual · primer mes', price: 199 }]
+    ? [{ id: 'suscripcion-mensual-199', name: 'Suscripción mensual · 199 €/mes', price: 199 }]
     : [{ id: 'asesoria-ia-audiovisual-90m', name: 'Sesión 1:1 · Herramientas de IA para filmmakers', price: 75 }];
   AnalyticsEvents.beginCheckout(items);
   AnalyticsEvents.clickCTA(location, plan === 'subscription' ? 'Construir mi sistema' : 'Elegir sesión de 90 minutos');
@@ -667,7 +667,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
           </div>
 
           <div className="mt-14 grid gap-5 lg:grid-cols-2 lg:items-start">
-            <article className="flex flex-col border border-[#171612] p-6 sm:p-8">
+            <article className="min-w-0 flex flex-col border border-[#171612] p-6 sm:p-8">
               <p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#b43414]">Sesión estratégica</p>
               <h3 className="font-editorial mt-7 max-w-xl text-[2.35rem] font-semibold leading-[0.95] tracking-[-0.045em] sm:text-5xl">Desbloquea el uso de la IA en tu negocio</h3>
               <p className="mt-5 max-w-lg text-base leading-7 text-[#171612]/68">Vemos qué casos de uso reales puedes aplicar a tu flujo de trabajo y establecemos un plan para que puedas empezar a implementarlos.</p>
@@ -682,23 +682,19 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
               <div className="mt-8">{soldOut ? <span className="inline-flex min-h-14 w-full items-center justify-center border border-[#171612]/30 px-6 py-4 text-sm font-extrabold uppercase tracking-[0.08em] text-[#171612]/55">Edición completa</span> : <CheckoutButton location="pricing_session" plan="session" inverse>Trabajar mi prioridad</CheckoutButton>}</div>
             </article>
 
-            <article className="flex flex-col border border-[#171612] bg-[#171612] p-6 text-[#f2eee5] sm:p-8">
-              <div className="flex flex-wrap items-center justify-between gap-3"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#ff5a2a]">Suscripción mensual</p><span className="border border-[#ff5a2a] px-3 py-1 font-mono text-[8px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">Primer mes</span></div>
-              <h3 className="font-editorial mt-7 max-w-xl text-[2.1rem] font-semibold leading-[0.96] tracking-[-0.04em] sm:text-[2.65rem]">Implementación · primer mes</h3>
+            <article className="min-w-0 flex flex-col border border-[#171612] bg-[#171612] p-6 text-[#f2eee5] sm:p-8">
+              <div className="flex flex-wrap items-center justify-between gap-3"><p className="font-mono text-[9px] font-bold uppercase tracking-[0.17em] text-[#ff5a2a]">Suscripción mensual</p><span className="border border-[#ff5a2a] px-3 py-1 font-mono text-[8px] font-bold uppercase tracking-[0.14em] text-[#ff5a2a]">Oferta de lanzamiento</span></div>
+              <h3 className="font-editorial mt-7 max-w-xl text-[1.9rem] font-semibold leading-[0.96] tracking-[-0.04em] min-[360px]:text-[2.1rem] sm:text-[2.65rem]">Implementación mensual</h3>
               <p className="mt-5 max-w-lg text-base leading-7 text-[#f2eee5]/68">Construimos el primer sistema de tu mapa y lo dejamos funcionando. A partir de ahí, uno nuevo cada mes con sesión semanal de 1h.</p>
               <div className="mt-7 flex flex-wrap items-end gap-x-3 gap-y-2">
-                <span className="text-4xl font-black tracking-[-0.065em] sm:text-5xl">199 €</span>
-                <s className="pb-1.5 text-base font-bold text-[#f2eee5]/70"><span className="sr-only">Precio habitual: </span>349 €</s>
+                <span className="text-4xl font-black tracking-[-0.065em] sm:text-5xl">199 €/mes</span>
+                <s className="pb-1.5 text-base font-bold text-[#f2eee5]/70"><span className="sr-only">Precio habitual: </span>349 €/mes</s>
               </div>
-              <p className="mt-2 text-sm font-bold text-[#f2eee5]/78">precio final · primer mes</p>
+              <p className="mt-2 text-sm font-bold text-[#f2eee5]/78">precio final · el mismo importe cada mes</p>
 
               <div className="mt-7 border border-[#ff5a2a]/60 bg-[#ff5a2a]/[0.08] p-4 sm:p-5">
-                <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  <span className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Después:</span>
-                  <strong className="text-2xl font-black tracking-[-0.04em]">149 €/mes</strong>
-                  <s className="text-sm font-bold text-[#f2eee5]/70"><span className="sr-only">Precio habitual: </span>199 €/mes</s>
-                </p>
-                <p className="mt-4 text-sm font-semibold leading-6 text-[#f2eee5]/82">Conservas 149 €/mes mientras mantengas la suscripción.</p>
+                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">199 € hoy · 199 € en cada renovación</p>
+                <p className="mt-4 text-sm font-semibold leading-6 text-[#f2eee5]/82">Sin cargo inicial ni cambio de precio a partir del segundo mes.</p>
                 <p className="mt-1 text-sm leading-6 text-[#f2eee5]/65">Sin permanencia: puedes cancelar cuando quieras.</p>
               </div>
 
@@ -714,7 +710,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
                   <span>Ver qué incluye cada mes siguiente</span>
                   <ChevronDown className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none" aria-hidden="true" />
                 </summary>
-                <p className="border-t border-[#f2eee5]/12 pt-5 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Cada mes siguiente · 149 €</p>
+                <p className="border-t border-[#f2eee5]/12 pt-5 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Cada mes siguiente · 199 €</p>
                 <ul className="mt-5 space-y-3 text-sm font-semibold" aria-label="Incluido cada mes siguiente">
                   {continuityItems.map((item) => (
                     <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#ff5a2a]" aria-hidden="true" />{item}</li>
@@ -723,7 +719,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
               </details>
 
               <div className="mt-7 hidden border-t border-[#f2eee5]/20 pt-6 md:block">
-                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Cada mes siguiente · 149 €</p>
+                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#ff5a2a]">Cada mes siguiente · 199 €</p>
                 <ul className="mt-5 space-y-3 text-sm font-semibold" aria-label="Incluido cada mes siguiente">
                   {continuityItems.map((item) => (
                     <li key={item} className="flex gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-[#ff5a2a]" aria-hidden="true" />{item}</li>
