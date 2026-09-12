@@ -6,8 +6,10 @@ import { useEffect, useState } from 'react';
 import {
   ArrowRight,
   ArrowUpRight,
+  Ban,
   Check,
   ChevronDown,
+  Clapperboard,
   Clock3,
   Menu,
   ShieldCheck,
@@ -268,6 +270,7 @@ function PurchaseAvailabilityDisplay({ remainingSlots }: { remainingSlots: numbe
 function Navigation({ remainingSlots }: { remainingSlots: number | null }) {
   const [open, setOpen] = useState(false);
   const links = [
+    ['#vibe-editing', 'Vibe editing'],
     ['#encaje', 'Para qué sirve'],
     ['#metodo', 'El método'],
     ['#proyectos', 'Experiencia'],
@@ -405,6 +408,45 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
               <span>Alberto Martín</span><span>Salamanca · online</span>
             </figcaption>
           </figure>
+        </div>
+      </section>
+
+      <section id="vibe-editing" className="border-b border-[#f2eee5]/15 px-5 py-20 sm:px-8 sm:py-24 lg:px-12">
+        <div className="mx-auto grid max-w-[90rem] gap-12 lg:grid-cols-[1.1fr_.9fr] lg:gap-20">
+          <div>
+            <p className="flex items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#ff5a2a]">
+              <span className="h-px w-9 bg-current" /> Vibe editing
+            </p>
+            <h2 className="font-editorial mt-6 max-w-[16ch] text-balance text-[clamp(2.4rem,5vw,4.8rem)] font-medium leading-[0.95] tracking-[-0.05em]">
+              Te enseño a hacer vibe editing: <em className="text-[#ff5a2a]">la IA edita, tú decides.</em>
+            </h2>
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-[#f2eee5]/68">
+              Transcribir, buscar clips, cortar silencios, quitar muletillas, montar el bruto selecto. Horas de trabajo monótono que no aportan nada a tu montaje — y que hoy puede hacer la IA.
+            </p>
+            <p className="mt-4 max-w-2xl text-lg leading-8 text-[#f2eee5]/68">
+              En una sesión práctica te enseño a hacerlo con tu material real: describes lo que quieres, la IA propone el primer corte, tú aplicas tu criterio. <strong className="font-semibold text-[#f2eee5]">Menos rutina, más montaje.</strong>
+            </p>
+            <p className="mt-8 text-sm leading-6 text-[#f2eee5]/60">
+              Requisitos: DaVinci Resolve Studio y suscripción a ChatGPT.
+            </p>
+          </div>
+          <ul className="grid content-start gap-5">
+            {[
+              [Clock3, 'Las primeras 2 horas de edición, resueltas en minutos.'],
+              [Ban, 'Cero tareas repetitivas: transcribir, marcar y descartar lo hace la IA.'],
+              [Clapperboard, 'Tu estilo intacto: la máquina propone, el criterio es tuyo.'],
+            ].map(([Icon, text]) => (
+              <li key={text as string} className="flex items-start gap-5 border border-[#f2eee5]/15 bg-[#f2eee5]/[0.03] p-6">
+                <Icon className="h-5 w-5 shrink-0 text-[#ff5a2a]" aria-hidden="true" />
+                <span className="text-base font-semibold leading-7 text-[#f2eee5]/85">{text as string}</span>
+              </li>
+            ))}
+            <li className="pt-1">
+              <a href="#sesion" onClick={() => AnalyticsEvents.clickCTA('vibe_editing', 'Trabaja tu primer flujo de vibe editing')} className="group inline-flex min-h-14 w-full items-center justify-center gap-4 border border-[#ff5a2a] bg-[#ff5a2a] px-6 py-4 text-center text-sm font-extrabold uppercase tracking-[0.08em] text-[#171612] transition-colors hover:bg-[#f2eee5] sm:w-auto">
+                Trabaja tu primer flujo de vibe editing <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </a>
+            </li>
+          </ul>
         </div>
       </section>
 
