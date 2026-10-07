@@ -174,39 +174,13 @@ select {
   inset: 0;
   z-index: 35;
   pointer-events: none;
-  opacity: 0.45;
+  opacity: 0.42;
   mix-blend-mode: soft-light;
-  background-color: rgb(242 238 229 / 0.18);
   background-image:
-    radial-gradient(
-      150% 150% at 50% 50%,
-      transparent 68%,
-      rgb(242 238 229 / 0.4) 84%,
-      transparent 100%
-    ),
-    linear-gradient(
-      115deg,
-      transparent 61.5%,
-      rgb(242 238 229 / 0.85) 62.15%,
-      rgb(242 238 229 / 0.22) 63.1%,
-      transparent 64.2%
-    ),
-    linear-gradient(
-      295deg,
-      transparent 54.5%,
-      rgb(242 238 229 / 0.7) 55.1%,
-      rgb(242 238 229 / 0.18) 56%,
-      transparent 57.1%
-    ),
-    linear-gradient(
-      to bottom,
-      transparent 49.85%,
-      rgb(242 238 229 / 0.4) 50%,
-      transparent 50.14%
-    ),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.30 0'/%3E%3C/filter%3E%3Crect width='280' height='280' filter='url(%23n)'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='900'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.006 0.009' numOctaves='3' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='900' height='900' filter='url(%23c)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.10 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 140vmax 140vmax, 240px 240px;
 }
-
 @media (prefers-reduced-motion: no-preference) {
   @keyframes marquee {
     from {
