@@ -167,6 +167,15 @@ select {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
   @keyframes editorial-reveal {
     from {
       opacity: 0;
