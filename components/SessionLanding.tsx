@@ -360,6 +360,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
 
   return (
     <main className="bg-[#171612] pb-20 text-[#f2eee5] md:pb-0">
+      <div className="paper-distress" aria-hidden="true" />
       <Navigation remainingSlots={displayedSlots} />
       <MobileStickyCTA availabilityLabel={availabilityLabel} soldOut={soldOut} />
 

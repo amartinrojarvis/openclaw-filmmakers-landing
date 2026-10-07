@@ -16,6 +16,7 @@ interface PageLayoutProps {
 export function PageLayout({ children, showBackButton = true, fullHeight = true, backLabel = 'Volver a la sesión', secondaryHref, secondaryLabel }: PageLayoutProps) {
   return (
     <div className="min-h-screen bg-[#171612] text-[#f2eee5]">
+      <div className="paper-distress" aria-hidden="true" />
       <header className="border-b border-[#f2eee5]/15">
         <nav className="mx-auto flex min-h-20 max-w-[90rem] items-center justify-between gap-6 px-5 sm:px-8 lg:px-12" aria-label="Navegación secundaria">
           <Link href="/" className="flex items-baseline gap-2" aria-label="IA para Filmmakers, inicio">
