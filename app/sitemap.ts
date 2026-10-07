@@ -4,6 +4,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const base = 'https://www.iaparafilmmakers.es';
   return [
     { url: base, lastModified: new Date('2026-07-13'), changeFrequency: 'weekly', priority: 1 },
+    { url: `${base}/vibe-editing`, lastModified: new Date('2026-10-07'), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${base}/contacto`, lastModified: new Date('2026-07-13'), changeFrequency: 'monthly', priority: 0.5 },
     { url: `${base}/condiciones`, lastModified: new Date('2026-07-13'), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${base}/privacidad`, lastModified: new Date('2026-07-13'), changeFrequency: 'yearly', priority: 0.3 },
