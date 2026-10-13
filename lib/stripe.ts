@@ -37,7 +37,9 @@ export const STRIPE_PRICE_IDS = {
   ASESORIA_SUBSCRIPTION_SETUP: 'price_1TyUcxHBqq0IP9IaZQqnJoH7',
 } as const;
 
-export const ASESORIA_TOTAL_CAPACITY = 5;
+// Plazas del piloto de asesoría. Con 4 se mantiene el piloto en 5 plazas:
+// 3 cubiertas, 1 vendible y 1 apartada del inventario público.
+export const ASESORIA_TOTAL_CAPACITY = 4;
 
 export const ASESORIA_PAYMENT_LINK_IDS = {
   LEGACY_INTERNAL: 'plink_1Tsp3cHBqq0IP9IaoAA8S5V4',
