@@ -39,6 +39,13 @@ export const STRIPE_PRICE_IDS = {
 
 export const ASESORIA_TOTAL_CAPACITY = 5;
 
+/**
+ * Plazas liberadas: compras que en Stripe suman dos sesiones completadas pero
+ * corresponden a la misma persona (sesión + suscripción de un mismo cliente que
+ * además está de baja). Cada cliente ocupa una plaza, no dos.
+ */
+export const ASESORIA_RELEASED_SLOTS = 1;
+
 export const ASESORIA_PAYMENT_LINK_IDS = {
   LEGACY_INTERNAL: 'plink_1Tsp3cHBqq0IP9IaoAA8S5V4',
   SESSION: 'plink_1TsqfXHBqq0IP9IaxQATOphF',
@@ -140,7 +147,7 @@ export async function getAdvisoryInventory() {
 
   return {
     completed,
-    remaining: Math.max(0, ASESORIA_TOTAL_CAPACITY - completed),
+    remaining: Math.max(0, ASESORIA_TOTAL_CAPACITY - completed + ASESORIA_RELEASED_SLOTS),
     links,
   };
 }
