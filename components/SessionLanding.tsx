@@ -25,9 +25,7 @@ const PAYMENT_LINKS: Record<AdvisoryPlan, string> = {
 };
 
 // Contador editorial anunciado; Stripe sigue siendo el gate de cierre al agotarse.
-// Valor al que se cae si Stripe no responde al leer el inventario.
-// Coincide con el inventario real: 4 plazas vendibles, 3 cubiertas.
-const PUBLISHED_REMAINING_SLOTS = 1;
+const PUBLISHED_REMAINING_SLOTS = 4;
 
 const situations = [
   ['01', 'Clientes y propuestas', 'Responder, presupuestar y hacer seguimiento sin perder tu tono.'],
@@ -252,13 +250,7 @@ function AvailabilityDisplay({ remainingSlots, prominent = false }: { remainingS
 
 function PurchaseAvailabilityDisplay({ remainingSlots }: { remainingSlots: number | null }) {
   if (remainingSlots === 0) return null;
-  if (remainingSlots !== 4) {
-    return (
-      <p className="mt-8 font-mono text-xs font-black uppercase tracking-[0.14em] text-[#b43414]">
-        {remainingSlots ?? 'Varias'} {remainingSlots === 1 ? 'plaza disponible' : 'plazas disponibles'}
-      </p>
-    );
-  }
+  if (remainingSlots !== 4) return <p className="mt-8 font-mono text-xs font-black uppercase tracking-[0.14em] text-[#b43414]">{remainingSlots ?? 'Varias'} plazas disponibles</p>;
 
   return (
     <aside
@@ -364,7 +356,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
   const soldOut = displayedSlots === 0;
   const availabilityLabel = soldOut
     ? 'Edición completa'
-    : `${displayedSlots} ${displayedSlots === 1 ? 'plaza disponible' : 'plazas disponibles'}`;
+    : `${displayedSlots} plazas disponibles`;
 
   return (
     <main className="bg-[#171612] pb-20 text-[#f2eee5] md:pb-0">
