@@ -1,5 +1,6 @@
-// Directorio público de vibe editing. Solo entran casos con publicado: true
-// (43 de 122 en la fuente del 2026-10-14). La reserva no está en este módulo.
+// Directorio público de vibe editing. Entran los casos ya anonimizados
+// (51 de 122 en la fuente del 2026-10-14), incluidos los prompts clave.
+// La reserva con nombres o encargos identificables no está en este módulo.
 import rawCases from './casos-vibe-coding.json';
 
 export type Caso = {
@@ -17,6 +18,7 @@ export type Caso = {
   p: string;
   rel: string[];
   plano: string;
+  clave?: boolean;
 };
 
 export const CASOS_ACTUALIZADO = '2026-10-14';

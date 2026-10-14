@@ -471,6 +471,8 @@
 }
 
 .casos .chip.on { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.casos .chip.clave { border-color: var(--accent); color: var(--paper); }
+.casos .chip.clave.on { background: var(--accent); color: var(--ink); border-color: var(--accent); }
 
 .casos .mfilter,
 .casos .mpanel { display: none; }
@@ -500,6 +502,38 @@
 }
 
 .casos .blk { padding: 20px 24px; border-bottom: 1px solid var(--line); }
+
+.casos .clave-blk {
+  margin: 16px 24px 0;
+  padding: 16px 16px 8px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  background: rgba(255, 90, 42, 0.08);
+}
+
+.casos .clave-intro {
+  margin: 8px 0 4px;
+  color: var(--paper);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.casos .clave-group { margin-top: 14px; }
+.casos .clave-group > h3 {
+  margin: 0 0 8px;
+  font: 500 11px var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.casos .clave-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.casos .clave-grid .tc h3 { font-size: 13px; }
 
 .casos .trend {
   display: grid;
@@ -812,6 +846,8 @@
   .casos .mpanel.open { display: block; }
   .casos .top { padding: 14px 18px 12px; }
   .casos .blk { padding: 18px; }
+  .casos .clave-blk { margin: 14px 18px 0; }
+  .casos .clave-grid { grid-template-columns: minmax(0, 1fr); }
   .casos .feed,
   .casos .nl { margin: 18px 18px 0; }
   .casos .trend {

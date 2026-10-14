@@ -81,8 +81,8 @@ export function CasosDirectory() {
   const [query, setQuery] = useState('');
   const [cat, setCat] = useState('all');
   const [tool, setTool] = useState<string | null>(null);
-  const [order, setOrder] = useState<'plano' | 'az'>('plano');
-  const [scope, setScope] = useState<'all' | 'saved'>('all');
+  const [order, setOrder] = useState<'numero' | 'az'>('numero');
+  const [scope, setScope] = useState<'all' | 'saved' | 'clave'>('all');
   const [saved, setSaved] = useState<string[]>([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const updated = formatCasosFecha(CASOS_ACTUALIZADO);
@@ -105,10 +105,11 @@ export function CasosDirectory() {
       if (cat !== 'all' && caso.c !== cat) return false;
       if (tool && !caso.tools.includes(tool)) return false;
       if (scope === 'saved' && !savedSet.has(caso.id)) return false;
+      if (scope === 'clave' && !caso.clave) return false;
       if (q && !matchesQuery(caso, q)) return false;
       return true;
     });
-    list.sort(order === 'plano'
+    list.sort(order === 'numero'
       ? (a, b) => a.n - b.n
       : (a, b) => a.t.localeCompare(b.t, 'es'));
     return list;
@@ -126,6 +127,39 @@ export function CasosDirectory() {
   }, []);
 
   const showStarters = !query.trim() && cat === 'all' && !tool && scope === 'all';
+  const claveGroups = [
+    {
+      title: 'Proyecto en DaVinci y carpetas',
+      ids: [
+        'crear-un-proyecto-de-edicion-desde-una-peticion',
+        'importar-y-clasificar-los-brutos',
+        'organizar-el-proyecto-y-limpiar-recursos-prescindibles',
+      ],
+    },
+    {
+      title: 'Identidad desde la web',
+      ids: ['aplicar-la-identidad-visual-del-cliente'],
+    },
+    {
+      title: 'Remotion, cartelas, animación y 3D',
+      ids: [
+        'crear-una-cartela-final-con-informacion-de-un-evento',
+        'actualizar-datos-sin-redisenar-los-grafismos',
+        'crear-un-overlay-transparente-editable',
+        'dividir-un-overlay-en-modulos-recortables',
+        'visualizar-un-proceso-con-progreso-animado',
+        'explicar-servicios-mediante-escenas-3d',
+        'crear-animaciones-dentales-didacticas',
+        'animar-un-logotipo-y-cerrar-un-bucle-continuo',
+        'colocar-cartelas-detras-del-protagonista',
+        'animar-fotografias-dentro-de-un-montaje',
+      ],
+    },
+  ].map((group) => ({
+    title: group.title,
+    casos: group.ids.map((id) => CASOS.find((caso) => caso.id === id)).filter((caso): caso is Caso => Boolean(caso)),
+  }));
+  const claveCount = CASOS.filter((caso) => caso.clave).length;
   const filterLabel = tool || (cat === 'all' ? 'Todo' : CATS[cat]);
 
   const selectCategory = (id: string) => {
@@ -209,15 +243,36 @@ export function CasosDirectory() {
               <span className="kbd">⌘K</span>
             </label>
             <div className="seg">
-              <button type="button" className={order === 'plano' ? 'on' : undefined} onClick={() => setOrder('plano')}>Plano</button>
+              <button type="button" className={order === 'numero' ? 'on' : undefined} onClick={() => setOrder('numero')}>Nº</button>
               <button type="button" className={order === 'az' ? 'on' : undefined} onClick={() => setOrder('az')}>A–Z</button>
             </div>
           </div>
           <div className="chips" id="chips">
             <button type="button" className={`chip${scope === 'all' ? ' on' : ''}`} onClick={() => setScope('all')}>Todos {CASOS.length}</button>
+            <button type="button" className={`chip clave${scope === 'clave' ? ' on' : ''}`} onClick={() => setScope('clave')}>Prompts clave {claveCount}</button>
             <button type="button" className={`chip${scope === 'saved' ? ' on' : ''}`} onClick={() => setScope('saved')}>Guardados {saved.length}</button>
           </div>
         </div>
+
+        {showStarters ? (
+          <section className="clave-blk" id="clave" aria-labelledby="clave-title">
+            <h2 className="sth" id="clave-title"><span className="st">Prompts clave</span></h2>
+            <p className="clave-intro">Con estos dejo el proyecto preparado, saco la identidad de la marca y monto cartelas, animaciones y motion.</p>
+            {claveGroups.map((group) => (
+              <div className="clave-group" key={group.title}>
+                <h3>{group.title}</h3>
+                <div className="clave-grid">
+                  {group.casos.map((caso) => (
+                    <Link className="tc" key={caso.id} href={`/casos-de-uso-vibe-coding/${caso.id}`}>
+                      <span className="v"><span className="plano">{caso.plano}</span></span>
+                      <h3>{caso.t}</h3>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </section>
+        ) : null}
 
         {showStarters ? (
           <section className="blk" id="trendBlk">
@@ -237,7 +292,7 @@ export function CasosDirectory() {
         <section className="feed">
           <div className="fh">
             <h2 id="fht"><span className="st">{visible.length} {visible.length === 1 ? 'caso' : 'casos'}</span></h2>
-            <span className="lbl ln" id="fhl">{order === 'plano' ? 'Por número de plano' : 'De la A a la Z'}</span>
+            <span className="lbl ln" id="fhl">{order === 'numero' ? 'Por número de caso' : 'De la A a la Z'}</span>
           </div>
           <p className="sub" id="fhs">Ordenados como en el catálogo. Entra en cualquiera para ver el prompt.</p>
           <div id="list">

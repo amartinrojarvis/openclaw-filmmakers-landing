@@ -23,7 +23,36 @@
       "UC-002",
       "UC-003"
     ],
-    "plano": "PLANO 001"
+    "plano": "Caso 001",
+    "clave": true
+  },
+  {
+    "id": "importar-y-clasificar-los-brutos",
+    "uc": "UC-002",
+    "n": 2,
+    "t": "Importar y clasificar los brutos",
+    "s": "Convertir una carpeta de grabación en un Media Pool que se pueda recorrer y mantener.",
+    "c": "preparacion-y-analisis",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "análisis de vídeo",
+      "brutos",
+      "Media Pool"
+    ],
+    "hizo": "Se importaron vídeos y recursos en proyectos de un viaje, una inmobiliaria y otros clientes, separando medios por función. El objetivo era poder localizar las fuentes antes de seleccionar y montar.",
+    "esperado": "Medios importados y clasificados con comprobación del inventario.",
+    "saber": "Una importación aceptada no garantiza que todos los archivos estén presentes. Conviene comparar el inventario esperado con el importado y detectar medios sin conexión o formatos no admitidos.",
+    "p": "Importa el material de [ruta] en el proyecto [nombre], ordénalo por función y comprueba que el número de archivos coincide. Indica cualquier medio que no se haya podido incorporar.",
+    "rel": [
+      "UC-001",
+      "UC-099",
+      "UC-110"
+    ],
+    "plano": "Caso 002",
+    "clave": true
   },
   {
     "id": "inspeccionar-el-montaje-antes-de-editar",
@@ -50,7 +79,7 @@
       "UC-093",
       "UC-106"
     ],
-    "plano": "PLANO 003"
+    "plano": "Caso 003"
   },
   {
     "id": "transcribir-entrevistas-para-poder-editarlas-por-contenido",
@@ -76,7 +105,7 @@
       "UC-007",
       "UC-084"
     ],
-    "plano": "PLANO 005"
+    "plano": "Caso 005"
   },
   {
     "id": "poner-en-marcha-el-analisis-visual-de-intellisearch",
@@ -103,7 +132,7 @@
       "UC-007",
       "UC-031"
     ],
-    "plano": "PLANO 006"
+    "plano": "Caso 006"
   },
   {
     "id": "montar-un-reel-de-preguntas-y-respuestas",
@@ -130,7 +159,7 @@
       "UC-026",
       "UC-108"
     ],
-    "plano": "PLANO 014"
+    "plano": "Caso 014"
   },
   {
     "id": "ordenar-una-visita-inmobiliaria",
@@ -157,7 +186,7 @@
       "UC-031",
       "UC-110"
     ],
-    "plano": "PLANO 016"
+    "plano": "Caso 016"
   },
   {
     "id": "recuperar-una-caracteristica-importante-que-se-omitio",
@@ -184,7 +213,7 @@
       "UC-016",
       "UC-063"
     ],
-    "plano": "PLANO 017"
+    "plano": "Caso 017"
   },
   {
     "id": "construir-un-arco-documental-con-material-real",
@@ -210,7 +239,7 @@
       "UC-019",
       "UC-047"
     ],
-    "plano": "PLANO 018"
+    "plano": "Caso 018"
   },
   {
     "id": "restaurar-la-pregunta-que-da-sentido-a-una-respuesta",
@@ -237,7 +266,7 @@
       "UC-012",
       "UC-030"
     ],
-    "plano": "PLANO 026"
+    "plano": "Caso 026"
   },
   {
     "id": "reparar-sonidos-duplicados-en-un-empalme",
@@ -263,7 +292,7 @@
       "UC-024",
       "UC-088"
     ],
-    "plano": "PLANO 028"
+    "plano": "Caso 028"
   },
   {
     "id": "sustituir-una-frase-cuya-grabacion-no-funciona",
@@ -290,7 +319,7 @@
       "UC-030",
       "UC-088"
     ],
-    "plano": "PLANO 029"
+    "plano": "Caso 029"
   },
   {
     "id": "comprobar-si-existe-una-conclusion-antes-de-ampliarla",
@@ -316,7 +345,7 @@
       "UC-026",
       "UC-029"
     ],
-    "plano": "PLANO 030"
+    "plano": "Caso 030"
   },
   {
     "id": "ocultar-un-salto-visual-con-b-roll-pertinente",
@@ -344,7 +373,7 @@
       "UC-101",
       "UC-102"
     ],
-    "plano": "PLANO 032"
+    "plano": "Caso 032"
   },
   {
     "id": "mostrar-al-portavoz-durante-una-afirmacion-importante",
@@ -370,7 +399,7 @@
       "UC-035",
       "UC-020"
     ],
-    "plano": "PLANO 034"
+    "plano": "Caso 034"
   },
   {
     "id": "reutilizar-recursos-de-otro-proyecto-del-mismo-cliente",
@@ -396,7 +425,7 @@
       "UC-031",
       "UC-010"
     ],
-    "plano": "PLANO 036"
+    "plano": "Caso 036"
   },
   {
     "id": "elegir-acciones-con-fuerza-visual",
@@ -424,7 +453,7 @@
       "UC-105",
       "UC-106"
     ],
-    "plano": "PLANO 040"
+    "plano": "Caso 040"
   },
   {
     "id": "sincronizar-riser-interrupcion-e-impacto",
@@ -451,7 +480,7 @@
       "UC-089",
       "UC-115"
     ],
-    "plano": "PLANO 043"
+    "plano": "Caso 043"
   },
   {
     "id": "alternar-emocion-y-energia",
@@ -477,7 +506,7 @@
       "UC-018",
       "UC-048"
     ],
-    "plano": "PLANO 047"
+    "plano": "Caso 047"
   },
   {
     "id": "diferenciar-bloques-con-musicas-distintas",
@@ -505,7 +534,7 @@
       "UC-114",
       "UC-116"
     ],
-    "plano": "PLANO 049"
+    "plano": "Caso 049"
   },
   {
     "id": "terminar-con-el-remate-real-de-la-cancion",
@@ -532,7 +561,7 @@
       "UC-089",
       "UC-116"
     ],
-    "plano": "PLANO 050"
+    "plano": "Caso 050"
   },
   {
     "id": "mantener-encuadrada-a-una-persona-que-se-mueve",
@@ -560,7 +589,7 @@
       "UC-078",
       "UC-111"
     ],
-    "plano": "PLANO 053"
+    "plano": "Caso 053"
   },
   {
     "id": "ocultar-distracciones-mediante-zoom-y-posicion",
@@ -586,7 +615,7 @@
       "UC-057",
       "UC-077"
     ],
-    "plano": "PLANO 055"
+    "plano": "Caso 055"
   },
   {
     "id": "corregir-orientacion-e-inclinacion-de-una-toma",
@@ -612,7 +641,7 @@
       "UC-057",
       "UC-058"
     ],
-    "plano": "PLANO 056"
+    "plano": "Caso 056"
   },
   {
     "id": "componer-varias-imagenes-dentro-de-una-pantalla",
@@ -640,7 +669,119 @@
       "UC-086",
       "UC-107"
     ],
-    "plano": "PLANO 060"
+    "plano": "Caso 060"
+  },
+  {
+    "id": "aplicar-la-identidad-visual-del-cliente",
+    "uc": "UC-061",
+    "n": 61,
+    "t": "Aplicar la identidad visual del cliente",
+    "s": "Hacer que títulos, cierres y recursos pertenezcan visualmente a la misma marca.",
+    "c": "identidad-y-motion-graphics",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Remotion",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "identidad visual",
+      "motion graphics",
+      "Remotion"
+    ],
+    "hizo": "En unas jornadas de fotografía, un evento cultural, una empresa tecnológica, una clínica dental y otros proyectos se consultaron recursos o webs para obtener logotipos, colores, tipografías e información de marca.",
+    "esperado": "Sistema visual coherente con la identidad de la marca.",
+    "saber": "Los valores de una marca no son un preset para todas. También hay que conservar la fuente del recurso y distinguir un logo oficial de versiones secundarias o de otros proyectos.",
+    "p": "Obtén la identidad de [cliente] desde [recursos o web] y aplícala a [pieza]. Guarda los recursos junto al material y mantén coherencia de tipografía, color y jerarquía.",
+    "rel": [
+      "UC-062",
+      "UC-085",
+      "UC-107"
+    ],
+    "plano": "Caso 061",
+    "clave": true
+  },
+  {
+    "id": "crear-una-cartela-final-con-informacion-de-un-evento",
+    "uc": "UC-062",
+    "n": 62,
+    "t": "Crear una cartela final con información de un evento",
+    "s": "Cerrar un vídeo reuniendo los datos que el espectador necesita recordar.",
+    "c": "identidad-y-motion-graphics",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Remotion",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "identidad visual",
+      "motion graphics",
+      "Remotion"
+    ],
+    "hizo": "Unas jornadas de fotografía y un evento cultural incluyeron logo, lugar, fechas y web. Las revisiones ajustaron jerarquía, marca visible y presencia del final musical.",
+    "esperado": "Cartela de cierre con información clara y tiempo de lectura.",
+    "saber": "La cartela debe ser legible durante su tiempo real en pantalla. Los datos se comprueban en los recursos vigentes del encargo y no se heredan sin revisar de otro evento.",
+    "p": "Diseña el cierre de [evento] con logo, fechas, sede y web de [fuente]. Ajusta jerarquía y duración de lectura y sincronízalo con el remate musical.",
+    "rel": [
+      "UC-050",
+      "UC-070"
+    ],
+    "plano": "Caso 062",
+    "clave": true
+  },
+  {
+    "id": "actualizar-datos-sin-redisenar-los-grafismos",
+    "uc": "UC-063",
+    "n": 63,
+    "t": "Actualizar datos sin rediseñar los grafismos",
+    "s": "Corregir información concreta conservando estilo, animación y montaje.",
+    "c": "identidad-y-motion-graphics",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Remotion",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "identidad visual",
+      "motion graphics",
+      "Remotion"
+    ],
+    "hizo": "En la visita a una vivienda se pidió corregir en las cartelas las características del inmueble y detallarlas en el cierre.",
+    "esperado": "Grafismos actualizados con los datos correctos.",
+    "saber": "Es una revisión de contenido acotada. Rehacer el diseño completo añadiría cambios no pedidos y complicaría comprobar que solo se ha actualizado la información.",
+    "p": "En [versión], cambia [dato antiguo] por [dato correcto] en todas las cartelas afectadas. Conserva diseño y tiempos y comprueba el texto en la exportación.",
+    "rel": [
+      "UC-061",
+      "UC-094"
+    ],
+    "plano": "Caso 063",
+    "clave": true
+  },
+  {
+    "id": "crear-un-overlay-transparente-editable",
+    "uc": "UC-065",
+    "n": 65,
+    "t": "Crear un overlay transparente editable",
+    "s": "Entregar grafismos animados que se puedan colocar sobre un vídeo existente.",
+    "c": "identidad-y-motion-graphics",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Remotion"
+    ],
+    "tags": [
+      "identidad visual",
+      "motion graphics",
+      "Remotion"
+    ],
+    "hizo": "Una academia y un evento cultural utilizaron Remotion para crear rótulos y pantallas de apoyo con alfa, además de una previsualización compuesta sobre el vídeo.",
+    "esperado": "Overlay con transparencia, fuentes editables y previa compuesta.",
+    "saber": "Esta generación ocurrió fuera de Resolve en esos encargos. El overlay debe comprobarse por transparencia real, duración, FPS y alineación; crearlo no demuestra que esté instalado en un timeline.",
+    "p": "Crea un overlay transparente para [vídeo] con la identidad de [marca]. Entrega máster con alfa, fuentes editables y previa compuesta, reservando [zona de subtítulos].",
+    "rel": [
+      "UC-066",
+      "UC-082"
+    ],
+    "plano": "Caso 065",
+    "clave": true
   },
   {
     "id": "dividir-un-overlay-en-modulos-recortables",
@@ -666,7 +807,8 @@
       "UC-065",
       "UC-095"
     ],
-    "plano": "PLANO 066"
+    "plano": "Caso 066",
+    "clave": true
   },
   {
     "id": "visualizar-un-proceso-con-progreso-animado",
@@ -693,7 +835,36 @@
       "UC-035",
       "UC-068"
     ],
-    "plano": "PLANO 067"
+    "plano": "Caso 067",
+    "clave": true
+  },
+  {
+    "id": "explicar-servicios-mediante-escenas-3d",
+    "uc": "UC-068",
+    "n": 68,
+    "t": "Explicar servicios mediante escenas 3D",
+    "s": "Representar relaciones o procesos difíciles de mostrar solo con la toma del portavoz.",
+    "c": "identidad-y-motion-graphics",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Remotion",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "identidad visual",
+      "motion graphics",
+      "Remotion"
+    ],
+    "hizo": "Una empresa tecnológica incorporó una maqueta de red, servidores y cámaras, el flujo PDF a IA y contabilidad, y visualizaciones de automatización y tiempo.",
+    "esperado": "Escenas 3D que ilustran relaciones y procesos.",
+    "saber": "Una visualización esquemática no debe sugerir una arquitectura exacta que no se haya documentado. Su duración y detalle tienen que ayudar a comprender, no desplazar la explicación.",
+    "p": "Ilustra [proceso] con una escena 3D clara y acorde a [marca]. Alterna el gráfico con material real y entrega sus fuentes para poder revisarlo.",
+    "rel": [
+      "UC-069",
+      "UC-035"
+    ],
+    "plano": "Caso 068",
+    "clave": true
   },
   {
     "id": "crear-animaciones-dentales-didacticas",
@@ -720,7 +891,8 @@
       "UC-068",
       "UC-086"
     ],
-    "plano": "PLANO 069"
+    "plano": "Caso 069",
+    "clave": true
   },
   {
     "id": "animar-un-logotipo-y-cerrar-un-bucle-continuo",
@@ -748,7 +920,36 @@
       "UC-061",
       "UC-097"
     ],
-    "plano": "PLANO 070"
+    "plano": "Caso 070",
+    "clave": true
+  },
+  {
+    "id": "colocar-cartelas-detras-del-protagonista",
+    "uc": "UC-071",
+    "n": 71,
+    "t": "Colocar cartelas detrás del protagonista",
+    "s": "Integrar texto en el espacio de la escena sin cubrir a la persona.",
+    "c": "mascaras-y-composicion",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Remotion",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "máscaras",
+      "composición",
+      "seguimiento"
+    ],
+    "hizo": "Una empresa tecnológica separó al portavoz para que los títulos de sus servicios aparecieran detrás. Una clínica dental aplicó el mismo recurso a varias cartelas sobre un miembro del equipo.",
+    "esperado": "Cartelas integradas detrás del protagonista sin perder lectura.",
+    "saber": "La composición necesita revisar contornos, movimiento y sombras. Que el sujeto esté por delante no permite poner texto ilegible detrás de su cabeza.",
+    "p": "Separa a [persona] en [clip] y coloca [cartelas] ligeramente detrás. Ajusta contorno y posición para mantener textos legibles y una integración natural.",
+    "rel": [
+      "UC-072",
+      "UC-074"
+    ],
+    "plano": "Caso 071",
+    "clave": true
   },
   {
     "id": "sincronizar-dos-videos-por-su-audio-comun",
@@ -774,7 +975,7 @@
       "UC-073",
       "UC-087"
     ],
-    "plano": "PLANO 076"
+    "plano": "Caso 076"
   },
   {
     "id": "crear-desenfoque-de-fondo-con-separacion-del-sujeto",
@@ -801,7 +1002,7 @@
       "UC-053",
       "UC-055"
     ],
-    "plano": "PLANO 078"
+    "plano": "Caso 078"
   },
   {
     "id": "crear-light-leaks-que-funcionen-como-transicion",
@@ -828,7 +1029,7 @@
       "UC-089",
       "UC-115"
     ],
-    "plano": "PLANO 079"
+    "plano": "Caso 079"
   },
   {
     "id": "resaltar-zonas-corporales-con-iluminacion-y-seguimiento",
@@ -855,7 +1056,7 @@
       "UC-072",
       "UC-069"
     ],
-    "plano": "PLANO 080"
+    "plano": "Caso 080"
   },
   {
     "id": "sustituir-subtitulos-renderizados-por-pistas-nativas",
@@ -881,7 +1082,7 @@
       "UC-081",
       "UC-083"
     ],
-    "plano": "PLANO 082"
+    "plano": "Caso 082"
   },
   {
     "id": "dar-estilo-corporativo-a-subtitulos-nativos",
@@ -907,7 +1108,7 @@
       "UC-081",
       "UC-086"
     ],
-    "plano": "PLANO 085"
+    "plano": "Caso 085"
   },
   {
     "id": "revisar-legibilidad-y-zonas-seguras-de-instagram",
@@ -935,7 +1136,7 @@
       "UC-051",
       "UC-060"
     ],
-    "plano": "PLANO 086"
+    "plano": "Caso 086"
   },
   {
     "id": "mejorar-una-voz-dificil-sin-destruir-su-articulacion",
@@ -960,7 +1161,7 @@
       "UC-029",
       "UC-024"
     ],
-    "plano": "PLANO 088"
+    "plano": "Caso 088"
   },
   {
     "id": "mezclar-musica-y-sfx-alrededor-de-la-voz",
@@ -988,7 +1189,7 @@
       "UC-114",
       "UC-115"
     ],
-    "plano": "PLANO 089"
+    "plano": "Caso 089"
   },
   {
     "id": "corregir-e-igualar-color-segun-el-material-real",
@@ -1018,7 +1219,7 @@
       "UC-118",
       "UC-119"
     ],
-    "plano": "PLANO 090"
+    "plano": "Caso 090"
   },
   {
     "id": "eliminar-destellos-del-plano-inferior",
@@ -1045,7 +1246,7 @@
       "UC-032",
       "UC-096"
     ],
-    "plano": "PLANO 095"
+    "plano": "Caso 095"
   },
   {
     "id": "detectar-congelaciones-y-saltos-de-accion",
@@ -1072,7 +1273,7 @@
       "UC-039",
       "UC-095"
     ],
-    "plano": "PLANO 096"
+    "plano": "Caso 096"
   },
   {
     "id": "exportar-un-lote-en-h-265-con-subtitulos-integrados",
@@ -1101,7 +1302,7 @@
       "UC-120",
       "UC-122"
     ],
-    "plano": "PLANO 098"
+    "plano": "Caso 098"
   },
   {
     "id": "organizar-el-proyecto-y-limpiar-recursos-prescindibles",
@@ -1128,7 +1329,8 @@
       "UC-094",
       "UC-120"
     ],
-    "plano": "PLANO 099"
+    "plano": "Caso 099",
+    "clave": true
   },
   {
     "id": "recuperar-el-proyecto-ante-una-interrupcion-del-flujo-de-trabajo",
@@ -1155,6 +1357,33 @@
       "UC-094",
       "UC-122"
     ],
-    "plano": "PLANO 100"
+    "plano": "Caso 100"
+  },
+  {
+    "id": "animar-fotografias-dentro-de-un-montaje",
+    "uc": "UC-103",
+    "n": 103,
+    "t": "Animar fotografías dentro de un montaje",
+    "s": "Dar movimiento lento a fotografías mediante escala y desplazamiento, cuidando caras, composición y transiciones con el vídeo.",
+    "c": "identidad-y-motion-graphics",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "identidad visual",
+      "motion graphics",
+      "Remotion"
+    ],
+    "hizo": "Dar movimiento lento a fotografías mediante escala y desplazamiento, cuidando caras, composición y transiciones con el vídeo. UC-064 trata qué retratos y obras mostrar; este caso resuelve cómo incorporar imágenes estáticas con movimiento y continuidad.",
+    "esperado": "Fotografías con movimiento editable y composición revisada en el formato final.",
+    "saber": "Movimiento estable, sin bordes descubiertos, con detalle suficiente y sujetos bien encuadrados durante toda la animación.",
+    "p": "Anima las fotografías de [carpeta] en [montaje] con movimientos lentos y selectivos. Conserva sujetos y obras, evita bordes descubiertos y adapta su duración a la narración.",
+    "rel": [
+      "UC-064",
+      "UC-058"
+    ],
+    "plano": "Caso 103",
+    "clave": true
   }
 ]
