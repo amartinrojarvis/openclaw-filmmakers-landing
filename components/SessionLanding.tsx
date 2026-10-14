@@ -429,6 +429,14 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             <p className="mt-8 text-sm leading-6 text-[#f2eee5]/60">
               Requisitos: DaVinci Resolve Studio y suscripción a ChatGPT.
             </p>
+            <Link
+              href="/casos-de-uso-vibe-coding"
+              onClick={() => AnalyticsEvents.clickCTA('vibe_editing', 'Ver casos reales de vibe editing')}
+              className="group mt-8 inline-flex max-w-full items-center gap-3 border border-[#f2eee5]/20 px-4 py-3 text-xs font-extrabold uppercase tracking-[0.08em] text-[#f2eee5] transition-colors hover:border-[#ff5a2a] hover:text-[#ff5a2a]"
+            >
+              Ver casos reales de vibe editing
+              <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            </Link>
           </div>
           <ul className="grid content-start gap-5">
             {[
