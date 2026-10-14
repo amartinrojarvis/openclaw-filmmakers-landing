@@ -179,8 +179,9 @@ export function CasosDirectory() {
         <div className="me">
           <img src="/casos-vibe-coding/alberto-160.jpg" alt="Alberto Martín" width={44} height={44} />
           <div>
-            <b>Casos que he probado yo</b>
-            <span>Alberto Martín · filmmaker e ingeniero</span>
+            <b>Casos reales de mi día a día</b>
+            <span className="who">Alberto Martín</span>
+            <span>Filmmaker e ingeniero informático</span>
           </div>
         </div>
         <p className="tag">Tareas reales de edición en DaVinci Resolve hechas con un agente de IA, sacadas de mis proyectos. Cada una con su prompt para que la pruebes.</p>

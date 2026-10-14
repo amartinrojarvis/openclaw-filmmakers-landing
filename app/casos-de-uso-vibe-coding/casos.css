@@ -297,7 +297,8 @@
 }
 
 .casos .me b { display: block; font-size: 13.5px; font-weight: 600; }
-.casos .me span { font-size: 11.5px; color: var(--faint); }
+.casos .me span { display: block; font-size: 11.5px; color: var(--faint); }
+.casos .me .who { margin-top: 2px; color: var(--paper); }
 
 .casos .side-btns { display: grid; gap: 8px; }
 .casos .side-btns .btn { width: 100%; height: 38px; }
