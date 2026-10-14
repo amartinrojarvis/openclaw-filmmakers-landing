@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CATS, CASOS, getCaso, relatedCasos } from '@/lib/casos-vibe-coding';
 import { CopyPrompt } from '../copy-prompt';
+import { NewsletterForm } from '../newsletter-form';
 import { CasosLogo, ToolBadge } from '../parts';
 
 const BOOKING_HREF = '/#sesion';
@@ -95,6 +96,7 @@ export default async function CasoPage({ params }: Props) {
             ))}
           </div>
         </div>
+        <NewsletterForm />
       </div>
     </div>
   );
