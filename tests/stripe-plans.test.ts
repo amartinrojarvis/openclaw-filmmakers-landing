@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
+  advisorySeatsRemaining,
   getAdvisoryPlanFromPriceIds,
   isCompletedPaidCheckout,
   STRIPE_PRICE_IDS,
@@ -48,4 +49,10 @@ test('sólo acepta checkouts completos y pagados; no-payment se limita a metadat
     payment_status: 'no_payment_required',
     metadata: { qa: 'true' },
   }), true);
+});
+
+test('descuenta la plaza liberada: 3 sesiones completadas dejan 3 de 5', () => {
+  assert.equal(advisorySeatsRemaining(3), 3);
+  assert.equal(advisorySeatsRemaining(0), 5);
+  assert.equal(advisorySeatsRemaining(6), 0);
 });
