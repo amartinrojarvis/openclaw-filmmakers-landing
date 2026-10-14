@@ -741,6 +741,7 @@
 .casos .caso header .all:hover { color: var(--paper); }
 .casos .caso .wrap { padding: 0 48px; min-width: 0; }
 .casos .crumb { margin-top: 56px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.casos .crumb .save { margin-left: auto; }
 .casos .caso h1 {
   font-size: 30px;
   font-weight: 600;

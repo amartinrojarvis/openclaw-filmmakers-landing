@@ -13,6 +13,7 @@ import {
 } from '@/lib/casos-vibe-coding';
 import { NewsletterForm } from './newsletter-form';
 import { CasosLogo, ToolBadge } from './parts';
+import { SaveCasoButton, useSavedCasos } from './save-caso';
 
 const BOOKING_HREF = '/#sesion';
 
@@ -83,7 +84,7 @@ export function CasosDirectory() {
   const [tool, setTool] = useState<string | null>(null);
   const [order, setOrder] = useState<'numero' | 'az'>('numero');
   const [scope, setScope] = useState<'all' | 'saved' | 'clave'>('all');
-  const [saved, setSaved] = useState<string[]>([]);
+  const { saved, toggle: toggleSaved } = useSavedCasos();
   const [filtersOpen, setFiltersOpen] = useState(false);
   const updated = formatCasosFecha(CASOS_ACTUALIZADO);
   const savedSet = useMemo(() => new Set(saved), [saved]);
@@ -314,18 +315,7 @@ export function CasosDirectory() {
                   </div>
                 </div>
                 <div className="side">
-                  <button
-                    className={`save${savedSet.has(caso.id) ? ' on' : ''}`}
-                    type="button"
-                    onClick={() => setSaved((current) => (
-                      current.includes(caso.id) ? current.filter((id) => id !== caso.id) : [...current, caso.id]
-                    ))}
-                  >
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                      <path d="M6 3h12v18l-6-4-6 4z" />
-                    </svg>
-                    Guardar
-                  </button>
+                  <SaveCasoButton id={caso.id} pressed={savedSet.has(caso.id)} onToggle={toggleSaved} />
                 </div>
               </div>
             ))}

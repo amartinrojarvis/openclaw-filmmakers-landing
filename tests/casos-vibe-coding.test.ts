@@ -4,6 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { CASOS, CASOS_CATALOGO_TOTAL, getCaso, relatedCasos } from '../lib/casos-vibe-coding';
+import { SAVED_CASOS_KEY, parseSavedIds } from '../app/casos-de-uso-vibe-coding/saved-casos';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const reservedPhrase = 'En un documental deportivo se pidió recuperar el documental largo';
@@ -37,10 +38,29 @@ test('ningún archivo enviado del directorio contiene un caso de reserva', () =>
     'lib/casos-vibe-coding.ts',
     'app/casos-de-uso-vibe-coding/directory.tsx',
     'app/casos-de-uso-vibe-coding/[slug]/page.tsx',
+    'app/casos-de-uso-vibe-coding/saved-casos.ts',
+    'app/casos-de-uso-vibe-coding/save-caso.tsx',
   ];
   for (const file of files) {
     const text = fs.readFileSync(path.join(root, file), 'utf8');
     assert.equal(text.includes(reservedPhrase), false, file);
     assert.equal(text.includes(reservedSlug), false, file);
   }
+});
+
+test('los guardados se leen de iaf-casos-guardados y descartan ids ajenos', () => {
+  const known = new Set(['crear-un-proyecto-de-edicion-desde-una-peticion', 'importar-y-clasificar-los-brutos']);
+  assert.equal(SAVED_CASOS_KEY, 'iaf-casos-guardados');
+  assert.deepEqual(parseSavedIds(null, known), []);
+  assert.deepEqual(parseSavedIds('{', known), []);
+  assert.deepEqual(parseSavedIds('"no"', known), []);
+  assert.deepEqual(
+    parseSavedIds(JSON.stringify([
+      'importar-y-clasificar-los-brutos',
+      'importar-y-clasificar-los-brutos',
+      'localizar-y-abrir-la-version-vigente',
+      3,
+    ]), known),
+    ['importar-y-clasificar-los-brutos'],
+  );
 });
