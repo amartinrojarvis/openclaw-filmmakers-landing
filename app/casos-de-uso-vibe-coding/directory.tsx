@@ -11,6 +11,7 @@ import {
   formatCasosFecha,
   type Caso,
 } from '@/lib/casos-vibe-coding';
+import { NewsletterForm } from './newsletter-form';
 import { CasosLogo, ToolBadge } from './parts';
 
 const BOOKING_HREF = '/#sesion';
@@ -84,7 +85,6 @@ export function CasosDirectory() {
   const [scope, setScope] = useState<'all' | 'saved'>('all');
   const [saved, setSaved] = useState<string[]>([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [subscribed, setSubscribed] = useState(false);
   const updated = formatCasosFecha(CASOS_ACTUALIZADO);
   const savedSet = useMemo(() => new Set(saved), [saved]);
 
@@ -277,22 +277,7 @@ export function CasosDirectory() {
           <p className="empty" id="empty" style={{ display: visible.length ? 'none' : 'block' }}>Nada con ese filtro. Prueba otra palabra.</p>
         </section>
 
-        <section className={`nl${subscribed ? ' sent' : ''}`} id="newsletter">
-          <span className="lbl ln">Newsletter</span>
-          <h2><span className="st week">Un caso por semana,</span> los jueves</h2>
-          <p>Te lo escribo yo. Qué he probado con ChatGPT y Resolve, qué ha funcionado y qué no. Te das de baja con un clic.</p>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              setSubscribed(true);
-            }}
-          >
-            <input type="email" required placeholder="tu@email.com" aria-label="Email" />
-            <button className="btn pri" type="submit">Apuntarme</button>
-          </form>
-          <p className="ok">Apuntado (simulado). Aquí iría la confirmación de Brevo.</p>
-          <small>Maqueta: este formulario no envía nada.</small>
-        </section>
+        <NewsletterForm />
         <p className="foot">© 2026 Alberto Martín · IA para Filmmakers</p>
       </main>
     </div>

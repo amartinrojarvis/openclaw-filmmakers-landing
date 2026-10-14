@@ -605,7 +605,7 @@
 .casos .nl h2 { margin-top: 6px; font-size: 16px; font-weight: 600; }
 .casos .st.week { font-size: 20px; }
 .casos .nl p { color: var(--muted); font-size: 13px; margin: 4px 0 12px; }
-.casos .nl form { display: flex; gap: 8px; }
+.casos .nl form { position: relative; display: flex; gap: 8px; }
 .casos .nl input {
   flex: 1;
   min-width: 0;
@@ -620,9 +620,26 @@
   outline: 0;
 }
 .casos .nl input:focus { border-color: var(--faint); }
-.casos .nl .ok { display: none; color: var(--paper); font-size: 13px; }
-.casos .nl.sent form { display: none; }
+.casos .nl .ok,
+.casos .nl .done { color: var(--paper); font-size: 13px; margin: 0; }
+.casos .nl .ok { display: none; }
+.casos .nl.sent form,
+.casos .nl.confirmed form { display: none; }
 .casos .nl.sent .ok { display: block; }
+.casos .nl .err { color: var(--accent); font-size: 13px; margin: 8px 0 0; }
+.casos .nl .btn:disabled { opacity: 0.65; cursor: wait; }
+.casos .nl .hp {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.casos .caso .nl { margin: 36px 0 0; }
 .casos .nl small { display: block; margin-top: 8px; color: var(--faint); font-size: 11px; }
 
 .casos .foot { padding: 24px; font: 11px/1.7 var(--mono); color: var(--faint); }
