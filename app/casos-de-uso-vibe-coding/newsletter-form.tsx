@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, type FormEvent } from 'react';
+import { detectAltaConfirmada } from './alta-banner';
 
 type Phase = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -10,7 +11,7 @@ export function NewsletterForm() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).get('alta') === 'ok') setConfirmed(true);
+    if (detectAltaConfirmada()) setConfirmed(true);
   }, []);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
