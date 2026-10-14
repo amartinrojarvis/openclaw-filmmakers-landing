@@ -1,0 +1,1160 @@
+[
+  {
+    "id": "crear-un-proyecto-de-edicion-desde-una-peticion",
+    "uc": "UC-001",
+    "n": 1,
+    "t": "Crear un proyecto de edición desde una petición",
+    "s": "Preparar en DaVinci el espacio de trabajo de un vídeo sin configurar manualmente cada elemento.",
+    "c": "preparacion-y-analisis",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "análisis de vídeo",
+      "brutos",
+      "Media Pool"
+    ],
+    "hizo": "En un proyecto de viaje se pidió crear un proyecto dentro de la carpeta de un cliente, importar el material del viaje y preparar la estructura habitual de bandejas. El agente tradujo esa petición a operaciones de proyecto y medios en Resolve.",
+    "esperado": "Proyecto creado y guardado con estructura inicial de medios y timelines.",
+    "saber": "Hay que distinguir la carpeta del gestor de proyectos, las bandejas del Media Pool y las carpetas físicas del disco. Comparten nombres a veces, pero cumplen funciones diferentes.",
+    "p": "Crea un proyecto llamado [nombre] en [carpeta de Resolve], importa los vídeos de [ruta] y prepara Timelines, Video, Música, Grafismos y Entregas. Comprueba el proyecto activo y guarda el resultado.",
+    "rel": [
+      "UC-002",
+      "UC-003"
+    ],
+    "plano": "PLANO 001"
+  },
+  {
+    "id": "inspeccionar-el-montaje-antes-de-editar",
+    "uc": "UC-003",
+    "n": 3,
+    "t": "Inspeccionar el montaje antes de editar",
+    "s": "Entender qué hay realmente en el timeline abierto antes de modificarlo.",
+    "c": "preparacion-y-analisis",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "análisis de vídeo",
+      "brutos",
+      "Media Pool"
+    ],
+    "hizo": "El agente consultaba nombre de proyecto, timeline activo, pistas, clips, duraciones y offsets para relacionar la petición con el estado real. Estas lecturas aparecen en operaciones de subtítulos, revisiones y exportaciones.",
+    "esperado": "Mapa del timeline con pistas, formato, duración y puntos afectados por el encargo.",
+    "saber": "El estado puede cambiar si el usuario abre otro proyecto o edita simultáneamente. La información leída al principio puede dejar de ser válida durante un trabajo largo.",
+    "p": "Inspecciona el proyecto y timeline abiertos. Resume sus pistas, duración, formato y medios, identifica las versiones relacionadas y determina dónde encaja [cambio solicitado] antes de aplicarlo.",
+    "rel": [
+      "UC-004",
+      "UC-093",
+      "UC-106"
+    ],
+    "plano": "PLANO 003"
+  },
+  {
+    "id": "transcribir-entrevistas-para-poder-editarlas-por-contenido",
+    "uc": "UC-005",
+    "n": 5,
+    "t": "Transcribir entrevistas para poder editarlas por contenido",
+    "s": "Crear una representación textual de las voces que ayude a seleccionar declaraciones.",
+    "c": "preparacion-y-analisis",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Transcripción"
+    ],
+    "tags": [
+      "análisis de vídeo",
+      "brutos",
+      "Media Pool"
+    ],
+    "hizo": "En un proyecto de viaje se solicitó transcribir el material antes de construir una selección coral. En distintos trabajos también se contrastaron transcripciones y originales para localizar respuestas y revisar los cortes.",
+    "esperado": "Transcripción con tiempos de origen y términos dudosos identificados.",
+    "saber": "La transcripción puede fallar con nombres propios, ruido y habla espontánea. No debe tratarse como una reproducción infalible del audio ni como prueba de que una palabra se escucha completa.",
+    "p": "Transcribe los vídeos de [bin], conserva sus tiempos de origen y localiza declaraciones sobre [tema]. Marca los términos dudosos y comprueba las frases elegidas contra el material original.",
+    "rel": [
+      "UC-007",
+      "UC-084"
+    ],
+    "plano": "PLANO 005"
+  },
+  {
+    "id": "poner-en-marcha-el-analisis-visual-de-intellisearch",
+    "uc": "UC-006",
+    "n": 6,
+    "t": "Poner en marcha el análisis visual de IntelliSearch",
+    "s": "Preparar búsquedas de acciones, personas o lugares dentro del material grabado.",
+    "c": "preparacion-y-analisis",
+    "tools": [
+      "ChatGPT (Codex)",
+      "IntelliSearch",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "análisis de vídeo",
+      "brutos",
+      "Media Pool"
+    ],
+    "hizo": "Las conversaciones sobre el flujo de edición incluyeron el análisis de clips con IntelliSearch para comprender el metraje y orientar la elección de B-roll. El proyecto de viaje incluyó el encargo de transcribir e indexar el material.",
+    "esperado": "Material preparado para búsquedas visuales y selecciones vinculadas a intervalos comprobados.",
+    "saber": "La aceptación de una orden de análisis no entrega necesariamente descripciones ni intervalos. El documento histórico señala que, en aquella API, podía ser necesario consultar resultados desde la interfaz.",
+    "p": "Comprueba si [bin] ya tiene análisis visual. Analiza solo lo que falte y busca [acción o espacio]. Devuélveme clips e intervalos comprobados, explicando cómo has consultado los resultados.",
+    "rel": [
+      "UC-007",
+      "UC-031"
+    ],
+    "plano": "PLANO 006"
+  },
+  {
+    "id": "montar-un-reel-de-preguntas-y-respuestas",
+    "uc": "UC-014",
+    "n": 14,
+    "t": "Montar un reel de preguntas y respuestas",
+    "s": "Construir una conversación ágil en la que cada pregunta tenga una respuesta completa.",
+    "c": "narrativa-y-estructura",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "narrativa",
+      "montaje",
+      "entrevistas"
+    ],
+    "hizo": "En una inmobiliaria se eligieron preguntas, se ajustó su duración y se añadieron cartelas previas a las respuestas. Las revisiones ampliaron contenido y corrigieron cortes de palabras.",
+    "esperado": "Reel con preguntas legibles, respuestas completas y progresión clara.",
+    "saber": "La cartela no debe solaparse con la voz si se ha pedido leer la pregunta antes. Recortar la intervención puede eliminar matices o dejar una respuesta sin contexto.",
+    "p": "Monta un reel de preguntas y respuestas con [material]. Presenta cada pregunta antes de responder, elige respuestas completas y conserva el estilo de [referencia aprobada].",
+    "rel": [
+      "UC-015",
+      "UC-026",
+      "UC-108"
+    ],
+    "plano": "PLANO 014"
+  },
+  {
+    "id": "ordenar-una-visita-inmobiliaria",
+    "uc": "UC-016",
+    "n": 16,
+    "t": "Ordenar una visita inmobiliaria",
+    "s": "Hacer que el recorrido visual de una vivienda siga una progresión comprensible.",
+    "c": "narrativa-y-estructura",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "narrativa",
+      "montaje",
+      "entrevistas"
+    ],
+    "hizo": "En la visita a una vivienda el usuario detectó que la presentación estaba desordenada. Se reorganizaron espacios e intervenciones y se incorporó B-roll de terraza, suite y otros detalles.",
+    "esperado": "Recorrido de vivienda con orden espacial y recursos acordes al discurso.",
+    "saber": "Una sucesión de planos bonitos no equivale a un recorrido coherente. El montaje debe situar al espectador y evitar que una habitación ilustre por error otra característica.",
+    "p": "Reordena la visita de [vivienda] para que los espacios se entiendan. Haz coincidir cada explicación con su estancia y utiliza transiciones que mantengan la orientación del recorrido.",
+    "rel": [
+      "UC-017",
+      "UC-031",
+      "UC-110"
+    ],
+    "plano": "PLANO 016"
+  },
+  {
+    "id": "recuperar-una-caracteristica-importante-que-se-omitio",
+    "uc": "UC-017",
+    "n": 17,
+    "t": "Recuperar una característica importante que se omitió",
+    "s": "Añadir contenido obligatorio sin rehacer innecesariamente el montaje.",
+    "c": "narrativa-y-estructura",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Transcripción",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "narrativa",
+      "montaje",
+      "entrevistas"
+    ],
+    "hizo": "En la visita a una vivienda faltaba la intervención sobre el pasillo con ventanales, que el usuario consideraba relevante. Se recuperó la frase completa y se ajustaron recursos, música y subtítulos.",
+    "esperado": "Contenido importante recuperado e integrado con subtítulos y música.",
+    "saber": "Las prioridades comerciales y narrativas no siempre se deducen de la duración de una toma. Lo que el usuario identifica como esencial debe revisarse explícitamente en la entrega.",
+    "p": "Añade la explicación completa de [característica] a [versión]. Encuentra su mejor toma, intégrala con recursos y actualiza subtítulos y música sin perder [límite o contenido obligatorio].",
+    "rel": [
+      "UC-016",
+      "UC-063"
+    ],
+    "plano": "PLANO 017"
+  },
+  {
+    "id": "construir-un-arco-documental-con-material-real",
+    "uc": "UC-018",
+    "n": 18,
+    "t": "Construir un arco documental con material real",
+    "s": "Organizar esfuerzo, relaciones y resultado para que el vídeo tenga evolución emocional.",
+    "c": "narrativa-y-estructura",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "narrativa",
+      "montaje",
+      "entrevistas"
+    ],
+    "hizo": "Un documental deportivo combinó preparación, entrenamiento, conversaciones, competición y reflexión. Las revisiones buscaron dar presencia a ambos y alternar intimidad con energía.",
+    "esperado": "Documental con progresión narrativa y contraste emocional.",
+    "saber": "Un arco emotivo debe salir del contexto original. Reubicar reacciones vulnerables o frases puede cambiar su sentido; el criterio narrativo necesita apoyo en los brutos.",
+    "p": "Monta [historia] con preparación, dificultad, avance y reflexión. Usa declaraciones reales completas, alterna intimidad y acción y explica la función narrativa de los bloques elegidos.",
+    "rel": [
+      "UC-019",
+      "UC-047"
+    ],
+    "plano": "PLANO 018"
+  },
+  {
+    "id": "restaurar-la-pregunta-que-da-sentido-a-una-respuesta",
+    "uc": "UC-026",
+    "n": 26,
+    "t": "Restaurar la pregunta que da sentido a una respuesta",
+    "s": "Recuperar contexto cuando una afirmación aislada resulta ambigua.",
+    "c": "edicion-de-voz",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)",
+      "Transcripción"
+    ],
+    "tags": [
+      "voz",
+      "continuidad",
+      "entrevistas"
+    ],
+    "hizo": "En un proyecto de viaje, la selección incluía una respuesta equivalente a cien por cien sin pensárselo, pero faltaba la pregunta que permitía entender a qué se refería. Se volvió al original para completar la unidad.",
+    "esperado": "Respuesta comprensible con el contexto necesario.",
+    "saber": "Una respuesta contundente puede parecer un buen gancho y ser confusa fuera de contexto. Hay que revisar su referente y no atribuirle una recomendación más amplia que la original.",
+    "p": "Revisa [respuesta] en [timeline]. Recupera la pregunta o el contexto mínimo desde el bruto y reajusta el montaje para que se entienda sin cambiar su significado.",
+    "rel": [
+      "UC-012",
+      "UC-030"
+    ],
+    "plano": "PLANO 026"
+  },
+  {
+    "id": "reparar-sonidos-duplicados-en-un-empalme",
+    "uc": "UC-028",
+    "n": 28,
+    "t": "Reparar sonidos duplicados en un empalme",
+    "s": "Corregir un corte que produce una vocal repetida o una sílaba artificial.",
+    "c": "edicion-de-voz",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "voz",
+      "continuidad",
+      "entrevistas"
+    ],
+    "hizo": "En un documental deportivo, el usuario detectó una repetición de la e cerca de del no sé dónde. La reparación recuperó audio original continuo para evitar el empalme defectuoso.",
+    "esperado": "Empalme continuo sin duplicación de vocales o sílabas.",
+    "saber": "Un fundido no siempre arregla una unión verbal mal elegida. Si los fragmentos comparten partes del mismo sonido, es preferible revisar el intervalo de fuente.",
+    "p": "Repara la repetición de sonido en [timecode]. Compara el empalme con el original y utiliza audio continuo siempre que sea posible; exporta un fragmento para comprobarlo.",
+    "rel": [
+      "UC-024",
+      "UC-088"
+    ],
+    "plano": "PLANO 028"
+  },
+  {
+    "id": "sustituir-una-frase-cuya-grabacion-no-funciona",
+    "uc": "UC-029",
+    "n": 29,
+    "t": "Sustituir una frase cuya grabación no funciona",
+    "s": "Buscar una alternativa real cuando el tratamiento no consigue una voz suficientemente clara.",
+    "c": "edicion-de-voz",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Transcripción",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "voz",
+      "continuidad",
+      "entrevistas"
+    ],
+    "hizo": "En los teasers de un documental, frases emocionalmente potentes seguían sonando mal incluso después de limpieza. Se revisó más material y se eligieron otras declaraciones de entrevistas.",
+    "esperado": "Frase alternativa con intención adecuada y mejor inteligibilidad.",
+    "saber": "La recuperación de audio tiene límites. Repetir procesamiento sobre una toma deteriorada puede empeorar consonantes; cambiar de frase puede ser la mejor decisión editorial.",
+    "p": "Busca en todo [material] una alternativa a [frase] con intención semejante y mejor sonido. Usa declaraciones reales completas y reconstruye el teaser conservando su objetivo emocional.",
+    "rel": [
+      "UC-030",
+      "UC-088"
+    ],
+    "plano": "PLANO 029"
+  },
+  {
+    "id": "comprobar-si-existe-una-conclusion-antes-de-ampliarla",
+    "uc": "UC-030",
+    "n": 30,
+    "t": "Comprobar si existe una conclusión antes de ampliarla",
+    "s": "Evitar añadir una respuesta que el entrevistado nunca llegó a pronunciar.",
+    "c": "edicion-de-voz",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "voz",
+      "continuidad",
+      "entrevistas"
+    ],
+    "hizo": "El agente revisa el final de una respuesta, busca continuaciones en el resto de la grabación y determina si hay material real para construir una conclusión. Esta búsqueda permite completar una explicación sin atribuir al entrevistado palabras nuevas. Un ejemplo de aplicación es revisar una entrevista dental para localizar una última aclaración sobre el tema tratado.",
+    "esperado": "Cierre construido con material real y continuidad de significado.",
+    "saber": "Una sensación editorial de falta de cierre no demuestra que exista material omitido. Un texto nuevo tampoco debe hacerse pasar por una afirmación del entrevistado.",
+    "p": "Busca si hay continuación real de [respuesta]. Si no existe, explica qué dice exactamente el original y conserva el cierre actual salvo que te pida una alternativa editorial.",
+    "rel": [
+      "UC-026",
+      "UC-029"
+    ],
+    "plano": "PLANO 030"
+  },
+  {
+    "id": "ocultar-un-salto-visual-con-b-roll-pertinente",
+    "uc": "UC-032",
+    "n": 32,
+    "t": "Ocultar un salto visual con B-roll pertinente",
+    "s": "Cubrir el cambio de toma que deja una limpieza del discurso.",
+    "c": "b-roll-y-planos",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "B-roll",
+      "selección de planos",
+      "montaje"
+    ],
+    "hizo": "Al retirar errores y silencios de presentadores, se colocaron recursos sobre el empalme para sostener la continuidad visual. El plano de apoyo se eligió según la explicación.",
+    "esperado": "Saltos visuales cubiertos por recursos con continuidad de voz.",
+    "saber": "El B-roll puede ocultar un salto de imagen, pero no corrige una frase mal unida. La continuidad acústica y semántica debe resolverse antes de cubrirla.",
+    "p": "Cubre los empalmes visuales de [pieza] con recursos pertinentes. Primero comprueba que la voz es continua y después ajusta los recursos hasta los cortes inferiores.",
+    "rel": [
+      "UC-024",
+      "UC-095",
+      "UC-101",
+      "UC-102"
+    ],
+    "plano": "PLANO 032"
+  },
+  {
+    "id": "mostrar-al-portavoz-durante-una-afirmacion-importante",
+    "uc": "UC-034",
+    "n": 34,
+    "t": "Mostrar al portavoz durante una afirmación importante",
+    "s": "Retirar B-roll donde interesa ver a la persona que asume el mensaje.",
+    "c": "b-roll-y-planos",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "B-roll",
+      "selección de planos",
+      "montaje"
+    ],
+    "hizo": "En una empresa tecnológica se pidió mostrar al portavoz al decir ahorrándole así muchos costes. La intervención quedaba tapada y se modificó su cobertura en las versiones correspondientes.",
+    "esperado": "Portavoz visible en los mensajes de mayor relevancia.",
+    "saber": "El B-roll no siempre es la imagen más informativa. Una promesa, explicación o invitación puede ganar credibilidad cuando vemos el gesto y la expresión del portavoz.",
+    "p": "En [frase o timecode], muestra al portavoz en su toma original. Ajusta las coberturas de las versiones derivadas y conserva los recursos donde sí aportan.",
+    "rel": [
+      "UC-035",
+      "UC-020"
+    ],
+    "plano": "PLANO 034"
+  },
+  {
+    "id": "reutilizar-recursos-de-otro-proyecto-del-mismo-cliente",
+    "uc": "UC-036",
+    "n": 36,
+    "t": "Reutilizar recursos de otro proyecto del mismo cliente",
+    "s": "Aprovechar grabaciones reales existentes para ilustrar una nueva pieza.",
+    "c": "b-roll-y-planos",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "B-roll",
+      "selección de planos",
+      "montaje"
+    ],
+    "hizo": "La presentación de una empresa tecnológica necesitaba imágenes de pantallas y salas. Se pidió sustituir fotos por B-roll del proyecto específico de instalaciones realizado anteriormente.",
+    "esperado": "Montaje enriquecido con recursos reales de otros trabajos del mismo cliente.",
+    "saber": "La reutilización requiere localizar las fuentes correctas y mantener su trazabilidad. No conviene copiar una exportación si se dispone de los originales necesarios para el nuevo formato.",
+    "p": "Busca en [proyecto anterior] los mejores planos de [servicio] e incorpóralos a [montaje actual]. Conserva sus rutas de origen y adapta color y encuadre.",
+    "rel": [
+      "UC-031",
+      "UC-010"
+    ],
+    "plano": "PLANO 036"
+  },
+  {
+    "id": "elegir-acciones-con-fuerza-visual",
+    "uc": "UC-040",
+    "n": 40,
+    "t": "Elegir acciones con fuerza visual",
+    "s": "Buscar momentos que atraigan la atención por lo que sucede dentro del plano.",
+    "c": "b-roll-y-planos",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "B-roll",
+      "selección de planos",
+      "montaje"
+    ],
+    "hizo": "La pieza de un restaurante se refinó con elaboración de cachopo, queso cayendo, cuchillo rompiendo un huevo y entrada de pizza al horno. En otros clientes se priorizaron sonrisas, esfuerzo y gestos.",
+    "esperado": "Secuencia con acciones expresivas y momentos visualmente legibles.",
+    "saber": "Una acción llamativa tiene que estar bien enfocada y ser legible. Su valor no depende solo del movimiento; también importan el momento exacto, la luz y la composición.",
+    "p": "Selecciona los intervalos más expresivos de [brutos]: acciones completas, buena luz y foco correcto. Construye una secuencia que combine detalles y planos de contexto.",
+    "rel": [
+      "UC-039",
+      "UC-041",
+      "UC-105",
+      "UC-106"
+    ],
+    "plano": "PLANO 040"
+  },
+  {
+    "id": "sincronizar-riser-interrupcion-e-impacto",
+    "uc": "UC-043",
+    "n": 43,
+    "t": "Sincronizar riser, interrupción e impacto",
+    "s": "Dar una forma sonora precisa al punto de tensión de un gancho.",
+    "c": "ritmo-ganchos-y-musica",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "ritmo",
+      "música",
+      "storytelling"
+    ],
+    "hizo": "El usuario pidió que el riser se oyera más, que se cortara justo después de fue en… y que entrara un impacto inmediato. En revisiones posteriores se retiró música de esa subida.",
+    "esperado": "Gancho con riser, corte e impacto sincronizados.",
+    "saber": "El SFX debe coincidir con el evento editorial y no comerse la voz. Más volumen no sustituye a escoger un buen efecto y ajustar su ataque.",
+    "p": "En el gancho de [reel], construye el riser hasta [frase], córtalo exactamente después y coloca un hit. Mantén la voz clara y revisa la transición musical.",
+    "rel": [
+      "UC-042",
+      "UC-089",
+      "UC-115"
+    ],
+    "plano": "PLANO 043"
+  },
+  {
+    "id": "alternar-emocion-y-energia",
+    "uc": "UC-047",
+    "n": 47,
+    "t": "Alternar emoción y energía",
+    "s": "Evitar que un documental permanezca demasiado tiempo en una sola intensidad.",
+    "c": "ritmo-ganchos-y-musica",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "ritmo",
+      "música",
+      "storytelling"
+    ],
+    "hizo": "Las revisiones de un documental deportivo buscaron contrastar conversación íntima, entrenamiento, preparación y competición. Se redujeron bloques visualmente monótonos y se aprovecharon cambios musicales.",
+    "esperado": "Montaje con contraste entre intimidad, esfuerzo y celebración.",
+    "saber": "La alternancia no consiste en introducir épica a intervalos fijos. Debe seguir lo que sucede y permitir que los momentos vulnerables se asienten.",
+    "p": "Revisa el arco emocional de [documental]. Detecta bloques monótonos y alterna intimidad, esfuerzo y celebración cuando el material lo justifique, sin romper el contexto.",
+    "rel": [
+      "UC-018",
+      "UC-048"
+    ],
+    "plano": "PLANO 047"
+  },
+  {
+    "id": "diferenciar-bloques-con-musicas-distintas",
+    "uc": "UC-049",
+    "n": 49,
+    "t": "Diferenciar bloques con músicas distintas",
+    "s": "Usar cambios musicales para apoyar etapas narrativas o temas.",
+    "c": "ritmo-ganchos-y-musica",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "ritmo",
+      "música",
+      "storytelling"
+    ],
+    "hizo": "En un documental deportivo se pidió música nueva en capítulos con sentido. En una clínica dental y una inmobiliaria también se eligieron canciones distintas por reel para evitar uniformidad.",
+    "esperado": "Bloques diferenciados por carácter musical y transiciones cuidadas.",
+    "saber": "No basta con cambiar de archivo: hay que enlazar fraseo y energía y evitar que dos canciones incompatibles se unan con un fundido largo. La disponibilidad y licencia dependen del proyecto.",
+    "p": "Propón una música distinta para cada bloque de [vídeo] según su función. Integra transiciones musicales naturales y conserva los justificantes de las pistas utilizadas.",
+    "rel": [
+      "UC-019",
+      "UC-050",
+      "UC-114",
+      "UC-116"
+    ],
+    "plano": "PLANO 049"
+  },
+  {
+    "id": "terminar-con-el-remate-real-de-la-cancion",
+    "uc": "UC-050",
+    "n": 50,
+    "t": "Terminar con el remate real de la canción",
+    "s": "Ajustar el final para utilizar la resolución original de la música.",
+    "c": "ritmo-ganchos-y-musica",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "ritmo",
+      "música",
+      "storytelling"
+    ],
+    "hizo": "El usuario fijó como preferencia que las cartelas y tramos finales sin voces usen el final real y audible de la canción. Se aplicó expresamente a dos reels de una inmobiliaria.",
+    "esperado": "Cierre con remate original de la canción y cartela coordinada.",
+    "saber": "Un fade sobre una sección intermedia no cumple este criterio. Puede ser necesario empalmar otro tramo musical o reajustar la duración del cierre para que la resolución tenga espacio.",
+    "p": "Rehaz el cierre de [pieza] usando el final real de [canción]. Haz audible su remate cuando termine la voz y ajusta el empalme y la cartela para que resuelva naturalmente.",
+    "rel": [
+      "UC-044",
+      "UC-089",
+      "UC-116"
+    ],
+    "plano": "PLANO 050"
+  },
+  {
+    "id": "mantener-encuadrada-a-una-persona-que-se-mueve",
+    "uc": "UC-053",
+    "n": 53,
+    "t": "Mantener encuadrada a una persona que se mueve",
+    "s": "Acompañar desplazamientos sin perder al protagonista en el recorte vertical.",
+    "c": "encuadre-y-formatos",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)",
+      "Revisión de imagen y audio"
+    ],
+    "tags": [
+      "reencuadre",
+      "formatos",
+      "redes sociales"
+    ],
+    "hizo": "El agente sigue el movimiento de una persona y ajusta el encuadre para mantenerla bien situada durante toda la toma. Puede conservar una composición lateral que deje espacio hacia la mirada o para títulos. En entrevistas inmobiliarias, esta técnica permite acompañar desplazamientos dentro de un formato vertical.",
+    "esperado": "Protagonista encuadrado durante sus desplazamientos.",
+    "saber": "Seguir una cara no garantiza un encuadre estético. Hay que revisar cabeza, manos, dirección de mirada, espacio disponible y suavidad del movimiento.",
+    "p": "Aplica seguimiento a [persona] en [clip] para el formato [formato]. Mantén una composición estable y revisa principio, desplazamientos y final en la exportación.",
+    "rel": [
+      "UC-054",
+      "UC-078",
+      "UC-111"
+    ],
+    "plano": "PLANO 053"
+  },
+  {
+    "id": "ocultar-distracciones-mediante-zoom-y-posicion",
+    "uc": "UC-055",
+    "n": 55,
+    "t": "Ocultar distracciones mediante zoom y posición",
+    "s": "Sacar objetos del encuadre sin añadir efectos que llamen más la atención.",
+    "c": "encuadre-y-formatos",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "reencuadre",
+      "formatos",
+      "redes sociales"
+    ],
+    "hizo": "El agente modifica zoom y posición para sacar elementos que distraen, como una mochila a un lado del plano o cajas bajo una pantalla. Revisa todo el movimiento y mantiene visibles las acciones y explicaciones relevantes. El procedimiento se puede aplicar a las distintas adaptaciones de un mismo vídeo.",
+    "esperado": "Encuadre más limpio que conserva la información importante.",
+    "saber": "El recorte no puede hacer desaparecer información que explica la escena, como los dibujos de la pizarra. Hay que equilibrar limpieza visual y contenido útil.",
+    "p": "Reencuadra [clip] para ocultar [objeto] sin desenfoque. Mantén visible la demostración y comprueba que el zoom conserva calidad suficiente en el formato de entrega.",
+    "rel": [
+      "UC-057",
+      "UC-077"
+    ],
+    "plano": "PLANO 055"
+  },
+  {
+    "id": "corregir-orientacion-e-inclinacion-de-una-toma",
+    "uc": "UC-056",
+    "n": 56,
+    "t": "Corregir orientación e inclinación de una toma",
+    "s": "Reparar imágenes giradas o torcidas antes de integrarlas en el montaje.",
+    "c": "encuadre-y-formatos",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "reencuadre",
+      "formatos",
+      "redes sociales"
+    ],
+    "hizo": "En una quedada de coches se pidió incorporar un clip con la orientación corregida. Una academia también recibió material móvil marcado como vertical aunque su contenido debía mostrarse horizontal.",
+    "esperado": "Toma orientada y enderezada con bordes y escala comprobados.",
+    "saber": "La orientación del archivo y la inclinación de la cámara son problemas diferentes. Es necesario revisar el plano visible y no limitarse al dato de rotación del contenedor.",
+    "p": "Añade [clip] a [montaje], corrige su orientación y endereza la imagen si procede. Comprueba bordes, escala y continuidad con los planos vecinos.",
+    "rel": [
+      "UC-057",
+      "UC-058"
+    ],
+    "plano": "PLANO 056"
+  },
+  {
+    "id": "componer-varias-imagenes-dentro-de-una-pantalla",
+    "uc": "UC-060",
+    "n": 60,
+    "t": "Componer varias imágenes dentro de una pantalla",
+    "s": "Mostrar información complementaria mediante filas o áreas de vídeo simultáneas.",
+    "c": "encuadre-y-formatos",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)",
+      "Remotion"
+    ],
+    "tags": [
+      "reencuadre",
+      "formatos",
+      "redes sociales"
+    ],
+    "hizo": "En el chalet se sustituyó una toma larga de una silla por tres filas con dormitorio principal, otro dormitorio y despacho. Un estudio de pilates utilizó una portada con cuatro secciones de vídeo.",
+    "esperado": "Composición de varias ventanas con información complementaria.",
+    "saber": "Cada ventana reduce el tamaño disponible. Las acciones deben ser legibles y la composición tiene que convivir con títulos y subtítulos sin parecer una cuadrícula arbitraria.",
+    "p": "Crea una composición de [número] áreas para ilustrar [idea]. Usa vídeos que aporten información diferente, coordina sus movimientos y revisa la legibilidad en móvil.",
+    "rel": [
+      "UC-092",
+      "UC-086",
+      "UC-107"
+    ],
+    "plano": "PLANO 060"
+  },
+  {
+    "id": "dividir-un-overlay-en-modulos-recortables",
+    "uc": "UC-066",
+    "n": 66,
+    "t": "Dividir un overlay en módulos recortables",
+    "s": "Permitir mover rótulos y bloques sin rehacer todo el vídeo gráfico.",
+    "c": "identidad-y-motion-graphics",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Remotion"
+    ],
+    "tags": [
+      "identidad visual",
+      "motion graphics",
+      "Remotion"
+    ],
+    "hizo": "En el primer overlay de una academia se pidió que las partes pudieran recortarse y desplazarse. Se organizaron quince módulos con entradas y salidas independientes y un mapa de tiempos.",
+    "esperado": "Módulos gráficos independientes con mapa de tiempos.",
+    "saber": "Un archivo largo puede contener módulos editables por corte, pero sus entradas y salidas necesitan espacio suficiente. Las fuentes siguen siendo necesarias para cambiar textos o duración interna.",
+    "p": "Prepara el overlay de [pieza] en módulos independientes. Deja entradas y salidas completas, evita solaparlas y entrega un índice de tiempos para recortarlos en Resolve.",
+    "rel": [
+      "UC-065",
+      "UC-095"
+    ],
+    "plano": "PLANO 066"
+  },
+  {
+    "id": "visualizar-un-proceso-con-progreso-animado",
+    "uc": "UC-067",
+    "n": 67,
+    "t": "Visualizar un proceso con progreso animado",
+    "s": "Convertir una enumeración verbal en una secuencia visual que muestre avance.",
+    "c": "identidad-y-motion-graphics",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Remotion",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "identidad visual",
+      "motion graphics",
+      "Remotion"
+    ],
+    "hizo": "En una empresa tecnológica se creó un gráfico sincronizado con idea, implementación, puesta en marcha, formación y soporte. Después se movió a la derecha para aprovechar el espacio vacío.",
+    "esperado": "Proceso animado sincronizado con las etapas de la explicación.",
+    "saber": "El progreso debe seguir la explicación real. Una etapa no debería aparecer como completada antes de que se mencione o coincidir con un gesto que el gráfico oculta.",
+    "p": "Crea un progreso animado para [etapas] en [timecodes]. Sincronízalo con la voz, colócalo en el espacio libre y conserva visibles al portavoz y sus demostraciones.",
+    "rel": [
+      "UC-035",
+      "UC-068"
+    ],
+    "plano": "PLANO 067"
+  },
+  {
+    "id": "crear-animaciones-dentales-didacticas",
+    "uc": "UC-069",
+    "n": 69,
+    "t": "Crear animaciones dentales didácticas",
+    "s": "Mostrar mecanismos y estructuras relacionados con una explicación grabada.",
+    "c": "identidad-y-motion-graphics",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Remotion",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "identidad visual",
+      "motion graphics",
+      "Remotion"
+    ],
+    "hizo": "Una clínica dental utilizó escenas de abrasión, esmalte, acidez, implantes, mordida y nomenclatura. Las revisiones pidieron más realismo, mejores acercamientos y etiquetas útiles en móvil.",
+    "esperado": "Animación didáctica con acercamientos y etiquetas legibles.",
+    "saber": "El esquema no sustituye una revisión de contenido por un especialista. Debe distinguir anatomía esquemática, escala y efectos representativos de afirmaciones clínicas cuantificadas.",
+    "p": "Crea una animación didáctica sobre [concepto] para acompañar [frase]. Usa referencias fiables, evita detalles inventados y diseña acercamientos y etiquetas legibles en móvil.",
+    "rel": [
+      "UC-068",
+      "UC-086"
+    ],
+    "plano": "PLANO 069"
+  },
+  {
+    "id": "animar-un-logotipo-y-cerrar-un-bucle-continuo",
+    "uc": "UC-070",
+    "n": 70,
+    "t": "Animar un logotipo y cerrar un bucle continuo",
+    "s": "Hacer que el final y el principio de una demo enlacen visualmente.",
+    "c": "identidad-y-motion-graphics",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Remotion",
+      "Resolve (MCP/API)",
+      "Revisión de imagen y audio"
+    ],
+    "tags": [
+      "identidad visual",
+      "motion graphics",
+      "Remotion"
+    ],
+    "hizo": "El agente crea una animación del logotipo y coordina su movimiento con el inicio y el final de la pieza. Puede combinar volumen 3D, iluminación de marca y un giro de salida hasta quedar de canto. En demos gastronómicas, un fondo real y luz cálida ayudan a integrar la cartela en el ambiente del vídeo.",
+    "esperado": "Logotipo animado con transición continua entre final e inicio.",
+    "saber": "La continuidad del bucle incluye imagen, movimiento y ritmo. Revisar el último fotograma, el primero y varios fotogramas a ambos lados del empalme permite comprobar que la animación continúa con fluidez.",
+    "p": "Anima el logo de [marca] y diseña inicio y final de [demo] para reproducción en bucle. Coordina movimiento e iluminación y comprueba el empalme fotograma a fotograma.",
+    "rel": [
+      "UC-061",
+      "UC-097"
+    ],
+    "plano": "PLANO 070"
+  },
+  {
+    "id": "sincronizar-dos-videos-por-su-audio-comun",
+    "uc": "UC-076",
+    "n": 76,
+    "t": "Sincronizar dos vídeos por su audio común",
+    "s": "Alinear una referencia y su reacción a partir de una señal compartida.",
+    "c": "mascaras-y-composicion",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "máscaras",
+      "composición",
+      "seguimiento"
+    ],
+    "hizo": "La composición del vídeo de reacción necesitaba que ambos vídeos coincidieran. Se utilizaron forma de onda o correlación y se conservaron sus audios donde aportaban conversación simultánea.",
+    "esperado": "Dos fuentes alineadas con comprobación de sincronía y deriva.",
+    "saber": "Duraciones parecidas no prueban sincronía. Es necesario comprobar un evento reconocible y revisar principio y final para detectar deriva entre fuentes.",
+    "p": "Sincroniza [clip A] y [clip B] por el audio común. Confirma un transitorio o frase, revisa posible deriva y conserva ambas voces cuando formen parte de la escena.",
+    "rel": [
+      "UC-073",
+      "UC-087"
+    ],
+    "plano": "PLANO 076"
+  },
+  {
+    "id": "crear-desenfoque-de-fondo-con-separacion-del-sujeto",
+    "uc": "UC-078",
+    "n": 78,
+    "t": "Crear desenfoque de fondo con separación del sujeto",
+    "s": "Reducir distracciones del fondo manteniendo nítido al protagonista.",
+    "c": "mascaras-y-composicion",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Máscaras y composición",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "máscaras",
+      "composición",
+      "seguimiento"
+    ],
+    "hizo": "El agente separa al sujeto del fondo mediante una máscara con seguimiento y aplica desenfoque a la capa posterior. Ajusta intensidad, transición de bordes y profundidad visual para disimular carteles u objetos sin perjudicar el rostro. La técnica puede combinarse con reencuadre para concentrar la atención en la persona que habla.",
+    "esperado": "Fondo desenfocado con sujeto definido y contornos naturales.",
+    "saber": "Revisar pelo, orejas, manos, movimiento y zonas de contacto con el fondo. La intensidad debe ser coherente con la toma y el contorno debe conservar una transición natural. Comparar varios momentos permite detectar halos y parpadeo.",
+    "p": "Aplica desenfoque de fondo a [plano] para reducir [distracción]. Mantén nítida a la persona, ajusta los bordes de la máscara y revisa el resultado durante todo su movimiento.",
+    "rel": [
+      "UC-053",
+      "UC-055"
+    ],
+    "plano": "PLANO 078"
+  },
+  {
+    "id": "crear-light-leaks-que-funcionen-como-transicion",
+    "uc": "UC-079",
+    "n": 79,
+    "t": "Crear light leaks que funcionen como transición",
+    "s": "Diseñar un destello de luz que oculte el corte con presencia controlada.",
+    "c": "mascaras-y-composicion",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "máscaras",
+      "composición",
+      "seguimiento"
+    ],
+    "hizo": "El agente diseña transiciones de luz en momentos relevantes del montaje, combinando un light leak con un efecto sonoro acorde. Ajusta su cobertura, intensidad, duración y salida para que el destello conecte las tomas. En reels de ejercicio puede marcar el paso a la demostración o la entrada de una cartela.",
+    "esperado": "Transiciones de luz sincronizadas con imagen y sonido.",
+    "saber": "El efecto necesita cubrir el corte y respetar caras, exposición y continuidad. Ajustar su intensidad en el compuesto final y sincronizar el sonido con el punto de mayor luz ayuda a integrarlo.",
+    "p": "Añade light leaks en [momentos] de [reel], con SFX suave. Haz que cubran el corte, ajusta su intensidad y comprueba la transición en el vídeo compuesto.",
+    "rel": [
+      "UC-043",
+      "UC-089",
+      "UC-115"
+    ],
+    "plano": "PLANO 079"
+  },
+  {
+    "id": "resaltar-zonas-corporales-con-iluminacion-y-seguimiento",
+    "uc": "UC-080",
+    "n": 80,
+    "t": "Resaltar zonas corporales con iluminación y seguimiento",
+    "s": "Marcar una región del cuerpo con una capa gráfica sincronizada con la demostración.",
+    "c": "mascaras-y-composicion",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Máscaras y composición",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "máscaras",
+      "composición",
+      "seguimiento"
+    ],
+    "hizo": "El agente identifica la zona que se quiere explicar, crea una máscara con seguimiento y aplica un resplandor o color localizado. Mantiene las oclusiones de brazos y objetos y puede añadir una etiqueta. Por ejemplo, una explicación de movimiento puede acompañarse de una iluminación roja de la región lumbar.",
+    "esperado": "Región corporal destacada con seguimiento, oclusiones y etiqueta.",
+    "saber": "Ajustar la máscara al área concreta, conservar volumen y oclusiones y revisar toda la acción. La iluminación debe funcionar como una indicación gráfica clara, con una etiqueta que identifique qué se está mostrando.",
+    "p": "Resalta [zona corporal] durante [ejercicio] con una iluminación [color] y una etiqueta legible. Aplica seguimiento, respeta las oclusiones y comprueba el movimiento completo.",
+    "rel": [
+      "UC-072",
+      "UC-069"
+    ],
+    "plano": "PLANO 080"
+  },
+  {
+    "id": "sustituir-subtitulos-renderizados-por-pistas-nativas",
+    "uc": "UC-082",
+    "n": 82,
+    "t": "Sustituir subtítulos renderizados por pistas nativas",
+    "s": "Recuperar edición rápida de palabras y estilo cuando el texto estaba en un overlay.",
+    "c": "subtitulos",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Revisión de imagen y audio"
+    ],
+    "tags": [
+      "subtítulos",
+      "accesibilidad",
+      "texto"
+    ],
+    "hizo": "En un documental deportivo se pidió retirar los subtítulos hechos con Remotion y hacerlos nativos. En un estudio de pilates también se corrigió la implementación para que los visibles fueran editables en Resolve.",
+    "esperado": "Subtítulos nativos sin duplicados renderizados.",
+    "saber": "No basta con añadir un SRT si el texto renderizado anterior sigue visible. Hay que retirar la capa que lo duplica y comprobar el aspecto final.",
+    "p": "Sustituye los subtítulos renderizados de [pieza] por subtítulos nativos. Conserva texto y sincronía, elimina duplicados visibles y aplica el estilo acordado.",
+    "rel": [
+      "UC-081",
+      "UC-083"
+    ],
+    "plano": "PLANO 082"
+  },
+  {
+    "id": "dar-estilo-corporativo-a-subtitulos-nativos",
+    "uc": "UC-085",
+    "n": 85,
+    "t": "Dar estilo corporativo a subtítulos nativos",
+    "s": "Ajustar el texto para que sea legible y coherente con la marca.",
+    "c": "subtitulos",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "subtítulos",
+      "accesibilidad",
+      "texto"
+    ],
+    "hizo": "Se usaron fondos rojos para un cliente, azul corporativo en una empresa tecnológica y estilos específicos de una clínica dental y un estudio de pilates. Se revisaron tamaño, posición y esquinas redondeadas.",
+    "esperado": "Subtítulos con estilo corporativo comprobado en el render.",
+    "saber": "Las unidades del inspector no siempre equivalen a píxeles del render. Los valores históricos de un cliente no deben copiarse a otro sin comprobar la imagen exportada.",
+    "p": "Aplica a los subtítulos nativos de [pieza] el estilo [referencia]. Revisa tamaño real, fondo, esquinas y posición en una muestra exportada del formato final.",
+    "rel": [
+      "UC-081",
+      "UC-086"
+    ],
+    "plano": "PLANO 085"
+  },
+  {
+    "id": "revisar-legibilidad-y-zonas-seguras-de-instagram",
+    "uc": "UC-086",
+    "n": 86,
+    "t": "Revisar legibilidad y zonas seguras de Instagram",
+    "s": "Evitar que títulos, subtítulos y controles de la plataforma compitan por el mismo espacio.",
+    "c": "subtitulos",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Revisión de imagen y audio",
+      "Resolve (MCP/API)",
+      "Remotion"
+    ],
+    "tags": [
+      "subtítulos",
+      "accesibilidad",
+      "texto"
+    ],
+    "hizo": "Una clínica dental y un estudio de pilates necesitaron recolocar cartelas y reducir textos. En una empresa tecnológica se adaptaron gráficos de horizontal a vertical y anuncios sin dejar todo desplazado o descentrado.",
+    "esperado": "Composición legible en móvil y compatible con las zonas de interfaz.",
+    "saber": "Las zonas de interfaz pueden variar y no existe un conjunto de coordenadas que garantice todas las situaciones. Hay que revisar también la composición en un reproductor limpio.",
+    "p": "Revisa [pieza] en tamaño móvil. Ajusta cartelas y subtítulos para respetar zonas de interfaz, mantener el centro visual y evitar solapamientos durante toda la animación.",
+    "rel": [
+      "UC-051",
+      "UC-060"
+    ],
+    "plano": "PLANO 086"
+  },
+  {
+    "id": "mejorar-una-voz-dificil-sin-destruir-su-articulacion",
+    "uc": "UC-088",
+    "n": 88,
+    "t": "Mejorar una voz difícil sin destruir su articulación",
+    "s": "Revisar fuente, canal y procesamiento antes de aplicar más limpieza.",
+    "c": "audio",
+    "tools": [
+      "ChatGPT (Codex)"
+    ],
+    "tags": [
+      "audio",
+      "mezcla",
+      "voz"
+    ],
+    "hizo": "En un documental deportivo se amplió el margen de tres intervenciones, se añadieron fundidos y se eligió el canal más inteligible del iPhone. Se redujo tratamiento que deterioraba consonantes.",
+    "esperado": "Voz tratada conservando articulación y naturalidad.",
+    "saber": "La documentación no certifica una voz perfectamente restaurada. Cuando la fuente es mala, conviene comparar con el original y buscar otra intervención si el tratamiento empeora la inteligibilidad.",
+    "p": "Mejora las voces de [pieza] comparando canales y original. Recupera márgenes, reduce procesamiento dañino y usa fundidos; si una frase sigue mal, propone otra fuente real.",
+    "rel": [
+      "UC-029",
+      "UC-024"
+    ],
+    "plano": "PLANO 088"
+  },
+  {
+    "id": "mezclar-musica-y-sfx-alrededor-de-la-voz",
+    "uc": "UC-089",
+    "n": 89,
+    "t": "Mezclar música y SFX alrededor de la voz",
+    "s": "Dar presencia sonora al vídeo sin ocultar el contenido hablado.",
+    "c": "audio",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "audio",
+      "mezcla",
+      "voz"
+    ],
+    "hizo": "En una clínica dental se subió una música demasiado baja y se protegió la voz; en una empresa tecnológica se sustituyeron SFX y se ajustó su nivel; una inmobiliaria necesitó risers más claros.",
+    "esperado": "Mezcla equilibrada de voz, música y efectos.",
+    "saber": "Un efecto con picos bajos puede resultar molesto y otro apenas perceptible. Las cifras ayudan a controlar, pero la mezcla se evalúa en contexto y con escucha.",
+    "p": "Mezcla [música y SFX] en [timeline]. Hazlos perceptibles donde aportan, reduce competencia durante la voz y revisa entradas, salidas y cierre en una exportación.",
+    "rel": [
+      "UC-043",
+      "UC-050",
+      "UC-114",
+      "UC-115"
+    ],
+    "plano": "PLANO 089"
+  },
+  {
+    "id": "corregir-e-igualar-color-segun-el-material-real",
+    "uc": "UC-090",
+    "n": 90,
+    "t": "Corregir e igualar color según el material real",
+    "s": "Dar continuidad entre tomas y mejorar exposición sin imponer un preset universal.",
+    "c": "color",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)",
+      "Revisión de imagen y audio"
+    ],
+    "tags": [
+      "color",
+      "exposición",
+      "etalonaje"
+    ],
+    "hizo": "En la visita a una vivienda se redujo una dominante rosada y se igualaron once clips; en una clínica dental se corrigieron nueve tomas; un restaurante pidió color más apetecible.",
+    "esperado": "Planos con exposición, balance y continuidad de color coherentes.",
+    "saber": "Una señal de 10 bits no garantiza HDR ni permite recuperar información totalmente quemada. Los valores de color elegidos para un plano no son parámetros universales.",
+    "p": "Corrige exposición, balance y continuidad de color de [timeline]. Trabaja por toma, conserva una versión anterior y señala qué altas luces no se pueden recuperar desde el original.",
+    "rel": [
+      "UC-039",
+      "UC-057",
+      "UC-117",
+      "UC-118",
+      "UC-119"
+    ],
+    "plano": "PLANO 090"
+  },
+  {
+    "id": "eliminar-destellos-del-plano-inferior",
+    "uc": "UC-095",
+    "n": 95,
+    "t": "Eliminar destellos del plano inferior",
+    "s": "Corregir recursos que dejan ver brevemente una imagen que debería estar cubierta.",
+    "c": "control-de-calidad",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)",
+      "Revisión de imagen y audio"
+    ],
+    "tags": [
+      "control de calidad",
+      "revisión",
+      "exportación"
+    ],
+    "hizo": "Una clínica dental, una academia y un documental deportivo presentaron B-roll que terminaba antes del corte inferior o fundidos que transparentaban la toma base. El usuario corrigió algunos y pidió revisar el patrón.",
+    "esperado": "Coberturas sin apariciones fugaces del plano inferior.",
+    "saber": "La duración nominal del recurso puede coincidir y aun así dejar ver el fondo por su fade. Hay que inspeccionar el compuesto y ambos bordes del empalme.",
+    "p": "Revisa todos los B-roll de [montaje]. Elimina reapariciones fugaces del plano inferior ajustando cobertura y fundidos, y conserva los cambios que ya he hecho.",
+    "rel": [
+      "UC-032",
+      "UC-096"
+    ],
+    "plano": "PLANO 095"
+  },
+  {
+    "id": "detectar-congelaciones-y-saltos-de-accion",
+    "uc": "UC-096",
+    "n": 96,
+    "t": "Detectar congelaciones y saltos de acción",
+    "s": "Reparar fragmentos que quedan estáticos o parecen retroceder al empezar.",
+    "c": "control-de-calidad",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)",
+      "Revisión de imagen y audio"
+    ],
+    "tags": [
+      "control de calidad",
+      "revisión",
+      "exportación"
+    ],
+    "hizo": "El agente revisa los puntos de entrada, salida y cambios de recurso para detectar imagen congelada, fotogramas repetidos o pequeños retrocesos de acción. Ajusta los intervalos de origen o selecciona una toma alternativa. El procedimiento permite corregir tarjetas de carrusel manteniendo voz, subtítulos y duración.",
+    "esperado": "Secuencia sin congelaciones ni retrocesos involuntarios.",
+    "saber": "Comprobar la secuencia completa y no solo el fotograma donde aparece el defecto. Revisar tanto el movimiento como la función del plano ayuda a elegir entre reparar el intervalo o sustituirlo.",
+    "p": "Revisa [tarjetas] buscando congelaciones, repeticiones y saltos hacia atrás. Corrige intervalos o sustituye tomas, conservando audio y duración salvo que el contenido exija otra decisión.",
+    "rel": [
+      "UC-039",
+      "UC-095"
+    ],
+    "plano": "PLANO 096"
+  },
+  {
+    "id": "exportar-un-lote-en-h-265-con-subtitulos-integrados",
+    "uc": "UC-098",
+    "n": 98,
+    "t": "Exportar un lote en H.265 con subtítulos integrados",
+    "s": "Preparar múltiples entregables desde sus timelines sin perder la edición original.",
+    "c": "versiones-y-entrega",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "versiones",
+      "entrega",
+      "gestión de proyectos"
+    ],
+    "hizo": "El proyecto de viaje exportó siete testimonios verticales; una clínica dental entregó cinco reels seleccionados; un documental deportivo reunió cuatro timelines finales. El usuario pidió H.265 y texto integrado en las piezas verticales.",
+    "esperado": "Lote H.265 organizado con subtítulos integrados donde corresponda.",
+    "saber": "H.265 no garantiza por sí solo menor tamaño a cualquier ajuste. Hay que elegir parámetros adecuados y comprobar compatibilidad, audio y que se exportan las versiones solicitadas.",
+    "p": "Exporta los timelines [lista] en MP4 H.265 a [carpeta], con subtítulos integrados donde corresponda. Conserva sus pistas nativas y comprueba todos los archivos antes de entregar.",
+    "rel": [
+      "UC-097",
+      "UC-099",
+      "UC-109",
+      "UC-120",
+      "UC-122"
+    ],
+    "plano": "PLANO 098"
+  },
+  {
+    "id": "organizar-el-proyecto-y-limpiar-recursos-prescindibles",
+    "uc": "UC-099",
+    "n": 99,
+    "t": "Organizar el proyecto y limpiar recursos prescindibles",
+    "s": "Dejar una entrega que se pueda mantener sin perder fuentes ni medios utilizados.",
+    "c": "versiones-y-entrega",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "versiones",
+      "entrega",
+      "gestión de proyectos"
+    ],
+    "hizo": "Una academia agrupó las últimas versiones en una carpeta específica. Una inmobiliaria pidió limpiar pruebas y temporales, comprobando las referencias de los timelines antes de retirar archivos.",
+    "esperado": "Proyecto ordenado, fuentes localizables y dependencias preservadas.",
+    "saber": "La limpieza descrita fue un encargo explícito. En otra sesión, documentar qué sobra no autoriza a borrarlo; también hay que considerar versiones anteriores y fuentes que no aparecen como clips.",
+    "p": "Organiza [proyecto] para localizar últimas versiones y fuentes. Si te autorizo limpieza, identifica primero temporales regenerables y comprueba las dependencias de todos los timelines antes de retirar nada.",
+    "rel": [
+      "UC-002",
+      "UC-094",
+      "UC-120"
+    ],
+    "plano": "PLANO 099"
+  },
+  {
+    "id": "recuperar-el-proyecto-ante-una-interrupcion-del-flujo-de-trabajo",
+    "uc": "UC-100",
+    "n": 100,
+    "t": "Recuperar el proyecto ante una interrupción del flujo de trabajo",
+    "s": "Conservar un estado coherente y recuperable cuando falta material o una operación no puede terminar.",
+    "c": "versiones-y-entrega",
+    "tools": [
+      "ChatGPT (Codex)",
+      "Resolve (MCP/API)"
+    ],
+    "tags": [
+      "versiones",
+      "entrega",
+      "gestión de proyectos"
+    ],
+    "hizo": "El agente registra el estado del proyecto antes de iniciar una operación, identifica qué dependencias faltan y conserva una base desde la que reanudar el trabajo. Puede restaurar el timeline, detener renders y separar archivos parciales de los entregables. Así una descarga o importación interrumpida no deja una entrega confusa ni mezcla fuentes distintas.",
+    "esperado": "Estado recuperable y punto de reanudación documentado.",
+    "saber": "Guardar copias recuperables, identificar los archivos parciales y documentar el punto exacto desde el que continuar. Reanudar con los medios previstos permite evitar duplicados y conservar la estructura del montaje.",
+    "p": "Si se interrumpe [operación], conserva un estado recuperable del proyecto, separa archivos parciales de las entregas y registra qué falta para continuar. Reanuda desde ese punto cuando esté disponible.",
+    "rel": [
+      "UC-001",
+      "UC-094",
+      "UC-122"
+    ],
+    "plano": "PLANO 100"
+  }
+]
