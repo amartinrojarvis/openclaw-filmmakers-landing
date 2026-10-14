@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { JetBrains_Mono } from 'next/font/google';
+import { AltaBanner } from './alta-banner';
 import { CasosStrip } from './strip';
 import './casos.css';
 
@@ -41,6 +42,7 @@ export const metadata: Metadata = {
 export default function CasosLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className={`casos ${casosMono.variable}`}>
+      <AltaBanner />
       {children}
       <CasosStrip />
     </div>
