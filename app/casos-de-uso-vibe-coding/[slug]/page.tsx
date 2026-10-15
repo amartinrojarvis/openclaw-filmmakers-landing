@@ -5,6 +5,7 @@ import { CATS, CASOS, getCaso, relatedCasos } from '@/lib/casos-vibe-coding';
 import { CopyPrompt } from '../copy-prompt';
 import { NewsletterForm } from '../newsletter-form';
 import { CasosLogo, ToolBadge } from '../parts';
+import { SaveCasoControl } from '../save-caso';
 
 const BOOKING_HREF = '/#sesion';
 
@@ -55,6 +56,7 @@ export default async function CasoPage({ params }: Props) {
         <div className="crumb">
           <span className="plano" id="pl">{caso.plano}</span>
           <span className="lbl ln" id="cat">{CATS[caso.c]}</span>
+          <SaveCasoControl id={caso.id} />
         </div>
         <h1 id="t">{caso.t}</h1>
         <p className="sum" id="s">{caso.s}</p>
