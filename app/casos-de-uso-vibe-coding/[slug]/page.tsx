@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { CATS, CASOS, getCaso, relatedCasos } from '@/lib/casos-vibe-coding';
+import { CATS, CASOS, getCaso, relatedCasos, type Caso } from '@/lib/casos-vibe-coding';
 import { getCasoSeo } from '@/lib/casos-seo';
 import { CopyPrompt } from '../copy-prompt';
 import { NewsletterForm } from '../newsletter-form';
@@ -11,6 +11,21 @@ import { SaveCasoControl } from '../save-caso';
 const BOOKING_HREF = '/#sesion';
 const SITE = 'https://www.iaparafilmmakers.es';
 const SHARE_IMAGE = '/social-preview-asesoria-v3.png';
+
+function casoTitle(caso: Caso): string {
+  const full = `${caso.t} con IA · ${caso.plano}`;
+  if (full.length <= 60) return full;
+  const short = `${caso.t} · ${caso.plano}`;
+  return short.length <= 65 ? short : caso.t;
+}
+
+function casoDescription(caso: Caso): string {
+  const where = caso.tools.includes('Resolve (MCP/API)') ? 'en DaVinci Resolve con ChatGPT (Codex)' : 'con ChatGPT (Codex)';
+  const text = `${caso.s} Caso real de edición con IA ${where}, con el prompt listo para copiar.`;
+  if (text.length <= 160) return text;
+  const cut = text.slice(0, 157);
+  return `${cut.slice(0, cut.lastIndexOf(' '))}…`;
+}
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -27,11 +42,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = seo
     ? seo.title
     : caso
-      ? `${caso.plano} · ${caso.t} · IA para Filmmakers`
+      ? casoTitle(caso)
       : 'Caso · IA para Filmmakers';
-  const description = seo?.description ?? caso?.s ?? 'Caso de edición con IA en DaVinci Resolve.';
+  const description = seo?.description ?? (caso ? casoDescription(caso) : 'Caso de edición con IA en DaVinci Resolve.');
   const path = caso ? `/casos-de-uso-vibe-coding/${caso.id}` : undefined;
-  const indexable = Boolean(seo);
+  const indexable = Boolean(caso);
   const images = [{ url: SHARE_IMAGE, width: 1200, height: 630, alt: caso ? `${caso.t} · IA para Filmmakers` : 'IA para Filmmakers' }];
 
   return {
