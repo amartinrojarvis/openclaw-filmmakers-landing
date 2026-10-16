@@ -1387,11 +1387,11 @@
     "clave": true
   },
   {
-    "id": "uso-de-filmcraft-con-codex",
+    "id": "conectar-filmcraft-con-codex-mcp",
     "uc": "UC-123",
     "n": 123,
     "t": "Uso de FilmCraft con Codex",
-    "s": "Dejar FilmCraft conectado a Codex por MCP para editar en futuras sesiones sin volver a configurarlo.",
+    "s": "Prompt para conectar FilmCraft con Codex por MCP y dejar el entorno listo para editar vídeo con IA en futuras sesiones.",
     "c": "preparacion-y-analisis",
     "tools": [
       "ChatGPT (Codex)"

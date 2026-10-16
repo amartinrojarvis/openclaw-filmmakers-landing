@@ -889,3 +889,12 @@
 @media (max-width: 360px) {
   .casos .side-btns { grid-template-columns: 1fr; }
 }
+
+/* SEO: encabezados semánticos con el mismo aspecto que las etiquetas */
+.casos h2.lbl { font-weight: inherit; margin: 0; }
+.casos .s h2.lbl { margin-bottom: 6px; }
+.casos .s ul { list-style: disc; padding-left: 20px; display: grid; gap: 4px; }
+.casos .s details { border-top: 1px solid var(--line, rgba(255,255,255,.12)); padding: 10px 0; }
+.casos .s details summary { cursor: pointer; font-size: 14.5px; color: var(--paper); }
+.casos .s details p { margin-top: 6px; color: var(--muted); }
+.casos .s a { text-decoration: underline; }

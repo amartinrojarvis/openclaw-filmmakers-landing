@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { CASOS_SEO } from '@/lib/casos-seo';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = 'https://www.iaparafilmmakers.es';
@@ -8,5 +9,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/condiciones`, lastModified: new Date('2026-07-13'), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${base}/privacidad`, lastModified: new Date('2026-07-13'), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${base}/cookies`, lastModified: new Date('2026-07-13'), changeFrequency: 'yearly', priority: 0.3 },
+    ...Object.entries(CASOS_SEO).map(([id, seo]) => ({
+      url: `${base}/casos-de-uso-vibe-coding/${id}`,
+      lastModified: new Date(seo.published),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
   ];
 }
