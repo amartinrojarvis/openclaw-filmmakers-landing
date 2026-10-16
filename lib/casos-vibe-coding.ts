@@ -22,7 +22,7 @@ export type Caso = {
 };
 
 export const CASOS_ACTUALIZADO = '2026-10-14';
-export const CASOS_CATALOGO_TOTAL = 122;
+export const CASOS_CATALOGO_TOTAL = 123;
 
 export const CATS: Record<string, string> = {
   'preparacion-y-analisis': 'Preparación y análisis del material',

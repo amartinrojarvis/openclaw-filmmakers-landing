@@ -1385,5 +1385,31 @@
     ],
     "plano": "Caso 103",
     "clave": true
+  },
+  {
+    "id": "uso-de-filmcraft-con-codex",
+    "uc": "UC-123",
+    "n": 123,
+    "t": "Uso de FilmCraft con Codex",
+    "s": "Dejar FilmCraft conectado a Codex por MCP para editar en futuras sesiones sin volver a configurarlo.",
+    "c": "preparacion-y-analisis",
+    "tools": [
+      "ChatGPT (Codex)"
+    ],
+    "tags": [
+      "FilmCraft",
+      "MCP",
+      "configuración"
+    ],
+    "hizo": "Antes de editar con FilmCraft se pidió a Codex que preparase él mismo el entorno: detectar versiones, conseguir la CLI compatible, activar el puente de control local, registrar el MCP y crear un lanzador, sin tocar ningún vídeo.",
+    "esperado": "MCP de FilmCraft registrado en Codex, puente comprobado contra la aplicación abierta y un lanzador listo para las próximas sesiones.",
+    "saber": "Que la configuración esté escrita no significa que funcione: hay que comprobar el puente con una prueba real. Y las herramientas MCP pueden no aparecer en el chat actual hasta reiniciar Codex o abrir uno nuevo.",
+    "p": "Tengo Codex y FilmCraft instalados. Configura y conecta el MCP de FilmCraft con Codex para dejar el entorno listo para futuras sesiones de edición.\n\nRealiza tú las comprobaciones, descargas y configuraciones necesarias:\n\n1. Detecta mi sistema operativo, la ubicación de FilmCraft y su versión.\n2. Consulta la documentación oficial de FilmCraft:\n   https://github.com/storytold/filmcraft/blob/main/docs/agents.md\n3. Localiza filmcraft-cli y verifica su compatibilidad con la aplicación, preferiblemente usando la misma versión. Si falta o es incompatible, descarga el binario adecuado desde las releases oficiales de storytold/filmcraft. En macOS la CLI se descarga por separado. No compiles si existe un binario compatible.\n4. Comprueba si la aplicación tiene activo el puente de control local. Configura el modo bridge para que Codex controle la aplicación visible.\n5. Antes de cerrar o reiniciar FilmCraft, conserva el proyecto y sus cambios. Si no puedes confirmar que están guardados, detente antes de cerrar la aplicación y explícame qué falta.\n6. Abre FilmCraft con el puente habilitado. La configuración documentada utiliza --control 9876 en la aplicación y filmcraft-cli mcp --bridge 127.0.0.1:9876 para el servidor. Comprueba las opciones de la versión instalada y utiliza un puerto libre, manteniéndolo coherente en ambos extremos.\n7. Registra el MCP como filmcraft en la configuración de Codex, con la ruta absoluta real de la CLI. Respalda la configuración antes de modificarla, conserva los demás ajustes y evita entradas duplicadas.\n8. Crea un lanzador adecuado a mi sistema para abrir FilmCraft con el puente activo en futuras sesiones. Si ya existe una instancia conectada, reutilízala.\n9. Verifica el arranque del servidor, el listado de herramientas y la lectura del proyecto de la aplicación mediante el puente. No basta con comprobar que la configuración está escrita.\n\nNo realices ninguna edición de vídeo durante esta preparación.\n\nAl terminar, indica brevemente:\n\n- Las versiones de FilmCraft y de la CLI utilizadas.\n- Si el puente responde y el MCP está registrado.\n- Dónde está el lanzador y cómo usarlo.\n- Si necesito reiniciar Codex o abrir un nuevo chat para cargar las herramientas.\n\nDistingue entre una conexión comprobada mediante una prueba externa y las herramientas MCP realmente disponibles en este chat. Si necesitas que reinicie Codex, deja todo lo demás preparado antes de pedírmelo.",
+    "rel": [
+      "UC-001",
+      "UC-099"
+    ],
+    "plano": "Caso 123",
+    "clave": true
   }
 ]
