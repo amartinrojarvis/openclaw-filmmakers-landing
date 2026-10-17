@@ -1,5 +1,5 @@
 // Directorio público de vibe editing. Entran los casos ya anonimizados
-// (51 de 122 en la fuente del 2026-10-14), incluidos los prompts clave.
+// (52 de 123 en la fuente del 2026-10-14), incluidos los prompts clave.
 // La reserva con nombres o encargos identificables no está en este módulo.
 import rawCases from './casos-vibe-coding.json';
 
@@ -22,7 +22,7 @@ export type Caso = {
 };
 
 export const CASOS_ACTUALIZADO = '2026-10-14';
-export const CASOS_CATALOGO_TOTAL = 122;
+export const CASOS_CATALOGO_TOTAL = 123;
 
 export const CATS: Record<string, string> = {
   'preparacion-y-analisis': 'Preparación y análisis del material',

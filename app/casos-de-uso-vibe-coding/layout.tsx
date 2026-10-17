@@ -11,15 +11,17 @@ const casosMono = JetBrains_Mono({
   display: 'swap',
 });
 
-const title = 'Casos de vibe editing · IA para Filmmakers';
-const description = 'Casos reales de edición con IA en DaVinci Resolve, con su prompt, sacados de proyectos de Alberto Martín.';
+const title = 'Vibe editing: casos de edición con IA en DaVinci Resolve';
+const description = 'Casos reales de edición con IA en DaVinci Resolve, con su prompt, sacados de proyectos de Alberto Martín, filmmaker e ingeniero informático. Prompts listos para copiar.';
 
 const robots: Metadata['robots'] = {
-  index: false,
-  follow: false,
+  index: true,
+  follow: true,
   googleBot: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
+    'max-image-preview': 'large',
+    'max-snippet': -1,
   },
 };
 
