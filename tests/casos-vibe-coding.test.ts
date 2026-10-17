@@ -10,13 +10,15 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const reservedPhrase = 'En un documental deportivo se pidió recuperar el documental largo';
 const reservedSlug = 'localizar-y-abrir-la-version-vigente';
 
-test('el directorio publicado tiene 51 casos y no incluye la reserva', () => {
-  assert.equal(CASOS.length, 51);
-  assert.equal(CASOS_CATALOGO_TOTAL, 122);
-  assert.equal(new Set(CASOS.map((caso) => caso.id)).size, 51);
+test('el directorio publicado tiene 52 casos y no incluye la reserva', () => {
+  assert.equal(CASOS.length, 52);
+  assert.equal(CASOS_CATALOGO_TOTAL, 123);
+  assert.equal(new Set(CASOS.map((caso) => caso.id)).size, 52);
   assert.equal(getCaso('crear-un-proyecto-de-edicion-desde-una-peticion')?.plano, 'Caso 001');
+  assert.equal(getCaso('conectar-filmcraft-con-codex-mcp')?.plano, 'Caso 123');
+  assert.equal(getCaso('conectar-filmcraft-con-codex-mcp')?.clave, true);
   assert.equal(getCaso('aplicar-la-identidad-visual-del-cliente')?.clave, true);
-  assert.equal(CASOS.filter((caso) => caso.clave).length, 14);
+  assert.equal(CASOS.filter((caso) => caso.clave).length, 15);
   assert.equal(CASOS.every((caso) => caso.plano.startsWith('Caso ')), true);
   assert.equal(getCaso(reservedSlug), undefined);
   assert.equal(JSON.stringify(CASOS).includes(reservedPhrase), false);

@@ -1,5 +1,5 @@
 // Directorio público de vibe editing. Entran los casos ya anonimizados
-// (51 de 122 en la fuente del 2026-10-14), incluidos los prompts clave.
+// (52 de 123 en la fuente del 2026-10-14), incluidos los prompts clave.
 // La reserva con nombres o encargos identificables no está en este módulo.
 import rawCases from './casos-vibe-coding.json';
 
