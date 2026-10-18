@@ -208,11 +208,6 @@ function reservedSeatsLabel(remainingSlots: number) {
   return reserved === 1 ? '1 reservada' : `${reserved} reservadas`;
 }
 
-function launchOfferLabel(remainingSlots: number, reservedLabel: string, withLink = false) {
-  const covered = ADVERTISED_INITIAL_SLOTS - remainingSlots === 1 ? '' : 's';
-  const link = withLink ? ' Ir a precios y reserva' : '';
-  return `Oferta de lanzamiento: quedan ${remainingSlots} de las ${ADVERTISED_INITIAL_SLOTS} plazas iniciales, con ${reservedLabel} ya cubierta${covered}.${link}`;
-}
 
 function AvailabilityDisplay({ remainingSlots, prominent = false }: { remainingSlots: number | null; prominent?: boolean }) {
   if (remainingSlots === 0) return <>Edición completa</>;
@@ -221,6 +216,7 @@ function AvailabilityDisplay({ remainingSlots, prominent = false }: { remainingS
   const slotLabel = remainingSlots === 1 ? 'plaza disponible' : 'plazas disponibles';
   if (remainingSlots >= ADVERTISED_INITIAL_SLOTS) return <>{remainingSlots} {slotLabel}</>;
 
+  const reserved = ADVERTISED_INITIAL_SLOTS - remainingSlots;
   const reservedLabel = reservedSeatsLabel(remainingSlots);
 
   if (prominent) {
@@ -228,7 +224,7 @@ function AvailabilityDisplay({ remainingSlots, prominent = false }: { remainingS
       <a
         href="#sesion"
         className="group inline-grid cursor-pointer grid-cols-[auto_auto_1fr] items-stretch border border-[#ff5a2a]/65 bg-[#ff5a2a]/[0.08] shadow-[0_14px_45px_rgba(255,90,42,0.12)] transition-[border-color,background-color,box-shadow,transform] motion-safe:hover:-translate-y-0.5 hover:border-[#ff5a2a] hover:bg-[#ff5a2a]/[0.12] hover:shadow-[0_18px_50px_rgba(255,90,42,0.18)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5a2a] motion-reduce:transform-none"
-        aria-label={launchOfferLabel(remainingSlots, reservedLabel, true)}
+        aria-label={`Oferta de lanzamiento: quedan ${remainingSlots} de las ${ADVERTISED_INITIAL_SLOTS} plazas iniciales, con ${reservedLabel} ya cubierta${reserved === 1 ? '' : 's'}. Ir a precios y reserva`}
       >
         <span className="flex items-center border-r border-[#ff5a2a]/35 px-3 py-3 font-mono text-[9px] font-black uppercase tracking-[0.16em] text-[#ff5a2a] sm:px-4 sm:text-[10px]" aria-hidden="true">
           Solo quedan
@@ -268,12 +264,13 @@ function PurchaseAvailabilityDisplay({ remainingSlots }: { remainingSlots: numbe
     return <p className="mt-8 font-mono text-xs font-black uppercase tracking-[0.14em] text-[#b43414]">{remainingSlots ?? 'Varias'} {remainingSlots === 1 ? 'plaza disponible' : 'plazas disponibles'}</p>;
   }
 
+  const reserved = ADVERTISED_INITIAL_SLOTS - remainingSlots;
   const reservedLabel = reservedSeatsLabel(remainingSlots);
 
   return (
     <aside
       className="mt-9 inline-grid max-w-full grid-cols-[auto_auto_1fr] items-stretch border border-[#b43414]/70 bg-[#b43414]/[0.06] shadow-[0_12px_35px_rgba(180,52,20,0.08)]"
-      aria-label={launchOfferLabel(remainingSlots, reservedLabel)}
+      aria-label={`Oferta de lanzamiento: quedan ${remainingSlots} de las ${ADVERTISED_INITIAL_SLOTS} plazas iniciales, con ${reservedLabel} ya cubierta${reserved === 1 ? '' : 's'}`}
     >
       <span className="flex items-center border-r border-[#b43414]/30 px-3 py-3 font-mono text-[9px] font-black uppercase tracking-[0.14em] text-[#b43414] sm:px-5 sm:text-[10px]" aria-hidden="true">Solo quedan</span>
       <strong className="grid min-w-14 place-items-center bg-[#b43414] px-3 text-3xl font-black leading-none tracking-[-0.06em] text-[#f2eee5] sm:min-w-16 sm:text-4xl" aria-hidden="true">{remainingSlots}</strong>

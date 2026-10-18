@@ -11,3 +11,7 @@ vercel.json
 data/brevo-fallback/
 data/processed-webhooks.json
 data/consent-logs/
+
+# artefactos locales
+*.tsbuildinfo
+prod.html
