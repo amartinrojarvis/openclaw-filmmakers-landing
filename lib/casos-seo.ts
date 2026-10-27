@@ -1,3 +1,5 @@
+import { CATS, type Caso } from './casos-vibe-coding';
+
 // Contenido SEO adicional por caso. Solo los casos con entrada aquí se indexan.
 export type CasoSeo = {
   title: string;
@@ -78,4 +80,53 @@ export const CASOS_SEO: Record<string, CasoSeo> = {
 
 export function getCasoSeo(id: string): CasoSeo | undefined {
   return CASOS_SEO[id];
+}
+
+// Las fichas sin entrada en CASOS_SEO se quedaban sin ningún esquema de
+// contenido: solo la de FilmCraft emitía TechArticle. Este nodo de respaldo
+// cubre las 51 restantes con datos que YA existen en casos-vibe-coding.json
+// (título, resumen, categoría, herramientas, tags). No se añade ninguna fecha:
+// CASOS_ACTUALIZADO es la del catálogo completo, no la de publicación de cada
+// caso, y ponerla sería inventársela.
+export function baseCasoNodes(caso: Caso, url: string, site: string, shareImage: string): object[] {
+  const author = { '@type': 'Person', name: 'Alberto Martín', url: site, jobTitle: 'Filmmaker' };
+  const publisher = { '@type': 'Organization', name: 'IA para Filmmakers', url: site };
+  const where = caso.tools.includes('Resolve (MCP/API)')
+    ? 'en DaVinci Resolve con ChatGPT (Codex)'
+    : 'con ChatGPT (Codex)';
+
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'TechArticle',
+      headline: `${caso.t} · ${caso.plano}`,
+      description: `${caso.s} Caso real de edición con IA ${where}, con el prompt listo para copiar.`,
+      inLanguage: 'es-ES',
+      url,
+      mainEntityOfPage: url,
+      image: `${site}${shareImage}`,
+      author,
+      publisher,
+      articleSection: CATS[caso.c] ?? caso.c,
+      keywords: [...caso.tags, ...caso.tools].join(', '),
+      articleBody: [caso.hizo, caso.saber].filter(Boolean).join('\n\n'),
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'HowTo',
+      name: `${caso.t} con IA`,
+      description: caso.s,
+      inLanguage: 'es-ES',
+      url,
+      tool: caso.tools.map((name) => ({ '@type': 'HowToTool', name })),
+      // Sin url por paso: las secciones "Que hice / Resultado esperado / Que
+      // conviene comprobar" no tienen id en la plantilla, y enlazar anclajes
+      // inexistentes es peor que no enlazar.
+      step: [
+        { '@type': 'HowToStep', position: 1, name: 'Qué se hizo', text: caso.hizo },
+        { '@type': 'HowToStep', position: 2, name: 'Resultado esperado', text: caso.esperado },
+        { '@type': 'HowToStep', position: 3, name: 'Qué conviene comprobar', text: caso.saber },
+      ],
+    },
+  ];
 }
