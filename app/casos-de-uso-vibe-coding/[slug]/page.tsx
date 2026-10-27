@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CATS, CASOS, getCaso, relatedCasos, type Caso } from '@/lib/casos-vibe-coding';
-import { getCasoSeo } from '@/lib/casos-seo';
+import { baseCasoNodes, getCasoSeo } from '@/lib/casos-seo';
 import { CopyPrompt } from '../copy-prompt';
 import { NewsletterForm } from '../newsletter-form';
 import { CasosLogo, ToolBadge } from '../parts';
@@ -130,6 +130,10 @@ export default async function CasoPage({ params }: Props) {
         mainEntity: seo.faq.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })),
       },
     );
+  } else {
+    // Sin entrada en CASOS_SEO no significaba sin esquema: antes estas fichas
+    // solo publicaban BreadcrumbList y los modelos no tenian articulo que citar.
+    jsonLd.push(...baseCasoNodes(caso, url, SITE, SHARE_IMAGE));
   }
 
   return (
