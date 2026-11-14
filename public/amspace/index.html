@@ -474,8 +474,8 @@
   }
 </style>
 <script>
-  // 1) revelar la imagen del hero tras el primer paint
-  requestAnimationFrame(()=>{const im=document.querySelector('.hero > img');if(im)im.classList.add('ld')});
+  // 1) revelar la imagen del hero tras el primer paint (2 rAF = despues del style/layout inicial)
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{const im=document.querySelector('.hero > img');if(im)im.classList.add('ld')}));
   // 2) parallax suave por capas (0 = fondo, mayor = mas cerca del observador)
   const prm=matchMedia('(prefers-reduced-motion: reduce)');
   const layers=[
