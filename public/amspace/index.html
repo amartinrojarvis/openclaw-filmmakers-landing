@@ -42,8 +42,8 @@
   /* ---- HERO: imagen grande + texto sobre la propia captura ---- */
   .hero{position:relative;width:100%;background:#000}
   .hero > img{display:block;width:100%;height:auto;max-height:74vh;object-fit:cover;object-position:center 22%;
-    opacity:0;animation:heroIn 1s cubic-bezier(.22,1,.36,1) both}
-  @keyframes heroIn{from{opacity:0;transform:scale(1.015)}to{opacity:1;transform:none}}
+    opacity:0;transform:scale(1.015);transition:opacity 1s cubic-bezier(.22,1,.36,1),transform 1s cubic-bezier(.22,1,.36,1)}
+  .hero > img.ld{opacity:1;transform:none}
   .hero-txt{position:absolute;left:0;right:0;bottom:0;padding:56px 24px 46px;display:grid;gap:0;
     background:linear-gradient(to top,#000 0%,#000 32%,rgba(0,0,0,.92) 50%,rgba(0,0,0,.62) 68%,rgba(0,0,0,.28) 84%,rgba(0,0,0,0) 100%);
     backdrop-filter:blur(9px) saturate(120%) brightness(1.05);
@@ -468,10 +468,38 @@
   #lb.on{animation:fadein .28s ease both}
   @keyframes fadein{from{opacity:0}to{opacity:1}}
   @media(prefers-reduced-motion:reduce){
-    .fade,.hero > img,.hero-txt > .hero-in > *,.stars li{opacity:1;transform:none;animation:none}
+    .fade,.hero > img,.hero-txt > .hero-in > *,.stars li{opacity:1;transform:none;animation:none;transition:none}
     .btn,.frame > img{transition:none}
     html{scroll-behavior:auto}
   }
 </style>
+<script>
+  // 1) revelar la imagen del hero tras el primer paint
+  requestAnimationFrame(()=>{const im=document.querySelector('.hero > img');if(im)im.classList.add('ld')});
+  // 2) parallax suave por capas (0 = fondo, mayor = mas cerca del observador)
+  const prm=matchMedia('(prefers-reduced-motion: reduce)');
+  const layers=[
+    {el:document.querySelector('.hero > img'),      k:1.0},
+    {el:document.querySelector('.hero-txt'),        k:.55},
+    {el:document.querySelector('.hero-in'),         k:.45},
+    {el:document.querySelector('.facts'),           k:.3},
+    {el:document.querySelector('#funciones .tabs'), k:.22},
+  ].filter(l=>l.el);
+  const reduce=prm.matches===true;
+  let tick=false;
+  function frame(){
+    tick=false;
+    if(reduce) return;
+    const y=window.scrollY||0;
+    for(const l of layers){
+      const t=(y*l.k).toFixed(2);
+      l.el.style.transform='translate3d(0,'+t+'px,0)';
+    }
+  }
+  function onScroll(){if(!tick){tick=true;requestAnimationFrame(frame)}}
+  frame();
+  addEventListener('scroll',onScroll,{passive:true});
+  addEventListener('resize',onScroll,{passive:true});
+</script>
 </body>
 </html>
