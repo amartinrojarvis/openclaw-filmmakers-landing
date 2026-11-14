@@ -30,11 +30,13 @@
   .nlinks a:hover{color:var(--fg)}
 
   /* TYPE */
-  .eyebrow{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--dim)}
-  h1{font-size:clamp(34px,5vw,54px);line-height:1.07;font-weight:600;letter-spacing:-.022em;margin:12px 0 0}
-  h1 em{font-style:normal;color:var(--accent)}
+  .eyebrow{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  h1{font-size:clamp(44px,7.2vw,86px);line-height:.98;font-weight:700;letter-spacing:-.03em;margin:14px 0 0;
+    text-wrap:balance}
+  h1 .l1{display:block;font-weight:300;letter-spacing:-.015em;color:var(--fg)}
+  h1 em{font-style:normal;font-weight:700;color:var(--accent);letter-spacing:-.03em}
   h2{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:20px}
-  .lead{color:var(--muted);font-size:17px;max-width:60ch;margin-top:18px}
+  .lead{color:var(--muted);font-size:clamp(15px,1.15vw,18px);font-weight:300;max-width:58ch;margin-top:18px;letter-spacing:.004em}
   .lead b{color:var(--fg);font-weight:500}
 
   /* ---- HERO: imagen grande + texto sobre la propia captura ---- */
@@ -183,7 +185,8 @@
   }
   @media(max-width:560px){
     .wrap{padding:0 18px}
-    h1{font-size:clamp(29px,8.4vw,40px)}
+    h1{font-size:clamp(34px,9.6vw,50px)}
+    h1 .l1{font-weight:300}
     .btn{padding:10px 18px;font-size:14px}
     .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
     .st{padding:16px 0}
@@ -222,10 +225,10 @@
 </ul></div></div>
 
 <header class="hero">
-  <img src="/amspace/hero.png" alt="Escritorio de macOS con cuatro ventanas y el indicador de Spaces de AMSpace activo en el 3, en la barra de menús" width="1672" height="941">
+  <img src="/amspace/hero-2.png" alt="MacBook con cuatro ventanas en mosaico (DaVinci Resolve, ChatGPT, Finder y Gyroflow) y el indicador de Spaces de AMSpace en la barra de menús" width="1672" height="941">
   <div class="hero-txt"><div class="hero-in">
     <p class="eyebrow">macOS · 13 Ventura o posterior</p>
-    <h1>Más espacio.<br><em>Más foco.</em></h1>
+    <h1><span class="l1">Más espacio.</span><em>Más foco.</em></h1>
     <p class="lead"><b>Aprovecha cada píxel de tus pantallas.</b> AMSpace te dice en qué escritorio estás, te deja saltar entre ellos desde la barra de menús y activa el teclado justo donde miras.</p>
     <ul class="stars">
       <li><b>01</b>Gestión de escritorios</li>
