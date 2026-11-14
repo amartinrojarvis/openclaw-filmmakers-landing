@@ -46,20 +46,16 @@
   h2{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:20px}
   .lead{color:var(--muted);font-size:clamp(15px,1.15vw,18px);font-weight:300;max-width:58ch;margin-top:18px;letter-spacing:.004em}
   .lead b{color:var(--fg);font-weight:500}
+  .sub-hero{color:var(--fg);font-size:clamp(16px,1.3vw,20px);font-weight:500;letter-spacing:-.005em;margin-top:16px;max-width:56ch}
 
   /* ---- HERO: imagen grande + texto sobre la propia captura ---- */
   .hero{position:relative;width:100%;background:#000}
-  .hero > img{display:block;width:100%;height:auto;max-height:min(52vw,900px);object-fit:cover;object-position:center 20%;
-    opacity:0;transform:scale(1.015);will-change:opacity,transform;
-    transition:opacity 1s cubic-bezier(.22,1,.36,1),transform 1s cubic-bezier(.22,1,.36,1)}
-  .hero > img.ld{opacity:1;transform:none}
-  .hero-txt{position:absolute;left:0;right:0;top:50%;bottom:0;padding:0 24px 34px;display:grid;align-content:end;gap:0;
-    background:linear-gradient(to top,#000 0%,#000 32%,rgba(0,0,0,.92) 50%,rgba(0,0,0,.62) 68%,rgba(0,0,0,.28) 84%,rgba(0,0,0,0) 100%);
-    backdrop-filter:blur(9px) saturate(120%) brightness(1.05);
-    -webkit-backdrop-filter:blur(9px) saturate(120%) brightness(1.05);
-    -webkit-mask-image:linear-gradient(to top,#000 0%,#000 55%,rgba(0,0,0,.9) 74%,transparent 100%);
-    mask-image:linear-gradient(to top,#000 0%,#000 55%,rgba(0,0,0,.9) 74%,transparent 100%)}
-  .hero-in{max-width:var(--max);margin:0 auto;width:100%}
+  .hero > img{display:block;width:100%;height:auto;max-height:min(66vw,1000px);object-fit:cover;object-position:center 20%;
+    opacity:0;will-change:opacity;
+    transition:opacity 1s cubic-bezier(.22,1,.36,1)}
+  .hero > img.ld{opacity:1}
+  .hero-in{max-width:var(--max);margin:0 auto;width:100%;padding:30px 24px 36px;display:grid;gap:0;
+    background:linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,.28) 8%,#000 26%,#000 100%)}
   .stars{list-style:none;display:flex;flex-wrap:wrap;gap:8px 10px;margin-top:20px}
   .stars li{font-size:13px;color:var(--fg);background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:980px;padding:5px 12px}
   .stars li b{color:var(--accent);font-weight:600;margin-right:5px}
@@ -182,7 +178,7 @@
     .nlinks{display:none}
     .mnav{display:block}
     .hero > img{max-height:min(62vw,72vh)}
-    .hero-txt{padding:46px 18px 30px}
+    .hero-in{padding:26px 18px 30px}
     .lead{font-size:16px}
     .gal,.two,.cols3{grid-template-columns:minmax(0,1fr)}
     .cols3 > div{padding:0}
@@ -205,7 +201,7 @@
     .st:nth-child(3){border-left:0}
     .hero{display:block}
     .hero > img{max-height:min(66vw,64vh)}
-    .hero-txt{padding:36px 18px 24px}
+    .hero-in{padding:22px 18px 24px}
     .pane{padding:16px 0}
     pre{font-size:12px;padding-left:16px}
     .tabs{gap:16px;justify-content:flex-start}
@@ -243,9 +239,10 @@
 
 <header class="hero">
   <img src="/amspace/hero-2.png" alt="MacBook con cuatro ventanas en mosaico (DaVinci Resolve, ChatGPT, Finder y Gyroflow) y el indicador de Spaces de AMSpace en la barra de menús" data-alt-es="MacBook con cuatro ventanas en mosaico (DaVinci Resolve, ChatGPT, Finder y Gyroflow) y el indicador de Spaces de AMSpace en la barra de menús" data-alt-en="MacBook showing four tiled windows (DaVinci Resolve, ChatGPT, Finder and Gyroflow) with the AMSpace Spaces indicator in the menu bar" width="1672" height="941">
-  <div class="hero-txt"><div class="hero-in">
+  <div class="hero-in">
     <p class="eyebrow" data-es="macOS · 13 Ventura o posterior" data-en="macOS · 13 Ventura or later">macOS · 13 Ventura o posterior</p>
     <h1><span class="l1" data-es="Más espacio." data-en="More space.">Más espacio.</span><em data-es="Más foco." data-en="More focus.">Más foco.</em></h1>
+    <p class="sub-hero" data-es="El gestor de ventanas que necesitas en tu Mac." data-en="The window manager you need on your Mac.">El gestor de ventanas que necesitas en tu Mac.</p>
     <p class="lead" data-es="<b>Aprovecha cada píxel de tus pantallas.</b> AMSpace te dice en qué escritorio estás, te deja saltar entre ellos desde la barra de menús y activa el teclado justo donde miras." data-en="<b>Make the most of every pixel on your screens.</b> AMSpace tells you which desktop you are on, lets you jump between them from the menu bar, and wakes the keyboard exactly where you look."><b>Aprovecha cada píxel de tus pantallas.</b> AMSpace te dice en qué escritorio estás, te deja saltar entre ellos desde la barra de menús y activa el teclado justo donde miras.</p>
     <ul class="stars">
       <li><b>01</b><span data-es="Gestión de escritorios" data-en="Desktop management">Gestión de escritorios</span></li>
@@ -256,7 +253,7 @@
       <a class="btn btn-1" href="https://github.com/amartinrojarvis/amspace/releases/download/v0.9.14/AMSpace-installer.dmg" data-es="Descargar" data-en="Download">Descargar</a>
       <a class="btn btn-2" href="https://github.com/amartinrojarvis/amspace" data-es="Ver en GitHub" data-en="View on GitHub">Ver en GitHub</a>
     </div>
-  </div></div>
+  </div>
 </header>
 
 <div class="wrap">
@@ -464,12 +461,12 @@
   .fade{opacity:0;transform:translateY(14px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
   .fade.on{opacity:1;transform:none}
   /* escalonado suave del hero */
-  .hero-txt > .hero-in > *{opacity:0;transform:translateY(10px);animation:rise .62s cubic-bezier(.22,1,.36,1) both}
-  .hero-txt > .hero-in > *:nth-child(1){animation-delay:.05s}
-  .hero-txt > .hero-in > *:nth-child(2){animation-delay:.14s}
-  .hero-txt > .hero-in > *:nth-child(3){animation-delay:.23s}
-  .hero-txt > .hero-in > *:nth-child(4){animation-delay:.32s}
-  .hero-txt > .hero-in > *:nth-child(5){animation-delay:.41s}
+  .hero-in > *{opacity:0;transform:translateY(10px);animation:rise .62s cubic-bezier(.22,1,.36,1) both}
+  .hero-in > *:nth-child(1){animation-delay:.05s}
+  .hero-in > *:nth-child(2){animation-delay:.14s}
+  .hero-in > *:nth-child(3){animation-delay:.23s}
+  .hero-in > *:nth-child(4){animation-delay:.32s}
+  .hero-in > *:nth-child(5){animation-delay:.41s}
   @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   @keyframes pop{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
   .stars li{opacity:0;animation:pop .5s cubic-bezier(.22,1,.36,1) both}
@@ -483,7 +480,7 @@
   @keyframes fadein{from{opacity:0}to{opacity:1}}
   .lang button{transition:color .18s cubic-bezier(.22,1,.36,1),background-color .18s}
   @media(prefers-reduced-motion:reduce){
-    .fade,.hero > img,.hero-txt > .hero-in > *,.stars li{opacity:1;transform:none;animation:none;transition:none}
+    .fade,.hero > img,.hero-in > *,.stars li{opacity:1;transform:none;animation:none;transition:none}
     .btn,.frame > img,.lang button{transition:none}
     html{scroll-behavior:auto}
   }
