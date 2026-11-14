@@ -72,6 +72,14 @@
   .facts div + div{border-left:1px solid var(--line);padding-left:18px}
   .facts b{display:block;color:var(--fg);font-weight:500;font-size:14px;margin-bottom:2px}
 
+  /* Parallax acotado: una sola coordenada para toda la composición del hero. */
+  .hero{overflow:clip}
+  .hero > img,.hero > .hero-shade,.hero > .hero-in{translate:0 var(--hero-drift,0px)}
+  .gal > figure{translate:0 var(--figure-drift,0px)}
+  @media(prefers-reduced-motion:reduce){
+    .hero > img,.hero > .hero-shade,.hero > .hero-in,.gal > figure{translate:none!important}
+  }
+
   /* FIGURES */
   figure{display:grid;gap:0;min-width:0}
   .frame{background:transparent;border:0;padding:0;min-width:0}
@@ -157,7 +165,10 @@
   footer a:hover{color:var(--fg)}
 
   /* NAV MÓVIL */
+  .menu-toggle{display:none}
   .mnav{display:none}
+  [id]{scroll-margin-top:68px}
+  button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
   .mnav ul{display:flex;gap:8px;overflow-x:auto;list-style:none;scrollbar-width:none;padding-bottom:14px}
   .mnav ul::-webkit-scrollbar{display:none}
   .mnav a{flex:0 0 auto;font-size:12.5px;color:var(--muted);text-decoration:none;border:0;border-bottom:1px solid transparent;border-radius:0;padding:5px 0}
@@ -178,7 +189,20 @@
   }
   @media(max-width:820px){
     .nlinks{display:none}
-    .mnav{display:block}
+    .ngrp{gap:8px}
+    .lang{height:36px}
+    .lang button{min-width:36px;min-height:32px}
+    .menu-toggle{display:grid;place-items:center;width:44px;height:44px;padding:10px;background:transparent;border:0;color:var(--fg);cursor:pointer}
+    .menu-toggle svg{width:22px;height:22px}
+    .menu-toggle .close-icon{display:none}
+    .menu-toggle[aria-expanded="true"] .menu-icon{display:none}
+    .menu-toggle[aria-expanded="true"] .close-icon{display:block}
+    .mnav.open{display:block}
+    .mnav{position:fixed;inset:52px 0 auto;z-index:19;background:rgba(8,8,10,.98);border-bottom:1px solid var(--line);max-height:calc(100dvh - 52px);overflow-y:auto}
+    .mnav ul{display:grid;gap:0;padding:8px 0 16px}
+    .mnav li{min-width:0}
+    .mnav a{display:flex;align-items:center;min-height:48px;padding:10px 2px;font-size:16px;border:0}
+    .mnav li+li{border-top:1px solid var(--line)}
 
     .hero-in{padding:0 18px 30px}
     .lead{font-size:16px}
@@ -228,10 +252,14 @@
       <button type="button" data-lang="es" aria-label="Español">ES</button>
       <button type="button" data-lang="en" aria-label="English">EN</button>
     </div>
+    <button class="menu-toggle" type="button" aria-label="Menú / Menu" aria-expanded="false" aria-controls="mobile-menu">
+      <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    </button>
   </div>
 </div></nav>
 
-<div class="mnav"><div class="wrap"><ul>
+<div class="mnav" id="mobile-menu" role="navigation" aria-label="Secciones / Sections"><div class="wrap"><ul>
   <li><a href="#funciones" data-es="Funciones" data-en="Features">Funciones</a></li>
   <li><a href="#galeria" data-es="Galería" data-en="Gallery">Galería</a></li>
   <li><a href="#eficiencia" data-es="Eficiencia" data-en="Efficiency">Eficiencia</a></li>
@@ -494,7 +522,52 @@
   if(typeof requestAnimationFrame==='function'){requestAnimationFrame(()=>requestAnimationFrame(revealHero));}
   revealHero();
   setTimeout(revealHero,400);
-  // Hero estático: imagen, máscara y texto mantienen su alineación al hacer scroll.
+  // Menú móvil no modal: no bloquea el scroll ni modifica la composición.
+  (()=>{
+    const button=document.querySelector('.menu-toggle'),menu=document.querySelector('.mnav');
+    function close(focus=false){button.setAttribute('aria-expanded','false');menu.classList.remove('open');if(focus)button.focus()}
+    button.addEventListener('click',()=>{
+      const open=button.getAttribute('aria-expanded')!=='true';
+      button.setAttribute('aria-expanded',String(open));menu.classList.toggle('open',open);
+    });
+    menu.addEventListener('click',e=>{const a=e.target.closest('a');if(a){close();const target=document.querySelector(a.getAttribute('href'));if(target){target.setAttribute('tabindex','-1');target.focus({preventScroll:true})}}});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.classList.contains('open'))close(true)});
+    document.addEventListener('click',e=>{if(!menu.contains(e.target)&&!button.contains(e.target))close()});
+    document.addEventListener('focusin',e=>{if(!menu.contains(e.target)&&!button.contains(e.target))close()});
+    matchMedia('(min-width:821px)').addEventListener('change',e=>{if(e.matches)close()});
+  })();
+  // Parallax sutil, sin modificar alturas, anclas, navegación ni scroll nativo.
+  (()=>{
+    const hero=document.querySelector('.hero');
+    const figures=[...document.querySelectorAll('.gal > figure')];
+    const motion=matchMedia('(prefers-reduced-motion: reduce)');
+    const compact=matchMedia('(max-width: 820px)');
+    let pending=0;
+    function paint(){
+      pending=0;
+      const disabled=motion.matches||navigator.connection?.saveData===true;
+      const cap=compact.matches?8:16;
+      const hr=hero.getBoundingClientRect();
+      const progress=Math.max(0,Math.min(1,-hr.top/Math.max(1,hr.height)));
+      hero.style.setProperty('--hero-drift',disabled?'0px':(-cap*progress).toFixed(2)+'px');
+      figures.forEach(el=>{
+        const r=el.getBoundingClientRect();
+        // Neutralizar la traslación previa evita realimentación al medir.
+        const old=parseFloat(el.style.getPropertyValue('--figure-drift'))||0;
+        const center=r.top-old+r.height/2;
+        const p=Math.max(-1,Math.min(1,(innerHeight/2-center)/Math.max(innerHeight,1)));
+        el.style.setProperty('--figure-drift',disabled?'0px':(p*(compact.matches?3:6)).toFixed(2)+'px');
+      });
+    }
+    function schedule(){if(!pending)pending=requestAnimationFrame(paint)}
+    addEventListener('scroll',schedule,{passive:true});
+    addEventListener('resize',schedule,{passive:true});
+    addEventListener('load',schedule,{once:true});
+    motion.addEventListener('change',schedule);
+    compact.addEventListener('change',schedule);
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)schedule()});
+    schedule();
+  })();
   // 3) i18n: idioma del navegador + selector manual persistente
   const LANGS=['es','en'];
   const KEY='***';
