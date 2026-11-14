@@ -23,7 +23,7 @@
   /* NAV */
   nav{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.72);backdrop-filter:blur(20px) saturate(180%)}
   nav .wrap{display:flex;align-items:center;justify-content:space-between;height:52px}
-  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px;letter-spacing:-.01em}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px;letter-spacing:-.01em;color:var(--fg);text-decoration:none}
   .brand img{display:block;width:22px;height:22px;border-radius:6px}
   .nlinks{display:flex;gap:24px;font-size:12.5px}
   .nlinks a{color:var(--muted);text-decoration:none;transition:color .18s}
@@ -203,7 +203,7 @@
 <body>
 
 <nav><div class="wrap">
-  <div class="brand"><img src="/amspace/icon.svg" alt="" width="22" height="22">AMSpace</div>
+  <a class="brand" href="/amspace"><img src="/amspace/icon.svg" alt="" width="22" height="22">AMSpace</a>
   <div class="nlinks">
     <a href="#funciones">Funciones</a>
     <a href="#galeria">Galería</a>
