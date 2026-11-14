@@ -50,11 +50,17 @@
 
   /* ---- HERO: imagen grande + texto sobre la propia captura ---- */
   .hero{position:relative;width:100%;background:#000}
-  .hero > img{display:block;width:100%;height:auto;max-height:min(66vw,1000px);object-fit:cover;object-position:center 20%;
+  .hero-bg{position:relative;width:100%}
+  .hero-bg > img{display:block;width:100%;height:auto;max-height:min(66vw,1000px);object-fit:cover;object-position:center 20%;
     opacity:0;will-change:opacity;
     transition:opacity 1s cubic-bezier(.22,1,.36,1)}
-  .hero > img.ld{opacity:1}
-  .hero-in{max-width:var(--max);margin:0 auto;width:100%;padding:0 24px 36px;display:grid;gap:0}
+  .hero-bg > img.ld{opacity:1}
+  /* texto superpuesto: arranca a la altura de las pistas de audio verdes (~59% de la captura) */
+  .hero-in{position:absolute;left:0;right:0;top:59%;bottom:0;z-index:2;
+    max-width:var(--max);margin:0 auto;width:100%;padding:0 24px 36px;display:grid;align-content:start;gap:0}
+  .hero-in::before{content:"";position:absolute;left:50%;transform:translateX(-50%);top:-52%;height:calc(100% + 80px);width:100vw;z-index:-1;
+    background:linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,.35) 20%,rgba(0,0,0,.74) 46%,#000 72%,#000 100%);
+    backdrop-filter:blur(9px) saturate(120%);-webkit-backdrop-filter:blur(9px) saturate(120%)}
   .stars{list-style:none;display:flex;flex-wrap:wrap;gap:8px 10px;margin-top:20px}
   .stars li{font-size:13px;color:var(--fg);background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:980px;padding:5px 12px}
   .stars li b{color:var(--accent);font-weight:600;margin-right:5px}
@@ -176,7 +182,7 @@
   @media(max-width:820px){
     .nlinks{display:none}
     .mnav{display:block}
-    .hero > img{max-height:min(62vw,72vh)}
+    .hero-bg > img{max-height:min(62vw,72vh)}
     .hero-in{padding:26px 18px 30px}
     .lead{font-size:16px}
     .gal,.two,.cols3{grid-template-columns:minmax(0,1fr)}
@@ -199,7 +205,7 @@
     .st .v{font-size:25px}
     .st:nth-child(3){border-left:0}
     .hero{display:block}
-    .hero > img{max-height:min(66vw,64vh)}
+    .hero-bg > img{max-height:min(66vw,64vh)}
     .hero-in{padding:22px 18px 24px}
     .pane{padding:16px 0}
     pre{font-size:12px;padding-left:16px}
@@ -237,7 +243,7 @@
 </ul></div></div>
 
 <header class="hero">
-  <img src="/amspace/hero-2.png" alt="MacBook con cuatro ventanas en mosaico (DaVinci Resolve, ChatGPT, Finder y Gyroflow) y el indicador de Spaces de AMSpace en la barra de menús" data-alt-es="MacBook con cuatro ventanas en mosaico (DaVinci Resolve, ChatGPT, Finder y Gyroflow) y el indicador de Spaces de AMSpace en la barra de menús" data-alt-en="MacBook showing four tiled windows (DaVinci Resolve, ChatGPT, Finder and Gyroflow) with the AMSpace Spaces indicator in the menu bar" width="1672" height="941">
+  <div class="hero-bg"><img src="/amspace/hero-2.png" alt="MacBook con cuatro ventanas en mosaico (DaVinci Resolve, ChatGPT, Finder y Gyroflow) y el indicador de Spaces de AMSpace en la barra de menús" data-alt-es="MacBook con cuatro ventanas en mosaico (DaVinci Resolve, ChatGPT, Finder y Gyroflow) y el indicador de Spaces de AMSpace en la barra de menús" data-alt-en="MacBook showing four tiled windows (DaVinci Resolve, ChatGPT, Finder and Gyroflow) with the AMSpace Spaces indicator in the menu bar" width="1672" height="941"></div>
   <div class="hero-in">
     <p class="eyebrow" data-es="macOS · 13 Ventura o posterior" data-en="macOS · 13 Ventura or later">macOS · 13 Ventura o posterior</p>
     <h1><span class="l1" data-es="Más espacio." data-en="More space.">Más espacio.</span><em data-es="Más foco." data-en="More focus.">Más foco.</em></h1>
@@ -479,14 +485,14 @@
   @keyframes fadein{from{opacity:0}to{opacity:1}}
   .lang button{transition:color .18s cubic-bezier(.22,1,.36,1),background-color .18s}
   @media(prefers-reduced-motion:reduce){
-    .fade,.hero > img,.hero-in > *,.stars li{opacity:1;transform:none;animation:none;transition:none}
+    .fade,.hero-bg > img,.hero-in > *,.stars li{opacity:1;transform:none;animation:none;transition:none}
     .btn,.frame > img,.lang button{transition:none}
     html{scroll-behavior:auto}
   }
 </style>
 <script>
   // 1) revelar la imagen del hero tras el primer paint (2 rAF; con fallback si rAF no llega a correr)
-  function revealHero(){const im=document.querySelector('.hero > img');if(im)im.classList.add('ld')}
+  function revealHero(){const im=document.querySelector('.hero-bg > img');if(im)im.classList.add('ld')}
   if(typeof requestAnimationFrame==='function'){requestAnimationFrame(()=>requestAnimationFrame(revealHero));}
   revealHero();
   setTimeout(revealHero,400);
@@ -494,7 +500,7 @@
   const prm=matchMedia('(prefers-reduced-motion: reduce)');
   const reduce=prm.matches===true;
   const layers=reduce?[]:[
-    {el:document.querySelector('.hero > img'), k:0.16},
+    {el:document.querySelector('.hero-bg'), k:0.16},
     {el:document.querySelector('.hero-in'),    k:0.07},
   ].filter(l=>l.el);
   layers.forEach(l=>{l.el.style.willChange='transform'});
