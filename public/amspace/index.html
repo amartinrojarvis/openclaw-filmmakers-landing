@@ -22,12 +22,20 @@
 
   /* NAV */
   nav{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.72);backdrop-filter:blur(20px) saturate(180%)}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:52px}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:52px;gap:14px}
   .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px;letter-spacing:-.01em;color:var(--fg);text-decoration:none}
   .brand img{display:block;width:22px;height:22px;border-radius:6px}
   .nlinks{display:flex;gap:24px;font-size:12.5px}
   .nlinks a{color:var(--muted);text-decoration:none;transition:color .18s}
   .nlinks a:hover{color:var(--fg)}
+  .ngrp{display:flex;align-items:center;gap:18px}
+
+  /* SELECTOR DE IDIOMA */
+  .lang{display:flex;align-items:center;gap:2px;height:26px;padding:2px;border:1px solid var(--line);border-radius:980px;background:rgba(255,255,255,.05)}
+  .lang button{font-family:inherit;font-size:11px;letter-spacing:.06em;color:var(--muted);background:transparent;border:0;border-radius:980px;
+    padding:3px 9px;cursor:pointer;transition:color .18s,background-color .18s}
+  .lang button:hover{color:var(--fg)}
+  .lang button.on{color:#000;background:var(--fg);font-weight:600}
 
   /* TYPE */
   .eyebrow{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
@@ -209,153 +217,159 @@
 
 <nav><div class="wrap">
   <a class="brand" href="/amspace"><img src="/amspace/icon.svg" alt="" width="22" height="22">AMSpace</a>
-  <div class="nlinks">
-    <a href="#funciones">Funciones</a>
-    <a href="#galeria">Galería</a>
-    <a href="#eficiencia">Eficiencia</a>
-    <a href="#instalar">Instalar</a>
-    <a href="#dev">Desarrollo</a>
+  <div class="ngrp">
+    <div class="nlinks">
+      <a href="#funciones" data-es="Funciones" data-en="Features">Funciones</a>
+      <a href="#galeria" data-es="Galería" data-en="Gallery">Galería</a>
+      <a href="#eficiencia" data-es="Eficiencia" data-en="Efficiency">Eficiencia</a>
+      <a href="#instalar" data-es="Instalar" data-en="Install">Instalar</a>
+      <a href="#dev" data-es="Desarrollo" data-en="Development">Desarrollo</a>
+    </div>
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="es" aria-label="Español">ES</button>
+      <button type="button" data-lang="en" aria-label="English">EN</button>
+    </div>
   </div>
 </div></nav>
 
 <div class="mnav"><div class="wrap"><ul>
-  <li><a href="#funciones">Funciones</a></li>
-  <li><a href="#galeria">Galería</a></li>
-  <li><a href="#eficiencia">Eficiencia</a></li>
-  <li><a href="#instalar">Instalar</a></li>
-  <li><a href="#dev">Desarrollo</a></li>
+  <li><a href="#funciones" data-es="Funciones" data-en="Features">Funciones</a></li>
+  <li><a href="#galeria" data-es="Galería" data-en="Gallery">Galería</a></li>
+  <li><a href="#eficiencia" data-es="Eficiencia" data-en="Efficiency">Eficiencia</a></li>
+  <li><a href="#instalar" data-es="Instalar" data-en="Install">Instalar</a></li>
+  <li><a href="#dev" data-es="Desarrollo" data-en="Development">Desarrollo</a></li>
 </ul></div></div>
 
 <header class="hero">
-  <img src="/amspace/hero-2.png" alt="MacBook con cuatro ventanas en mosaico (DaVinci Resolve, ChatGPT, Finder y Gyroflow) y el indicador de Spaces de AMSpace en la barra de menús" width="1672" height="941">
+  <img src="/amspace/hero-2.png" alt="MacBook con cuatro ventanas en mosaico (DaVinci Resolve, ChatGPT, Finder y Gyroflow) y el indicador de Spaces de AMSpace en la barra de menús" data-alt-es="MacBook con cuatro ventanas en mosaico (DaVinci Resolve, ChatGPT, Finder y Gyroflow) y el indicador de Spaces de AMSpace en la barra de menús" data-alt-en="MacBook showing four tiled windows (DaVinci Resolve, ChatGPT, Finder and Gyroflow) with the AMSpace Spaces indicator in the menu bar" width="1672" height="941">
   <div class="hero-txt"><div class="hero-in">
-    <p class="eyebrow">macOS · 13 Ventura o posterior</p>
-    <h1><span class="l1">Más espacio.</span><em>Más foco.</em></h1>
-    <p class="lead"><b>Aprovecha cada píxel de tus pantallas.</b> AMSpace te dice en qué escritorio estás, te deja saltar entre ellos desde la barra de menús y activa el teclado justo donde miras.</p>
+    <p class="eyebrow" data-es="macOS · 13 Ventura o posterior" data-en="macOS · 13 Ventura or later">macOS · 13 Ventura o posterior</p>
+    <h1><span class="l1" data-es="Más espacio." data-en="More space.">Más espacio.</span><em data-es="Más foco." data-en="More focus.">Más foco.</em></h1>
+    <p class="lead" data-es="<b>Aprovecha cada píxel de tus pantallas.</b> AMSpace te dice en qué escritorio estás, te deja saltar entre ellos desde la barra de menús y activa el teclado justo donde miras." data-en="<b>Make the most of every pixel on your screens.</b> AMSpace tells you which desktop you are on, lets you jump between them from the menu bar, and wakes the keyboard exactly where you look."><b>Aprovecha cada píxel de tus pantallas.</b> AMSpace te dice en qué escritorio estás, te deja saltar entre ellos desde la barra de menús y activa el teclado justo donde miras.</p>
     <ul class="stars">
-      <li><b>01</b>Gestión de escritorios</li>
-      <li><b>02</b>Gestor de ventanas tile</li>
-      <li><b>03</b>Productividad y foco</li>
+      <li><b>01</b><span data-es="Gestión de escritorios" data-en="Desktop management">Gestión de escritorios</span></li>
+      <li><b>02</b><span data-es="Gestor de ventanas tile" data-en="Tiled window manager">Gestor de ventanas tile</span></li>
+      <li><b>03</b><span data-es="Productividad y foco" data-en="Productivity and focus">Productividad y foco</span></li>
     </ul>
     <div class="cta">
-      <a class="btn btn-1" href="https://github.com/amartinrojarvis/amspace/releases/download/v0.9.14/AMSpace-installer.dmg">Descargar</a>
-      <a class="btn btn-2" href="https://github.com/amartinrojarvis/amspace">Ver en GitHub</a>
+      <a class="btn btn-1" href="https://github.com/amartinrojarvis/amspace/releases/download/v0.9.14/AMSpace-installer.dmg" data-es="Descargar" data-en="Download">Descargar</a>
+      <a class="btn btn-2" href="https://github.com/amartinrojarvis/amspace" data-es="Ver en GitHub" data-en="View on GitHub">Ver en GitHub</a>
     </div>
   </div></div>
 </header>
 
 <div class="wrap">
   <div class="facts">
-    <div><b>Rust</b>Nativo, sin capas intermedias</div>
-    <div><b>Universal</b>Apple Silicon e Intel</div>
-    <div><b>MIT</b>Código abierto</div>
-    <div><b>Sparkle</b>Actualizaciones verificadas</div>
+    <div><b>Rust</b><span data-es="Nativo, sin capas intermedias" data-en="Native, no intermediate layers">Nativo, sin capas intermedias</span></div>
+    <div><b>Universal</b><span data-es="Apple Silicon e Intel" data-en="Apple Silicon and Intel">Apple Silicon e Intel</span></div>
+    <div><b>MIT</b><span data-es="Código abierto" data-en="Open source">Código abierto</span></div>
+    <div><b>Sparkle</b><span data-es="Actualizaciones verificadas" data-en="Verified updates">Actualizaciones verificadas</span></div>
   </div>
 
   <figure class="shot">
-    <div class="frame"><img src="/amspace/indicador-preview-v2.png" alt="Popup translúcido de preview con los iconos de las aplicaciones del escritorio" width="1920" height="1080"></div>
-    <figcaption><b>Preview.</b> El cursor sobre un indicador revela las ventanas del Space y sus apps.</figcaption>
+    <div class="frame"><img src="/amspace/indicador-preview-v2.png" alt="Popup translúcido de preview con los iconos de las aplicaciones del escritorio" data-alt-es="Popup translúcido de preview con los iconos de las aplicaciones del escritorio" data-alt-en="Translucent preview popover with the desktop apps' icons" width="1920" height="1080"></div>
+    <figcaption><b>Preview.</b> <span data-es="El cursor sobre un indicador revela las ventanas del Space y sus apps." data-en="Hovering an indicator reveals that Space's windows and their apps.">El cursor sobre un indicador revela las ventanas del Space y sus apps.</span></figcaption>
   </figure>
 </div>
 
 <main class="wrap">
 
 <section id="funciones">
-  <h2>Funciones</h2>
+  <h2 data-es="Funciones" data-en="Features">Funciones</h2>
   <div class="tabs">
-    <button class="tab on" type="button" data-i="0"><span class="tn">01</span>Indicador</button>
-    <button class="tab" type="button" data-i="1"><span class="tn">02</span>Navegación</button>
-    <button class="tab" type="button" data-i="2"><span class="tn">03</span>Preview</button>
-    <button class="tab" type="button" data-i="3"><span class="tn">04</span>Borde</button>
-    <button class="tab" type="button" data-i="4"><span class="tn">05</span>Foco</button>
-    <button class="tab" type="button" data-i="5"><span class="tn">06</span>Mission Control</button>
+    <button class="tab on" type="button" data-i="0"><span class="tn">01</span><span data-es="Indicador" data-en="Indicator">Indicador</span></button>
+    <button class="tab" type="button" data-i="1"><span class="tn">02</span><span data-es="Navegación" data-en="Navigation">Navegación</span></button>
+    <button class="tab" type="button" data-i="2"><span class="tn">03</span><span data-es="Preview" data-en="Preview">Preview</span></button>
+    <button class="tab" type="button" data-i="3"><span class="tn">04</span><span data-es="Borde" data-en="Border">Borde</span></button>
+    <button class="tab" type="button" data-i="4"><span class="tn">05</span><span data-es="Foco" data-en="Focus">Foco</span></button>
+    <button class="tab" type="button" data-i="5"><span class="tn">06</span><span data-es="Mission Control" data-en="Mission Control">Mission Control</span></button>
   </div>
   <div class="panes">
     <div class="pane on">
-      <div class="txt"><div class="n">Indicador</div><h3>Escritorio actual, de un vistazo</h3><p>Tres modos — Puntos, Números e Iconos — con 30 iconos nativos. El activo destaca en blanco y los demás aparecen atenuados. Desde diez escritorios se compacta a <code>3 / 12</code> para no robar ancho a la barra.</p></div>
-      <figure><div class="frame"><img src="/amspace/indicador-preview.png" alt="Indicador de espacios en la barra de menús con su popup de preview" width="1920" height="1080"></div><figcaption>Indicador y preview en la barra.</figcaption></figure>
+      <div class="txt"><div class="n" data-es="Indicador" data-en="Indicator">Indicador</div><h3 data-es="Escritorio actual, de un vistazo" data-en="Current desktop at a glance">Escritorio actual, de un vistazo</h3><p data-es="Tres modos — Puntos, Números e Iconos — con 30 iconos nativos. El activo destaca en blanco y los demás aparecen atenuados. Desde diez escritorios se compacta a <code>3 / 12</code> para no robar ancho a la barra." data-en="Three modes — Dots, Numbers and Icons — with 30 native icons. The active one stands out in white and the rest appear dimmed. From ten desktops it compacts to <code>3 / 12</code> to keep the bar narrow.">Tres modos — Puntos, Números e Iconos — con 30 iconos nativos. El activo destaca en blanco y los demás aparecen atenuados. Desde diez escritorios se compacta a <code>3 / 12</code> para no robar ancho a la barra.</p></div>
+      <figure><div class="frame"><img src="/amspace/indicador-preview.png" alt="Indicador de espacios en la barra de menús con su popup de preview" data-alt-es="Indicador de espacios en la barra de menús con su popup de preview" data-alt-en="Spaces indicator in the menu bar with its preview popover" width="1920" height="1080"></div><figcaption data-es="Indicador y preview en la barra." data-en="Indicator and preview in the bar.">Indicador y preview en la barra.</figcaption></figure>
     </div>
     <div class="pane">
-      <div class="txt"><div class="n">Navegación</div><h3>Cambio desde la barra</h3><p>Cada número, punto o icono es un botón: un clic y estás ahí. Con más de nueve escritorios, el indicador compacto abre una lista de selección.</p>
+      <div class="txt"><div class="n" data-es="Navegación" data-en="Navigation">Navegación</div><h3 data-es="Cambio desde la barra" data-en="Switch from the bar">Cambio desde la barra</h3><p data-es="Cada número, punto o icono es un botón: un clic y estás ahí. Con más de nueve escritorios, el indicador compacto abre una lista de selección." data-en="Every number, dot or icon is a button: one click and you are there. With more than nine desktops, the compact indicator opens a selection list.">Cada número, punto o icono es un botón: un clic y estás ahí. Con más de nueve escritorios, el indicador compacto abre una lista de selección.</p>
         <div class="swatches"><i class="sw" style="background:#7dd3fc"></i><i class="sw" style="background:#f5f5f7"></i><i class="sw" style="background:#c4b5fd"></i><i class="sw" style="background:#86efac"></i></div>
       </div>
-      <figure><div class="frame"><img src="/amspace/indicador-preview-v2.png" alt="Popup translúcido de preview con los iconos de las aplicaciones del escritorio" width="1920" height="1080"></div><figcaption>Preview compacto con los iconos de las apps.</figcaption></figure>
+      <figure><div class="frame"><img src="/amspace/indicador-preview-v2.png" alt="Popup translúcido de preview con los iconos de las aplicaciones del escritorio" data-alt-es="Popup translúcido de preview con los iconos de las aplicaciones del escritorio" data-alt-en="Translucent preview popover with the desktop apps' icons" width="1920" height="1080"></div><figcaption data-es="Preview compacto con los iconos de las apps." data-en="Compact preview with the apps' icons.">Preview compacto con los iconos de las apps.</figcaption></figure>
     </div>
     <div class="pane">
-      <div class="txt"><div class="n">Preview</div><h3>Miniatura de ventanas</h3><p>Mantén el cursor sobre un indicador y aparece la distribución real con los iconos de sus apps. Popup translúcido que no roba foco y no necesita Grabación de pantalla.</p></div>
-      <figure><div class="frame"><img src="/amspace/indicador-preview-davinci-chatgpt-gyroflow.png" alt="Popup de preview con los iconos de DaVinci, ChatGPT y Gyroflow" width="1920" height="1080"></div><figcaption>Preview con los iconos reales del Space.</figcaption></figure>
+      <div class="txt"><div class="n">Preview</div><h3 data-es="Miniatura de ventanas" data-en="Window thumbnails">Miniatura de ventanas</h3><p data-es="Mantén el cursor sobre un indicador y aparece la distribución real con los iconos de sus apps. Popup translúcido que no roba foco y no necesita Grabación de pantalla." data-en="Hover over an indicator and the real layout appears with its apps' icons. A translucent popover that does not steal focus and needs no Screen Recording.">Mantén el cursor sobre un indicador y aparece la distribución real con los iconos de sus apps. Popup translúcido que no roba foco y no necesita Grabación de pantalla.</p></div>
+      <figure><div class="frame"><img src="/amspace/indicador-preview-davinci-chatgpt-gyroflow.png" alt="Popup de preview con los iconos de DaVinci, ChatGPT y Gyroflow" data-alt-es="Popup de preview con los iconos de DaVinci, ChatGPT y Gyroflow" data-alt-en="Preview popover with the DaVinci, ChatGPT and Gyroflow icons" width="1920" height="1080"></div><figcaption data-es="Preview con los iconos reales del Space." data-en="Preview with the Space's real icons.">Preview con los iconos reales del Space.</figcaption></figure>
     </div>
     <div class="pane">
-      <div class="txt"><div class="n">Ventana activa</div><h3>Borde interior</h3><p>Contorno sin separación, con el radio de esquina leído del sistema y transparente al ratón. Color libre o cuatro paletas, grosor de 1 a 6 pt en pasos de 0,5.</p></div>
-      <figure><div class="frame"><img src="/amspace/ventanas-apiladas-pestanas.png" alt="Tres ventanas apiladas con la ventana activa resaltada por su borde" width="1920" height="1080"></div><figcaption>El borde interior marca la ventana enfocada.</figcaption></figure>
+      <div class="txt"><div class="n" data-es="Ventana activa" data-en="Active window">Ventana activa</div><h3 data-es="Borde interior" data-en="Inner border">Borde interior</h3><p data-es="Contorno sin separación, con el radio de esquina leído del sistema y transparente al ratón. Color libre o cuatro paletas, grosor de 1 a 6 pt en pasos de 0,5." data-en="A flush outline using the system corner radius, mouse-through. Free color or four palettes, thickness from 1 to 6 pt in 0.5 steps.">Contorno sin separación, con el radio de esquina leído del sistema y transparente al ratón. Color libre o cuatro paletas, grosor de 1 a 6 pt en pasos de 0,5.</p></div>
+      <figure><div class="frame"><img src="/amspace/ventanas-apiladas-pestanas.png" alt="Tres ventanas apiladas con la ventana activa resaltada por su borde" data-alt-es="Tres ventanas apiladas con la ventana activa resaltada por su borde" data-alt-en="Three stacked windows with the active one highlighted by its border" width="1920" height="1080"></div><figcaption data-es="El borde interior marca la ventana enfocada." data-en="The inner border marks the focused window.">El borde interior marca la ventana enfocada.</figcaption></figure>
     </div>
     <div class="pane">
-      <div class="txt"><div class="n">Teclado</div><h3>Foco bajo el cursor</h3><p>Deja el ratón quieto unos <code>240–390 ms</code> y el teclado despierta en esa ventana, incluso entre ventanas de una misma app y sin cambiar su orden.</p></div>
-      <figure><div class="frame"><img src="/amspace/foco-bajo-cursor.png" alt="Ventana de TextEdit con foco activo bajo el cursor" width="1920" height="1080"></div><figcaption>El teclado despierta donde está el cursor.</figcaption></figure>
+      <div class="txt"><div class="n" data-es="Teclado" data-en="Keyboard">Teclado</div><h3 data-es="Foco bajo el cursor" data-en="Focus under the cursor">Foco bajo el cursor</h3><p data-es="Deja el ratón quieto unos <code>240–390 ms</code> y el teclado despierta en esa ventana, incluso entre ventanas de una misma app y sin cambiar su orden." data-en="Hold the mouse still for about <code>240–390 ms</code> and the keyboard wakes in that window, even between windows of the same app, without changing their order.">Deja el ratón quieto unos <code>240–390 ms</code> y el teclado despierta en esa ventana, incluso entre ventanas de una misma app y sin cambiar su orden.</p></div>
+      <figure><div class="frame"><img src="/amspace/foco-bajo-cursor.png" alt="Ventana de TextEdit con foco activo bajo el cursor" data-alt-es="Ventana de TextEdit con foco activo bajo el cursor" data-alt-en="TextEdit window with active focus under the cursor" width="1920" height="1080"></div><figcaption data-es="El teclado despierta donde está el cursor." data-en="The keyboard wakes where the cursor is.">El teclado despierta donde está el cursor.</figcaption></figure>
     </div>
     <div class="pane">
-      <div class="txt"><div class="n">Integración</div><h3>Mission Control y arranque</h3><p>El panel del borde se oculta con la vista de escritorios y reaparece al volver. Inicio automático con <code>SMAppService</code>.</p></div>
-      <figure><div class="frame"><img src="/amspace/ajustes-mosaico.png" alt="Panel de ajustes nativo de AMSpace" width="1920" height="1080"></div><figcaption>Ajustes nativos, según el aspecto del sistema.</figcaption></figure>
+      <div class="txt"><div class="n" data-es="Integración" data-en="Integration">Integración</div><h3 data-es="Mission Control y arranque" data-en="Mission Control and startup">Mission Control y arranque</h3><p data-es="El panel del borde se oculta con la vista de escritorios y reaparece al volver. Inicio automático con <code>SMAppService</code>." data-en="The border panel hides with the desktops view and reappears on return. Automatic launch via <code>SMAppService</code>.">El panel del borde se oculta con la vista de escritorios y reaparece al volver. Inicio automático con <code>SMAppService</code>.</p></div>
+      <figure><div class="frame"><img src="/amspace/ajustes-mosaico.png" alt="Panel de ajustes nativo de AMSpace" data-alt-es="Panel de ajustes nativo de AMSpace" data-alt-en="Native AMSpace settings panel" width="1920" height="1080"></div><figcaption data-es="Ajustes nativos, según el aspecto del sistema." data-en="Native settings, matching the system appearance.">Ajustes nativos, según el aspecto del sistema.</figcaption></figure>
     </div>
   </div>
 
   <div class="stats">
-    <div class="st"><div class="v">3</div><div class="k">modos de indicador</div></div>
-    <div class="st"><div class="v">30</div><div class="k">iconos nativos</div></div>
-    <div class="st"><div class="v">1–6</div><div class="k">pt de grosor</div></div>
-    <div class="st"><div class="v">0,5</div><div class="k">paso fino</div></div>
-    <div class="st"><div class="v">240<span style="font-size:16px"> ms</span></div><div class="k">pausa del foco</div></div>
+    <div class="st"><div class="v">3</div><div class="k" data-es="modos de indicador" data-en="indicator modes">modos de indicador</div></div>
+    <div class="st"><div class="v">30</div><div class="k" data-es="iconos nativos" data-en="native icons">iconos nativos</div></div>
+    <div class="st"><div class="v">1–6</div><div class="k" data-es="pt de grosor" data-en="pt thickness">pt de grosor</div></div>
+    <div class="st"><div class="v">0,5</div><div class="k" data-es="paso fino" data-en="fine step">paso fino</div></div>
+    <div class="st"><div class="v">240<span style="font-size:16px"> ms</span></div><div class="k" data-es="pausa del foco" data-en="focus dwell">pausa del foco</div></div>
   </div>
 </section>
 
 <section id="galeria">
-  <h2>La app en pantalla</h2>
+  <h2 data-es="La app en pantalla" data-en="The app on screen">La app en pantalla</h2>
   <div class="gal">
-    <figure><div class="frame"><img src="/amspace/estacion-dos-monitores.png" alt="Estación de trabajo con dos monitores, cada uno con su indicador de Spaces" width="1920" height="1080"></div><figcaption><b>Dos monitores.</b> El indicador acompaña en cada pantalla.</figcaption></figure>
-    <figure><div class="frame"><img src="/amspace/mosaico-pestanas-v2.png" alt="Dos ventanas con pestañas en mosaico" width="1920" height="1080"></div><figcaption><b>Pestañas.</b> Notas y Documentos, lado a lado.</figcaption></figure>
+    <figure><div class="frame"><img src="/amspace/estacion-dos-monitores.png" alt="Estación de trabajo con dos monitores, cada uno con su indicador de Spaces" data-alt-es="Estación de trabajo con dos monitores, cada uno con su indicador de Spaces" data-alt-en="Two-monitor workstation, each screen with its own Spaces indicator" width="1920" height="1080"></div><figcaption><b data-es="Dos monitores." data-en="Two monitors.">Dos monitores.</b> <span data-es="El indicador acompaña en cada pantalla." data-en="The indicator follows on every screen.">El indicador acompaña en cada pantalla.</span></figcaption></figure>
+    <figure><div class="frame"><img src="/amspace/mosaico-pestanas-v2.png" alt="Dos ventanas con pestañas en mosaico" data-alt-es="Dos ventanas con pestañas en mosaico" data-alt-en="Two tabbed windows tiled side by side" width="1920" height="1080"></div><figcaption><b data-es="Pestañas." data-en="Tabs.">Pestañas.</b> <span data-es="Notas y Documentos, lado a lado." data-en="Notes and Documents, side by side.">Notas y Documentos, lado a lado.</span></figcaption></figure>
   </div>
 </section>
 
 <section id="eficiencia">
-  <h2>Eficiencia y verificación</h2>
+  <h2 data-es="Eficiencia y verificación" data-en="Efficiency and validation">Eficiencia y verificación</h2>
   <div class="two">
     <div class="kv">
       <dl>
-        <dt>Optimización</dt><dd>Mínimo consumo de recursos</dd>
-        <dt>Orientado a</dt><dd>Portátil y estación con dos monitores</dd>
-        <dt>Mediciones</dt><dd>Registro local en <span class="mono-i">VALIDATION.md</span></dd>
-        <dt>Límites</dt><dd>Escenarios comprobados, sin garantía universal</dd>
+        <dt data-es="Optimización" data-en="Optimization">Optimización</dt><dd data-es="Mínimo consumo de recursos" data-en="Minimal resource usage">Mínimo consumo de recursos</dd>
+        <dt data-es="Orientado a" data-en="Aimed at">Orientado a</dt><dd data-es="Portátil y estación con dos monitores" data-en="Laptop and two-monitor workstation">Portátil y estación con dos monitores</dd>
+        <dt data-es="Mediciones" data-en="Measurements">Mediciones</dt><dd data-es="Registro local en <span class=&quot;mono-i&quot;>VALIDATION.md</span>" data-en="Local log in <span class=&quot;mono-i&quot;>VALIDATION.md</span>">Registro local en <span class="mono-i">VALIDATION.md</span></dd>
+        <dt data-es="Límites" data-en="Limits">Límites</dt><dd data-es="Escenarios comprobados, sin garantía universal" data-en="Checked scenarios, no universal guarantee">Escenarios comprobados, sin garantía universal</dd>
       </dl>
       <div class="bars">
-        <div class="brow"><span>2 monitores</span><span class="btrack"><span class="bfill" style="width:100%"></span></span><span class="mono">✓</span></div>
+        <div class="brow"><span data-es="2 monitores" data-en="2 monitors">2 monitores</span><span class="btrack"><span class="bfill" style="width:100%"></span></span><span class="mono">✓</span></div>
         <div class="brow"><span>Apple Silicon</span><span class="btrack"><span class="bfill" style="width:100%"></span></span><span class="mono">✓</span></div>
-        <div class="brow"><span>Intel</span><span class="btrack"><span class="bfill" style="width:70%"></span></span><span class="mono">univ.</span></div>
+        <div class="brow"><span>Intel</span><span class="btrack"><span class="bfill" style="width:70%"></span></span><span class="mono" data-es="univ." data-en="univ.">univ.</span></div>
       </div>
     </div>
     <div class="kv">
       <dl>
-        <dt>Sistema</dt><dd>macOS 13 Ventura o posterior</dd>
-        <dt>Arquitecturas</dt><dd>Apple Silicon e Intel</dd>
-        <dt>Borde activo</dt><dd>Radio de esquina del sistema</dd>
-        <dt>Foco</dt><dd>240–390 ms de pausa</dd>
-        <dt>Idioma</dt><dd>Castellano</dd>
+        <dt data-es="Sistema" data-en="System">Sistema</dt><dd data-es="macOS 13 Ventura o posterior" data-en="macOS 13 Ventura or later">macOS 13 Ventura o posterior</dd>
+        <dt data-es="Arquitecturas" data-en="Architectures">Arquitecturas</dt><dd data-es="Apple Silicon e Intel" data-en="Apple Silicon and Intel">Apple Silicon e Intel</dd>
+        <dt data-es="Borde activo" data-en="Active border">Borde activo</dt><dd data-es="Radio de esquina del sistema" data-en="System corner radius">Radio de esquina del sistema</dd>
+        <dt data-es="Foco" data-en="Focus">Foco</dt><dd data-es="240–390 ms de pausa" data-en="240–390 ms dwell">240–390 ms de pausa</dd>
+        <dt data-es="Idioma" data-en="Language">Idioma</dt><dd data-es="Castellano" data-en="Spanish">Castellano</dd>
       </dl>
     </div>
   </div>
 </section>
 
 <section id="instalar">
-  <h2>Instalar y compilar</h2>
+  <h2 data-es="Instalar y compilar" data-en="Install and build">Instalar y compilar</h2>
   <div class="two">
     <div>
       <ol class="steps">
-        <li>Descarga el <b>AMSpace-installer.dmg</b> desde la última <b>release</b> del repositorio.</li>
-        <li>Abre el paquete; registra la app con <b>SMAppService</b>.</li>
-        <li>Activa el arranque al iniciar sesión.</li>
-        <li>Actualiza desde la app: <b>búsqueda manual</b> o avisos diarios.</li>
+        <li data-es="Descarga el <b>AMSpace-installer.dmg</b> desde la última <b>release</b> del repositorio." data-en="Download <b>AMSpace-installer.dmg</b> from the latest repository <b>release</b>.">Descarga el <b>AMSpace-installer.dmg</b> desde la última <b>release</b> del repositorio.</li>
+        <li data-es="Abre el paquete; registra la app con <b>SMAppService</b>." data-en="Open the package; it registers the app with <b>SMAppService</b>.">Abre el paquete; registra la app con <b>SMAppService</b>.</li>
+        <li data-es="Activa el arranque al iniciar sesión." data-en="Enable launch at sign-in.">Activa el arranque al iniciar sesión.</li>
+        <li data-es="Actualiza desde la app: <b>búsqueda manual</b> o avisos diarios." data-en="Update from the app: <b>manual check</b> or daily notices.">Actualiza desde la app: <b>búsqueda manual</b> o avisos diarios.</li>
       </ol>
     </div>
-    <pre><span class="mono"># Requiere Xcode CLT + Rust/Cargo</span>
+    <pre><span class="mono" data-es="# Requiere Xcode CLT + Rust/Cargo" data-en="# Requires Xcode CLT + Rust/Cargo"># Requiere Xcode CLT + Rust/Cargo</span>
 <b>git</b> clone https://github.com/amartinrojarvis/amspace.git
 <b>cd</b> amspace
 <b>./</b>scripts/check.sh
@@ -365,29 +379,27 @@
 </section>
 
 <section id="dev">
-  <h2>Desarrollo</h2>
+  <h2 data-es="Desarrollo" data-en="Development">Desarrollo</h2>
   <div class="cols3">
-    <div><span class="n">Docs</span><h3>Guías del repositorio</h3><p>Arquitectura, desarrollo, contratos nativos, validación y guía para agentes.</p></div>
-    <div><span class="n">Releases</span><h3>Publicaciones</h3><p>Notas de cada versión y universal ZIP por autorización del autor.</p></div>
-    <div><span class="n">Licencia</span><h3>MIT</h3><p>Uso y redistribución libres desde el repositorio.</p></div>
+    <div><span class="n">Docs</span><h3 data-es="Guías del repositorio" data-en="Repository guides">Guías del repositorio</h3><p data-es="Arquitectura, desarrollo, contratos nativos, validación y guía para agentes." data-en="Architecture, development, native contracts, validation and the agent guide.">Arquitectura, desarrollo, contratos nativos, validación y guía para agentes.</p></div>
+    <div><span class="n">Releases</span><h3 data-es="Publicaciones" data-en="Releases">Publicaciones</h3><p data-es="Notas de cada versión y universal ZIP por autorización del autor." data-en="Release notes per version and universal ZIP, by author authorization.">Notas de cada versión y universal ZIP por autorización del autor.</p></div>
+    <div><span class="n" data-es="Licencia" data-en="License">Licencia</span><h3>MIT</h3><p data-es="Uso y redistribución libres desde el repositorio." data-en="Free use and redistribution from the repository.">Uso y redistribución libres desde el repositorio.</p></div>
   </div>
 </section>
 
 </main>
 
-
-
 <footer><div class="wrap">
-  <span>AMSpace · proyecto personal de Alberto Martín</span>
+  <span data-es="AMSpace · proyecto personal de Alberto Martín" data-en="AMSpace · personal project by Alberto Martín">AMSpace · proyecto personal de Alberto Martín</span>
   <span>
-    <a href="/amspace/legal">Legal</a> ·
+    <a href="/amspace/legal" data-es="Legal" data-en="Legal">Legal</a> ·
     <a href="https://github.com/amartinrojarvis/amspace">GitHub</a> ·
     <a href="https://x.com/amartinro">X</a> ·
     <a href="https://www.instagram.com/amartinro/">Instagram</a>
   </span>
 </div></footer>
 
-<div id="lb"><button class="lx" type="button">Cerrar</button><img id="lbImg" alt=""><div class="lt" id="lbTxt"></div></div>
+<div id="lb"><button class="lx" type="button" data-es="Cerrar" data-en="Close">Cerrar</button><img id="lbImg" alt=""><div class="lt" id="lbTxt"></div></div>
 
 <script>
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')}),{threshold:.12});
@@ -398,9 +410,10 @@
     img.tabIndex=0;
     img.addEventListener('click',()=>{
       lbImg.src=img.currentSrc||img.src;
-      lbImg.alt=img.alt||'';
+      const alt=(img.getAttribute('data-alt-'+LANG)||img.alt||'').trim();
+      lbImg.alt=alt;
       const cap=img.closest('figure')?.querySelector('figcaption');
-      lbTxt.textContent=(cap?cap.textContent:'').trim()||img.alt||'AMSpace';
+      lbTxt.textContent=(cap?cap.textContent:'').trim()||alt||'AMSpace';
       lb.classList.add('on');
     });
     img.addEventListener('keydown',e=>{if(e.key==='Enter')img.click()});
@@ -467,9 +480,10 @@
   .frame > img:hover{transform:translateY(-2px)}
   #lb.on{animation:fadein .28s ease both}
   @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .lang button{transition:color .18s cubic-bezier(.22,1,.36,1),background-color .18s}
   @media(prefers-reduced-motion:reduce){
     .fade,.hero > img,.hero-txt > .hero-in > *,.stars li{opacity:1;transform:none;animation:none;transition:none}
-    .btn,.frame > img{transition:none}
+    .btn,.frame > img,.lang button{transition:none}
     html{scroll-behavior:auto}
   }
 </style>
@@ -500,6 +514,39 @@
   frame();
   addEventListener('scroll',onScroll,{passive:true});
   addEventListener('resize',onScroll,{passive:true});
+
+  // 3) i18n: idioma del navegador + selector manual persistente
+  const LANGS=['es','en'];
+  const KEY='***';
+  let LANG='es';
+  const stored=localStorage.getItem(KEY);
+  if(stored==='es'||stored==='en'){ LANG=stored; }
+  else {
+    const nav=(navigator.language||'es').toLowerCase();
+    LANG = nav.startsWith('en') ? 'en' : 'es';
+  }
+  const btns=[...document.querySelectorAll('.lang button')];
+  function applyLang(code){
+    LANG = (code==='en')?'en':'es';
+    document.documentElement.lang=LANG;
+    document.querySelectorAll('[data-es]').forEach(el=>{
+      const v=el.getAttribute('data-'+LANG); if(v!=null) el.innerHTML=v;
+    });
+    document.querySelectorAll('[data-alt-es]').forEach(el=>{
+      const v=el.getAttribute('data-alt-'+LANG); if(v!=null) el.setAttribute('alt',v);
+    });
+    const t=LANG==='en'?'AMSpace — More space. More focus.':'AMSpace — Más espacio. Más foco.';
+    document.title=t;
+    const d=document.querySelector('meta[name="description"]');
+    if(d) d.setAttribute('content', LANG==='en'
+      ? 'Get the most out of your macOS screens: Spaces indicator, desktop switching from the menu bar, active window border and focus under the cursor. Native, in Rust.'
+      : 'Aprovecha al máximo tus pantallas en macOS: indicador de Spaces, cambio de escritorio desde la barra, borde de ventana activa y foco bajo el cursor. Nativo, en Rust.');
+    btns.forEach(b=>b.classList.toggle('on', b.dataset.lang===LANG));
+  }
+  btns.forEach(b=>b.addEventListener('click',()=>{
+    const c=b.dataset.lang; applyLang(c); localStorage.setItem(KEY,c);
+  }));
+  applyLang(LANG);
 </script>
 </body>
 </html>

@@ -3,85 +3,159 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Información legal — AMSpace</title>
-<meta name="description" content="Aviso legal, cookies, datos personales y responsabilidad de AMSpace, utilidad nativa de macOS en Rust.">
+<title>AMSpace — Información legal</title>
+<meta name="description" content="Información legal de AMSpace: aviso legal, cookies, transferencias internacionales, datos personales y responsabilidad.">
 <link rel="icon" type="image/svg+xml" href="/amspace/icon.svg">
 <style>
-  :root{--bg:#000;--fg:#f5f5f7;--muted:#a1a1a6;--dim:#7c7c82;--line:rgba(255,255,255,.1);--accent:#7dd3fc;--max:980px}
+  :root{
+    --bg:#000; --panel:#0d0d0f; --panel2:#141416;
+    --fg:#f5f5f7; --muted:#a1a1a6; --dim:#7c7c82;
+    --line:rgba(255,255,255,.1);
+    --accent:#7dd3fc;
+    --max:980px;
+  }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Inter,Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .mono{font-family:ui-monospace,"SF Mono",SFMono-Regular,Menlo,monospace}
   .wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
+
   nav{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.72);backdrop-filter:blur(20px) saturate(180%)}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:52px}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:52px;gap:14px}
   .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px;letter-spacing:-.01em;color:var(--fg);text-decoration:none}
   .brand img{display:block;width:22px;height:22px;border-radius:6px}
+  .ngrp{display:flex;align-items:center;gap:18px}
   .nlinks{display:flex;gap:24px;font-size:12.5px}
-  .nlinks a{color:var(--muted);text-decoration:none}
+  .nlinks a{color:var(--muted);text-decoration:none;transition:color .18s}
   .nlinks a:hover{color:var(--fg)}
-  main{padding:44px 0 70px}
-  h1{font-size:26px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px}
-  .sub{font-size:13px;color:var(--dim);margin-bottom:26px}
-    .legal{color:var(--muted);font-size:13px;line-height:1.65;max-width:74ch}
-  .legal h4{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg);margin:24px 0 7px}
-  .legal p{margin:0 0 8px}
+
+  .lang{display:flex;align-items:center;gap:2px;height:26px;padding:2px;border:1px solid var(--line);border-radius:980px;background:rgba(255,255,255,.05)}
+  .lang button{font-family:inherit;font-size:11px;letter-spacing:.06em;color:var(--muted);background:transparent;border:0;border-radius:980px;
+    padding:3px 9px;cursor:pointer;transition:color .18s,background-color .18s}
+  .lang button:hover{color:var(--fg)}
+  .lang button.on{color:#000;background:var(--fg);font-weight:600}
+
+  main{padding:34px 0 40px}
+  .legal h1{font-size:clamp(30px,5vw,42px);font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+  .legal .sub{color:var(--dim);font-size:13.5px;margin-bottom:26px}
+  .legal{color:var(--muted);font-size:12.5px;line-height:1.62}
+  .legal h4{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg);margin:22px 0 7px}
+  .legal p{margin:0 0 8px;max-width:74ch}
   .legal ul{margin:0 0 8px;padding-left:16px}
   .legal li{margin:0 0 4px}
   .legal a{color:var(--accent);text-decoration:none}
   .legal a:hover{text-decoration:underline}
-  footer .wrap{display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--dim);padding:22px 22px 40px}
+
+  footer{padding:26px 0 56px;color:var(--dim);font-size:12px}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:space-between;align-items:center}
   footer a{color:var(--muted);text-decoration:none}
   footer a:hover{color:var(--fg)}
-  @media(max-width:820px){.nlinks{gap:16px}h1{font-size:23px}}
+
+  .fade{opacity:0;transform:translateY(14px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+  .fade.on{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .fade{opacity:1;transform:none;animation:none;transition:none}
+    .lang button{transition:none}
+    html{scroll-behavior:auto}
+  }
+
+  @media(max-width:820px){
+    .nlinks{display:none}
+    footer .wrap{flex-direction:column;align-items:flex-start;gap:12px}
+  }
+  @media(max-width:560px){
+    .wrap{padding:0 18px}
+    main{padding:26px 0 30px}
+    .legal h1{font-size:28px}
+  }
 </style>
 </head>
 <body>
 
 <nav><div class="wrap">
   <a class="brand" href="/amspace"><img src="/amspace/icon.svg" alt="" width="22" height="22">AMSpace</a>
-  <div class="nlinks">
-    <a href="/amspace">Inicio</a>
-    <a href="/amspace#funciones">Funciones</a>
-    <a href="/amspace#instalar">Instalar</a>
+  <div class="ngrp">
+    <div class="nlinks">
+      <a href="/amspace" data-es="Inicio" data-en="Home">Inicio</a>
+      <a href="/amspace#funciones" data-es="Funciones" data-en="Features">Funciones</a>
+      <a href="/amspace#instalar" data-es="Instalar" data-en="Install">Instalar</a>
+    </div>
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="es" aria-label="Español">ES</button>
+      <button type="button" data-lang="en" aria-label="English">EN</button>
+    </div>
   </div>
 </div></nav>
 
-<main><div class="wrap legal">
-  <h1>Información legal</h1>
-  <p class="sub">Necesaria para el cumplimiento del RGPD, la LOPDGDD, la LSSI-CE y la normativa europea de cookies.</p>
+<main><div class="wrap legal fade">
+  <h1 data-es="Información legal" data-en="Legal information">Información legal</h1>
+  <p class="sub" data-es="Necesaria para el cumplimiento del RGPD, la LOPDGDD, la LSSI-CE y la normativa europea de cookies." data-en="Required for compliance with the GDPR, the LOPDGDD, the LSSI-CE and the European rules on cookies.">Necesaria para el cumplimiento del RGPD, la LOPDGDD, la LSSI-CE y la normativa europea de cookies.</p>
 
-  <h4>Aviso legal</h4>
-  <p><strong>Responsable:</strong> Alberto Martín · Salamanca, España · Web: <a href="https://www.iaparafilmmakers.es">iaparafilmmakers.es</a> · Email: <a href="mailto:alberto@tuvideopromocional.es">alberto@tuvideopromocional.es</a></p>
-  <p>Proyecto personal de desarrollo propio.</p>
-  <p><strong>Objeto.</strong> Este sitio documenta AMSpace, una utilidad nativa de macOS escrita en Rust para gestionar Spaces, ventanas y foco. Es un proyecto personal de Alberto Martín <strong>sin ninguna relación con Apple Inc.</strong> ni con sus productos. Las marcas “macOS”, “Mission Control” y “Apple” pertenecen a Apple Inc.; se citan solo para identificar la plataforma.</p>
-  <p><strong>Propiedad intelectual.</strong> El código de AMSpace se publica bajo licencia <strong>MIT</strong>; el repositorio está en <a href="https://github.com/amartinrojarvis/amspace">github.com/amartinrojarvis/amspace</a>. Los textos y capturas de esta web son del titular. Las capturas muestran la interfaz de macOS y de sus aplicaciones; sus marcas pertenecen a sus respectivos titulares.</p>
+  <h4 data-es="Aviso legal" data-en="Legal notice">Aviso legal</h4>
+  <p><strong data-es="Responsable:" data-en="Controller:">Responsable:</strong> Alberto Martín · Salamanca, España · <span data-es="Web:" data-en="Web:">Web:</span> <a href="https://www.iaparafilmmakers.es">iaparafilmmakers.es</a> · Email: <a href="mailto:alberto@tuvideopromocional.es">alberto@tuvideopromocional.es</a></p>
+  <p data-es="Proyecto personal de desarrollo propio." data-en="Personal project, developed in-house.">Proyecto personal de desarrollo propio.</p>
+  <p><strong data-es="Objeto." data-en="Purpose.">Objeto.</strong> <span data-es="Este sitio documenta AMSpace, una utilidad nativa de macOS escrita en Rust para gestionar Spaces, ventanas y foco. Es un proyecto personal de Alberto Martín <strong>sin ninguna relación con Apple Inc.</strong> ni con sus productos. Las marcas “macOS”, “Mission Control” y “Apple” pertenecen a Apple Inc.; se citan solo para identificar la plataforma." data-en="This site documents AMSpace, a native macOS utility written in Rust that manages Spaces, windows and focus. It is a personal project by Alberto Martín, <strong>with no affiliation to Apple Inc.</strong> or its products. The “macOS”, “Mission Control” and “Apple” marks belong to Apple Inc.; they are cited only to identify the platform.">Este sitio documenta AMSpace, una utilidad nativa de macOS escrita en Rust para gestionar Spaces, ventanas y foco. Es un proyecto personal de Alberto Martín <strong>sin ninguna relación con Apple Inc.</strong> ni con sus productos. Las marcas “macOS”, “Mission Control” y “Apple” pertenecen a Apple Inc.; se citan solo para identificar la plataforma.</span></p>
+  <p><strong data-es="Propiedad intelectual." data-en="Intellectual property.">Propiedad intelectual.</strong> <span data-es="El código de AMSpace se publica bajo licencia <strong>MIT</strong>; el repositorio está en <a href=&quot;https://github.com/amartinrojarvis/amspace&quot;>github.com/amartinrojarvis/amspace</a>. Los textos y capturas de esta web son del titular. Las capturas muestran la interfaz de macOS y de sus aplicaciones; sus marcas pertenecen a sus respectivos titulares." data-en="AMSpace code is published under the <strong>MIT</strong> license; the repository is at <a href=&quot;https://github.com/amartinrojarvis/amspace&quot;>github.com/amartinrojarvis/amspace</a>. The texts and screenshots on this site belong to the owner. The screenshots show the macOS interface and its applications; their marks belong to their respective owners.">El código de AMSpace se publica bajo licencia <strong>MIT</strong>; el repositorio está en <a href="https://github.com/amartinrojarvis/amspace">github.com/amartinrojarvis/amspace</a>. Los textos y capturas de esta web son del titular. Las capturas muestran la interfaz de macOS y de sus aplicaciones; sus marcas pertenecen a sus respectivos titulares.</span></p>
 
-  <h4>Cookies</h4>
-  <p>Este sitio es HTML estático y <strong>no utiliza cookies</strong>. No instala ninguna cookie propia ni de terceros ni realiza seguimiento entre sesiones.</p>
-  <p>Usa únicamente el <code>localStorage</code> del navegador, con finalidades técnicas y sin cesión a terceros: la pestaña de funciones seleccionada y la marca de la última visita, para las etiquetas “Nuevas”. Se elimina con la caché del navegador y no se cruza con otras webs.</p>
-  <p>El resto de peticiones son las de los archivos estáticos (HTML, CSS, PNG y SVG) servidos por el propio dominio.</p>
+  <h4 data-es="Cookies" data-en="Cookies">Cookies</h4>
+  <p data-es="Este sitio es HTML estático y <strong>no utiliza cookies</strong>. No instala ninguna cookie propia ni de terceros ni realiza seguimiento entre sesiones." data-en="This site is static HTML and <strong>uses no cookies</strong>. It installs no first-party or third-party cookies and performs no cross-session tracking.">Este sitio es HTML estático y <strong>no utiliza cookies</strong>. No instala ninguna cookie propia ni de terceros ni realiza seguimiento entre sesiones.</p>
+  <p data-es="Usa únicamente el <code>localStorage</code> del navegador, con finalidades técnicas y sin cesión a terceros: la pestaña de funciones seleccionada y la marca de la última visita, para las etiquetas “Nuevas”. Se elimina con la caché del navegador y no se cruza con otras webs." data-en="It only uses the browser's <code>localStorage</code>, for technical purposes and without transfer to third parties: the selected features tab and the last-visit marker used by the “New” labels. It is cleared with the browser cache and is not cross-referenced with other sites.">Usa únicamente el <code>localStorage</code> del navegador, con finalidades técnicas y sin cesión a terceros: la pestaña de funciones seleccionada y la marca de la última visita, para las etiquetas “Nuevas”. Se elimina con la caché del navegador y no se cruza con otras webs.</p>
+  <p data-es="El resto de peticiones son las de los archivos estáticos (HTML, CSS, PNG y SVG) servidos por el propio dominio." data-en="All other requests are for the static files (HTML, CSS, PNG and SVG) served by the same domain.">El resto de peticiones son las de los archivos estáticos (HTML, CSS, PNG y SVG) servidos por el propio dominio.</p>
 
-  <h4>Transferencias internacionales</h4>
-  <p>Los archivos se sirven desde la red de distribución de Vercel (nodos en la Unión Europea y Estados Unidos). El <code>localStorage</code> se queda en el equipo del usuario. No se hacen más peticiones externas.</p>
+  <h4 data-es="Transferencias internacionales" data-en="International transfers">Transferencias internacionales</h4>
+  <p data-es="Los archivos se sirven desde la red de distribución de Vercel (nodos en la Unión Europea y Estados Unidos). El <code>localStorage</code> se queda en el equipo del usuario. No se hacen más peticiones externas." data-en="Files are served from the Vercel distribution network (nodes in the European Union and the United States). The <code>localStorage</code> stays on the user's device. No other external requests are made.">Los archivos se sirven desde la red de distribución de Vercel (nodos en la Unión Europea y Estados Unidos). El <code>localStorage</code> se queda en el equipo del usuario. No se hacen más peticiones externas.</p>
 
-  <h4>Datos personales</h4>
-  <p>Según el Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD), los datos que recaba este sitio son solo los técnicos del <code>localStorage</code> descritos arriba: mínimos, necesarios y sin finalidad comercial.</p>
-  <p>Puedes solicitar acceso, rectificación, supresión, oposición, limitación o portabilidad, y retirar el consentimiento cuando el tratamiento dependa de él. Escribe a <a href="mailto:alberto@tuvideopromocional.es">alberto@tuvideopromocional.es</a> indicando tu solicitud y la información necesaria para verificar tu identidad. También puedes reclamar ante la <a href="https://www.aepd.es">Agencia Española de Protección de Datos</a>.</p>
+  <h4 data-es="Datos personales" data-en="Personal data">Datos personales</h4>
+  <p data-es="Según el Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD), los datos que recaba este sitio son solo los técnicos del <code>localStorage</code> descritos arriba: mínimos, necesarios y sin finalidad comercial." data-en="Under Regulation (EU) 2016/679 (GDPR) and Organic Law 3/2018 (LOPDGDD), the only data this site collects is the technical <code>localStorage</code> data described above: minimal, necessary and with no commercial purpose.">Según el Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD), los datos que recaba este sitio son solo los técnicos del <code>localStorage</code> descritos arriba: mínimos, necesarios y sin finalidad comercial.</p>
+  <p data-es="Puedes solicitar acceso, rectificación, supresión, oposición, limitación o portabilidad, y retirar el consentimiento cuando el tratamiento dependa de él. Escribe a <a href=&quot;mailto:alberto@tuvideopromocional.es&quot;>alberto@tuvideopromocional.es</a> indicando tu solicitud y la información necesaria para verificar tu identidad. También puedes reclamar ante la <a href=&quot;https://www.aepd.es&quot;>Agencia Española de Protección de Datos</a>." data-en="You may request access, rectification, erasure, objection, restriction or portability, and withdraw consent where the processing depends on it. Write to <a href=&quot;mailto:alberto@tuvideopromocional.es&quot;>alberto@tuvideopromocional.es</a> stating your request and the information needed to verify your identity. You may also complain to the <a href=&quot;https://www.aepd.es&quot;>Spanish Data Protection Agency</a>.">Puedes solicitar acceso, rectificación, supresión, oposición, limitación o portabilidad, y retirar el consentimiento cuando el tratamiento dependa de él. Escribe a <a href="mailto:alberto@tuvideopromocional.es">alberto@tuvideopromocional.es</a> indicando tu solicitud y la información necesaria para verificar tu identidad. También puedes reclamar ante la <a href="https://www.aepd.es">Agencia Española de Protección de Datos</a>.</p>
 
-  <h4>Responsabilidad y garantías</h4>
-  <p>Este sitio es informativo. AMSpace es software gratuito bajo licencia MIT, “tal cual”, sin garantías implícitas de comerciabilidad o idoneidad. El titular no responde de daños indirectos derivados de su uso.</p>
-  <p><strong>Fecha de la versión:</strong> noviembre de 2026.</p>
+  <h4 data-es="Responsabilidad y garantías" data-en="Liability and warranties">Responsabilidad y garantías</h4>
+  <p data-es="Este sitio es informativo. AMSpace es software gratuito bajo licencia MIT, “tal cual”, sin garantías implícitas de comerciabilidad o idoneidad. El titular no responde de daños indirectos derivados de su uso." data-en="This site is informational. AMSpace is free software under the MIT license, provided “as is”, with no implied warranties of merchantability or fitness. The owner is not liable for indirect damages arising from its use.">Este sitio es informativo. AMSpace es software gratuito bajo licencia MIT, “tal cual”, sin garantías implícitas de comerciabilidad o idoneidad. El titular no responde de daños indirectos derivados de su uso.</p>
+  <p><strong data-es="Fecha de la versión:" data-en="Version date:">Fecha de la versión:</strong> <span data-es="noviembre de 2026." data-en="November 2026.">noviembre de 2026.</span></p>
 </div></main>
 
 <footer><div class="wrap">
-  <span>AMSpace · proyecto personal de Alberto Martín</span>
+  <span data-es="AMSpace · proyecto personal de Alberto Martín" data-en="AMSpace · personal project by Alberto Martín">AMSpace · proyecto personal de Alberto Martín</span>
   <span>
-    <a href="/amspace">Inicio</a> ·
+    <a href="/amspace" data-es="Inicio" data-en="Home">Inicio</a> ·
     <a href="https://github.com/amartinrojarvis/amspace">GitHub</a> ·
     <a href="https://x.com/amartinro">X</a> ·
     <a href="https://www.instagram.com/amartinro/">Instagram</a>
   </span>
 </div></footer>
 
+<script>
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')}),{threshold:.1});
+  document.querySelectorAll('.fade').forEach(s=>io.observe(s));
+
+  const LANGS=['es','en'];
+  const KEY='***';
+  let LANG='es';
+  const stored=localStorage.getItem(KEY);
+  if(stored==='es'||stored==='en'){ LANG=stored; }
+  else {
+    const nav=(navigator.language||'es').toLowerCase();
+    LANG = nav.startsWith('en') ? 'en' : 'es';
+  }
+  const btns=[...document.querySelectorAll('.lang button')];
+  function applyLang(code){
+    LANG = (code==='en')?'en':'es';
+    document.documentElement.lang=LANG;
+    document.querySelectorAll('[data-es]').forEach(el=>{
+      const v=el.getAttribute('data-'+LANG); if(v!=null) el.innerHTML=v;
+    });
+    const t=LANG==='en'?'AMSpace — Legal information':'AMSpace — Información legal';
+    document.title=t;
+    const d=document.querySelector('meta[name="description"]');
+    if(d) d.setAttribute('content', LANG==='en'
+      ? 'AMSpace legal information: legal notice, cookies, international transfers, personal data and liability.'
+      : 'Información legal de AMSpace: aviso legal, cookies, transferencias internacionales, datos personales y responsabilidad.');
+    btns.forEach(b=>b.classList.toggle('on', b.dataset.lang===LANG));
+  }
+  btns.forEach(b=>b.addEventListener('click',()=>{
+    const c=b.dataset.lang; applyLang(c); localStorage.setItem(KEY,c);
+  }));
+  applyLang(LANG);
+</script>
 </body>
 </html>
