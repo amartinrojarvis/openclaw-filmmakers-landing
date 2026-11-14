@@ -289,6 +289,7 @@ function Navigation({ remainingSlots }: { remainingSlots: number | null }) {
     ['#encaje', 'Para qué sirve'],
     ['#metodo', 'El método'],
     ['#proyectos', 'Experiencia'],
+    ['/amspace', 'AMSpace'],
     ['#sesion', 'Reservar'],
   ];
 
@@ -635,7 +636,7 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em]">Proyectos propios</p>
             <div>
               <h2 className="font-editorial max-w-3xl text-balance text-[clamp(3rem,6vw,6.2rem)] font-semibold leading-[0.9] tracking-[-0.055em]">Casos de uso propios reales</h2>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-[#171612]/68">Dos herramientas nacidas de problemas reales del trabajo audiovisual. Una todavía se está construyendo; la otra ya puede probarse.</p>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-[#171612]/68">Tres herramientas nacidas de problemas reales del trabajo audiovisual. Una todavía se está construyendo; las otras dos ya pueden probarse.</p>
             </div>
           </header>
 
@@ -677,6 +678,29 @@ export function SessionLanding({ remainingSlots }: { remainingSlots: number | nu
                     <div className="bg-[#ff5a2a] p-3"><dt className="font-mono text-[8px] font-bold uppercase tracking-[0.14em]">Entrada</dt><dd className="mt-2 text-xs font-semibold leading-5">Reel antes de publicar</dd></div>
                     <div className="bg-[#ff5a2a] p-3"><dt className="font-mono text-[8px] font-bold uppercase tracking-[0.14em]">Proceso</dt><dd className="mt-2 text-xs font-semibold leading-5">Auditoría audiovisual</dd></div>
                     <div className="bg-[#ff5a2a] p-3"><dt className="font-mono text-[8px] font-bold uppercase tracking-[0.14em]">Salida</dt><dd className="mt-2 text-xs font-semibold leading-5">Cambios accionables</dd></div>
+                  </dl>
+                </div>
+              </div>
+            </article>
+
+            <article className="lg:mt-20">
+              <a href="/amspace" className="group block" aria-label="Abrir la web de AMSpace">
+                <figure className="relative overflow-hidden border border-[#171612]/60 bg-[#171612]">
+                  <Image src="/amspace/escritorio-mosaico.png" alt="Escritorio de macOS con tres ventanas y el indicador de Spaces de AMSpace en la barra de menús" width={1672} height={941} className="aspect-[16/9] w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.015]" />
+                  <figcaption className="absolute left-0 top-0 border-b border-r border-[#ff5a2a] bg-[#171612] px-4 py-3 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#ff5a2a]">Lab 02 · Nativa en Rust</figcaption>
+                </figure>
+              </a>
+              <div className="mt-6 grid gap-4 border-t border-[#171612]/45 pt-5 sm:grid-cols-[8rem_1fr]">
+                <a href="/amspace" className="group inline-flex items-start gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.18em] underline decoration-[#171612]/35 underline-offset-4 hover:decoration-[#171612]">
+                  AMSpace <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+                </a>
+                <div>
+                  <h3 className="text-2xl font-black tracking-[-0.035em]">Más espacio y más foco en tus pantallas.</h3>
+                  <p className="mt-3 max-w-lg leading-7 text-[#171612]/72">AMSpace indica en qué escritorio estás, permite saltar entre Spaces desde la barra de menús, muestra la miniatura de cada uno y resalta la ventana activa. El foco de teclado sigue al cursor para escribir donde miras. Nativa en Rust, sin capas intermedias.</p>
+                  <dl className="mt-6 grid gap-px border border-[#171612]/35 bg-[#171612]/35 sm:grid-cols-3">
+                    <div className="bg-[#ff5a2a] p-3"><dt className="font-mono text-[8px] font-bold uppercase tracking-[0.14em]">Entrada</dt><dd className="mt-2 text-xs font-semibold leading-5">Varios Spaces abiertos</dd></div>
+                    <div className="bg-[#ff5a2a] p-3"><dt className="font-mono text-[8px] font-bold uppercase tracking-[0.14em]">Proceso</dt><dd className="mt-2 text-xs font-semibold leading-5">Indicador y navegación</dd></div>
+                    <div className="bg-[#ff5a2a] p-3"><dt className="font-mono text-[8px] font-bold uppercase tracking-[0.14em]">Salida</dt><dd className="mt-2 text-xs font-semibold leading-5">Menos ida y vuelta</dd></div>
                   </dl>
                 </div>
               </div>

@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/privacidad`, lastModified: new Date('2026-07-13'), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${base}/cookies`, lastModified: new Date('2026-07-13'), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${base}/casos-de-uso-vibe-coding`, lastModified: new Date(CASOS_ACTUALIZADO), changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${base}/amspace`, lastModified: new Date('2026-11-14'), changeFrequency: 'monthly' as const, priority: 0.7 },
     ...CASOS.map((caso) => ({
       url: `${base}/casos-de-uso-vibe-coding/${caso.id}`,
       lastModified: new Date(CASOS_SEO[caso.id]?.published ?? CASOS_ACTUALIZADO),
