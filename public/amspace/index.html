@@ -54,13 +54,12 @@
     opacity:0;will-change:opacity;
     transition:opacity 1s cubic-bezier(.22,1,.36,1)}
   .hero > img.ld{opacity:1}
-  /* degradado sobre la captura: sube hasta las ondas verdes (y=442/941 ≈ 47%) y sella con negro puro */
-  .hero-shade{position:absolute;left:0;right:0;top:41%;bottom:0;z-index:1;
-    background:linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,.22) 16%,rgba(0,0,0,.5) 38%,rgba(0,0,0,.8) 64%,#000 86%,#000 100%);
+  /* el texto va sobre la propia captura: arranca a la altura de las ondas verdes (y=442/941 ≈ 47%) */
+  .hero-in{position:absolute;left:0;right:0;top:47%;bottom:0;z-index:2;
+    max-width:var(--max);margin:0 auto;width:100%;padding:0 24px 36px;display:grid;align-content:start;gap:0}
+  .hero-in::before{content:"";position:absolute;left:50%;transform:translateX(-50%);top:-120px;height:calc(100% + 160px);width:100vw;z-index:-1;
+    background:linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,.35) 20%,rgba(0,0,0,.74) 46%,#000 72%,#000 100%);
     backdrop-filter:blur(9px) saturate(120%);-webkit-backdrop-filter:blur(9px) saturate(120%)}
-  /* el eyebrow arranca justo a la altura de las pistas de audio verdes de la captura */
-  .hero-in{position:relative;z-index:2;max-width:var(--max);margin:0 auto;width:100%;
-    padding:64px 24px 36px;display:grid;gap:0}
   .stars{list-style:none;display:flex;flex-wrap:wrap;gap:8px 10px;margin-top:20px}
   .stars li{font-size:13px;color:var(--fg);background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:980px;padding:5px 12px}
   .stars li b{color:var(--accent);font-weight:600;margin-right:5px}
@@ -242,10 +241,9 @@
   <li><a href="#dev" data-es="Desarrollo" data-en="Development">Desarrollo</a></li>
 </ul></div></div>
 
-<header class="hero">
+<header class="hero" style="background:linear-gradient(to bottom,#000 0,#000 100%)">
   <img src="/amspace/hero-2.png" alt="MacBook con cuatro ventanas en mosaico (DaVinci Resolve, ChatGPT, Finder y Gyroflow) y el indicador de Spaces de AMSpace en la barra de menús" data-alt-es="MacBook con cuatro ventanas en mosaico (DaVinci Resolve, ChatGPT, Finder y Gyroflow) y el indicador de Spaces de AMSpace en la barra de menús" data-alt-en="MacBook showing four tiled windows (DaVinci Resolve, ChatGPT, Finder and Gyroflow) with the AMSpace Spaces indicator in the menu bar" width="1672" height="941">
-    <div class="hero-shade"></div>
-    <div class="hero-in">
+  <div class="hero-in">
     <p class="eyebrow" data-es="macOS · 13 Ventura o posterior" data-en="macOS · 13 Ventura or later">macOS · 13 Ventura o posterior</p>
     <h1><span class="l1" data-es="Más espacio." data-en="More space.">Más espacio.</span><em data-es="Más foco." data-en="More focus.">Más foco.</em></h1>
     <p class="sub-hero" data-es="El gestor de ventanas que necesitas en tu Mac." data-en="The window manager you need on your Mac.">El gestor de ventanas que necesitas en tu Mac.</p>
